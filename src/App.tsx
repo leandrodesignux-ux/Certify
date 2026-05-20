@@ -1,9 +1,47 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AppLayout } from './components/layout/AppLayout';
+import { Dashboard } from './pages/Dashboard';
+
 function App() {
   return (
-    <div className="min-h-screen bg-obsidian text-white font-body">
-      <h1 className="font-display text-4xl">CertifyX</h1>
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <AppLayout
+              pageTitle="Dashboard"
+              breadcrumbs={[{ label: 'Inicio' }]}
+            />
+          }
+        >
+          <Route index element={<Dashboard />} />
+        </Route>
+        <Route
+          path="/workers"
+          element={
+            <AppLayout
+              pageTitle="Trabajadores"
+              breadcrumbs={[{ label: 'Inicio', route: '/' }, { label: 'Trabajadores' }]}
+            />
+          }
+        >
+          <Route index element={<div className="text-[#F0F4FF]">Página de Trabajadores</div>} />
+        </Route>
+        <Route
+          path="/certifications"
+          element={
+            <AppLayout
+              pageTitle="Certificaciones"
+              breadcrumbs={[{ label: 'Inicio', route: '/' }, { label: 'Certificaciones' }]}
+            />
+          }
+        >
+          <Route index element={<div className="text-[#F0F4FF]">Página de Certificaciones</div>} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App
