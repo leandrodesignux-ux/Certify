@@ -6,6 +6,7 @@ interface CardProps {
   padding?: 'sm' | 'md' | 'lg';
   className?: string;
   hover?: boolean;
+  onClick?: () => void;
 }
 
 export function Card({
@@ -14,6 +15,7 @@ export function Card({
   padding = 'md',
   className = '',
   hover = true,
+  onClick,
 }: CardProps) {
   const variantStyles = {
     default: 'bg-[#111827] border border-[rgba(0,229,255,0.1)]',
@@ -29,6 +31,7 @@ export function Card({
 
   return (
     <div
+      onClick={onClick}
       className={`rounded-sm transition-all duration-200 ${
         variantStyles[variant]
       } ${paddingStyles[padding]} ${

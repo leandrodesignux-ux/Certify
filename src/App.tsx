@@ -4,6 +4,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Workers } from './pages/Workers';
 import { WorkerDetail } from './pages/WorkerDetail';
 import { Certifications } from './pages/Certifications';
+import { Curriculum } from './pages/Curriculum';
 
 function App() {
   return (
@@ -56,6 +57,17 @@ function App() {
           }
         >
           <Route index element={<Certifications />} />
+        </Route>
+        <Route
+          path="/meshes"
+          element={
+            <AppLayout
+              pageTitle="Mallas Curriculares"
+              breadcrumbs={[{ label: 'Inicio', route: '/' }, { label: 'Mallas' }]}
+            />
+          }
+        >
+          <Route index element={<Curriculum />} />
         </Route>
       </Routes>
     </BrowserRouter>
