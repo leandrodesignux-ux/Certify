@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+@theme {
+  --color-obsidian: #0A0E1A;
+  --color-navy-deep: #0D1B2A;
+  --color-surface: #111827;
+  --color-surface-alt: #1C2333;
+  --color-electric: #00E5FF;
+  --color-volt: #AAFF00;
+  --color-warning: #FFB800;
+  --color-danger: #FF3D57;
+  --color-success: #00E676;
+  --color-neutral: #6B7280;
+  --font-display: "Barlow Condensed", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --shadow-electric: 0 0 20px rgba(0,229,255,0.25);
+  --shadow-volt: 0 0 20px rgba(170,255,0,0.25);
+  --shadow-danger: 0 0 20px rgba(255,61,87,0.25);
+}
+
 :root {
   --color-obsidian: #0A0E1A;
   --color-navy-deep: #0D1B2A;
