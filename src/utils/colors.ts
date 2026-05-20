@@ -2,12 +2,12 @@ import type { CertStatus } from '../types';
 
 export function getStatusColor(status: CertStatus): string {
   const colorMap: Record<CertStatus, string> = {
-    vigente: 'text-success bg-success/10 border-success/30',
-    proximo_vencer: 'text-warning bg-warning/10 border-warning/30',
-    vencido: 'text-danger bg-danger/10 border-danger/30',
-    pendiente: 'text-electric bg-electric/10 border-electric/30',
+    vigente: 'text-[#00E676] bg-[rgba(0,230,118,0.1)] border-[rgba(0,230,118,0.3)]',
+    proximo_vencer: 'text-[#FFB800] bg-[rgba(255,184,0,0.1)] border-[rgba(255,184,0,0.3)]',
+    vencido: 'text-[#FF3D57] bg-[rgba(255,61,87,0.1)] border-[rgba(255,61,87,0.3)]',
+    pendiente: 'text-[#00E5FF] bg-[rgba(0,229,255,0.1)] border-[rgba(0,229,255,0.3)]',
   };
-  
+
   return colorMap[status];
 }
 
@@ -24,12 +24,12 @@ export function getStatusGlow(status: CertStatus): string {
 
 export function getComplianceColor(score: number): string {
   if (score >= 90) {
-    return 'text-electric';
+    return 'text-[#00E5FF]';
   } else if (score >= 70) {
-    return 'text-volt';
+    return 'text-[#AAFF00]';
   } else if (score >= 50) {
-    return 'text-warning';
+    return 'text-[#FFB800]';
   } else {
-    return 'text-danger';
+    return 'text-[#FF3D57]';
   }
 }
