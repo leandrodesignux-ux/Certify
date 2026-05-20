@@ -1,0 +1,50 @@
+import { create } from 'zustand';
+import type { Certification, CertStatus } from '../types';
+import { mockCertifications } from '../data/mockData';
+
+type CertTab = 'todas' | 'vigentes' | 'proximas' | 'vencidas';
+
+interface CertStore {
+  certifications: Certification[];
+  activeTab: CertTab;
+  
+  setCertifications: (certifications: Certification[]) => void;
+  setActiveTab: (tab: CertTab) => void;
+  
+  filteredCerts: () => Certification[];
+  certsByWorker: (workerId: string) => Certification[];
+}
+
+export const useCertStore = create<CertStore>((set, get) => ({
+  certifications: mockCertifications,
+  activeTab: 'todas',
+  
+  setCertifications: (certifications) => set({ certifications }),
+  
+  setActiveTab: (tab) => set({ activeTab: tab }),
+  
+  filteredCerts: () => {
+    const { certifications, activeTab } = get();
+    
+    if (activeTab === 'todas') return certifications;
+    
+    const statusMap: Record<Exclude<CertTab, 'todas'>, CertStatus | CertStatus[]> = {
+      vigentes: 'vigente',
+      proximas: 'proximo_vencer',
+      vencidas: ['vencido', 'pendiente'],
+    };
+    
+    const targetStatus = statusMap[activeTab];
+    
+    return certifications.filter((cert) => {
+      if (Array.isArray(targetStatus)) {
+        return targetStatus.includes(cert.estado);
+      }
+      return cert.estado === targetStatus;
+    });
+  },
+  
+  certsByWorker: (workerId) => {
+    return get().certifications.filter((cert) => cert.workerId === workerId);
+  },
+}));
