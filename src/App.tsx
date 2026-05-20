@@ -3,6 +3,7 @@ import { AppLayout } from './components/layout/AppLayout';
 import { Dashboard } from './pages/Dashboard';
 import { Workers } from './pages/Workers';
 import { WorkerDetail } from './pages/WorkerDetail';
+import { Certifications } from './pages/Certifications';
 
 function App() {
   return (
@@ -54,7 +55,7 @@ function App() {
             />
           }
         >
-          <Route index element={<div className="text-[#F0F4FF]">Página de Certificaciones</div>} />
+          <Route index element={<Certifications />} />
         </Route>
       </Routes>
     </BrowserRouter>
