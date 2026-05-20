@@ -9,6 +9,7 @@ interface ButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   type?: 'button' | 'submit';
+  className?: string;
 }
 
 export function Button({
@@ -19,6 +20,7 @@ export function Button({
   onClick,
   disabled = false,
   type = 'button',
+  className = '',
 }: ButtonProps) {
   const variantStyles = {
     primary:
@@ -42,7 +44,7 @@ export function Button({
       disabled={disabled}
       className={`inline-flex items-center justify-center gap-2 rounded-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${
         variantStyles[variant]
-      } ${sizeStyles[size]}`}
+      } ${sizeStyles[size]} ${className}`}
     >
       {Icon && <Icon className="w-4 h-4" />}
       {children}

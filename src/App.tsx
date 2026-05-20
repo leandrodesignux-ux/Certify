@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
 import { Dashboard } from './pages/Dashboard';
 import { Workers } from './pages/Workers';
+import { WorkerDetail } from './pages/WorkerDetail';
 
 function App() {
   return (
@@ -28,6 +29,21 @@ function App() {
           }
         >
           <Route index element={<Workers />} />
+          <Route
+            path=":workerId"
+            element={
+              <AppLayout
+                pageTitle="Detalle del Trabajador"
+                breadcrumbs={[
+                  { label: 'Inicio', route: '/' },
+                  { label: 'Trabajadores', route: '/workers' },
+                  { label: 'Perfil' },
+                ]}
+              />
+            }
+          >
+            <Route index element={<WorkerDetail />} />
+          </Route>
         </Route>
         <Route
           path="/certifications"
