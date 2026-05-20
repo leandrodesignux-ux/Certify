@@ -23,7 +23,7 @@ const sectionVariants = {
   }),
 };
 
-export function Workers() {
+function WorkersComponent() {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const { filteredWorkers, workers } = useWorkerStore();
 
@@ -128,3 +128,5 @@ export function Workers() {
     </div>
   );
 }
+
+export default WorkersComponent;

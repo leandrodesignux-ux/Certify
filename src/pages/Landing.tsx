@@ -496,3 +496,5 @@ export function Landing() {
     </div>
   );
 }
+
+export default Landing;

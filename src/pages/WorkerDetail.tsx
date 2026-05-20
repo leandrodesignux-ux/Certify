@@ -239,3 +239,5 @@ export function WorkerDetail() {
     </div>
   );
 }
+
+export default WorkerDetail;

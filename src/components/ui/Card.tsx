@@ -31,20 +31,17 @@ export function Card({
   };
 
   return (
-    <motion.div
+    <div
       onClick={onClick}
-      whileHover={hover ? { y: -4, boxShadow: '0 0 20px rgba(0,229,255,0.15)' } : undefined}
-      whileTap={onClick ? { scale: 0.97 } : undefined}
-      transition={{ duration: 0.2 }}
-      className={`rounded-sm ${
+      className={`rounded-sm transition-all duration-200 ${
         variantStyles[variant]
       } ${paddingStyles[padding]} ${
         hover
-          ? 'hover:border-[rgba(0,229,255,0.25)]'
+          ? 'hover:border-[rgba(0,229,255,0.25)] hover:shadow-[0_0_16px_rgba(0,229,255,0.08)] hover:-translate-y-1'
           : ''
       } ${className}`}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

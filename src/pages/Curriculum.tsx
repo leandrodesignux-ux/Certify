@@ -166,3 +166,5 @@ export function Curriculum() {
     </div>
   );
 }
+
+export default Curriculum;
