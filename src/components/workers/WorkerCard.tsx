@@ -29,7 +29,7 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] as const }}
       whileHover={{ y: -4 }}
-      className="w-[280px]"
+      className="w-full"
     >
       <Card
         variant="glass"
