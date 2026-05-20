@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
+import { Landing } from './pages/Landing';
 import { Dashboard } from './pages/Dashboard';
 import { Workers } from './pages/Workers';
 import { WorkerDetail } from './pages/WorkerDetail';
@@ -10,8 +11,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Landing Page - Public */}
+        <Route path="/" element={<Landing />} />
+
+        {/* Dashboard */}
         <Route
-          path="/"
+          path="/dashboard"
           element={
             <AppLayout
               pageTitle="Dashboard"
