@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import type { Worker } from '../../types';
@@ -12,7 +13,7 @@ interface WorkerCardProps {
   index?: number;
 }
 
-export function WorkerCard({ worker, index = 0 }: WorkerCardProps) {
+function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
   const navigate = useNavigate();
 
   const hasExpiredCerts = worker.certifications.some(
@@ -108,3 +109,5 @@ export function WorkerCard({ worker, index = 0 }: WorkerCardProps) {
     </motion.div>
   );
 }
+
+export const WorkerCard = memo(WorkerCardComponent);

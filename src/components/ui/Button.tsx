@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 
 interface ButtonProps {
@@ -38,16 +39,19 @@ export function Button({
   };
 
   return (
-    <button
+    <motion.button
       type={type}
       onClick={onClick}
       disabled={disabled}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.1 }}
       className={`inline-flex items-center justify-center gap-2 rounded-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${
         variantStyles[variant]
       } ${sizeStyles[size]} ${className}`}
     >
       {Icon && <Icon className="w-4 h-4" />}
       {children}
-    </button>
+    </motion.button>
   );
 }

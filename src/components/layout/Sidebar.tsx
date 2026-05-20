@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -34,6 +35,18 @@ export function Sidebar() {
   const { sidebarCollapsed, toggleSidebar } = useUIStore();
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Auto-collapse on tablet (<1024px)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024 && window.innerWidth >= 768 && !sidebarCollapsed) {
+        toggleSidebar();
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const sidebarWidth = sidebarCollapsed ? 'w-16' : 'w-60';
   const currentPath = location.pathname;

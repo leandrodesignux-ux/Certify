@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { motion } from 'framer-motion';
 
 interface CardProps {
   children: ReactNode;
@@ -30,17 +31,20 @@ export function Card({
   };
 
   return (
-    <div
+    <motion.div
       onClick={onClick}
-      className={`rounded-sm transition-all duration-200 ${
+      whileHover={hover ? { y: -4, boxShadow: '0 0 20px rgba(0,229,255,0.15)' } : undefined}
+      whileTap={onClick ? { scale: 0.97 } : undefined}
+      transition={{ duration: 0.2 }}
+      className={`rounded-sm ${
         variantStyles[variant]
       } ${paddingStyles[padding]} ${
         hover
-          ? 'hover:border-[rgba(0,229,255,0.25)] hover:shadow-[0_0_16px_rgba(0,229,255,0.08)]'
+          ? 'hover:border-[rgba(0,229,255,0.25)]'
           : ''
       } ${className}`}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

@@ -86,17 +86,22 @@ export function Workers() {
         animate="visible"
       >
         {displayWorkers.length === 0 ? (
-          <Card variant="glass" padding="lg" className="text-center py-12">
-            <Users className="w-12 h-12 text-[#4A5568] mx-auto mb-4" />
+          <Card variant="glass" padding="lg" className="text-center py-16">
+            <div className="inline-flex p-4 bg-[rgba(0,229,255,0.05)] rounded-full mb-6">
+              <Users className="w-12 h-12 text-[#4A5568]" />
+            </div>
             <h3 className="font-display text-xl font-semibold text-[#F0F4FF] mb-2">
-              No se encontraron trabajadores
+              Sin resultados
             </h3>
-            <p className="text-[#8892A4]">
-              Intenta ajustar los filtros de búsqueda
+            <p className="text-[#8892A4] mb-6 max-w-md mx-auto">
+              No se encontraron trabajadores con los filtros aplicados. Intenta ajustar tu búsqueda.
             </p>
+            <Button variant="ghost" size="md" onClick={() => window.location.reload()}>
+              Limpiar filtros
+            </Button>
           </Card>
         ) : viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {displayWorkers.map((worker, index) => (
               <WorkerCard key={worker.id} worker={worker} index={index} />
             ))}
