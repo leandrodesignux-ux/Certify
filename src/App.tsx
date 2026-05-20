@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
 import { Dashboard } from './pages/Dashboard';
+import { Workers } from './pages/Workers';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
             />
           }
         >
-          <Route index element={<div className="text-[#F0F4FF]">Página de Trabajadores</div>} />
+          <Route index element={<Workers />} />
         </Route>
         <Route
           path="/certifications"
