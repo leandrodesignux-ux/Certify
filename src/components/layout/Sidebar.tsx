@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Zap,
   LayoutDashboard,
@@ -21,18 +22,21 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { icon: LayoutDashboard, label: 'Dashboard', route: '/' },
+  { icon: LayoutDashboard, label: 'Dashboard', route: '/dashboard' },
   { icon: Users, label: 'Trabajadores', route: '/workers' },
   { icon: Award, label: 'Certificaciones', route: '/certifications' },
-  { icon: BookOpen, label: 'Mallas', route: '/meshes' },
+  { icon: BookOpen, label: 'Mallas', route: '/curriculum' },
   { icon: BarChart2, label: 'Reportes', route: '/reports' },
   { icon: Settings, label: 'Configuración', route: '/settings' },
 ];
 
 export function Sidebar() {
-  const { sidebarCollapsed, toggleSidebar, activeRoute, setActiveRoute } = useUIStore();
+  const { sidebarCollapsed, toggleSidebar } = useUIStore();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const sidebarWidth = sidebarCollapsed ? 'w-16' : 'w-60';
+  const currentPath = location.pathname;
 
   return (
     <motion.aside
@@ -76,12 +80,12 @@ export function Sidebar() {
         <ul className="space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = activeRoute === item.route;
+            const isActive = currentPath === item.route || currentPath.startsWith(`${item.route}/`);
 
             return (
               <li key={item.route}>
                 <button
-                  onClick={() => setActiveRoute(item.route)}
+                  onClick={() => navigate(item.route)}
                   className={`w-full flex items-center px-3 py-2.5 rounded-sm transition-all duration-150 group ${
                     isActive
                       ? 'bg-[#1C2333] text-[#00E5FF] border-l-[3px] border-[#00E5FF]'

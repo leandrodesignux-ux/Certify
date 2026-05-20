@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
 import { Landing } from './pages/Landing';
 import { Dashboard } from './pages/Dashboard';
@@ -6,6 +6,8 @@ import { Workers } from './pages/Workers';
 import { WorkerDetail } from './pages/WorkerDetail';
 import { Certifications } from './pages/Certifications';
 import { Curriculum } from './pages/Curriculum';
+import { Reports } from './pages/Reports';
+import { Settings } from './pages/Settings';
 
 function App() {
   return (
@@ -64,7 +66,7 @@ function App() {
           <Route index element={<Certifications />} />
         </Route>
         <Route
-          path="/meshes"
+          path="/curriculum"
           element={
             <AppLayout
               pageTitle="Mallas Curriculares"
@@ -74,6 +76,31 @@ function App() {
         >
           <Route index element={<Curriculum />} />
         </Route>
+        <Route
+          path="/reports"
+          element={
+            <AppLayout
+              pageTitle="Reportes"
+              breadcrumbs={[{ label: 'Inicio', route: '/' }, { label: 'Reportes' }]}
+            />
+          }
+        >
+          <Route index element={<Reports />} />
+        </Route>
+        <Route
+          path="/settings"
+          element={
+            <AppLayout
+              pageTitle="Configuración"
+              breadcrumbs={[{ label: 'Inicio', route: '/' }, { label: 'Configuración' }]}
+            />
+          }
+        >
+          <Route index element={<Settings />} />
+        </Route>
+
+        {/* Catch-all redirect */}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   );
