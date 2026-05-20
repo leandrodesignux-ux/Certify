@@ -56,7 +56,6 @@ export function ComplianceBarChart() {
             <LabelList
               dataKey="value"
               position="top"
-              formatter={(value: number) => `${value}%`}
               fill="#F0F4FF"
               fontSize={11}
               fontFamily="JetBrains Mono"
