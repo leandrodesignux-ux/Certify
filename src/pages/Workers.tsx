@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Download, ShieldCheck, ShieldAlert, Users2 } from 'lucide-react';
 import { useWorkerStore } from '../store/useWorkerStore';
-import { WorkerCard } from '../components/workers/WorkerCard';
+import { FlipWorkerCard } from '../components/workers/FlipWorkerCard';
 import { WorkerFilter } from '../components/workers/WorkerFilter';
 import { WorkerTable } from '../components/workers/WorkerTable';
 import { Button } from '../components/ui/Button';
@@ -149,10 +149,10 @@ function WorkersComponent() {
             </Button>
           </Card>
         ) : viewMode === 'grid' ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {displayWorkers.map((worker, index) => (
               <div key={worker.id} className="flex flex-col gap-2">
-                <WorkerCard worker={worker} index={index} />
+                <FlipWorkerCard key={worker.id} worker={worker} index={index} />
               </div>
             ))}
           </div>
