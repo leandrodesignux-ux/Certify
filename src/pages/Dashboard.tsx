@@ -32,7 +32,7 @@ export function Dashboard() {
   const criticalAlerts = mockAlerts?.filter(a => (a.diasRestantes ?? 0) < 0).length ?? 0;
 
   return (
-    <div className="space-y-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Page Title */}
       <motion.div
         custom={0}
@@ -66,7 +66,7 @@ export function Dashboard() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}
       >
         <StatsCard
           value={mockStats.totalWorkers}
@@ -118,7 +118,7 @@ export function Dashboard() {
         {/* Columna izquierda: "Cumplimiento por Área" */}
         <Card variant="glass" style={{ borderRadius: '16px', padding: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>
+            <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', letterSpacing: '0.3px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               Cumplimiento por Área
             </h3>
             <span style={{ fontSize: '12px', color: '#8892A4' }}>{new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}</span>
@@ -128,7 +128,7 @@ export function Dashboard() {
 
         {/* Columna derecha: Gauge de compliance global */}
         <Card variant="glass" style={{ borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textAlign: 'center' }}>
+          <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', letterSpacing: '0.3px', marginBottom: '16px', textAlign: 'center' }}>
             Compliance Global
           </h3>
           <ComplianceGauge score={avgCompliance} />
@@ -154,14 +154,14 @@ export function Dashboard() {
       >
         {/* Tendencia Anual */}
         <Card variant="glass" style={{ borderRadius: '16px', padding: '24px' }}>
-          <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px' }}>
+          <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', letterSpacing: '0.3px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             Tendencia de Certificaciones
           </h3>
           <CertTrendChart />
         </Card>
         {/* Distribución de estados */}
         <Card variant="glass" style={{ borderRadius: '16px', padding: '24px' }}>
-          <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px' }}>
+          <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', letterSpacing: '0.3px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             Distribución de Estados
           </h3>
           <StatusDonutChart />
