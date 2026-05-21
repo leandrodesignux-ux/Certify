@@ -81,46 +81,62 @@ const activityConfig = {
 
 export function ActivityFeed() {
   return (
-    <div className="bg-[#111827]/80 backdrop-blur-[12px] border border-[rgba(0,229,255,0.1)] rounded-sm h-[400px] flex flex-col">
+    <div style={{
+      backgroundColor: 'rgba(17,24,39,0.8)',
+      backdropFilter: 'blur(12px)',
+      border: '1px solid rgba(0,229,255,0.1)',
+      borderRadius: '16px',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '400px',
+    }}>
       {/* Header */}
-      <div className="px-5 py-4 border-b border-[rgba(0,229,255,0.1)] flex items-center gap-2">
-        <Clock className="w-5 h-5 text-[#00E5FF]" />
-        <h2 className="font-display text-lg font-semibold text-[#F0F4FF]">Actividad Reciente</h2>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(0,229,255,0.1)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Clock style={{ width: '20px', height: '20px', color: '#00E5FF' }} />
+        <h2 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>Actividad Reciente</h2>
       </div>
 
       {/* Activity List */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="divide-y divide-[rgba(0,229,255,0.05)]">
-          {activities.map((activity) => {
-            const config = activityConfig[activity.type];
-            const Icon = config.icon;
+      <div style={{ flex: 1, overflowY: 'auto' }}>
+        {activities.map((activity) => {
+          const config = activityConfig[activity.type];
+          const Icon = config.icon;
 
-            return (
-              <div
-                key={activity.id}
-                className={`px-5 py-3 border-l-2 ${config.borderColor} hover:bg-[#1C2333]/30 transition-colors duration-150`}
-              >
-                <div className="flex items-start gap-3">
-                  <div
-                    className="p-1.5 rounded-sm flex-shrink-0"
-                    style={{ backgroundColor: `${config.color}15` }}
-                  >
-                    <Icon className="w-4 h-4" style={{ color: config.color }} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-[#F0F4FF] line-clamp-2">{activity.message}</p>
-                    <p className="text-xs text-[#4A5568] mt-1">
-                      {formatDistanceToNow(new Date(activity.timestamp), {
-                        addSuffix: true,
-                        locale: es,
-                      })}
-                    </p>
-                  </div>
-                </div>
+          return (
+            <div
+              key={activity.id}
+              style={{
+                padding: '10px 20px',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '12px',
+                borderBottom: '1px solid rgba(0,229,255,0.04)',
+                transition: 'background 0.15s',
+                cursor: 'default',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(28,35,51,0.5)')}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+            >
+              {/* Icon indicator */}
+              <div style={{
+                width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
+                backgroundColor: `${config.color}18`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <Icon style={{ width: '16px', height: '16px', color: config.color }} />
               </div>
-            );
-          })}
-        </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: '13px', color: '#F0F4FF', marginBottom: '2px', lineHeight: 1.4 }}>{activity.message}</p>
+                <p style={{ fontSize: '11px', color: '#4A5568' }}>
+                  {formatDistanceToNow(new Date(activity.timestamp), {
+                    addSuffix: true,
+                    locale: es,
+                  })}
+                </p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

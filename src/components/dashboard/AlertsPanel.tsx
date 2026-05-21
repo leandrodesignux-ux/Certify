@@ -1,6 +1,5 @@
 import { AlertTriangle } from 'lucide-react';
 import { mockAlerts } from '../../data/mockData';
-import { StatusIndicator } from '../ui/StatusIndicator';
 import { ExpiryBadge } from '../ui/ExpiryBadge';
 import type { Alert } from '../../types';
 
@@ -23,62 +22,72 @@ export function AlertsPanel() {
   const criticalCount = sortedAlerts.filter(a => getAlertPriority(a) >= 3).length;
 
   return (
-    <div className="bg-[#111827]/80 backdrop-blur-[12px] border border-[rgba(0,229,255,0.1)] rounded-sm flex flex-col h-[400px]">
+    <div style={{
+      backgroundColor: 'rgba(17,24,39,0.8)',
+      backdropFilter: 'blur(12px)',
+      border: '1px solid rgba(0,229,255,0.1)',
+      borderRadius: '16px',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '400px',
+    }}>
       {/* Header */}
-      <div className="px-5 py-4 border-b border-[rgba(0,229,255,0.1)] flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-[#FFB800]" />
-          <h2 className="font-display text-lg font-semibold text-[#F0F4FF]">Alertas</h2>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(0,229,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <AlertTriangle style={{ width: '20px', height: '20px', color: '#FFB800' }} />
+          <h2 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>Alertas</h2>
         </div>
         {criticalCount > 0 && (
-          <span className="px-2 py-0.5 bg-[#FF3D57] text-white text-xs font-medium rounded-sm">
+          <span style={{ padding: '2px 8px', backgroundColor: '#FF3D57', color: '#fff', fontSize: '12px', fontWeight: 500, borderRadius: '4px' }}>
             {criticalCount}
           </span>
         )}
       </div>
 
       {/* Alerts List */}
-      <div className="flex-1 overflow-y-auto">
+      <div style={{ flex: 1, overflowY: 'auto' }}>
         {sortedAlerts.length === 0 ? (
-          <div className="flex items-center justify-center h-full text-[#8892A4] text-sm">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#8892A4', fontSize: '14px' }}>
             Sin alertas pendientes
           </div>
         ) : (
-          <div className="divide-y divide-[rgba(0,229,255,0.05)]">
-            {sortedAlerts.map((alert) => {
-              const status = getAlertStatus(alert);
-              
-              return (
-                <div
-                  key={alert.id}
-                  className="px-5 py-3 hover:bg-[#1C2333]/50 transition-colors duration-150"
-                >
-                  <div className="flex items-start gap-3">
-                    <StatusIndicator status={status} pulse={status === 'vencido'} />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-[#F0F4FF] truncate">
-                        <span className="font-medium">{alert.workerName}</span>
-                      </p>
-                      <p className="text-xs text-[#8892A4] mt-0.5 line-clamp-2">
-                        {alert.message}
-                      </p>
-                      <p className="text-xs text-[#4A5568] mt-1">
-                        {new Date(alert.createdAt).toLocaleDateString('es-CL', {
-                          day: '2-digit',
-                          month: 'short',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </p>
-                    </div>
-                    {alert.diasRestantes !== undefined && (
-                      <ExpiryBadge diasRestantes={alert.diasRestantes} />
-                    )}
-                  </div>
+          sortedAlerts.map((alert) => {
+            const status = getAlertStatus(alert);
+
+            return (
+              <div
+                key={alert.id}
+                style={{
+                  padding: '10px 20px',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '12px',
+                  borderBottom: '1px solid rgba(0,229,255,0.04)',
+                  transition: 'background 0.15s',
+                  cursor: 'default',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(28,35,51,0.5)')}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+              >
+                {/* Dot indicator */}
+                <div style={{
+                  width: '8px', height: '8px', borderRadius: '50%', flexShrink: 0, marginTop: '4px',
+                  backgroundColor: status === 'vencido' ? '#FF3D57' : status === 'proximo_vencer' ? '#FFB800' : '#8892A4',
+                  boxShadow: status === 'vencido' ? '0 0 6px rgba(255,61,87,0.6)' : 'none',
+                }} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '2px' }}>
+                    {alert.workerName}
+                  </p>
+                  <p style={{ fontSize: '11px', color: '#8892A4', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {alert.message}
+                  </p>
                 </div>
-              );
-            })}
-          </div>
+                {/* Days badge */}
+                <ExpiryBadge diasRestantes={alert.diasRestantes ?? 0} />
+              </div>
+            );
+          })
         )}
       </div>
     </div>
