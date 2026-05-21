@@ -27,14 +27,15 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
       transition={{ delay: index * 0.04, duration: 0.4, ease: [0.16,1,0.3,1] }}
       className="flex flex-col gap-2"
     >
-      <div style={{ perspective: '1200px', height: '340px' }} className="w-full">
-        <motion.div
-          animate={{ rotateY: flipped ? 180 : 0 }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
-          style={{ transformStyle: 'preserve-3d', width: '100%', height: '100%', position: 'relative', cursor: 'pointer' }}
-          onClick={() => setFlipped(f => !f)}
-          whileHover={{ scale: 1.02 }}
-        >
+      <div style={{ perspective: '1200px' }} className="w-full relative">
+        <div style={{ height: '340px' }}>
+          <motion.div
+            animate={{ rotateY: flipped ? 180 : 0 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            style={{ transformStyle: 'preserve-3d', width: '100%', height: '100%', position: 'relative', cursor: 'pointer' }}
+            onClick={() => setFlipped(f => !f)}
+            whileHover={{ scale: 1.02 }}
+          >
           {/* FRONT */}
           <div style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', position: 'absolute', inset: 0 }}
             className="rounded-2xl overflow-hidden border border-[rgba(0,229,255,0.15)] bg-[#111827] shadow-lg">
@@ -111,7 +112,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
               <RotateCcw className="w-3 h-3" /><span className="text-[10px]">volver</span>
             </div>
           </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
 
       <button

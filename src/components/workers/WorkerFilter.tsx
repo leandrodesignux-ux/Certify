@@ -87,6 +87,7 @@ export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) 
               setFilters({ area: e.target.value === 'Todas' ? '' : e.target.value })
             }
             className="h-9 bg-[#1C2333] border border-[rgba(0,229,255,0.1)] rounded-sm px-3 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(0,229,255,0.3)] cursor-pointer"
+            style={{ backgroundColor: '#1C2333', color: '#F0F4FF' }}
           >
             {areas.map((area) => (
               <option key={area} value={area}>
@@ -118,6 +119,7 @@ export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) 
               setFilters({ complianceMin: min });
             }}
             className="h-9 bg-[#1C2333] border border-[rgba(0,229,255,0.1)] rounded-sm px-3 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(0,229,255,0.3)] cursor-pointer"
+            style={{ backgroundColor: '#1C2333', color: '#F0F4FF' }}
           >
             {complianceLevels.map((level) => (
               <option key={level.value} value={level.value}>
