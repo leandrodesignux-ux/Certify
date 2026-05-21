@@ -8,6 +8,7 @@ import { ActivityFeed } from '../components/dashboard/ActivityFeed';
 import { CertTrendChart } from '../components/dashboard/CertTrendChart';
 import { ComplianceBarChart } from '../components/dashboard/ComplianceBarChart';
 import { StatusDonutChart } from '../components/dashboard/StatusDonutChart';
+import { TopUrgentWorkers } from '../components/dashboard/TopUrgentWorkers';
 import { Card } from '../components/ui/Card';
 
 const sectionVariants = {
@@ -161,16 +162,22 @@ export function Dashboard() {
         </Card>
       </motion.div>
 
-      {/* Bottom Row: Alerts + Activity */}
+      {/* FILA 4: 3 columnas — Alertas | Actividad | Trabajadores críticos */}
       <motion.div
         custom={0.5}
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}
       >
+        {/* Panel 1: Alertas */}
         <AlertsPanel />
+
+        {/* Panel 2: Actividad Reciente */}
         <ActivityFeed />
+
+        {/* Panel 3: Top Trabajadores con mayor urgencia */}
+        <TopUrgentWorkers />
       </motion.div>
     </div>
   );
