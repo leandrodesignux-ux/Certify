@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Layers, Tag } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { ProfileHeader } from '../components/profile/ProfileHeader';
 import { CertCard } from '../components/certifications/CertCard';
@@ -10,6 +11,7 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { mockMeshes } from '../data/mockData';
 import { formatDate } from '../utils/dates';
+import type { Worker as WorkerType } from '../types';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -36,6 +38,7 @@ export function WorkerDetail() {
   const { workerId } = useParams<{ workerId: string }>();
   const navigate = useNavigate();
   const { workers } = useWorkerStore();
+  const [activeTab, setActiveTab] = useState<'mallas' | 'cursos'>('mallas');
 
   const worker = workers.find((w) => w.id === workerId);
 
@@ -69,182 +72,182 @@ export function WorkerDetail() {
       {/* Profile Header */}
       <ProfileHeader worker={worker} />
 
-      <style>{`
-        @media (min-width: 1024px) {
-          .worker-detail-grid > div:nth-child(1) { grid-column: span 3; }
-          .worker-detail-grid > div:nth-child(2) { grid-column: span 5; }
-          .worker-detail-grid > div:nth-child(3) { grid-column: span 4; }
-        }
-        @media (max-width: 1023px) {
-          .worker-detail-grid > div { grid-column: span 12; }
-        }
-      `}</style>
-      {/* 3 Column Layout */}
-      <div className="worker-detail-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '24px' }}>
-        {/* Left Column - Personal Info (30%) */}
-        <motion.div
-          custom={0.2}
-          variants={sectionVariants}
-          initial="hidden"
-          animate="visible"
-          style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
-        >
-          <Card variant="glass" padding="lg">
-            <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-4">
-              Información Personal
-            </h3>
-
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Calendar className="w-4 h-4 text-[#00E5FF]" />
-                <div>
-                  <p className="text-xs text-[#8892A4]">Fecha de Ingreso</p>
-                  <p className="text-sm text-[#F0F4FF]">{formatDate(worker.fechaIngreso)}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Layers className="w-4 h-4 text-[#AAFF00]" />
-                <div>
-                  <p className="text-xs text-[#8892A4]">Departamento</p>
-                  <p className="text-sm text-[#F0F4FF]">{worker.departamento}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Tag className="w-4 h-4 text-[#FFB800]" />
-                <div>
-                  <p className="text-xs text-[#8892A4]">Email</p>
-                  <p className="text-sm text-[#F0F4FF] truncate">{worker.email}</p>
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          {/* Mallas Asignadas */}
-          <Card variant="glass" padding="lg">
-            <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-4">
-              Mallas Asignadas
-            </h3>
-            <div className="space-y-3">
-              {workerMeshes.length > 0 ? (
-                workerMeshes.map((mesh) => (
-                  <div
-                    key={mesh.id}
-                    className="p-3 bg-[#1C2333]/50 rounded-sm border border-[rgba(0,229,255,0.1)]"
-                  >
-                    <p className="text-sm font-medium text-[#F0F4FF]">{mesh.nombre}</p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <ProgressBar value={mesh.completionRate} showLabel={false} />
-                      <span className="text-xs text-[#8892A4] font-mono">{mesh.completionRate}%</span>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm text-[#8892A4]">Sin mallas asignadas</p>
-              )}
-            </div>
-          </Card>
-
-          {/* Competencias */}
-          <Card variant="glass" padding="lg">
-            <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-4">
-              Competencias
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {['Operación Maquinaria', 'Seguridad Industrial', 'Trabajo en Equipo', 'Liderazgo'].map(
-                (tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-1 bg-[rgba(0,229,255,0.1)] text-[#00E5FF] text-xs rounded-sm border border-[rgba(0,229,255,0.2)]"
-                  >
-                    {tag}
-                  </span>
-                )
-              )}
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Center Column - Certifications (40%) */}
-        <motion.div
-          custom={0.3}
-          variants={sectionVariants}
-          initial="hidden"
-          animate="visible"
-          style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
-        >
-          {/* Timeline */}
-          <Card variant="glass" padding="lg">
-            <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-2">
-              Línea de Tiempo
-            </h3>
-            <CertTimeline certs={worker.certifications} />
-          </Card>
-
-          {/* Certifications List */}
-          <Card variant="glass" padding="lg">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display text-lg font-semibold text-[#F0F4FF]">
-                Certificaciones
-              </h3>
-              <span className="text-sm text-[#8892A4]">
-                {worker.certifications.length} total
-              </span>
-            </div>
-            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
-              {worker.certifications.map((cert, index) => (
-                <CertCard key={cert.id} cert={cert} index={index} />
-              ))}
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Right Column - Courses (30%) */}
-        <motion.div
-          custom={0.4}
-          variants={sectionVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <Card variant="glass" padding="lg" className="h-full">
-            <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-4">
-              Cursos Activos
-            </h3>
-            <div className="space-y-4">
-              {mockCourses.map((course, index) => (
-                <motion.div
-                  key={course.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 + index * 0.1, duration: 0.3 }}
-                  className="p-4 bg-[#1C2333]/50 rounded-sm border border-[rgba(0,229,255,0.1)]"
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-sm font-medium text-[#F0F4FF]">{course.nombre}</h4>
-                    <span
-                      className={`text-xs px-1.5 py-0.5 rounded-sm ${
-                        course.estado === 'completado'
-                          ? 'bg-[#00E676]/10 text-[#00E676]'
-                          : course.estado === 'en_progreso'
-                          ? 'bg-[#00E5FF]/10 text-[#00E5FF]'
-                          : 'bg-[#8892A4]/10 text-[#8892A4]'
-                      }`}
-                    >
-                      {course.estado === 'completado'
-                        ? 'Completado'
-                        : course.estado === 'en_progreso'
-                        ? 'En progreso'
-                        : 'Pendiente'}
-                    </span>
-                  </div>
-                  <ProgressBar value={course.progreso} showLabel={true} />
-                </motion.div>
-              ))}
-            </div>
-          </Card>
-        </motion.div>
+      {/* Tabs: MALLAS / CURSOS */}
+      <div style={{ display: 'flex', gap: '0px', borderBottom: '2px solid rgba(0,229,255,0.1)', marginBottom: '24px' }}>
+        {(['mallas', 'cursos'] as const).map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            style={{
+              padding: '14px 40px',
+              backgroundColor: 'transparent',
+              border: 'none',
+              borderBottom: activeTab === tab ? '2px solid #00E5FF' : '2px solid transparent',
+              marginBottom: '-2px',
+              fontSize: '15px',
+              fontWeight: 700,
+              fontFamily: '"Barlow Condensed", sans-serif',
+              letterSpacing: '1px',
+              textTransform: 'uppercase',
+              color: activeTab === tab ? '#00E5FF' : '#8892A4',
+              cursor: 'pointer',
+              transition: 'color 0.15s',
+            }}
+          >
+            {tab === 'mallas' ? 'MALLAS' : 'CURSOS'}
+          </button>
+        ))}
       </div>
+
+      {/* Tab Content */}
+      <motion.div
+        custom={0.2}
+        variants={sectionVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {activeTab === 'mallas' ? (
+          <MallasTab worker={worker} workerMeshes={workerMeshes} />
+        ) : (
+          <CursosTab worker={worker} />
+        )}
+      </motion.div>
+    </div>
+  );
+}
+
+const MINING_IMAGES = [
+  'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=400&h=200&fit=crop',
+  'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=200&fit=crop',
+  'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop',
+  'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=200&fit=crop',
+];
+
+function MeshCourseCard({ course, index }: { course: typeof mockCourses[number]; index: number }) {
+  const stateColor = course.estado === 'completado' ? '#00E676' : course.estado === 'en_progreso' ? '#00E5FF' : '#4A5568';
+  const stateLabel = course.estado === 'completado' ? 'Completado' : course.estado === 'en_progreso' ? 'En progreso' : 'Pendiente';
+  return (
+    <div style={{
+      backgroundColor: '#111827',
+      border: '1px solid rgba(0,229,255,0.1)',
+      borderRadius: '14px',
+      overflow: 'hidden',
+      transition: 'transform 0.2s, border-color 0.2s',
+      cursor: 'pointer',
+    }}
+    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = 'rgba(0,229,255,0.25)'; }}
+    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(0,229,255,0.1)'; }}
+    >
+      <div style={{ height: '100px', overflow: 'hidden', position: 'relative', backgroundColor: '#1C2333' }}>
+        <img src={MINING_IMAGES[index % MINING_IMAGES.length]} alt=""
+          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
+        <span style={{
+          position: 'absolute', top: '8px', right: '8px',
+          padding: '2px 8px', borderRadius: '12px', fontSize: '9px', fontWeight: 700,
+          backgroundColor: `${stateColor}25`, color: stateColor, border: `1px solid ${stateColor}40`,
+        }}>{stateLabel}</span>
+      </div>
+      <div style={{ padding: '12px' }}>
+        <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '10px', lineHeight: 1.3, minHeight: '34px' }}>
+          {course.nombre}
+        </p>
+        <ProgressBar value={course.progreso} showLabel={false} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px' }}>
+          <span style={{ fontSize: '10px', color: '#4A5568' }}>Avance</span>
+          <span style={{ fontSize: '10px', fontWeight: 700, color: stateColor }}>{course.progreso}%</span>
+        </div>
+        <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '3px' }}>
+          {['Evaluación', 'Fecha prueba', 'Vigencia certificado', 'Aprobación'].map(meta => (
+            <div key={meta} style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '9px', color: '#4A5568' }}>{meta}</span>
+              <span style={{ fontSize: '9px', color: '#8892A4' }}>—</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes: typeof mockMeshes }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 3fr', gap: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <Card variant="glass" padding="lg" style={{ borderRadius: '16px' }}>
+          <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            Información
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {[
+              { label: 'Fecha ingreso', value: new Date(worker.fechaIngreso).toLocaleDateString('es-CL') },
+              { label: 'Departamento', value: worker.departamento },
+              { label: 'Email', value: worker.email },
+              { label: 'Empresa', value: worker.empresa },
+            ].map(item => (
+              <div key={item.label} style={{ borderBottom: '1px solid rgba(0,229,255,0.06)', paddingBottom: '10px' }}>
+                <p style={{ fontSize: '10px', color: '#4A5568', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '3px' }}>{item.label}</p>
+                <p style={{ fontSize: '13px', color: '#F0F4FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+        <Card variant="glass" padding="lg" style={{ borderRadius: '16px' }}>
+          <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            Competencias
+          </h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            {['Operación Maquinaria', 'Seguridad Industrial', 'Trabajo en Equipo', 'Liderazgo'].map(tag => (
+              <span key={tag} style={{ padding: '4px 10px', backgroundColor: 'rgba(0,229,255,0.1)', color: '#00E5FF', fontSize: '11px', borderRadius: '20px', border: '1px solid rgba(0,229,255,0.2)', fontWeight: 500 }}>
+                {tag}
+              </span>
+            ))}
+          </div>
+        </Card>
+      </div>
+      <div>
+        <h2 style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: '#F0F4FF', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span>Malla y estado de cursos</span>
+          <span style={{ fontSize: '12px', color: '#8892A4', fontWeight: 400, fontFamily: 'DM Sans' }}>({workerMeshes.length} mallas asignadas)</span>
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+          {mockCourses.map((course, i) => (
+            <MeshCourseCard key={course.id} course={course} index={i} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CursosTab({ worker }: { worker: WorkerType }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '24px' }}>
+      <Card variant="glass" padding="lg" style={{ borderRadius: '16px' }}>
+        <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase' }}>
+          Resumen
+        </h3>
+        {[
+          { label: 'Vigentes', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'vigente').length, color: '#00E676' },
+          { label: 'Vencidas', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'vencido').length, color: '#FF3D57' },
+          { label: 'Próx. vencer', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'proximo_vencer').length, color: '#FFB800' },
+          { label: 'Pendientes', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'pendiente').length, color: '#4A5568' },
+        ].map(item => (
+          <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(0,229,255,0.06)' }}>
+            <span style={{ fontSize: '13px', color: '#8892A4' }}>{item.label}</span>
+            <span style={{ fontSize: '24px', fontWeight: 700, fontFamily: '"Barlow Condensed"', color: item.color }}>{item.value}</span>
+          </div>
+        ))}
+      </Card>
+      <Card variant="glass" padding="lg" style={{ borderRadius: '16px' }}>
+        <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase' }}>
+          Certificaciones
+        </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '500px', overflowY: 'auto' }}>
+          {worker.certifications.map(cert => (
+            <CertCard key={cert.id} cert={cert} index={0} />
+          ))}
+        </div>
+      </Card>
     </div>
   );
 }
