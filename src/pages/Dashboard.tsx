@@ -8,7 +8,6 @@ import { ActivityFeed } from '../components/dashboard/ActivityFeed';
 import { CertTrendChart } from '../components/dashboard/CertTrendChart';
 import { ComplianceBarChart } from '../components/dashboard/ComplianceBarChart';
 import { StatusDonutChart } from '../components/dashboard/StatusDonutChart';
-import { CompanyComparisonChart } from '../components/dashboard/CompanyComparisonChart';
 import { Card } from '../components/ui/Card';
 
 const sectionVariants = {
@@ -101,70 +100,64 @@ export function Dashboard() {
         />
       </motion.div>
 
-      {/* Charts Row 1: Gauge + BarChart */}
+      {/* FILA 2: Layout asimétrico — 2/3 izquierda + 1/3 derecha */}
       <motion.div
         custom={0.2}
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+        style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}
       >
-        {/* Compliance Gauge */}
-        <Card variant="glass" padding="lg" className="flex flex-col">
-          <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-2 text-center">
-            Cumplimiento Global
-          </h3>
-          <div className="flex-1 flex items-center justify-center">
-            <ComplianceGauge score={avgCompliance} />
+        {/* Columna izquierda: "Cumplimiento por Área" */}
+        <Card variant="glass" style={{ borderRadius: '16px', padding: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+            <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>
+              Cumplimiento por Área
+            </h3>
+            <span style={{ fontSize: '12px', color: '#8892A4' }}>{new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}</span>
           </div>
+          <ComplianceBarChart />
         </Card>
 
-        {/* BarChart - Compliance by Area */}
-        <Card variant="glass" padding="lg" className="lg:col-span-2">
-          <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-4">
-            Cumplimiento por Área
+        {/* Columna derecha: Gauge de compliance global */}
+        <Card variant="glass" style={{ borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textAlign: 'center' }}>
+            Compliance Global
           </h3>
-          <ComplianceBarChart />
+          <ComplianceGauge score={avgCompliance} />
+          <div style={{ marginTop: '16px', width: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+              <span style={{ fontSize: '12px', color: '#8892A4' }}>Meta mensual</span>
+              <span style={{ fontSize: '12px', color: '#00E5FF', fontWeight: 600 }}>85%</span>
+            </div>
+            <div style={{ height: '4px', backgroundColor: '#1C2333', borderRadius: '2px', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${avgCompliance}%`, backgroundColor: avgCompliance >= 85 ? '#00E676' : '#FFB800', borderRadius: '2px', transition: 'width 1s ease' }} />
+            </div>
+          </div>
         </Card>
       </motion.div>
 
-      {/* Charts Row 2: AreaChart + Donut */}
+      {/* FILA 3: Layout asimétrico — 1/2 + 1/2 */}
       <motion.div
         custom={0.3}
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}
       >
-        {/* AreaChart - Trend */}
-        <Card variant="glass" padding="lg">
-          <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-4">
-            Tendencia Anual
+        {/* Tendencia Anual */}
+        <Card variant="glass" style={{ borderRadius: '16px', padding: '24px' }}>
+          <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px' }}>
+            Tendencia de Certificaciones
           </h3>
           <CertTrendChart />
         </Card>
-
-        {/* DonutChart - Status Distribution */}
-        <Card variant="glass" padding="lg">
-          <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-4">
+        {/* Distribución de estados */}
+        <Card variant="glass" style={{ borderRadius: '16px', padding: '24px' }}>
+          <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px' }}>
             Distribución de Estados
           </h3>
           <StatusDonutChart />
-        </Card>
-      </motion.div>
-
-      {/* Charts Row 3: LineChart (Company Comparison) */}
-      <motion.div
-        custom={0.4}
-        variants={sectionVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <Card variant="glass" padding="lg">
-          <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-4">
-            Comparativa por Empresa (6 meses)
-          </h3>
-          <CompanyComparisonChart />
         </Card>
       </motion.div>
 
