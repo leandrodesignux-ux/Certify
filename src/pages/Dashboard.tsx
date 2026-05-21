@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Users, Award, AlertTriangle, BookOpen } from 'lucide-react';
-import { mockStats, mockWorkers } from '../data/mockData';
+import { mockStats, mockWorkers, mockAlerts } from '../data/mockData';
 import { StatsCard } from '../components/dashboard/StatsCard';
 import { ComplianceGauge } from '../components/dashboard/ComplianceGauge';
 import { AlertsPanel } from '../components/dashboard/AlertsPanel';
@@ -28,6 +28,7 @@ export function Dashboard() {
   const avgCompliance = Math.round(
     mockWorkers.reduce((acc, w) => acc + w.complianceScore, 0) / mockWorkers.length
   );
+  const criticalAlerts = mockAlerts?.filter(a => (a.diasRestantes ?? 0) < 0).length ?? 0;
 
   return (
     <div className="space-y-6">
@@ -37,11 +38,26 @@ export function Dashboard() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
+        style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
       >
-        <h1 className="font-display text-3xl font-bold text-[#F0F4FF] tracking-tight">
-          Panel de Control
-        </h1>
-        <p className="text-[#8892A4] mt-1">Vista general del sistema de certificaciones</p>
+        <div>
+          <h1 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '32px', fontWeight: 700, color: '#F0F4FF', letterSpacing: '-0.5px', marginBottom: '4px' }}>
+            Panel Operacional ⚡
+          </h1>
+          <p style={{ color: '#8892A4', fontSize: '14px' }}>
+            Corpa Andina Minera S.A. · Turno día activo · {new Date().toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' })}
+          </p>
+        </div>
+        {/* Mini status pills */}
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(0,230,118,0.1)', border: '1px solid rgba(0,230,118,0.25)', borderRadius: '20px', padding: '6px 14px' }}>
+            <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00E676', boxShadow: '0 0 6px rgba(0,230,118,0.8)', animation: 'pulse 2s infinite' }} />
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#00E676' }}>Sistema Online</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255,184,0,0.1)', border: '1px solid rgba(255,184,0,0.25)', borderRadius: '20px', padding: '6px 14px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#FFB800' }}>⚠ {criticalAlerts} alertas críticas</span>
+          </div>
+        </div>
       </motion.div>
       {/* Stats Row - 4 KPI Cards */}
       <motion.div
