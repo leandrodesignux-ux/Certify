@@ -7,7 +7,7 @@ import { Card } from './components/ui/Card';
 const Landing = lazy(() => import('./pages/Landing'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Workers = lazy(() => import('./pages/Workers'));
-const WorkerDetail = lazy(() => import('./pages/WorkerDetail'));
+import { WorkerDetail } from './pages/WorkerDetail';
 const Certifications = lazy(() => import('./pages/Certifications'));
 const Curriculum = lazy(() => import('./pages/Curriculum'));
 const Reports = lazy(() => import('./pages/Reports'));

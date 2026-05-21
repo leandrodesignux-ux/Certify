@@ -69,15 +69,25 @@ export function WorkerDetail() {
       {/* Profile Header */}
       <ProfileHeader worker={worker} />
 
+      <style>{`
+        @media (min-width: 1024px) {
+          .worker-detail-grid > div:nth-child(1) { grid-column: span 3; }
+          .worker-detail-grid > div:nth-child(2) { grid-column: span 5; }
+          .worker-detail-grid > div:nth-child(3) { grid-column: span 4; }
+        }
+        @media (max-width: 1023px) {
+          .worker-detail-grid > div { grid-column: span 12; }
+        }
+      `}</style>
       {/* 3 Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="worker-detail-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '24px' }}>
         {/* Left Column - Personal Info (30%) */}
         <motion.div
           custom={0.2}
           variants={sectionVariants}
           initial="hidden"
           animate="visible"
-          className="lg:col-span-3 space-y-4"
+          style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
         >
           <Card variant="glass" padding="lg">
             <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-4">
@@ -162,7 +172,7 @@ export function WorkerDetail() {
           variants={sectionVariants}
           initial="hidden"
           animate="visible"
-          className="lg:col-span-5 space-y-4"
+          style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
         >
           {/* Timeline */}
           <Card variant="glass" padding="lg">
@@ -196,7 +206,6 @@ export function WorkerDetail() {
           variants={sectionVariants}
           initial="hidden"
           animate="visible"
-          className="lg:col-span-4"
         >
           <Card variant="glass" padding="lg" className="h-full">
             <h3 className="font-display text-lg font-semibold text-[#F0F4FF] mb-4">
@@ -240,4 +249,3 @@ export function WorkerDetail() {
   );
 }
 
-export default WorkerDetail;
