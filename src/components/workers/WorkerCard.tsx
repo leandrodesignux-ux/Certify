@@ -52,8 +52,8 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
               padding="sm"
               className="relative w-full h-full bg-[#0D1117] border-[rgba(0,229,255,0.1)] overflow-hidden !p-0"
             >
-              {/* Photo Area - Top 60% */}
-              <div className="h-[60%] w-full relative overflow-hidden">
+              {/* Photo Area - Top 55% */}
+              <div className="h-[55%] w-full relative overflow-hidden rounded-t-xl">
                 {worker.foto ? (
                   <img
                     src={worker.foto}
@@ -67,23 +67,31 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
                     </span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent" />
+                {/* Gradient overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D1117]/90 via-[#0D1117]/20 to-transparent" />
+
+                {/* Compliance Score Pill - Bottom Right */}
+                <div className="absolute bottom-2 right-2 px-2 py-1 bg-[#0D1117]/80 backdrop-blur-sm rounded-full border border-[rgba(0,229,255,0.2)]">
+                  <span className={`font-display text-lg font-bold ${scoreColor}`}>
+                    {worker.complianceScore}
+                  </span>
+                </div>
               </div>
 
-              {/* Info Area - Bottom 40% */}
-              <div className="h-[40%] p-4 flex flex-col justify-between">
+              {/* Info Area - Bottom 45% */}
+              <div className="h-[45%] p-3 flex flex-col justify-between">
                 <div>
-                  <h3 className="font-display text-lg font-semibold text-[#F0F4FF] truncate">
+                  <h3 className="font-display font-bold text-base text-[#F0F4FF] truncate">
                     {worker.nombre} {worker.apellidos}
                   </h3>
-                  <p className="text-sm text-[#8892A4] truncate">{worker.cargo}</p>
+                  <p className="text-xs text-[#8892A4] truncate">{worker.cargo}</p>
                 </div>
 
-                {/* Compliance Score Badge */}
-                <div className="flex justify-end">
-                  <div className={`font-display text-3xl font-bold ${scoreColor}`}>
-                    {worker.complianceScore}
-                  </div>
+                {/* Area Badge - Bottom Left */}
+                <div className="flex items-center">
+                  <span className="px-2 py-0.5 bg-[rgba(0,229,255,0.1)] text-[#00E5FF] text-[10px] rounded-sm border border-[rgba(0,229,255,0.2)] truncate max-w-full">
+                    {worker.area}
+                  </span>
                 </div>
               </div>
             </Card>
