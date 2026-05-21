@@ -5,7 +5,9 @@ import type { Worker } from '../../types';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { getComplianceColor } from '../../utils/colors';
-import { Eye, Mail, Building, Calendar, Award, Layers } from 'lucide-react';
+import { mockMeshes } from '../../data/mockData';
+import { ProgressBar } from '../ui/ProgressBar';
+import { Eye } from 'lucide-react';
 
 interface WorkerCardProps {
   worker: Worker;
@@ -21,6 +23,9 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
 
   const vigentesCount = worker.certifications.filter(c => c.estado === 'vigente').length;
   const vencidasCount = worker.certifications.filter(c => c.estado === 'vencido').length;
+  const proximoCount = worker.certifications.filter(c => c.estado === 'proximo_vencer').length;
+
+  const workerMeshes = mockMeshes.filter(m => worker.activeMeshes.includes(m.id));
 
   return (
     <motion.div
@@ -107,67 +112,61 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
               padding="md"
               className="relative w-full h-full bg-[#0D1117] border-[rgba(0,229,255,0.1)] overflow-hidden flex flex-col"
             >
-              {/* Header */}
-              <div className="mb-4">
-                <h3 className="font-display text-base font-semibold text-[#F0F4FF] truncate">
-                  {worker.nombre} {worker.apellidos}
-                </h3>
+              {/* RUT + Email Header */}
+              <div className="mb-3 space-y-1">
+                <p className="text-xs text-[#8892A4] truncate">
+                  <span className="font-mono">{worker.rut}</span> · {worker.email}
+                </p>
               </div>
 
-              {/* Info Grid */}
-              <div className="flex-1 space-y-2 text-sm">
-                <div className="flex items-center gap-2 text-[#8892A4]">
-                  <span className="text-[#00E5FF] font-mono">RUT:</span>
-                  <span className="text-[#F0F4FF]">{worker.rut}</span>
+              {/* Mallas en Curso */}
+              {workerMeshes.length > 0 && (
+                <div className="mb-3">
+                  <h4 className="text-[10px] uppercase tracking-wider text-[#8892A4] mb-2 font-medium">
+                    Mallas en curso
+                  </h4>
+                  <div className="space-y-2">
+                    {workerMeshes.map((mesh) => (
+                      <div key={mesh.id} className="space-y-1">
+                        <p className="text-xs text-[#F0F4FF] truncate">{mesh.nombre}</p>
+                        <ProgressBar value={mesh.completionRate} showLabel={false} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
+              )}
 
-                <div className="flex items-center gap-2 text-[#8892A4]">
-                  <Mail className="w-3.5 h-3.5 text-[#00E5FF]" />
-                  <span className="text-[#F0F4FF] truncate">{worker.email}</span>
-                </div>
-
-                <div className="flex items-center gap-2 text-[#8892A4]">
-                  <Building className="w-3.5 h-3.5 text-[#00E5FF]" />
-                  <span className="text-[#F0F4FF]">{worker.area}</span>
-                </div>
-
-                <div className="flex items-center gap-2 text-[#8892A4]">
-                  <span className="text-[#00E5FF] font-mono">Emp:</span>
-                  <span className="text-[#F0F4FF]">{worker.empresa}</span>
-                </div>
-
-                <div className="flex items-center gap-2 text-[#8892A4]">
-                  <Calendar className="w-3.5 h-3.5 text-[#00E5FF]" />
-                  <span className="text-[#F0F4FF]">{new Date(worker.fechaIngreso).toLocaleDateString('es-CL')}</span>
-                </div>
-
-                {/* Mallas Active */}
-                <div className="flex items-center gap-2 text-[#8892A4]">
-                  <Layers className="w-3.5 h-3.5 text-[#AAFF00]" />
-                  <span className="text-[#F0F4FF]">{worker.activeMeshes.length} malla{worker.activeMeshes.length !== 1 ? 's' : ''} activa{worker.activeMeshes.length !== 1 ? 's' : ''}</span>
-                </div>
-
-                {/* Divider */}
-                <div className="h-px bg-[rgba(0,229,255,0.1)] my-3" />
-
-                {/* Certifications Stats */}
-                <div className="flex items-center gap-2">
-                  <Award className="w-3.5 h-3.5 text-[#00E5FF]" />
-                  <span className="text-[#8892A4]">Certs:</span>
-                  <span className="text-[#00E676]">{vigentesCount} vigentes</span>
-                  {vencidasCount > 0 && (
-                    <span className="text-[#FF3D57]">/ {vencidasCount} vencidas</span>
-                  )}
-                </div>
+              {/* Cert Stats Row */}
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                {vigentesCount > 0 && (
+                  <span className="px-2 py-0.5 bg-[rgba(0,230,118,0.15)] text-[#00E676] text-[10px] rounded-sm border border-[rgba(0,230,118,0.3)]">
+                    {vigentesCount} vigente{vigentesCount !== 1 ? 's' : ''}
+                  </span>
+                )}
+                {proximoCount > 0 && (
+                  <span className="px-2 py-0.5 bg-[rgba(255,184,0,0.15)] text-[#FFB800] text-[10px] rounded-sm border border-[rgba(255,184,0,0.3)]">
+                    {proximoCount} por vencer
+                  </span>
+                )}
+                {vencidasCount > 0 && (
+                  <span className="px-2 py-0.5 bg-[rgba(255,61,87,0.15)] text-[#FF3D57] text-[10px] rounded-sm border border-[rgba(255,61,87,0.3)]">
+                    {vencidasCount} vencida{vencidasCount !== 1 ? 's' : ''}
+                  </span>
+                )}
               </div>
 
               {/* Compliance Score */}
-              <div className="mt-auto pt-3 flex justify-between items-center">
-                <span className="text-sm text-[#8892A4]">Compliance</span>
-                <span className={`font-display text-2xl font-bold ${scoreColor}`}>
+              <div className="mt-auto pt-2 flex justify-between items-center border-t border-[rgba(0,229,255,0.1)]">
+                <span className="text-xs text-[#8892A4]">Compliance</span>
+                <span className={`font-display text-xl font-bold ${scoreColor}`}>
                   {worker.complianceScore}
                 </span>
               </div>
+
+              {/* Hover hint */}
+              <p className="text-[10px] text-[#4A5568] text-center mt-2">
+                ← hover para volver
+              </p>
             </Card>
           </div>
         </motion.div>
