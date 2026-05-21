@@ -164,13 +164,6 @@ export function Certifications() {
     );
   };
 
-  const statusBorderColors: Record<string, string> = {
-    vigente: 'border-l-[3px] border-l-[#00E676]',
-    proximo_vencer: 'border-l-[3px] border-l-[#FFB800]',
-    vencido: 'border-l-[3px] border-l-[#FF3D57]',
-    pendiente: 'border-l-[3px] border-l-[#00E5FF]',
-  };
-
   const activeFilters = [search, areaFilter, tipoFilter].filter(Boolean).length;
 
   return (
@@ -247,21 +240,28 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
-        className="flex gap-1 bg-[#1C2333] p-1 rounded-sm"
+        style={{ display: 'flex', gap: '4px', backgroundColor: '#1C2333', padding: '4px', borderRadius: '4px' }}
       >
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 py-2 px-4 text-sm font-medium rounded-sm transition-all duration-150 ${
-              activeTab === tab.id
-                ? 'bg-[rgba(0,229,255,0.15)] text-[#00E5FF]'
-                : 'text-[#8892A4] hover:text-[#F0F4FF] hover:bg-[#111827]/50'
-            }`}
+            style={{
+              flex: 1,
+              padding: '8px 16px',
+              fontSize: '14px',
+              fontWeight: 500,
+              borderRadius: '4px',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+              backgroundColor: activeTab === tab.id ? 'rgba(0,229,255,0.15)' : 'transparent',
+              color: activeTab === tab.id ? '#00E5FF' : '#8892A4',
+              borderBottom: activeTab === tab.id ? '2px solid #00E5FF' : '2px solid transparent',
+            }}
           >
             <span
-              className="inline-block w-2 h-2 rounded-full mr-2"
-              style={{ backgroundColor: tab.color }}
+              style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '9999px', marginRight: '8px', backgroundColor: tab.color }}
             />
             {tab.label}
           </button>
@@ -345,9 +345,9 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
-        className="bg-[#111827]/80 backdrop-blur-[12px] border border-[rgba(0,229,255,0.1)] rounded-sm overflow-hidden"
+        style={{ backgroundColor: 'rgba(17,24,39,0.8)', backdropFilter: 'blur(12px)', border: '1px solid rgba(0,229,255,0.1)', borderRadius: '4px', overflow: 'hidden' }}
       >
-        <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
+        <div style={{ overflowX: 'auto', maxHeight: '600px', overflowY: 'auto' }}>
           <table className="w-full">
             <thead className="sticky top-0 bg-[#111827] z-10">
               <tr className="border-b border-[rgba(0,229,255,0.1)]">
@@ -419,7 +419,7 @@ export function Certifications() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[rgba(0,229,255,0.05)]">
+            <tbody>
               <AnimatePresence mode="wait">
                 {sorted.slice(0, 20).map((cert, index) => {
                   const worker = workers.find((w) => w.id === cert.workerId);
@@ -434,7 +434,10 @@ export function Certifications() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ delay: index * 0.02, duration: 0.3 }}
-                      className={`hover:bg-[#1C2333]/50 transition-colors duration-150 ${statusBorderColors[cert.estado]}`}
+                      style={{
+                        backgroundColor: index % 2 === 0 ? 'rgba(17,24,39,0.6)' : 'rgba(28,35,51,0.4)',
+                        borderLeft: cert.estado === 'vigente' ? '3px solid #00E676' : cert.estado === 'proximo_vencer' ? '3px solid #FFB800' : cert.estado === 'vencido' ? '3px solid #FF3D57' : '3px solid #00E5FF',
+                      }}
                     >
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">

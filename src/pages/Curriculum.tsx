@@ -121,15 +121,22 @@ export function Curriculum() {
       </motion.div>
 
       {/* Mesh Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {mockMeshes.map((mesh, index) => (
-          <MeshCard
-            key={mesh.id}
-            mesh={mesh}
-            onClick={() => setSelectedMesh(mesh)}
-            index={index}
-          />
-        ))}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '24px' }}>
+        {mockMeshes.length === 0 ? (
+          <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px' }}>
+            <p style={{ color: '#8892A4', fontSize: '16px' }}>No hay mallas curriculares disponibles</p>
+            <p style={{ color: '#4A5568', fontSize: '14px', marginTop: '8px' }}>Crea una nueva malla para comenzar</p>
+          </div>
+        ) : (
+          mockMeshes.map((mesh, index) => (
+            <MeshCard
+              key={mesh.id}
+              mesh={mesh}
+              onClick={() => setSelectedMesh(mesh)}
+              index={index}
+            />
+          ))
+        )}
       </div>
 
       {/* Modal */}
