@@ -64,15 +64,6 @@ export function CourseCard({ course, index = 0 }: CourseCardProps) {
           <div className="mt-3">
             <ProgressBar
               value={course.progreso}
-              status={
-                course.estado === 'completado'
-                  ? 'vigente'
-                  : course.estado === 'en_progreso'
-                  ? 'pendiente'
-                  : course.estado === 'bloqueado'
-                  ? 'vencido'
-                  : 'proximo_vencer'
-              }
               showLabel={true}
             />
           </div>
