@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Download } from 'lucide-react';
+import { Users, Download, ShieldCheck, ShieldAlert, Users2 } from 'lucide-react';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { WorkerCard } from '../components/workers/WorkerCard';
 import { WorkerFilter } from '../components/workers/WorkerFilter';
@@ -30,6 +30,12 @@ function WorkersComponent() {
   const displayWorkers = filteredWorkers();
   const totalWorkers = workers.length;
 
+  // Stats calculations
+  const complianceOkCount = workers.filter(w => w.complianceScore >= 80).length;
+  const requireActionCount = workers.filter(w =>
+    w.certifications.some(c => c.estado === 'vencido')
+  ).length;
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -51,6 +57,48 @@ function WorkersComponent() {
         <Button variant="ghost" size="md" icon={Download}>
           Exportar
         </Button>
+      </motion.div>
+
+      {/* Stats Bar */}
+      <motion.div
+        custom={0.08}
+        variants={sectionVariants}
+        initial="hidden"
+        animate="visible"
+        className="flex flex-wrap gap-4"
+      >
+        {/* Total Trabajadores */}
+        <div className="flex items-center gap-3 rounded-xl border border-[rgba(0,229,255,0.1)] bg-[#111827]/60 px-4 py-3">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(0,229,255,0.15)]">
+            <Users2 className="w-5 h-5 text-[#00E5FF]" />
+          </div>
+          <div>
+            <p className="font-display text-2xl font-bold text-[#F0F4FF]">{totalWorkers}</p>
+            <p className="text-xs text-[#8892A4]">Total trabajadores</p>
+          </div>
+        </div>
+
+        {/* Cumplimiento OK */}
+        <div className="flex items-center gap-3 rounded-xl border border-[rgba(0,229,255,0.1)] bg-[#111827]/60 px-4 py-3">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(0,230,118,0.15)]">
+            <ShieldCheck className="w-5 h-5 text-[#00E676]" />
+          </div>
+          <div>
+            <p className="font-display text-2xl font-bold text-[#F0F4FF]">{complianceOkCount}</p>
+            <p className="text-xs text-[#8892A4]">Cumplimiento OK</p>
+          </div>
+        </div>
+
+        {/* Requieren acción */}
+        <div className="flex items-center gap-3 rounded-xl border border-[rgba(0,229,255,0.1)] bg-[#111827]/60 px-4 py-3">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(255,61,87,0.15)]">
+            <ShieldAlert className="w-5 h-5 text-[#FF3D57]" />
+          </div>
+          <div>
+            <p className="font-display text-2xl font-bold text-[#F0F4FF]">{requireActionCount}</p>
+            <p className="text-xs text-[#8892A4]">Requieren acción</p>
+          </div>
+        </div>
       </motion.div>
 
       {/* Filters */}
