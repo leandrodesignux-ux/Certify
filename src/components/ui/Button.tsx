@@ -23,19 +23,54 @@ export function Button({
   type = 'button',
   className = '',
 }: ButtonProps) {
-  const variantStyles = {
-    primary:
-      'bg-[#00E5FF] text-[#0A0E1A] font-semibold hover:shadow-[0_0_20px_rgba(0,229,255,0.25)] hover:bg-[#33EBFF]',
-    ghost:
-      'border border-[rgba(0,229,255,0.25)] text-[#00E5FF] hover:bg-[rgba(0,229,255,0.1)]',
-    danger:
-      'border border-[#FF3D57] text-[#FF3D57] hover:bg-[rgba(255,61,87,0.1)]',
+  const getVariantStyles = (): React.CSSProperties => {
+    const base: React.CSSProperties = {
+      borderRadius: '8px',
+      transition: 'all 0.15s ease',
+    };
+
+    switch (variant) {
+      case 'primary':
+        return {
+          ...base,
+          backgroundColor: '#00E5FF',
+          color: '#0A0E1A',
+        };
+      case 'ghost':
+        return {
+          ...base,
+          backgroundColor: 'transparent',
+          border: '1px solid rgba(0,229,255,0.25)',
+          color: '#00E5FF',
+        };
+      case 'danger':
+        return {
+          ...base,
+          backgroundColor: 'rgba(255,61,87,0.15)',
+          border: '1px solid rgba(255,61,87,0.3)',
+          color: '#FF3D57',
+        };
+      default:
+        return base;
+    }
   };
 
   const sizeStyles = {
-    sm: 'px-3 py-1.5 text-xs',
-    md: 'px-4 py-2 text-sm',
-    lg: 'px-6 py-3 text-base',
+    sm: { padding: '6px 12px', fontSize: '12px' },
+    md: { padding: '8px 16px', fontSize: '14px' },
+    lg: { padding: '12px 24px', fontSize: '16px' },
+  };
+
+  const style: React.CSSProperties = {
+    ...getVariantStyles(),
+    ...sizeStyles[size],
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    fontWeight: 600,
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.5 : 1,
   };
 
   return (
@@ -43,14 +78,13 @@ export function Button({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.97 }}
+      whileHover={disabled ? undefined : { scale: 1.02 }}
+      whileTap={disabled ? undefined : { scale: 0.97 }}
       transition={{ duration: 0.1 }}
-      className={`inline-flex items-center justify-center gap-2 rounded-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${
-        variantStyles[variant]
-      } ${sizeStyles[size]} ${className}`}
+      style={style}
+      className={className}
     >
-      {Icon && <Icon className="w-4 h-4" />}
+      {Icon && <Icon style={{ width: '16px', height: '16px' }} />}
       {children}
     </motion.button>
   );

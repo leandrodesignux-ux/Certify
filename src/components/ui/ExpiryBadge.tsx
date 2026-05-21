@@ -3,38 +3,67 @@ interface ExpiryBadgeProps {
 }
 
 export function ExpiryBadge({ diasRestantes }: ExpiryBadgeProps) {
-  const getStyle = () => {
+  const getStyle = (): { text: string; style: React.CSSProperties } => {
+    const base: React.CSSProperties = {
+      display: 'inline-flex',
+      alignItems: 'center',
+      padding: '2px 8px',
+      fontSize: '12px',
+      fontFamily: '"JetBrains Mono", monospace',
+      fontWeight: 500,
+      border: '1px solid',
+      borderRadius: '4px',
+    };
+
     if (diasRestantes <= 0) {
       return {
         text: 'VENCIDO',
-        className: 'bg-[rgba(255,61,87,0.15)] text-[#FF3D57] border-[rgba(255,61,87,0.3)] animate-glow-pulse',
+        style: {
+          ...base,
+          backgroundColor: 'rgba(255,61,87,0.15)',
+          color: '#FF3D57',
+          borderColor: 'rgba(255,61,87,0.3)',
+        },
       };
     }
     if (diasRestantes <= 15) {
       return {
         text: `${diasRestantes}d`,
-        className: 'bg-[rgba(255,61,87,0.1)] text-[#FF3D57] border-[rgba(255,61,87,0.3)]',
+        style: {
+          ...base,
+          backgroundColor: 'rgba(255,61,87,0.1)',
+          color: '#FF3D57',
+          borderColor: 'rgba(255,61,87,0.3)',
+        },
       };
     }
     if (diasRestantes <= 60) {
       return {
         text: `${diasRestantes}d`,
-        className: 'bg-[rgba(255,184,0,0.1)] text-[#FFB800] border-[rgba(255,184,0,0.3)]',
+        style: {
+          ...base,
+          backgroundColor: 'rgba(255,184,0,0.1)',
+          color: '#FFB800',
+          borderColor: 'rgba(255,184,0,0.3)',
+        },
       };
     }
     return {
       text: `${diasRestantes}d`,
-      className: 'bg-[rgba(170,255,0,0.1)] text-[#AAFF00] border-[rgba(170,255,0,0.3)]',
+      style: {
+        ...base,
+        backgroundColor: 'rgba(170,255,0,0.1)',
+        color: '#AAFF00',
+        borderColor: 'rgba(170,255,0,0.3)',
+      },
     };
   };
 
-  const style = getStyle();
+  const result = getStyle();
 
   return (
-    <span
-      className={`inline-flex items-center px-2 py-0.5 text-xs font-mono font-medium border rounded-sm ${style.className}`}
-    >
-      {style.text}
+    <span style={result.style}>
+      {result.text}
     </span>
   );
 }

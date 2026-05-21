@@ -6,21 +6,58 @@ interface BadgeProps {
 }
 
 export function Badge({ status, label }: BadgeProps) {
-  const statusStyles: Record<string, string> = {
-    vigente: 'bg-[rgba(170,255,0,0.5)] text-[#AAFF00] border-[rgba(170,255,0,0.3)]',
-    proximo_vencer: 'bg-[rgba(255,184,0,0.1)] text-[#FFB800] border-[rgba(255,184,0,0.3)]',
-    vencido: 'bg-[rgba(255,61,87,0.1)] text-[#FF3D57] border-[rgba(255,61,87,0.3)] animate-glow-pulse',
-    pendiente: 'bg-[rgba(107,114,128,0.2)] text-[#8892A4] border-[rgba(107,114,128,0.3)]',
+  const getStyles = (status: string): React.CSSProperties => {
+    const base: React.CSSProperties = {
+      display: 'inline-flex',
+      alignItems: 'center',
+      padding: '2px 8px',
+      fontSize: '12px',
+      fontWeight: 500,
+      border: '1px solid',
+      borderRadius: '4px',
+    };
+
+    switch (status) {
+      case 'vigente':
+        return {
+          ...base,
+          backgroundColor: 'rgba(0,230,118,0.15)',
+          color: '#00E676',
+          borderColor: 'rgba(0,230,118,0.3)',
+        };
+      case 'proximo_vencer':
+        return {
+          ...base,
+          backgroundColor: 'rgba(255,184,0,0.15)',
+          color: '#FFB800',
+          borderColor: 'rgba(255,184,0,0.3)',
+        };
+      case 'vencido':
+        return {
+          ...base,
+          backgroundColor: 'rgba(255,61,87,0.15)',
+          color: '#FF3D57',
+          borderColor: 'rgba(255,61,87,0.3)',
+        };
+      case 'pendiente':
+        return {
+          ...base,
+          backgroundColor: 'rgba(107,114,128,0.2)',
+          color: '#8892A4',
+          borderColor: 'rgba(107,114,128,0.3)',
+        };
+      default:
+        return {
+          ...base,
+          backgroundColor: 'rgba(107,114,128,0.2)',
+          color: '#8892A4',
+          borderColor: 'rgba(107,114,128,0.3)',
+        };
+    }
   };
 
-  const defaultStyle = 'bg-[rgba(107,114,128,0.2)] text-[#8892A4] border-[rgba(107,114,128,0.3)]';
-
   return (
-    <span
-      className={`inline-flex items-center px-2 py-0.5 text-xs font-medium border rounded-sm ${
-        statusStyles[status] || defaultStyle
-      }`}
-    >
+    <span style={getStyles(status)}>
       {label || status}
     </span>
   );
