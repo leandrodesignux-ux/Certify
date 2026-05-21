@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { TrendingUp, TrendingDown } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 interface StatsCardProps {
@@ -62,34 +61,65 @@ export function StatsCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] as const }}
-      className="bg-[#111827]/80 backdrop-blur-[12px] border border-[rgba(0,229,255,0.1)] rounded-sm p-5 h-[140px] flex flex-col justify-between hover:border-[rgba(0,229,255,0.2)] hover:shadow-[0_0_16px_rgba(0,229,255,0.08)] transition-all duration-200"
+      style={{
+        backgroundColor: '#111827',
+        border: `1px solid ${colors.color}22`,
+        borderRadius: '16px',
+        padding: '20px',
+        height: '150px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        position: 'relative',
+        overflow: 'hidden',
+        cursor: 'default',
+        transition: 'border-color 0.2s, transform 0.2s',
+      }}
+      whileHover={{ scale: 1.02 }}
     >
-      <div className="flex items-start justify-between">
-        <div className={`p-2 rounded-sm ${colors.bg} ${colors.glow}`}>
-          <Icon className={`w-5 h-5 ${colors.text}`} />
+      {/* Glow accent top-right */}
+      <div style={{
+        position: 'absolute', top: 0, right: 0,
+        width: '80px', height: '80px',
+        background: `radial-gradient(circle at top right, ${colors.color}18, transparent 70%)`,
+        pointerEvents: 'none',
+      }} />
+
+      {/* Top row: icon + trend */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ backgroundColor: `${colors.color}18`, borderRadius: '10px', padding: '8px' }}>
+          <Icon style={{ width: '18px', height: '18px', color: colors.color }} />
         </div>
         {trend && (
-          <div
-            className={`flex items-center text-xs ${
-              trend.direction === 'up' ? 'text-[#00E676]' : 'text-[#FF3D57]'
-            }`}
-          >
-            {trend.direction === 'up' ? (
-              <TrendingUp className="w-3 h-3 mr-1" />
-            ) : (
-              <TrendingDown className="w-3 h-3 mr-1" />
-            )}
-            {trend.value}
-          </div>
+          <span style={{
+            fontSize: '11px', fontWeight: 600,
+            color: trend.direction === 'up' ? '#00E676' : '#FF3D57',
+            backgroundColor: trend.direction === 'up' ? 'rgba(0,230,118,0.1)' : 'rgba(255,61,87,0.1)',
+            borderRadius: '12px', padding: '3px 8px',
+          }}>
+            {trend.direction === 'up' ? '↑' : '↓'} {trend.value}
+          </span>
         )}
       </div>
 
+      {/* Bottom: number + label */}
       <div>
-        <p style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '36px', fontWeight: 700, lineHeight: 1, marginTop: '8px', color: colors.color }}>
+        <p style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          fontSize: '42px', fontWeight: 700, lineHeight: 1,
+          color: '#F0F4FF', marginBottom: '4px',
+        }}>
           {value}
         </p>
-        <p className="text-[#8892A4] text-sm mt-0.5">{subtitle}</p>
+        <p style={{ fontSize: '12px', color: '#8892A4', fontWeight: 500 }}>{subtitle}</p>
       </div>
+
+      {/* Bottom accent line */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0,
+        height: '2px',
+        background: `linear-gradient(to right, ${colors.color}60, transparent)`,
+      }} />
     </motion.div>
   );
 }
