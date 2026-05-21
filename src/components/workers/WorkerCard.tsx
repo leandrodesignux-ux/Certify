@@ -1,12 +1,11 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import type { Worker } from '../../types';
 import { Card } from '../ui/Card';
-import { ProgressBar } from '../ui/ProgressBar';
 import { Button } from '../ui/Button';
 import { getComplianceColor } from '../../utils/colors';
-import { Eye, AlertCircle } from 'lucide-react';
+import { Eye, Mail, Building, Calendar, Award, Layers } from 'lucide-react';
 
 interface WorkerCardProps {
   worker: Worker;
@@ -15,97 +14,167 @@ interface WorkerCardProps {
 
 function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
   const navigate = useNavigate();
-
-  const hasExpiredCerts = worker.certifications.some(
-    (cert) => cert.estado === 'vencido'
-  );
+  const [isFlipped, setIsFlipped] = useState(false);
 
   const initials = `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase();
   const scoreColor = getComplianceColor(worker.complianceScore);
+
+  const vigentesCount = worker.certifications.filter(c => c.estado === 'vigente').length;
+  const vencidasCount = worker.certifications.filter(c => c.estado === 'vencido').length;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] as const }}
-      whileHover={{ y: -4 }}
-      className="w-full"
+      className="w-full flex flex-col gap-3"
     >
-      <Card
-        variant="glass"
-        padding="md"
-        className={`relative ${hasExpiredCerts ? 'border-l-[3px] border-l-[#FF3D57]' : ''}`}
+      {/* 3D Flip Card Container */}
+      <div
+        className="relative w-full aspect-[3/4] min-h-[320px] cursor-pointer"
+        style={{ perspective: '1000px' }}
+        onMouseEnter={() => setIsFlipped(true)}
+        onMouseLeave={() => setIsFlipped(false)}
       >
-        {/* Alert Badge */}
-        {hasExpiredCerts && (
-          <div className="absolute -top-2 -right-2 w-6 h-6 bg-[#FF3D57] rounded-full flex items-center justify-center animate-pulse">
-            <AlertCircle className="w-4 h-4 text-white" />
-          </div>
-        )}
-
-        {/* Header: Avatar + Info */}
-        <div className="flex items-start gap-3 mb-4">
-          {/* Avatar */}
-          {worker.foto ? (
-            <img
-              src={worker.foto}
-              alt={`${worker.nombre} ${worker.apellidos}`}
-              className="w-12 h-12 rounded-full object-cover border-2 border-[rgba(0,229,255,0.3)]"
-            />
-          ) : (
-            <div className="w-12 h-12 rounded-full bg-[#1C2333] border border-[rgba(0,229,255,0.2)] flex items-center justify-center shadow-[0_0_12px_rgba(0,229,255,0.15)]">
-              <span className="font-display text-lg font-semibold text-[#00E5FF]">
-                {initials}
-              </span>
-            </div>
-          )}
-
-          {/* Info */}
-          <div className="flex-1 min-w-0">
-            <h3 className="font-display text-base font-semibold text-[#F0F4FF] truncate">
-              {worker.nombre} {worker.apellidos}
-            </h3>
-            <p className="text-sm text-[#8892A4] truncate">{worker.cargo}</p>
-          </div>
-
-          {/* Score */}
-          <div className="text-right">
-            <span className={`font-display text-2xl font-bold ${scoreColor}`}>
-              {worker.complianceScore}
-            </span>
-          </div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="mb-4">
-          <ProgressBar
-            value={worker.complianceScore}
-            showLabel={false}
-          />
-        </div>
-
-        {/* Badges */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          <span className="px-2 py-0.5 bg-[rgba(0,229,255,0.1)] text-[#00E5FF] text-xs rounded-sm border border-[rgba(0,229,255,0.2)]">
-            {worker.area}
-          </span>
-          {worker.activeMeshes.length > 0 && (
-            <span className="px-2 py-0.5 bg-[rgba(170,255,0,0.1)] text-[#AAFF00] text-xs rounded-sm border border-[rgba(170,255,0,0.2)]">
-              {worker.activeMeshes.length} malla{worker.activeMeshes.length > 1 ? 's' : ''}
-            </span>
-          )}
-        </div>
-
-        {/* Action Button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          icon={Eye}
-          onClick={() => navigate(`/workers/${worker.id}`)}
+        <motion.div
+          className="relative w-full h-full"
+          style={{ transformStyle: 'preserve-3d' }}
+          animate={{ rotateY: isFlipped ? 180 : 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
         >
-          Ver Perfil
-        </Button>
-      </Card>
+          {/* FRONT */}
+          <div
+            className="absolute inset-0 w-full h-full"
+            style={{ backfaceVisibility: 'hidden' }}
+          >
+            <Card
+              variant="glass"
+              padding="sm"
+              className="relative w-full h-full bg-[#0D1117] border-[rgba(0,229,255,0.1)] overflow-hidden !p-0"
+            >
+              {/* Photo Area - Top 60% */}
+              <div className="h-[60%] w-full relative overflow-hidden">
+                {worker.foto ? (
+                  <img
+                    src={worker.foto}
+                    alt={`${worker.nombre} ${worker.apellidos}`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-[#1C2333] flex items-center justify-center">
+                    <span className="font-display text-5xl font-bold text-[#00E5FF]">
+                      {initials}
+                    </span>
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent" />
+              </div>
+
+              {/* Info Area - Bottom 40% */}
+              <div className="h-[40%] p-4 flex flex-col justify-between">
+                <div>
+                  <h3 className="font-display text-lg font-semibold text-[#F0F4FF] truncate">
+                    {worker.nombre} {worker.apellidos}
+                  </h3>
+                  <p className="text-sm text-[#8892A4] truncate">{worker.cargo}</p>
+                </div>
+
+                {/* Compliance Score Badge */}
+                <div className="flex justify-end">
+                  <div className={`font-display text-3xl font-bold ${scoreColor}`}>
+                    {worker.complianceScore}
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* BACK */}
+          <div
+            className="absolute inset-0 w-full h-full"
+            style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+          >
+            <Card
+              variant="glass"
+              padding="md"
+              className="relative w-full h-full bg-[#0D1117] border-[rgba(0,229,255,0.1)] overflow-hidden flex flex-col"
+            >
+              {/* Header */}
+              <div className="mb-4">
+                <h3 className="font-display text-base font-semibold text-[#F0F4FF] truncate">
+                  {worker.nombre} {worker.apellidos}
+                </h3>
+              </div>
+
+              {/* Info Grid */}
+              <div className="flex-1 space-y-2 text-sm">
+                <div className="flex items-center gap-2 text-[#8892A4]">
+                  <span className="text-[#00E5FF] font-mono">RUT:</span>
+                  <span className="text-[#F0F4FF]">{worker.rut}</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-[#8892A4]">
+                  <Mail className="w-3.5 h-3.5 text-[#00E5FF]" />
+                  <span className="text-[#F0F4FF] truncate">{worker.email}</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-[#8892A4]">
+                  <Building className="w-3.5 h-3.5 text-[#00E5FF]" />
+                  <span className="text-[#F0F4FF]">{worker.area}</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-[#8892A4]">
+                  <span className="text-[#00E5FF] font-mono">Emp:</span>
+                  <span className="text-[#F0F4FF]">{worker.empresa}</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-[#8892A4]">
+                  <Calendar className="w-3.5 h-3.5 text-[#00E5FF]" />
+                  <span className="text-[#F0F4FF]">{new Date(worker.fechaIngreso).toLocaleDateString('es-CL')}</span>
+                </div>
+
+                {/* Mallas Active */}
+                <div className="flex items-center gap-2 text-[#8892A4]">
+                  <Layers className="w-3.5 h-3.5 text-[#AAFF00]" />
+                  <span className="text-[#F0F4FF]">{worker.activeMeshes.length} malla{worker.activeMeshes.length !== 1 ? 's' : ''} activa{worker.activeMeshes.length !== 1 ? 's' : ''}</span>
+                </div>
+
+                {/* Divider */}
+                <div className="h-px bg-[rgba(0,229,255,0.1)] my-3" />
+
+                {/* Certifications Stats */}
+                <div className="flex items-center gap-2">
+                  <Award className="w-3.5 h-3.5 text-[#00E5FF]" />
+                  <span className="text-[#8892A4]">Certs:</span>
+                  <span className="text-[#00E676]">{vigentesCount} vigentes</span>
+                  {vencidasCount > 0 && (
+                    <span className="text-[#FF3D57]">/ {vencidasCount} vencidas</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Compliance Score */}
+              <div className="mt-auto pt-3 flex justify-between items-center">
+                <span className="text-sm text-[#8892A4]">Compliance</span>
+                <span className={`font-display text-2xl font-bold ${scoreColor}`}>
+                  {worker.complianceScore}
+                </span>
+              </div>
+            </Card>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Ver Detalles Button - Outside flip container */}
+      <Button
+        variant="ghost"
+        size="sm"
+        icon={Eye}
+        onClick={() => navigate(`/workers/${worker.id}`)}
+        className="w-full"
+      >
+        Ver Detalles
+      </Button>
     </motion.div>
   );
 }
