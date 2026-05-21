@@ -9,6 +9,7 @@ import { CertTrendChart } from '../components/dashboard/CertTrendChart';
 import { ComplianceBarChart } from '../components/dashboard/ComplianceBarChart';
 import { StatusDonutChart } from '../components/dashboard/StatusDonutChart';
 import { TopUrgentWorkers } from '../components/dashboard/TopUrgentWorkers';
+import { AreaComplianceCards } from '../components/dashboard/AreaComplianceCards';
 import { Card } from '../components/ui/Card';
 
 const sectionVariants = {
@@ -99,6 +100,11 @@ export function Dashboard() {
           color="volt"
           delay={0.3}
         />
+      </motion.div>
+
+      {/* FILA: Mini cards de compliance por área */}
+      <motion.div custom={0.15} variants={sectionVariants} initial="hidden" animate="visible">
+        <AreaComplianceCards />
       </motion.div>
 
       {/* FILA 2: Layout asimétrico — 2/3 izquierda + 1/3 derecha */}
