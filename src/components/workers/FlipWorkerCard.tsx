@@ -3,9 +3,8 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import type { Worker } from '../../types';
 import { mockMeshes } from '../../data/mockData';
-import { getComplianceColor } from '../../utils/colors';
 import { ProgressBar } from '../ui/ProgressBar';
-import { Eye, RotateCcw, AlertCircle } from 'lucide-react';
+import { RotateCcw, AlertCircle, Eye } from 'lucide-react';
 
 interface Props { worker: Worker; index?: number; }
 
@@ -13,115 +12,228 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
   const navigate = useNavigate();
   const [flipped, setFlipped] = useState(false);
   const initials = `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase();
-  const scoreColor = getComplianceColor(worker.complianceScore);
   const expired = worker.certifications.some(c => c.estado === 'vencido');
   const meshes = mockMeshes.filter(m => worker.activeMeshes.includes(m.id));
   const vigentes = worker.certifications.filter(c => c.estado === 'vigente').length;
   const vencidas = worker.certifications.filter(c => c.estado === 'vencido').length;
-  const proximas = worker.certifications.filter(c => c.estado === 'proximo_vencer').length;
+
+  const scoreColor = worker.complianceScore >= 80 ? '#00E676'
+    : worker.complianceScore >= 60 ? '#FFB800' : '#FF3D57';
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04, duration: 0.4, ease: [0.16,1,0.3,1] }}
-      className="flex flex-col gap-2"
+      style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}
     >
-      <div style={{ perspective: '1200px' }} className="w-full relative">
-        <div style={{ height: '340px' }}>
-          <motion.div
-            animate={{ rotateY: flipped ? 180 : 0 }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
-            style={{ transformStyle: 'preserve-3d', width: '100%', height: '100%', position: 'relative', cursor: 'pointer' }}
-            onClick={() => setFlipped(f => !f)}
-            whileHover={{ scale: 1.02 }}
-          >
-          {/* FRONT */}
-          <div style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', position: 'absolute', inset: 0 }}
-            className="rounded-2xl overflow-hidden border border-[rgba(0,229,255,0.15)] bg-[#111827] shadow-lg">
+      {/* Card flip container */}
+      <div style={{ perspective: '1200px', width: '100%' }}>
+        <motion.div
+          animate={{ rotateY: flipped ? 180 : 0 }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          style={{
+            transformStyle: 'preserve-3d',
+            width: '100%',
+            height: '300px',
+            position: 'relative',
+            cursor: 'pointer',
+          }}
+          onClick={() => setFlipped(f => !f)}
+          whileHover={{ scale: 1.01 }}
+        >
+          {/* ===== FRONT ===== */}
+          <div style={{
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+            position: 'absolute',
+            inset: 0,
+            borderRadius: '16px',
+            overflow: 'hidden',
+            backgroundColor: '#111827',
+            border: '1px solid rgba(0,229,255,0.12)',
+          }}>
+            {/* Alert badge */}
             {expired && (
-              <div className="absolute top-3 right-3 z-20 w-7 h-7 bg-[#FF3D57] rounded-full flex items-center justify-center shadow-[0_0_14px_rgba(255,61,87,0.7)] animate-pulse">
-                <AlertCircle className="w-4 h-4 text-white" />
+              <div style={{
+                position: 'absolute', top: '10px', right: '10px', zIndex: 20,
+                width: '28px', height: '28px', borderRadius: '50%',
+                backgroundColor: '#FF3D57',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 0 14px rgba(255,61,87,0.7)',
+                animation: 'pulse 2s infinite',
+              }}>
+                <AlertCircle style={{ width: '14px', height: '14px', color: 'white' }} />
               </div>
             )}
-            <div className="relative h-52 overflow-hidden">
+
+            {/* Full photo */}
+            <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
               {worker.foto
-                ? <img src={worker.foto} alt={worker.nombre} className="w-full h-full object-cover object-top" />
-                : <div className="w-full h-full bg-[#1C2333] flex items-center justify-center"><span className="text-5xl font-bold text-[#00E5FF]">{initials}</span></div>
+                ? <img src={worker.foto} alt={worker.nombre}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+                : <div style={{
+                    width: '100%', height: '100%',
+                    backgroundColor: '#1C2333',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '64px', fontWeight: 700, color: '#00E5FF' }}>{initials}</span>
+                  </div>
               }
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-transparent to-transparent" />
-              <div className={`absolute bottom-3 right-3 px-2.5 py-1 rounded-full text-xs font-bold border bg-[#111827]/80 ${scoreColor} border-current`}>
-                {worker.complianceScore}%
-              </div>
-              <div className="absolute bottom-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[rgba(0,229,255,0.2)] text-[#00E5FF] border border-[rgba(0,229,255,0.4)]">
-                {worker.area}
+              {/* Gradient overlay */}
+              <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(to top, rgba(17,24,39,0.95) 0%, rgba(17,24,39,0.3) 50%, transparent 100%)',
+              }} />
+              {/* Area badge top-left */}
+              <div style={{
+                position: 'absolute', top: '10px', left: '10px',
+                backgroundColor: 'rgba(0,229,255,0.2)',
+                border: '1px solid rgba(0,229,255,0.4)',
+                borderRadius: '20px', padding: '3px 10px',
+                fontSize: '10px', fontWeight: 700, color: '#00E5FF',
+              }}>{worker.area}</div>
+              {/* Score badge bottom-right */}
+              <div style={{
+                position: 'absolute', bottom: '10px', right: '10px',
+                backgroundColor: 'rgba(10,14,26,0.9)',
+                border: `1px solid ${scoreColor}`,
+                borderRadius: '20px', padding: '3px 10px',
+                fontSize: '11px', fontWeight: 700, color: scoreColor,
+              }}>{worker.complianceScore}%</div>
+              {/* Name + cargo overlay bottom-left */}
+              <div style={{ position: 'absolute', bottom: '10px', left: '12px' }}>
+                <p style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: '17px', fontWeight: 700, color: '#F0F4FF',
+                  lineHeight: 1.2, marginBottom: '2px',
+                  textShadow: '0 1px 4px rgba(0,0,0,0.8)',
+                }}>
+                  {worker.nombre} {worker.apellidos}
+                </p>
+                <p style={{ fontSize: '11px', color: '#8892A4', textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
+                  {worker.cargo}
+                </p>
               </div>
             </div>
-            <div className="px-4 py-3">
-              <p className="font-bold text-[#F0F4FF] text-sm leading-tight">{worker.nombre} {worker.apellidos}</p>
-              <p className="text-[11px] text-[#8892A4] mt-0.5 truncate">{worker.cargo}</p>
-              <div className="mt-2.5">
-                <ProgressBar value={worker.complianceScore} showLabel={false} />
+
+            {/* Bottom info strip */}
+            <div style={{
+              padding: '10px 14px',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            }}>
+              <ProgressBar value={worker.complianceScore} showLabel={false} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '8px', flexShrink: 0 }}>
+                <RotateCcw style={{ width: '11px', height: '11px', color: '#4A5568' }} />
+                <span style={{ fontSize: '10px', color: '#4A5568' }}>girar</span>
               </div>
-            </div>
-            <div className="absolute bottom-2.5 right-3 flex items-center gap-1 text-[#4A5568]">
-              <RotateCcw className="w-3 h-3" /><span className="text-[10px]">girar</span>
             </div>
           </div>
 
-          {/* BACK */}
-          <div style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', position: 'absolute', inset: 0, transform: 'rotateY(180deg)' }}
-            className="rounded-2xl border border-[rgba(0,229,255,0.2)] bg-[#0D1117] p-4 overflow-y-auto">
-            <div className="flex items-center gap-3 pb-3 mb-3 border-b border-[rgba(255,255,255,0.07)]">
+          {/* ===== BACK ===== */}
+          <div style={{
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+            position: 'absolute',
+            inset: 0,
+            transform: 'rotateY(180deg)',
+            borderRadius: '16px',
+            backgroundColor: '#0D1B2A',
+            border: '1px solid rgba(0,229,255,0.2)',
+            padding: '16px',
+            overflowY: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+          }}>
+            {/* Avatar + nombre */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingBottom: '12px', borderBottom: '1px solid rgba(0,229,255,0.08)' }}>
               {worker.foto
-                ? <img src={worker.foto} alt={worker.nombre} className="w-10 h-10 rounded-full object-cover border-2 border-[rgba(0,229,255,0.3)]" />
-                : <div className="w-10 h-10 rounded-full bg-[#1C2333] flex items-center justify-center text-[#00E5FF] font-bold text-sm">{initials}</div>
+                ? <img src={worker.foto} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(0,229,255,0.4)', flexShrink: 0 }} />
+                : <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: '#1C2333', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00E5FF', fontWeight: 700, fontSize: '15px', flexShrink: 0 }}>{initials}</div>
               }
-              <div className="min-w-0">
-                <p className="text-sm font-bold text-[#F0F4FF] truncate">{worker.nombre} {worker.apellidos}</p>
-                <p className="text-[10px] text-[#8892A4]">{worker.rut}</p>
+              <div style={{ minWidth: 0 }}>
+                <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1.2 }}>{worker.nombre} {worker.apellidos}</p>
+                <p style={{ fontSize: '10px', color: '#8892A4', fontFamily: '"JetBrains Mono"', marginTop: '2px' }}>{worker.rut}</p>
               </div>
             </div>
-            <div className="space-y-1.5 mb-3 text-[11px]">
-              <div className="flex justify-between gap-2"><span className="text-[#8892A4] shrink-0">Email</span><span className="text-[#F0F4FF] truncate text-right">{worker.email}</span></div>
-              <div className="flex justify-between gap-2"><span className="text-[#8892A4] shrink-0">Empresa</span><span className="text-[#F0F4FF] truncate text-right">{worker.empresa}</span></div>
-              <div className="flex justify-between gap-2"><span className="text-[#8892A4] shrink-0">Depto.</span><span className="text-[#F0F4FF] text-right">{worker.departamento}</span></div>
+
+            {/* DATOS PERSONALES */}
+            <div>
+              <p style={{ fontSize: '9px', fontWeight: 700, color: '#4A5568', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>DATOS PERSONALES</p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 12px' }}>
+                {[
+                  { label: 'RUT', value: worker.rut },
+                  { label: 'Email', value: worker.email },
+                  { label: 'Faena', value: worker.departamento },
+                  { label: 'VP', value: worker.area },
+                ].map(item => (
+                  <div key={item.label}>
+                    <p style={{ fontSize: '9px', color: '#4A5568' }}>{item.label}</p>
+                    <p style={{ fontSize: '11px', color: '#F0F4FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.value}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-1.5 mb-3">
-              {vigentes > 0 && <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[rgba(0,230,118,0.15)] text-[#00E676] border border-[rgba(0,230,118,0.3)]">{vigentes} vigentes</span>}
-              {vencidas > 0 && <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[rgba(255,61,87,0.15)] text-[#FF3D57] border border-[rgba(255,61,87,0.3)]">{vencidas} vencidas</span>}
-              {proximas > 0 && <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[rgba(255,184,0,0.15)] text-[#FFB800] border border-[rgba(255,184,0,0.3)]">{proximas} próx.</span>}
-            </div>
+
+            {/* MALLAS EN CURSO */}
             {meshes.length > 0 && (
               <div>
-                <p className="text-[10px] text-[#8892A4] uppercase tracking-wider mb-2">Mallas</p>
-                <div className="space-y-2">
-                  {meshes.map(m => (
-                    <div key={m.id}>
-                      <div className="flex justify-between text-[10px] mb-1">
-                        <span className="text-[#F0F4FF] truncate max-w-[75%]">{m.nombre}</span>
-                        <span className="text-[#00E5FF] font-mono">{m.completionRate}%</span>
-                      </div>
-                      <ProgressBar value={m.completionRate} showLabel={false} />
+                <p style={{ fontSize: '9px', fontWeight: 700, color: '#4A5568', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>MALLAS EN CURSO</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {meshes.slice(0, 3).map(m => (
+                    <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <p style={{ fontSize: '10px', color: '#F0F4FF', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.nombre}</p>
+                      <span style={{ fontSize: '9px', backgroundColor: 'rgba(0,229,255,0.15)', color: '#00E5FF', borderRadius: '4px', padding: '1px 5px', fontWeight: 700, flexShrink: 0 }}>
+                        {m.completionRate} de 15
+                      </span>
+                      <span style={{ fontSize: '10px', color: '#00E5FF', cursor: 'pointer', flexShrink: 0, fontWeight: 600 }}>Ver</span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
-            <div className="absolute bottom-2.5 right-3 flex items-center gap-1 text-[#4A5568]">
-              <RotateCcw className="w-3 h-3" /><span className="text-[10px]">volver</span>
+
+            {/* Cert badges */}
+            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: 'auto' }}>
+              {vigentes > 0 && <span style={{ padding: '2px 8px', borderRadius: '20px', fontSize: '10px', fontWeight: 600, backgroundColor: 'rgba(0,230,118,0.15)', color: '#00E676', border: '1px solid rgba(0,230,118,0.3)' }}>{vigentes} vigentes</span>}
+              {vencidas > 0 && <span style={{ padding: '2px 8px', borderRadius: '20px', fontSize: '10px', fontWeight: 600, backgroundColor: 'rgba(255,61,87,0.15)', color: '#FF3D57', border: '1px solid rgba(255,61,87,0.3)' }}>{vencidas} vencidas</span>}
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end' }}>
+              <RotateCcw style={{ width: '11px', height: '11px', color: '#4A5568' }} />
+              <span style={{ fontSize: '10px', color: '#4A5568' }}>volver</span>
             </div>
           </div>
-          </motion.div>
-        </div>
+        </motion.div>
       </div>
 
+      {/* VER PERFIL button — debajo de la card, como la imagen de referencia */}
       <button
-        onClick={() => navigate(`/workers/${worker.id}`)}
-        className="w-full py-2 text-[13px] font-semibold text-[#00E5FF] border border-[rgba(0,229,255,0.25)] rounded-xl bg-transparent hover:bg-[rgba(0,229,255,0.08)] hover:border-[rgba(0,229,255,0.5)] transition-all duration-150 flex items-center justify-center gap-2"
+        onClick={(e) => { e.stopPropagation(); navigate(`/workers/${worker.id}`); }}
+        style={{
+          width: '100%',
+          padding: '10px',
+          backgroundColor: '#00E5FF',
+          color: '#0A0E1A',
+          border: 'none',
+          borderRadius: '0 0 16px 16px',
+          fontSize: '13px',
+          fontWeight: 700,
+          cursor: 'pointer',
+          letterSpacing: '0.5px',
+          fontFamily: '"Barlow Condensed", sans-serif',
+          transition: 'background-color 0.15s',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '6px',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#00CCEE')}
+        onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#00E5FF')}
       >
-        <Eye className="w-4 h-4" />
-        Ver Detalles
+        <Eye style={{ width: '14px', height: '14px' }} />
+        VER MÁS DETALLES
       </button>
     </motion.div>
   );
