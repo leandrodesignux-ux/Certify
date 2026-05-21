@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Download, ShieldCheck, ShieldAlert, Users2 } from 'lucide-react';
+import { Users, Download, ShieldCheck, ShieldAlert, Users2, Filter } from 'lucide-react';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { FlipWorkerCard } from '../components/workers/FlipWorkerCard';
 import { WorkerFilter } from '../components/workers/WorkerFilter';
@@ -25,10 +25,12 @@ const sectionVariants = {
 
 function WorkersComponent() {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
-  const { filteredWorkers, workers } = useWorkerStore();
+  const [showFilters, setShowFilters] = useState(false);
+  const { filteredWorkers, workers, filters } = useWorkerStore();
 
   const displayWorkers = filteredWorkers();
   const totalWorkers = workers.length;
+  const activeFiltersCount = [filters.area, filters.search, filters.complianceMin > 0].filter(Boolean).length;
 
   // Stats calculations
   const complianceOkCount = workers.filter(w => w.complianceScore >= 80).length;
@@ -44,19 +46,48 @@ function WorkersComponent() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+        style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}
       >
-        <div>
-          <h1 className="font-display text-3xl font-bold text-[#F0F4FF] tracking-tight">
-            Trabajadores
+        <div style={{ flex: 1 }}>
+          <h1 style={{
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: '28px',
+            fontWeight: 700,
+            color: '#F0F4FF',
+            letterSpacing: '2px',
+            textTransform: 'uppercase',
+            textAlign: 'center',
+          }}>
+            MALLA DE APRENDIZAJE
           </h1>
-          <p className="text-[#8892A4] mt-1">
-            {totalWorkers} trabajadores registrados en el sistema
+          <p style={{ color: '#8892A4', fontSize: '13px', textAlign: 'center', marginTop: '4px' }}>
+            {totalWorkers} trabajadores registrados · Corpa Andina Minera S.A.
           </p>
         </div>
-        <Button variant="ghost" size="md" icon={Download}>
-          Exportar
-        </Button>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button
+            onClick={() => setShowFilters(f => !f)}
+            style={{
+              padding: '8px 20px',
+              backgroundColor: showFilters ? 'rgba(0,229,255,0.15)' : 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(0,229,255,0.3)',
+              borderRadius: '8px',
+              color: '#00E5FF',
+              fontSize: '13px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
+          >
+            <Filter style={{ width: '14px', height: '14px' }} />
+            FILTROS {activeFiltersCount > 0 ? `(${activeFiltersCount})` : ''}
+          </button>
+          <Button variant="ghost" size="md" icon={Download}>
+            Exportar
+          </Button>
+        </div>
       </motion.div>
 
       {/* Stats Bar */}
@@ -101,15 +132,17 @@ function WorkersComponent() {
         </div>
       </motion.div>
 
-      {/* Filters */}
-      <motion.div
-        custom={0.1}
-        variants={sectionVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <WorkerFilter viewMode={viewMode} onViewModeChange={setViewMode} />
-      </motion.div>
+      {/* Filters - Toggleable */}
+      {showFilters && (
+        <motion.div
+          custom={0.1}
+          variants={sectionVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <WorkerFilter viewMode={viewMode} onViewModeChange={setViewMode} />
+        </motion.div>
+      )}
 
       {/* Results Summary */}
       <motion.div
@@ -149,11 +182,13 @@ function WorkersComponent() {
             </Button>
           </Card>
         ) : viewMode === 'grid' ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(5, 1fr)',
+            gap: '16px',
+          }}>
             {displayWorkers.map((worker, index) => (
-              <div key={worker.id} className="flex flex-col gap-2">
-                <FlipWorkerCard key={worker.id} worker={worker} index={index} />
-              </div>
+              <FlipWorkerCard key={worker.id} worker={worker} index={index} />
             ))}
           </div>
         ) : (
