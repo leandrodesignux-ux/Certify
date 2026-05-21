@@ -34,11 +34,17 @@ function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-[#0A0E1A]/90 backdrop-blur-lg border-b border-[rgba(0,229,255,0.1)]'
-          : 'bg-transparent'
-      }`}
+      style={{
+        position: 'sticky',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        backgroundColor: scrolled ? 'rgba(10,14,26,0.85)' : 'transparent',
+        borderBottom: scrolled ? '1px solid rgba(0,229,255,0.1)' : 'none',
+        transition: 'all 0.3s ease',
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
@@ -83,9 +89,9 @@ function Hero() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: '#0A0E1A' }}>
       {/* Background */}
-      <div className="absolute inset-0 bg-[#0A0E1A]">
+      <div style={{ position: 'absolute', inset: 0, backgroundColor: '#0A0E1A' }}>
         <div
           className="absolute inset-0 opacity-30"
           style={{
@@ -108,7 +114,14 @@ function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-display text-6xl md:text-7xl font-bold text-[#00E5FF] tracking-tight"
+          style={{
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 'clamp(48px, 8vw, 96px)',
+            fontWeight: 700,
+            color: '#00E5FF',
+            lineHeight: 1.1,
+            letterSpacing: '-0.02em',
+          }}
         >
           Del papel al panel.
         </motion.h1>
@@ -118,7 +131,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-6 text-xl text-[#8892A4] max-w-2xl mx-auto"
+          style={{ marginTop: '24px', fontSize: '20px', color: '#8892A4', maxWidth: '672px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}
         >
           Certifica el talento industrial en tiempo real.
           <br />
@@ -130,14 +143,40 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+          style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px' }}
         >
-          <Button variant="primary" size="lg" icon={ArrowRight} onClick={() => navigate('/dashboard')}>
-            Ver Dashboard
-          </Button>
-          <Button variant="ghost" size="lg">
+          <button
+            onClick={() => navigate('/dashboard')}
+            style={{
+              backgroundColor: '#00E5FF',
+              color: '#0A0E1A',
+              padding: '12px 28px',
+              borderRadius: '8px',
+              fontWeight: 600,
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            Ver Dashboard <ArrowRight style={{ width: '20px', height: '20px' }} />
+          </button>
+          <button
+            style={{
+              backgroundColor: 'transparent',
+              color: '#F0F4FF',
+              padding: '12px 28px',
+              borderRadius: '8px',
+              fontWeight: 600,
+              border: '1px solid rgba(240,244,255,0.25)',
+              cursor: 'pointer',
+              fontSize: '16px',
+            }}
+          >
             Ver Demo
-          </Button>
+          </button>
         </motion.div>
 
         {/* Mockup */}
@@ -255,7 +294,12 @@ function PainPoints() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-[#111827]/80 backdrop-blur-sm border border-[rgba(0,229,255,0.1)] rounded-sm p-6 hover:border-[rgba(0,229,255,0.2)] transition-colors"
+                style={{
+                  backgroundColor: '#111827',
+                  border: '1px solid rgba(0,229,255,0.1)',
+                  borderRadius: '12px',
+                  padding: '24px',
+                }}
               >
                 <Icon className="w-10 h-10 mb-4" style={{ color: pain.color }} />
                 <h3 className="font-display text-xl font-semibold text-[#F0F4FF] mb-2">
@@ -346,10 +390,10 @@ function Stats() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="text-center"
+              style={{ textAlign: 'center' }}
             >
-              <p className="font-display text-6xl font-bold text-[#00E5FF]">{stat.value}</p>
-              <p className="mt-2 text-[#8892A4]">{stat.label}</p>
+              <p style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '56px', fontWeight: 700, color: '#00E5FF' }}>{stat.value}</p>
+              <p style={{ marginTop: '8px', color: '#8892A4' }}>{stat.label}</p>
             </motion.div>
           ))}
         </div>
@@ -397,19 +441,24 @@ function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="bg-[#111827]/80 backdrop-blur-sm border border-[rgba(0,229,255,0.1)] rounded-sm p-8"
+              style={{
+                backgroundColor: '#1C2333',
+                border: '1px solid rgba(0,229,255,0.08)',
+                borderRadius: '12px',
+                padding: '24px',
+              }}
             >
-              <Quote className="w-8 h-8 text-[#00E5FF] mb-4" />
-              <p className="text-[#F0F4FF] leading-relaxed mb-6">"{testimonial.quote}"</p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-[#1C2333] border border-[rgba(0,229,255,0.2)] flex items-center justify-center">
-                  <span className="font-display font-bold text-[#00E5FF]">
+              <Quote style={{ width: '32px', height: '32px', color: '#00E5FF', marginBottom: '16px' }} />
+              <p style={{ color: '#F0F4FF', lineHeight: 1.6, marginBottom: '24px' }}>"{testimonial.quote}"</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '9999px', backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontWeight: 700, color: '#00E5FF' }}>
                     {testimonial.initials}
                   </span>
                 </div>
                 <div>
-                  <p className="font-medium text-[#F0F4FF]">{testimonial.name}</p>
-                  <p className="text-sm text-[#8892A4]">
+                  <p style={{ fontWeight: 500, color: '#F0F4FF' }}>{testimonial.name}</p>
+                  <p style={{ fontSize: '14px', color: '#8892A4' }}>
                     {testimonial.role}, {testimonial.company}
                   </p>
                 </div>
