@@ -8,15 +8,21 @@ const CustomTooltip = ({ active, payload }: {
   if (active && payload && payload.length) {
     const data = payload[0];
     return (
-      <div className="bg-[#111827] border border-[rgba(0,229,255,0.25)] rounded-sm p-3 backdrop-blur-[12px]">
-        <div className="flex items-center gap-2">
+      <div style={{
+        backgroundColor: '#1C2333',
+        border: '1px solid rgba(0,229,255,0.2)',
+        borderRadius: '8px',
+        color: '#F0F4FF',
+        fontSize: '12px',
+        padding: '12px',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div
-            className="w-2 h-2 rounded-full"
-            style={{ backgroundColor: data.payload.color }}
+            style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: data.payload.color }}
           />
-          <span className="text-[#8892A4] text-sm">{data.name}</span>
+          <span style={{ color: '#8892A4' }}>{data.name}</span>
         </div>
-        <p className="text-[#F0F4FF] font-mono text-lg mt-1">{data.value}</p>
+        <p style={{ color: '#F0F4FF', fontFamily: '"JetBrains Mono", monospace', fontSize: '14px', marginTop: '4px' }}>{data.value}</p>
       </div>
     );
   }
@@ -34,15 +40,15 @@ export function StatusDonutChart() {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="h-[200px] w-full relative">
+      <div style={{ height: '280px', width: '100%', position: 'relative' }}>
         <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
+          <PieChart style={{ backgroundColor: 'transparent' }}>
             <Pie
               data={data}
               cx="50%"
               cy="50%"
-              innerRadius={60}
-              outerRadius={80}
+              innerRadius="55%"
+              outerRadius="75%"
               paddingAngle={3}
               dataKey="value"
               stroke="none"
@@ -57,7 +63,7 @@ export function StatusDonutChart() {
                 />
               ))}
             </Pie>
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip />} contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '8px', color: '#F0F4FF', fontSize: '12px' }} />
           </PieChart>
         </ResponsiveContainer>
 

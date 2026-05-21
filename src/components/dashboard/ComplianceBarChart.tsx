@@ -17,9 +17,16 @@ const CustomTooltip = ({ active, payload }: {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="bg-[#111827] border border-[rgba(0,229,255,0.25)] rounded-sm p-3 backdrop-blur-[12px]">
-        <p className="text-[#F0F4FF] font-medium text-sm">{data.label}</p>
-        <p className="text-[#00E5FF] font-mono text-lg mt-1">{data.value}%</p>
+      <div style={{
+        backgroundColor: '#1C2333',
+        border: '1px solid rgba(0,229,255,0.2)',
+        borderRadius: '8px',
+        color: '#F0F4FF',
+        fontSize: '12px',
+        padding: '12px',
+      }}>
+        <p style={{ fontWeight: 500, marginBottom: '4px' }}>{data.label}</p>
+        <p style={{ color: '#00E5FF', fontFamily: '"JetBrains Mono", monospace', fontSize: '14px' }}>{data.value}%</p>
       </div>
     );
   }
@@ -36,22 +43,22 @@ export function ComplianceBarChart() {
   return (
     <div className="h-[280px] w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>
+        <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 0 }} style={{ backgroundColor: 'transparent' }}>
           <XAxis
             dataKey="label"
-            axisLine={false}
-            tickLine={false}
             tick={{ fill: '#8892A4', fontSize: 10 }}
+            axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
+            tickLine={false}
             interval={0}
           />
           <YAxis
-            axisLine={false}
-            tickLine={false}
             tick={{ fill: '#8892A4', fontSize: 11 }}
+            axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
+            tickLine={false}
             domain={[0, 100]}
             tickFormatter={(value) => `${value}%`}
           />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0,229,255,0.05)' }} />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0,229,255,0.05)' }} contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '8px', color: '#F0F4FF', fontSize: '12px' }} />
           <Bar dataKey="value" radius={[2, 2, 0, 0]} maxBarSize={50}>
             <LabelList
               dataKey="value"

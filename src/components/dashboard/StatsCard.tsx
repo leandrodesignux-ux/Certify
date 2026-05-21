@@ -18,26 +18,31 @@ const colorMap = {
   electric: {
     bg: 'bg-[rgba(0,229,255,0.1)]',
     text: 'text-[#00E5FF]',
+    color: '#00E5FF',
     glow: 'shadow-[0_0_12px_rgba(0,229,255,0.3)]',
   },
   volt: {
     bg: 'bg-[rgba(170,255,0,0.1)]',
     text: 'text-[#AAFF00]',
+    color: '#AAFF00',
     glow: 'shadow-[0_0_12px_rgba(170,255,0,0.3)]',
   },
   warning: {
     bg: 'bg-[rgba(255,184,0,0.1)]',
     text: 'text-[#FFB800]',
+    color: '#FFB800',
     glow: 'shadow-[0_0_12px_rgba(255,184,0,0.3)]',
   },
   danger: {
     bg: 'bg-[rgba(255,61,87,0.1)]',
     text: 'text-[#FF3D57]',
+    color: '#FF3D57',
     glow: 'shadow-[0_0_12px_rgba(255,61,87,0.3)]',
   },
   success: {
     bg: 'bg-[rgba(0,230,118,0.1)]',
     text: 'text-[#00E676]',
+    color: '#00E676',
     glow: 'shadow-[0_0_12px_rgba(0,230,118,0.3)]',
   },
 };
@@ -80,8 +85,8 @@ export function StatsCard({
       </div>
 
       <div>
-        <p className="font-display text-4xl font-bold tracking-tight mt-2">
-          <span className={colors.text}>{value}</span>
+        <p style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '36px', fontWeight: 700, lineHeight: 1, marginTop: '8px', color: colors.color }}>
+          {value}
         </p>
         <p className="text-[#8892A4] text-sm mt-0.5">{subtitle}</p>
       </div>

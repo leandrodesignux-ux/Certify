@@ -15,16 +15,22 @@ const CustomTooltip = ({ active, payload, label }: {
 }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#111827] border border-[rgba(0,229,255,0.25)] rounded-sm p-3 backdrop-blur-[12px]">
-        <p className="text-[#F0F4FF] font-medium text-sm mb-2">{label}</p>
+      <div style={{
+        backgroundColor: '#1C2333',
+        border: '1px solid rgba(0,229,255,0.2)',
+        borderRadius: '8px',
+        color: '#F0F4FF',
+        fontSize: '12px',
+        padding: '12px',
+      }}>
+        <p style={{ fontWeight: 500, marginBottom: '8px' }}>{label}</p>
         {payload.map((entry, index) => (
-          <div key={index} className="flex items-center gap-2 text-xs">
+          <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px' }}>
             <div
-              className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: entry.color }}
+              style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: entry.color }}
             />
-            <span className="text-[#8892A4]">{entry.name}:</span>
-            <span className="text-[#F0F4FF] font-mono">{entry.value}%</span>
+            <span style={{ color: '#8892A4' }}>{entry.name}:</span>
+            <span style={{ color: '#F0F4FF', fontFamily: '"JetBrains Mono", monospace' }}>{entry.value}%</span>
           </div>
         ))}
       </div>
@@ -46,26 +52,26 @@ export function CompanyComparisonChart() {
   return (
     <div className="h-[280px] w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+        <LineChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }} style={{ backgroundColor: 'transparent' }}>
           <CartesianGrid
             strokeDasharray="3 3"
-            stroke="rgba(0,229,255,0.05)"
+            stroke="rgba(255,255,255,0.05)"
             vertical={false}
           />
           <XAxis
             dataKey="month"
-            axisLine={false}
-            tickLine={false}
             tick={{ fill: '#8892A4', fontSize: 11 }}
+            axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
+            tickLine={false}
           />
           <YAxis
-            axisLine={false}
-            tickLine={false}
             tick={{ fill: '#8892A4', fontSize: 11 }}
+            axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
+            tickLine={false}
             domain={[60, 100]}
             tickFormatter={(value) => `${value}%`}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip />} contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '8px', color: '#F0F4FF', fontSize: '12px' }} />
           <Line
             type="monotone"
             dataKey="corpa"
