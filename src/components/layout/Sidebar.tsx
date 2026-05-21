@@ -48,7 +48,6 @@ export function Sidebar() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const sidebarWidth = sidebarCollapsed ? 'w-16' : 'w-60';
   const currentPath = location.pathname;
 
   return (
@@ -56,7 +55,7 @@ export function Sidebar() {
       initial={false}
       animate={{ width: sidebarCollapsed ? 64 : 240 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      className={`${sidebarWidth} h-screen bg-[#0D1B2A] border-r border-[rgba(0,229,255,0.1)] flex flex-col fixed left-0 top-0 z-50`}
+      className="h-screen bg-[#0D1B2A] border-r border-[rgba(0,229,255,0.1)] flex flex-col fixed left-0 top-0 z-50"
     >
       {/* Logo */}
       <div className="h-16 flex items-center px-4 border-b border-[rgba(0,229,255,0.1)]">
@@ -79,7 +78,8 @@ export function Sidebar() {
       {/* Toggle Button */}
       <button
         onClick={toggleSidebar}
-        className="absolute -right-3 top-20 w-6 h-6 bg-[#111827] border border-[rgba(0,229,255,0.2)] rounded-sm flex items-center justify-center text-[#8892A4] hover:text-[#00E5FF] hover:border-[#00E5FF]/40 transition-all duration-150 z-50"
+        className="absolute -right-3 top-20 w-6 h-6 bg-[#111827] border border-[rgba(0,229,255,0.2)] rounded-sm flex items-center justify-center text-[#8892A4] hover:text-[#00E5FF] hover:border-[#00E5FF]/40 transition-all duration-150"
+        style={{ zIndex: 60 }}
       >
         {sidebarCollapsed ? (
           <ChevronRight className="w-4 h-4" />
@@ -99,16 +99,37 @@ export function Sidebar() {
               <li key={item.route}>
                 <button
                   onClick={() => navigate(item.route)}
-                  className={`w-full flex items-center px-3 py-2.5 rounded-sm transition-all duration-150 group ${
-                    isActive
-                      ? 'bg-[#1C2333] text-[#00E5FF] border-l-[3px] border-[#00E5FF]'
-                      : 'text-[#8892A4] hover:bg-[#1C2333]/50 hover:text-[#F0F4FF] border-l-[3px] border-transparent'
-                  }`}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '10px 12px',
+                    borderRadius: '4px',
+                    transition: 'all 0.15s ease',
+                    backgroundColor: isActive ? 'rgba(0,229,255,0.12)' : 'transparent',
+                    color: isActive ? '#00E5FF' : '#8892A4',
+                    borderLeft: isActive ? '2px solid #00E5FF' : '2px solid transparent',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)';
+                      e.currentTarget.style.color = '#F0F4FF';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#8892A4';
+                    }
+                  }}
                 >
                   <Icon
-                    className={`w-5 h-5 flex-shrink-0 ${
-                      isActive ? 'text-[#00E5FF]' : 'text-[#8892A4] group-hover:text-[#F0F4FF]'
-                    }`}
+                    style={{
+                      width: '20px',
+                      height: '20px',
+                      flexShrink: 0,
+                      color: isActive ? '#00E5FF' : '#8892A4',
+                    }}
                   />
                   <AnimatePresence mode="wait">
                     {!sidebarCollapsed && (
@@ -117,7 +138,7 @@ export function Sidebar() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -8 }}
                         transition={{ duration: 0.15, delay: 0.05 }}
-                        className="ml-3 text-sm font-medium whitespace-nowrap"
+                        style={{ marginLeft: '12px', fontSize: '14px', fontWeight: 500, whiteSpace: 'nowrap' }}
                       >
                         {item.label}
                       </motion.span>
@@ -131,10 +152,31 @@ export function Sidebar() {
       </nav>
 
       {/* User Section */}
-      <div className="p-3 border-t border-[rgba(0,229,255,0.1)]">
-        <div className="flex items-center px-3 py-2.5 rounded-sm bg-[#1C2333]/30">
-          <div className="w-8 h-8 rounded-sm bg-gradient-to-br from-[#00E5FF]/20 to-[#AAFF00]/20 border border-[rgba(0,229,255,0.2)] flex items-center justify-center flex-shrink-0">
-            <User className="w-4 h-4 text-[#00E5FF]" />
+      <div style={{ padding: '12px', borderTop: '1px solid rgba(0,229,255,0.1)' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            padding: '10px 12px',
+            borderRadius: '4px',
+            backgroundColor: 'rgba(28,35,51,0.3)',
+            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
+          }}
+        >
+          <div
+            style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '4px',
+              background: 'linear-gradient(135deg, rgba(0,229,255,0.2) 0%, rgba(170,255,0,0.2) 100%)',
+              border: '1px solid rgba(0,229,255,0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <User style={{ width: '16px', height: '16px', color: '#00E5FF' }} />
           </div>
           <AnimatePresence mode="wait">
             {!sidebarCollapsed && (
@@ -143,16 +185,27 @@ export function Sidebar() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -8 }}
                 transition={{ duration: 0.15 }}
-                className="ml-3"
+                style={{ marginLeft: '12px' }}
               >
-                <p className="text-sm font-medium text-[#F0F4FF]">Administrador</p>
-                <p className="text-xs text-[#8892A4]">Admin</p>
+                <p style={{ fontSize: '14px', fontWeight: 500, color: '#F0F4FF' }}>Administrador</p>
+                <p style={{ fontSize: '12px', color: '#8892A4' }}>Admin</p>
               </motion.div>
             )}
           </AnimatePresence>
           {!sidebarCollapsed && (
-            <button className="ml-auto p-1.5 text-[#8892A4] hover:text-[#FF3D57] transition-colors duration-150">
-              <LogOut className="w-4 h-4" />
+            <button
+              style={{
+                marginLeft: 'auto',
+                padding: '6px',
+                color: '#8892A4',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#FF3D57'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#8892A4'}
+            >
+              <LogOut style={{ width: '16px', height: '16px' }} />
             </button>
           )}
         </div>
