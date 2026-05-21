@@ -11,11 +11,21 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
 
   return (
     <header
-      className={`h-16 bg-[#111827] border-b border-[rgba(0,229,255,0.1)] fixed top-0 right-0 z-40 flex items-center justify-between px-6 transition-all duration-300 ${
-        sidebarCollapsed ? 'left-16' : 'left-60'
-      }`}
       style={{
+        position: 'fixed',
+        top: 0,
+        right: 0,
+        left: sidebarCollapsed ? '64px' : '240px',
+        height: '64px',
+        zIndex: 40,
+        backgroundColor: '#111827',
+        borderBottom: '1px solid rgba(0,229,255,0.1)',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0 24px',
+        transition: 'left 0.3s cubic-bezier(0.16,1,0.3,1)',
       }}
     >
       {/* Left: Breadcrumb + Title */}
