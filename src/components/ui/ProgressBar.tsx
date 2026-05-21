@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 interface ProgressBarProps {
   value: number;
   showLabel?: boolean;
@@ -15,10 +17,12 @@ export function ProgressBar({ value, showLabel = false }: ProgressBarProps) {
 
   return (
     <div className="w-full flex items-center gap-2">
-      <div className="h-1.5 flex-1 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
-        <div
+      <div className="h-1.5 flex-1 bg-[rgba(255,255,255,0.07)] rounded-full overflow-hidden">
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: `${clampedValue}%` }}
+          transition={{ duration: 0.8, ease: [0.16,1,0.3,1] }}
           className={`h-full rounded-full ${getGradient()}`}
-          style={{ width: `${clampedValue}%` }}
         />
       </div>
       {showLabel && (
