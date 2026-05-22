@@ -122,7 +122,7 @@ export function Certifications() {
   // CSV export
   const exportCSV = () => {
     const headers = ['Trabajador', 'Certificación', 'Emisor', 'Tipo', 'Fecha Obtención', 'Vencimiento', 'Estado', 'Días Restantes'];
-    const rows = sorted.slice(0, 20).map((cert) => {
+    const rows = sorted.map((cert) => {
       const worker = workers.find((w) => w.id === cert.workerId);
       return [
         `${worker?.nombre} ${worker?.apellidos}`,
@@ -405,9 +405,6 @@ export function Certifications() {
                     <SortIcon field="fechaVen" />
                   </div>
                 </th>
-                <th className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider">
-                  Estado
-                </th>
                 <th
                   className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors"
                   onClick={() => handleSort('estado')}
@@ -421,7 +418,7 @@ export function Certifications() {
             </thead>
             <tbody>
               <AnimatePresence mode="wait">
-                {sorted.slice(0, 20).map((cert, index) => {
+                {sorted.map((cert, index) => {
                   const worker = workers.find((w) => w.id === cert.workerId);
                   const initials = worker
                     ? `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase()

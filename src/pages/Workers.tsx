@@ -55,10 +55,8 @@ function WorkersComponent() {
             fontWeight: 700,
             color: '#F0F4FF',
             letterSpacing: '2px',
-            textTransform: 'uppercase',
-            textAlign: 'center',
           }}>
-            MALLA DE APRENDIZAJE
+            Trabajadores
           </h1>
           <p style={{ color: '#8892A4', fontSize: '13px', textAlign: 'center', marginTop: '4px' }}>
             {totalWorkers} trabajadores registrados · Corpa Andina Minera S.A.

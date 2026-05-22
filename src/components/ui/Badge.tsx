@@ -46,6 +46,27 @@ export function Badge({ status, label }: BadgeProps) {
           color: '#8892A4',
           borderColor: 'rgba(107,114,128,0.3)',
         };
+      case 'obligatoria':
+        return {
+          ...base,
+          backgroundColor: 'rgba(255,61,87,0.12)',
+          color: '#FF3D57',
+          borderColor: 'rgba(255,61,87,0.3)',
+        };
+      case 'complementaria':
+        return {
+          ...base,
+          backgroundColor: 'rgba(170,255,0,0.12)',
+          color: '#AAFF00',
+          borderColor: 'rgba(170,255,0,0.3)',
+        };
+      case 'legal':
+        return {
+          ...base,
+          backgroundColor: 'rgba(0,229,255,0.12)',
+          color: '#00E5FF',
+          borderColor: 'rgba(0,229,255,0.3)',
+        };
       default:
         return {
           ...base,
