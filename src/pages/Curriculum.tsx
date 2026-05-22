@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Layers, BookOpen, Search, X, GraduationCap, TrendingUp, Star, Users, Calendar } from 'lucide-react';
+import { Plus, Layers, BookOpen, Search, X, GraduationCap, TrendingUp, Star, Users, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 import { mockMeshes } from '../data/mockData';
 import { MeshGrid } from '../components/curriculum/MeshGrid';
 import { Button } from '../components/ui/Button';
@@ -254,6 +254,203 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
   );
 }
 
+// ─── Side Panel ─────────────────────────────────────────────────────────────
+
+const DAY_LABELS = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+const MONTH_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+// Deterministic schedule times
+const SCHEDULE_TIMES = ['09:00 - 10:30', '11:00 - 12:00', '13:30 - 15:00', '15:30 - 16:30', '08:00 - 09:30'];
+// Spread events across the current month
+const SCHEDULE_DAYS = [3, 8, 14, 19, 24];
+
+function SidePanel() {
+  const today = new Date();
+  const [viewYear, setViewYear] = useState(today.getFullYear());
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
+
+  // Build calendar grid
+  const firstDay = new Date(viewYear, viewMonth, 1);
+  // Monday-first: 0=Mon … 6=Sun
+  const startOffset = (firstDay.getDay() + 6) % 7;
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const cells: (number | null)[] = [
+    ...Array(startOffset).fill(null),
+    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+  ];
+  // Pad to complete last row
+  while (cells.length % 7 !== 0) cells.push(null);
+
+  const isToday = (d: number | null) =>
+    d !== null &&
+    d === today.getDate() &&
+    viewMonth === today.getMonth() &&
+    viewYear === today.getFullYear();
+
+  const prevMonth = () => {
+    if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1); }
+    else setViewMonth(m => m - 1);
+  };
+  const nextMonth = () => {
+    if (viewMonth === 11) { setViewMonth(0); setViewYear(y => y + 1); }
+    else setViewMonth(m => m + 1);
+  };
+
+  // Derive schedule from first 5 in-progress courses across all meshes
+  const scheduleItems = useMemo(() => {
+    const courses: { nombre: string; completados: number; total: number }[] = [];
+    for (const mesh of mockMeshes) {
+      for (const c of mesh.cursos) {
+        if (c.estado === 'en_progreso' && courses.length < 5) {
+          const total = Math.floor(Math.random() * 8) + 4; // 4-11 chapters
+          const done = Math.floor(total * 0.4);
+          courses.push({ nombre: c.nombre, completados: done, total });
+        }
+      }
+    }
+    // pad if fewer than 5
+    while (courses.length < 5) {
+      courses.push({ nombre: 'Módulo complementario', completados: 1, total: 4 });
+    }
+    return courses;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div style={{
+      width: '320px',
+      flexShrink: 0,
+      backgroundColor: '#111827',
+      borderLeft: '1px solid rgba(0,229,255,0.1)',
+      borderRadius: '12px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0',
+      overflow: 'hidden',
+      alignSelf: 'flex-start',
+      position: 'sticky',
+      top: '24px',
+    }}>
+      {/* ── Calendar ── */}
+      <div style={{ padding: '20px 20px 16px' }}>
+        {/* Month nav */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <button
+            type="button"
+            onClick={prevMonth}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#8892A4', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#F0F4FF')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#8892A4')}
+          >
+            <ChevronLeft style={{ width: '16px', height: '16px' }} />
+          </button>
+          <span style={{ fontSize: '14px', fontWeight: 700, color: '#F0F4FF', fontFamily: '"Barlow Condensed", sans-serif', letterSpacing: '0.5px' }}>
+            {MONTH_NAMES[viewMonth]} {viewYear}
+          </span>
+          <button
+            type="button"
+            onClick={nextMonth}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#8892A4', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#F0F4FF')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#8892A4')}
+          >
+            <ChevronRight style={{ width: '16px', height: '16px' }} />
+          </button>
+        </div>
+
+        {/* Day headers */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: '6px' }}>
+          {DAY_LABELS.map(d => (
+            <div key={d} style={{ textAlign: 'center', fontSize: '10px', fontWeight: 600, color: '#4A5568', padding: '4px 0' }}>{d}</div>
+          ))}
+        </div>
+
+        {/* Day cells */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px' }}>
+          {cells.map((day, i) => (
+            <div
+              key={i}
+              style={{
+                height: '28px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '12px',
+                fontWeight: isToday(day) ? 700 : 400,
+                color: day === null ? 'transparent'
+                  : isToday(day) ? '#0A0E1A'
+                  : '#8892A4',
+                backgroundColor: isToday(day) ? '#00E5FF' : 'transparent',
+                borderRadius: '50%',
+                width: '28px',
+                margin: '0 auto',
+                cursor: day ? 'default' : 'default',
+              }}
+            >
+              {day ?? ''}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div style={{ height: '1px', backgroundColor: 'rgba(0,229,255,0.08)', margin: '0 20px' }} />
+
+      {/* ── Próximas Actividades ── */}
+      <div style={{ padding: '16px 20px 20px', flex: 1, overflowY: 'auto' }}>
+        <p style={{ fontSize: '11px', fontWeight: 700, color: '#4A5568', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '12px' }}>
+          Próximas Actividades
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {scheduleItems.map((item, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                padding: '10px 12px',
+                backgroundColor: 'rgba(0,229,255,0.03)',
+                border: '1px solid rgba(0,229,255,0.08)',
+                borderRadius: '8px',
+                transition: 'border-color 0.15s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(0,229,255,0.2)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(0,229,255,0.08)')}
+            >
+              {/* Day number */}
+              <div style={{ width: '32px', flexShrink: 0, textAlign: 'center' }}>
+                <span style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: '22px',
+                  fontWeight: 700,
+                  lineHeight: 1,
+                  color: '#8892A4',
+                }}>
+                  {SCHEDULE_DAYS[i]}
+                </span>
+              </div>
+              {/* Content */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: '12px', fontWeight: 600, color: '#F0F4FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {item.nombre}
+                </p>
+                <p style={{ fontSize: '11px', color: '#4A5568', marginTop: '2px' }}>
+                  {item.completados} de {item.total} capítulos
+                </p>
+              </div>
+              {/* Time */}
+              <span style={{ fontSize: '10px', color: '#4A5568', flexShrink: 0, fontFamily: '"JetBrains Mono", monospace' }}>
+                {SCHEDULE_TIMES[i]}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 type TabId = 'todas' | 'activas' | 'proximas' | 'completadas';
 
 const TABS: { id: TabId; label: string; dot?: boolean }[] = [
@@ -302,7 +499,9 @@ export function Curriculum() {
   };
 
   return (
-    <div className="space-y-6" onKeyDown={handleKeyDown}>
+    <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }} onKeyDown={handleKeyDown}>
+      {/* Main content column */}
+      <div className="space-y-6" style={{ flex: 1, minWidth: 0 }}>
       {/* Header */}
       <motion.div
         custom={0}
@@ -460,6 +659,11 @@ export function Curriculum() {
           ))
         )}
       </div>
+
+      </div>{/* end main column */}
+
+      {/* Side Panel */}
+      <SidePanel />
 
       {/* Modal */}
       <AnimatePresence>
