@@ -25,6 +25,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04, duration: 0.4, ease: [0.16,1,0.3,1] }}
+      className="hover-lift card-clickable"
       style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}
     >
       {/* Card flip container — perspective here, NO preserve-3d, NO transform on this level */}

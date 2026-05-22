@@ -180,3 +180,29 @@ select option { background-color: #1C2333; color: #F0F4FF; }
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* Fix para flip cards 3D - evita blur por stacking context */
+[style*="preserve-3d"] {
+  isolation: isolate;
+}
+
+/* Previene que backdrop-filter de ancestros rompa preserve-3d */
+.no-backdrop-child {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Smooth hover transitions sin interferir con 3D transforms */
+.hover-lift {
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.hover-lift:hover {
+  box-shadow: 0 4px 24px rgba(0,229,255,0.12);
+  border-color: rgba(0,229,255,0.25);
+}
+
+/* Fix cursor pointer consistente en cards clickeables */
+.card-clickable {
+  cursor: pointer;
+  user-select: none;
+}

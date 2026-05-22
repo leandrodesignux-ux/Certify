@@ -29,7 +29,7 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="w-full flex flex-col gap-2"
+      className="w-full flex flex-col gap-2 hover-lift card-clickable"
     >
       {/* Flip container — perspective here, NO preserve-3d, NO transform on this level */}
       <div
