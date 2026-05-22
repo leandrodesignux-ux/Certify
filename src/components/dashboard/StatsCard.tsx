@@ -33,16 +33,16 @@ function useCountUp(target: number, duration = 1200) {
 
 const colorMap = {
   electric: {
-    bg: 'bg-[rgba(0,229,255,0.1)]',
-    text: 'text-[#00E5FF]',
-    color: '#00E5FF',
-    glow: 'shadow-[0_0_12px_rgba(0,229,255,0.3)]',
+    bg: 'bg-[rgba(124,77,171,0.1)]',
+    text: 'text-[#7c4dab]',
+    color: '#7c4dab',
+    glow: 'shadow-[0_0_12px_rgba(124,77,171,0.3)]',
   },
   volt: {
-    bg: 'bg-[rgba(170,255,0,0.1)]',
-    text: 'text-[#AAFF00]',
-    color: '#AAFF00',
-    glow: 'shadow-[0_0_12px_rgba(170,255,0,0.3)]',
+    bg: 'bg-[rgba(138,158,82,0.1)]',
+    text: 'text-[#8a9e52]',
+    color: '#8a9e52',
+    glow: 'shadow-[0_0_12px_rgba(138,158,82,0.3)]',
   },
   warning: {
     bg: 'bg-[rgba(255,184,0,0.1)]',
@@ -57,10 +57,10 @@ const colorMap = {
     glow: 'shadow-[0_0_12px_rgba(255,61,87,0.3)]',
   },
   success: {
-    bg: 'bg-[rgba(0,230,118,0.1)]',
-    text: 'text-[#00E676]',
-    color: '#00E676',
-    glow: 'shadow-[0_0_12px_rgba(0,230,118,0.3)]',
+    bg: 'bg-[rgba(114,147,98,0.1)]',
+    text: 'text-[#729362]',
+    color: '#729362',
+    glow: 'shadow-[0_0_12px_rgba(114,147,98,0.3)]',
   },
 };
 
@@ -86,7 +86,7 @@ export function StatsCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] as const }}
       style={{
-        backgroundColor: '#111827',
+        backgroundColor: '#1a1040',
         border: `1px solid ${colors.color}22`,
         borderRadius: '6px',
         padding: '20px',
@@ -117,8 +117,8 @@ export function StatsCard({
         {trend && (
           <span style={{
             fontSize: '11px', fontWeight: 600,
-            color: trend.direction === 'up' ? '#00E676' : '#FF3D57',
-            backgroundColor: trend.direction === 'up' ? 'rgba(0,230,118,0.1)' : 'rgba(255,61,87,0.1)',
+            color: trend.direction === 'up' ? '#8fb87a' : '#FF3D57',
+            backgroundColor: trend.direction === 'up' ? 'rgba(114,147,98,0.12)' : 'rgba(255,61,87,0.1)',
             borderRadius: '12px', padding: '3px 8px',
           }}>
             {trend.direction === 'up' ? '↑' : '↓'} {trend.value}

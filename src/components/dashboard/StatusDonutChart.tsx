@@ -9,8 +9,8 @@ const CustomTooltip = ({ active, payload }: {
     const data = payload[0];
     return (
       <div style={{
-        backgroundColor: '#1C2333',
-        border: '1px solid rgba(0,229,255,0.2)',
+        backgroundColor: '#231455',
+        border: '1px solid rgba(91,34,119,0.35)',
         borderRadius: '8px',
         color: '#F0F4FF',
         fontSize: '12px',
@@ -67,7 +67,7 @@ export function StatusDonutChart() {
             </Pie>
             <Tooltip
               content={<CustomTooltip />}
-              contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '6px', color: '#F0F4FF' }}
+              contentStyle={{ backgroundColor: '#231455', border: '1px solid rgba(91,34,119,0.35)', borderRadius: '6px', color: '#F0F4FF' }}
             />
           </PieChart>
         </ResponsiveContainer>

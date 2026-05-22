@@ -10,7 +10,7 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
 
   // Calculate color based on score with gradient logic
   const getColor = () => {
-    if (clampedScore >= 80) return '#00E676'; // Green
+    if (clampedScore >= 80) return '#729362'; // Green
     if (clampedScore >= 60) return '#FFB800'; // Yellow
     return '#FF3D57'; // Red
   };
@@ -35,7 +35,7 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
               <linearGradient id="gaugeGradient" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="#FF3D57" />
                 <stop offset="60%" stopColor="#FFB800" />
-                <stop offset="100%" stopColor="#00E676" />
+                <stop offset="100%" stopColor="#729362" />
               </linearGradient>
             </defs>
             <PolarAngleAxis
@@ -48,7 +48,7 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
               background
               dataKey="value"
               cornerRadius={10}
-              fill="#1C2333"
+              fill="#231455"
             />
             {/* Progress bar with gradient */}
             <RadialBar

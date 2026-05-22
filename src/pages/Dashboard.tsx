@@ -66,8 +66,8 @@ export function Dashboard() {
         style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
       >
         <div>
-          <h1 className="font-display text-3xl font-bold tracking-tight text-gradient text-glow-electric mb-1 flex items-center gap-2">
-            Panel Operacional <Zap style={{ width: '16px', height: '16px', color: '#00E5FF' }} />
+          <h1 className="font-display text-3xl font-bold tracking-tight text-gradient mb-1 flex items-center gap-2">
+            Panel Operacional <Zap style={{ width: '16px', height: '16px', color: '#9b6ab5' }} />
           </h1>
           <p style={{ color: '#8892A4', fontSize: '14px' }}>
             Corpa Andina Minera S.A. · Turno día activo · {new Date().toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' })}
@@ -75,9 +75,9 @@ export function Dashboard() {
         </div>
         {/* Mini status pills */}
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(0,230,118,0.1)', border: '1px solid rgba(0,230,118,0.25)', borderRadius: '20px', padding: '6px 14px' }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00E676', boxShadow: '0 0 6px rgba(0,230,118,0.8)', animation: 'pulse 2s infinite' }} />
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#00E676' }}>Sistema Online</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(114,147,98,0.12)', border: '1px solid rgba(114,147,98,0.3)', borderRadius: '20px', padding: '6px 14px' }}>
+            <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#729362', boxShadow: '0 0 6px rgba(114,147,98,0.8)', animation: 'pulse 2s infinite' }} />
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#8fb87a' }}>Sistema Online</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255,184,0,0.1)', border: '1px solid rgba(255,184,0,0.25)', borderRadius: '20px', padding: '6px 14px' }}>
             <span style={{ fontSize: '12px', fontWeight: 600, color: '#FFB800' }}>⚠ {criticalAlerts} alertas críticas</span>
@@ -170,10 +170,10 @@ export function Dashboard() {
           <div style={{ marginTop: '16px', width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
               <span style={{ fontSize: '12px', color: '#8892A4' }}>Meta mensual</span>
-              <span style={{ fontSize: '12px', color: '#00E5FF', fontWeight: 600 }}>85%</span>
+              <span style={{ fontSize: '12px', color: '#9b6ab5', fontWeight: 600 }}>85%</span>
             </div>
-            <div style={{ height: '4px', backgroundColor: '#1C2333', borderRadius: '2px', overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: `${avgCompliance}%`, backgroundColor: avgCompliance >= 85 ? '#00E676' : '#FFB800', borderRadius: '2px', transition: 'width 1s ease' }} />
+            <div style={{ height: '4px', backgroundColor: '#231455', borderRadius: '2px', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${avgCompliance}%`, backgroundColor: avgCompliance >= 85 ? '#729362' : '#FFB800', borderRadius: '2px', transition: 'width 1s ease' }} />
             </div>
           </div>
         </Card>

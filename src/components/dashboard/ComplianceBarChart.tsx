@@ -18,15 +18,15 @@ const CustomTooltip = ({ active, payload }: {
     const data = payload[0].payload;
     return (
       <div style={{
-        backgroundColor: '#1C2333',
-        border: '1px solid rgba(0,229,255,0.2)',
+        backgroundColor: '#231455',
+        border: '1px solid rgba(91,34,119,0.35)',
         borderRadius: '8px',
         color: '#F0F4FF',
         fontSize: '12px',
         padding: '12px',
       }}>
         <p style={{ fontWeight: 500, marginBottom: '4px' }}>{data.label}</p>
-        <p style={{ color: '#00E5FF', fontFamily: '"JetBrains Mono", monospace', fontSize: '14px' }}>{data.value}%</p>
+        <p style={{ color: '#9b6ab5', fontFamily: '"JetBrains Mono", monospace', fontSize: '14px' }}>{data.value}%</p>
       </div>
     );
   }
@@ -47,21 +47,21 @@ export function ComplianceBarChart() {
           <XAxis
             dataKey="label"
             tick={{ fill: '#8892A4', fontSize: 10 }}
-            axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
+            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
             tickLine={false}
             interval={0}
           />
           <YAxis
             tick={{ fill: '#8892A4', fontSize: 11 }}
-            axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
+            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
             tickLine={false}
             domain={[0, 100]}
             tickFormatter={(value) => `${value}%`}
           />
           <Tooltip
             content={<CustomTooltip />}
-            cursor={{ fill: 'rgba(0,229,255,0.05)' }}
-            contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '6px', color: '#F0F4FF' }}
+            cursor={{ fill: 'rgba(91,34,119,0.08)' }}
+            contentStyle={{ backgroundColor: '#231455', border: '1px solid rgba(91,34,119,0.35)', borderRadius: '6px', color: '#F0F4FF' }}
           />
           <Bar
             dataKey="value"
@@ -82,7 +82,7 @@ export function ComplianceBarChart() {
                 key={`cell-${index}`}
                 fill={entry.color}
                 style={{
-                  filter: 'drop-shadow(0 0 4px rgba(0,229,255,0.2))',
+                  filter: 'drop-shadow(0 0 4px rgba(91,34,119,0.3))',
                 }}
               />
             ))}

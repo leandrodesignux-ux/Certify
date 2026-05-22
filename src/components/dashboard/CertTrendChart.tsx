@@ -17,8 +17,8 @@ const CustomTooltip = ({ active, payload, label }: {
   if (active && payload && payload.length) {
     return (
       <div style={{
-        backgroundColor: '#1C2333',
-        border: '1px solid rgba(0,229,255,0.2)',
+        backgroundColor: '#231455',
+        border: '1px solid rgba(91,34,119,0.35)',
         borderRadius: '8px',
         color: '#F0F4FF',
         fontSize: '12px',
@@ -53,8 +53,8 @@ export function CertTrendChart() {
         <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }} style={{ backgroundColor: 'transparent' }}>
           <defs>
             <linearGradient id="colorVigentes" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#00E5FF" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#00E5FF" stopOpacity={0.05} />
+              <stop offset="5%" stopColor="#7c4dab" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="#7c4dab" stopOpacity={0.05} />
             </linearGradient>
             <linearGradient id="colorVencidas" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#FF3D57" stopOpacity={0.3} />
@@ -69,24 +69,24 @@ export function CertTrendChart() {
           <XAxis
             dataKey="month"
             tick={{ fill: '#8892A4', fontSize: 11 }}
-            axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
+            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
             tickLine={false}
           />
           <YAxis
             tick={{ fill: '#8892A4', fontSize: 11 }}
-            axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
+            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
             tickLine={false}
           />
           <Tooltip
             content={<CustomTooltip />}
-            contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '6px', color: '#F0F4FF' }}
-            cursor={{ stroke: 'rgba(0,229,255,0.2)', strokeWidth: 1 }}
+            contentStyle={{ backgroundColor: '#231455', border: '1px solid rgba(91,34,119,0.35)', borderRadius: '6px', color: '#F0F4FF' }}
+            cursor={{ stroke: 'rgba(91,34,119,0.3)', strokeWidth: 1 }}
           />
           <Area
             type="monotone"
             dataKey="vigentes"
             name="Renovadas"
-            stroke="#00E5FF"
+            stroke="#7c4dab"
             strokeWidth={2}
             fillOpacity={1}
             fill="url(#colorVigentes)"
