@@ -5,12 +5,10 @@ import { ArrowLeft } from 'lucide-react';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { ProfileHeader } from '../components/profile/ProfileHeader';
 import { CertCard } from '../components/certifications/CertCard';
-import { CertTimeline } from '../components/certifications/CertTimeline';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { mockMeshes } from '../data/mockData';
-import { formatDate } from '../utils/dates';
 import type { Worker as WorkerType } from '../types';
 
 const sectionVariants = {
