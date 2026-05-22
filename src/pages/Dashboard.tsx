@@ -32,8 +32,21 @@ export function Dashboard() {
   const criticalAlerts = mockAlerts?.filter(a => (a.diasRestantes ?? 0) < 0).length ?? 0;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Page Title */}
+    <div style={{ position: 'relative' }}>
+      {/* Scanlines Overlay */}
+      <div
+        className="animate-scanlines"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Content */}
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        {/* Page Title */}
       <motion.div
         custom={0}
         variants={sectionVariants}
@@ -185,6 +198,7 @@ export function Dashboard() {
         {/* Panel 3: Top Trabajadores con mayor urgencia */}
         <TopUrgentWorkers />
       </motion.div>
+      </div>
     </div>
   );
 }

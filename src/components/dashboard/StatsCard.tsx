@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 
@@ -11,6 +12,23 @@ interface StatsCardProps {
   icon: LucideIcon;
   color: 'electric' | 'volt' | 'warning' | 'danger' | 'success';
   delay?: number;
+}
+
+// Custom hook for count-up animation
+function useCountUp(target: number, duration = 1200) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const start = Date.now();
+    const timer = setInterval(() => {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(target * eased));
+      if (progress >= 1) clearInterval(timer);
+    }, 16);
+    return () => clearInterval(timer);
+  }, [target, duration]);
+  return count;
 }
 
 const colorMap = {
@@ -55,6 +73,12 @@ export function StatsCard({
   delay = 0,
 }: StatsCardProps) {
   const colors = colorMap[color];
+
+  // Parse numeric value for count-up animation
+  const numericValue = typeof value === 'number' ? value : parseFloat(value.toString().replace(/[^0-9.]/g, ''));
+  const displayValue = typeof value === 'number' || !isNaN(numericValue)
+    ? useCountUp(numericValue, 1200)
+    : value;
 
   return (
     <motion.div
@@ -109,7 +133,7 @@ export function StatsCard({
           fontSize: '42px', fontWeight: 700, lineHeight: 1,
           color: '#F0F4FF', marginBottom: '4px',
         }}>
-          {value}
+          {typeof value === 'string' && value.includes('%') ? `${displayValue}%` : displayValue}
         </p>
         <p style={{ fontSize: '12px', color: '#8892A4', fontWeight: 500 }}>{subtitle}</p>
       </div>

@@ -80,6 +80,32 @@ body {
   }
 }
 
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes borderFlow {
+  0% { border-color: rgba(0,229,255,0.1); }
+  50% { border-color: rgba(0,229,255,0.35); }
+  100% { border-color: rgba(0,229,255,0.1); }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.06) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2.5s infinite;
+}
+
+.animate-float { animation: float 3s ease-in-out infinite; }
+
+.animate-border-flow { animation: borderFlow 3s ease-in-out infinite; }
+
 .animate-slide-up-fade {
   animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
