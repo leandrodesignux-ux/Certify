@@ -17,13 +17,14 @@ export function ProgressBar({ value, showLabel = false }: ProgressBarProps) {
     <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px' }}>
       <div style={{ height: '6px', flex: 1, backgroundColor: 'rgba(255,255,255,0.07)', borderRadius: '9999px', overflow: 'hidden' }}>
         <div
+          className="animate-fill-bar"
           style={{
+            '--target-width': `${clampedValue}%`,
             width: `${clampedValue}%`,
             height: '100%',
             backgroundColor: getColor(),
             borderRadius: '9999px',
-            transition: 'width 0.6s ease',
-          }}
+          } as React.CSSProperties}
         />
       </div>
       {showLabel && (

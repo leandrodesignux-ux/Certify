@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Award, AlertTriangle, BookOpen } from 'lucide-react';
+import { Users, Award, AlertTriangle, BookOpen, Zap } from 'lucide-react';
 import { mockStats, mockWorkers, mockAlerts } from '../data/mockData';
 import { StatsCard } from '../components/dashboard/StatsCard';
 import { ComplianceGauge } from '../components/dashboard/ComplianceGauge';
@@ -66,8 +66,8 @@ export function Dashboard() {
         style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
       >
         <div>
-          <h1 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '32px', fontWeight: 700, color: '#F0F4FF', letterSpacing: '-0.5px', marginBottom: '4px' }}>
-            Panel Operacional ⚡
+          <h1 className="font-display text-3xl font-bold tracking-tight text-gradient text-glow-electric mb-1 flex items-center gap-2">
+            Panel Operacional <Zap style={{ width: '16px', height: '16px', color: '#00E5FF' }} />
           </h1>
           <p style={{ color: '#8892A4', fontSize: '14px' }}>
             Corpa Andina Minera S.A. · Turno día activo · {new Date().toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' })}
@@ -151,7 +151,7 @@ export function Dashboard() {
         style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}
       >
         {/* Columna izquierda: "Cumplimiento por Área" */}
-        <Card variant="glass" style={{ borderRadius: '16px', padding: '24px' }}>
+        <Card variant="glass" style={{ borderRadius: '6px', padding: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
             <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', letterSpacing: '0.3px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               Cumplimiento por Área
@@ -162,7 +162,7 @@ export function Dashboard() {
         </Card>
 
         {/* Columna derecha: Gauge de compliance global */}
-        <Card variant="glass" style={{ borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <Card variant="glass" style={{ borderRadius: '6px', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', letterSpacing: '0.3px', marginBottom: '16px', textAlign: 'center' }}>
             Compliance Global
           </h3>
@@ -188,14 +188,14 @@ export function Dashboard() {
         style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}
       >
         {/* Tendencia Anual */}
-        <Card variant="glass" style={{ borderRadius: '16px', padding: '24px' }}>
+        <Card variant="glass" style={{ borderRadius: '6px', padding: '24px' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', letterSpacing: '0.3px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             Tendencia de Certificaciones
           </h3>
           <CertTrendChart />
         </Card>
         {/* Distribución de estados */}
-        <Card variant="glass" style={{ borderRadius: '16px', padding: '24px' }}>
+        <Card variant="glass" style={{ borderRadius: '6px', padding: '24px' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', letterSpacing: '0.3px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             Distribución de Estados
           </h3>

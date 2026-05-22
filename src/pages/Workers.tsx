@@ -49,13 +49,7 @@ function WorkersComponent() {
         style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}
       >
         <div style={{ flex: 1 }}>
-          <h1 style={{
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: '28px',
-            fontWeight: 700,
-            color: '#F0F4FF',
-            letterSpacing: '2px',
-          }}>
+          <h1 className="font-display text-3xl font-bold text-gradient tracking-wider">
             Trabajadores
           </h1>
           <p style={{ color: '#8892A4', fontSize: '13px', textAlign: 'center', marginTop: '4px' }}>

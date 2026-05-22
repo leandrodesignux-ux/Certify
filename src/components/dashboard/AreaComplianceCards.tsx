@@ -48,7 +48,7 @@ export function AreaComplianceCards() {
             style={{
               backgroundColor: '#111827',
               border: `1px solid ${area.color}20`,
-              borderRadius: '16px',
+              borderRadius: '6px',
               padding: '16px',
               display: 'flex',
               flexDirection: 'column',

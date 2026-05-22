@@ -18,7 +18,7 @@ export function TopUrgentWorkers() {
       backgroundColor: 'rgba(17,24,39,0.8)',
       backdropFilter: 'blur(12px)',
       border: '1px solid rgba(255,61,87,0.15)',
-      borderRadius: '16px',
+      borderRadius: '6px',
       display: 'flex',
       flexDirection: 'column',
       height: '400px',

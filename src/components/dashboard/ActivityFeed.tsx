@@ -85,7 +85,7 @@ export function ActivityFeed() {
       backgroundColor: 'rgba(17,24,39,0.8)',
       backdropFilter: 'blur(12px)',
       border: '1px solid rgba(0,229,255,0.1)',
-      borderRadius: '16px',
+      borderRadius: '6px',
       display: 'flex',
       flexDirection: 'column',
       height: '400px',

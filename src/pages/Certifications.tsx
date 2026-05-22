@@ -455,7 +455,7 @@ export function Certifications() {
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="font-display text-3xl font-bold text-[#F0F4FF] tracking-tight">
+            <h1 className="font-display text-3xl font-bold text-gradient tracking-tight">
               Certificaciones
             </h1>
             <p className="text-[#8892A4] mt-1">
@@ -853,7 +853,10 @@ export function Certifications() {
                               </span>
                             </div>
                           )}
-                          <span className="text-sm text-[#F0F4FF]">
+                          <span
+                            className="text-sm text-[#F0F4FF] truncate max-w-[160px]"
+                            title={`${worker?.nombre} ${worker?.apellidos}`}
+                          >
                             {worker?.nombre} {worker?.apellidos}
                           </span>
                         </div>

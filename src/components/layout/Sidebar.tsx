@@ -169,7 +169,7 @@ export function Sidebar() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -10 }}
               transition={{ duration: 0.15 }}
-              className="ml-3 font-display text-xl font-bold text-[#00E5FF] tracking-wide"
+              className="ml-3 font-display text-xl font-bold text-[#00E5FF] tracking-wide text-glow-electric"
             >
               CertifyX
             </motion.span>

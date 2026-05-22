@@ -121,7 +121,7 @@ export function Button({
       whileTap={disabled ? undefined : { scale: 0.97 }}
       transition={{ duration: 0.1 }}
       style={style}
-      className={className}
+      className={`focus-ring ${className}`}
     >
       {/* Ripple effects */}
       <AnimatePresence>

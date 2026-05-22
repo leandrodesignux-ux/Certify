@@ -101,7 +101,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
       style={{
         position: 'relative',
         overflow: 'hidden',
-        borderRadius: '16px',
+        borderRadius: '6px',
         background: 'linear-gradient(135deg, #0D1B2A 0%, #111827 100%)',
         border: '1px solid rgba(0,229,255,0.15)',
       }}

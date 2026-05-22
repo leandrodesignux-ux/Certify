@@ -88,7 +88,7 @@ export function StatsCard({
       style={{
         backgroundColor: '#111827',
         border: `1px solid ${colors.color}22`,
-        borderRadius: '16px',
+        borderRadius: '6px',
         padding: '20px',
         height: '150px',
         display: 'flex',

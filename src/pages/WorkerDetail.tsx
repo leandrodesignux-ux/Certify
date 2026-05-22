@@ -346,7 +346,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '24px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Card variant="glass" padding="lg" style={{ borderRadius: '16px' }}>
+        <Card variant="glass" padding="lg" style={{ borderRadius: '6px' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase' }}>
             Resumen
           </h3>
@@ -364,7 +364,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
         </Card>
         <MiniComplianceTimeline certifications={worker.certifications} />
       </div>
-      <Card variant="glass" padding="lg" style={{ borderRadius: '16px' }}>
+      <Card variant="glass" padding="lg" style={{ borderRadius: '6px' }}>
         <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase' }}>
           Certificaciones
         </h3>
@@ -383,7 +383,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 3fr', gap: '24px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Card variant="glass" padding="lg" style={{ borderRadius: '16px' }}>
+        <Card variant="glass" padding="lg" style={{ borderRadius: '6px' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '1px' }}>
             Información
           </h3>
@@ -401,7 +401,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
             ))}
           </div>
         </Card>
-        <Card variant="glass" padding="lg" style={{ borderRadius: '16px' }}>
+        <Card variant="glass" padding="lg" style={{ borderRadius: '6px' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>
             Competencias
           </h3>

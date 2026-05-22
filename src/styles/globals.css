@@ -153,3 +153,30 @@ select option { background-color: #1C2333; color: #F0F4FF; }
   background: rgba(0, 229, 255, 0.15);
   color: #00E5FF;
 }
+
+/* Gradient text utility */
+.text-gradient {
+  background: linear-gradient(135deg, #00E5FF 0%, #AAFF00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass surface upgrade */
+.glass-surface {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(0, 229, 255, 0.08);
+}
+
+/* Neon glow text */
+.text-glow-electric {
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.5), 0 0 40px rgba(0, 229, 255, 0.2);
+}
+
+/* Focus ring standard */
+.focus-ring:focus-visible {
+  outline: 2px solid #00E5FF;
+  outline-offset: 2px;
+  border-radius: 4px;
+}

@@ -294,7 +294,7 @@ export function Curriculum() {
         className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
       >
         <div>
-          <h1 className="font-display text-3xl font-bold text-[#F0F4FF] tracking-tight">
+          <h1 className="font-display text-3xl font-bold text-gradient tracking-tight">
             Mallas Curriculares
           </h1>
           <p className="text-[#8892A4] mt-1">
