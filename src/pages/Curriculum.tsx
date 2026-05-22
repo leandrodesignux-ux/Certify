@@ -80,14 +80,16 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
       variants={sectionVariants}
       initial="hidden"
       animate="visible"
+      className="transition-all duration-200"
       style={{
         backgroundColor: '#1C2333',
         borderRadius: '12px',
         border: `1px solid ${hovered ? cfg.color + '40' : 'rgba(0,229,255,0.1)'}`,
         overflow: 'hidden',
         cursor: 'pointer',
-        transition: 'border-color 0.2s, box-shadow 0.2s, transform 0.15s',
-        boxShadow: hovered ? `0 8px 32px ${cfg.color}18, 0 0 0 1px ${cfg.color}20` : '0 2px 8px rgba(0,0,0,0.3)',
+        boxShadow: hovered
+          ? `0 4px 24px rgba(0,229,255,0.15), 0 0 0 1px ${cfg.color}20`
+          : '0 2px 8px rgba(0,0,0,0.3)',
         transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
         display: 'flex',
         flexDirection: 'row',
@@ -97,9 +99,9 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* LEFT: Illustration panel */}
+      {/* LEFT: Illustration panel — aspect-square w-[110px] */}
       <div style={{
-        width: '120px',
+        width: '110px',
         flexShrink: 0,
         backgroundColor: cfg.bg,
         display: 'flex',
@@ -107,13 +109,14 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
         alignItems: 'center',
         justifyContent: 'center',
         gap: '10px',
-        padding: '16px 12px',
+        padding: '16px 10px',
         position: 'relative',
+        aspectRatio: '1 / 1',
       }}>
         {/* Large icon */}
         <div style={{
-          width: '52px',
-          height: '52px',
+          width: '56px',
+          height: '56px',
           borderRadius: '14px',
           backgroundColor: cfg.color + '20',
           border: `1px solid ${cfg.color}40`,
@@ -121,7 +124,7 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-          <BookOpen style={{ width: '24px', height: '24px', color: cfg.color }} />
+          <Layers style={{ width: '28px', height: '28px', color: cfg.color }} />
         </div>
 
         {/* Progress ring */}
@@ -161,13 +164,12 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
         {/* Top: category tag + rating */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
           <span style={{
-            display: 'inline-flex', alignItems: 'center', gap: '4px',
-            padding: '3px 9px',
+            display: 'inline-flex', alignItems: 'center',
+            padding: '4px 12px',
             backgroundColor: cfg.bg,
             color: cfg.color,
-            fontSize: '10px', fontWeight: 700,
-            textTransform: 'uppercase', letterSpacing: '0.6px',
-            borderRadius: '20px',
+            fontSize: '12px', fontWeight: 500,
+            borderRadius: '9999px',
             border: `1px solid ${cfg.color}30`,
           }}>
             {category}
@@ -234,15 +236,15 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); onClick(); }}
+            className="transition-colors duration-200"
             style={{
-              padding: '6px 16px',
-              backgroundColor: hovered ? '#00E5FF' : 'rgba(0,229,255,0.1)',
-              border: '1px solid rgba(0,229,255,0.35)',
-              borderRadius: '20px',
-              color: hovered ? '#0A0E1A' : '#00E5FF',
-              fontSize: '12px', fontWeight: 700,
+              padding: '8px 16px',
+              backgroundColor: hovered ? '#00C8E0' : '#00E5FF',
+              border: 'none',
+              borderRadius: '9999px',
+              color: '#0A0E1A',
+              fontSize: '14px', fontWeight: 600,
               cursor: 'pointer',
-              transition: 'all 0.15s',
               flexShrink: 0,
             }}
           >
@@ -514,7 +516,7 @@ export function Curriculum() {
           <h1 className="font-display text-3xl font-bold text-gradient tracking-tight">
             Mallas Curriculares
           </h1>
-          <p className="text-[#8892A4] mt-1">
+          <p className="text-[#8892A4] text-sm mt-1">
             {mockMeshes.length} mallas de capacitación activas
           </p>
         </div>
