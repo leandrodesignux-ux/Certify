@@ -21,9 +21,9 @@ export function Badge({ status, label }: BadgeProps) {
       case 'vigente':
         return {
           ...base,
-          backgroundColor: 'rgba(0,230,118,0.15)',
-          color: '#00E676',
-          borderColor: 'rgba(0,230,118,0.3)',
+          backgroundColor: 'rgba(114,147,98,0.18)',
+          color: '#8fb87a',
+          borderColor: 'rgba(114,147,98,0.4)',
         };
       case 'proximo_vencer':
         return {
@@ -42,9 +42,9 @@ export function Badge({ status, label }: BadgeProps) {
       case 'pendiente':
         return {
           ...base,
-          backgroundColor: 'rgba(107,114,128,0.2)',
-          color: '#8892A4',
-          borderColor: 'rgba(107,114,128,0.3)',
+          backgroundColor: 'rgba(91,34,119,0.12)',
+          color: '#a89fc4',
+          borderColor: 'rgba(91,34,119,0.25)',
         };
       case 'obligatoria':
         return {
@@ -56,23 +56,23 @@ export function Badge({ status, label }: BadgeProps) {
       case 'complementaria':
         return {
           ...base,
-          backgroundColor: 'rgba(170,255,0,0.12)',
-          color: '#AAFF00',
-          borderColor: 'rgba(170,255,0,0.3)',
+          backgroundColor: 'rgba(116,126,68,0.18)',
+          color: '#9aaa58',
+          borderColor: 'rgba(116,126,68,0.4)',
         };
       case 'legal':
         return {
           ...base,
-          backgroundColor: 'rgba(0,229,255,0.12)',
-          color: '#00E5FF',
-          borderColor: 'rgba(0,229,255,0.3)',
+          backgroundColor: 'rgba(91,34,119,0.15)',
+          color: '#9b6ab5',
+          borderColor: 'rgba(91,34,119,0.35)',
         };
       default:
         return {
           ...base,
-          backgroundColor: 'rgba(107,114,128,0.2)',
-          color: '#8892A4',
-          borderColor: 'rgba(107,114,128,0.3)',
+          backgroundColor: 'rgba(91,34,119,0.12)',
+          color: '#a89fc4',
+          borderColor: 'rgba(91,34,119,0.25)',
         };
     }
   };

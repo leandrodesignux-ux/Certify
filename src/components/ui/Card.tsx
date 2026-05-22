@@ -29,12 +29,12 @@ export function Card({
   };
 
   const baseStyles: React.CSSProperties = variant === 'glass' ? {
-    backgroundColor: 'rgba(17,24,39,0.92)',
-    border: '1px solid rgba(0,229,255,0.1)',
+    backgroundColor: 'rgba(26,16,64,0.92)',
+    border: '1px solid rgba(91,34,119,0.2)',
     borderRadius: '6px',
   } : {
-    backgroundColor: '#111827',
-    border: '1px solid rgba(0,229,255,0.1)',
+    backgroundColor: '#1a1040',
+    border: '1px solid rgba(91,34,119,0.2)',
     borderRadius: '6px',
   };
 
@@ -52,7 +52,7 @@ export function Card({
       }}
       className={`transition-all duration-200 ${paddingStyles[padding]} ${
         hover
-          ? 'hover:border-[rgba(0,229,255,0.25)] hover:shadow-[0_0_16px_rgba(0,229,255,0.08)] hover:-translate-y-1'
+          ? 'hover:border-[rgba(100,43,90,0.45)] hover:shadow-[0_0_20px_rgba(91,34,119,0.2)] hover:-translate-y-1'
           : ''
       } ${className}`}
     >

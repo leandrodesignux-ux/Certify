@@ -45,15 +45,15 @@ export function Button({
       case 'primary':
         return {
           ...base,
-          backgroundColor: '#00E5FF',
-          color: '#0A0E1A',
+          backgroundColor: '#5b2277',
+          color: '#F0F4FF',
         };
       case 'ghost':
         return {
           ...base,
           backgroundColor: 'transparent',
-          border: '1px solid rgba(0,229,255,0.25)',
-          color: '#00E5FF',
+          border: '1px solid rgba(91,34,119,0.4)',
+          color: '#c49fe0',
         };
       case 'danger':
         return {
@@ -141,7 +141,7 @@ export function Button({
               marginLeft: '-4px',
               marginTop: '-4px',
               borderRadius: '50%',
-              backgroundColor: variant === 'primary' ? 'rgba(10,14,26,0.4)' : 'rgba(0,229,255,0.3)',
+              backgroundColor: variant === 'primary' ? 'rgba(255,255,255,0.15)' : 'rgba(91,34,119,0.4)',
               pointerEvents: 'none',
             }}
           />

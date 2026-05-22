@@ -8,7 +8,7 @@ export function ProgressBar({ value, showLabel = false }: ProgressBarProps) {
 
   // Determine color based on value
   const getColor = () => {
-    if (clampedValue >= 80) return '#00E676'; // success
+    if (clampedValue >= 80) return '#729362'; // success
     if (clampedValue >= 60) return '#FFB800'; // warning
     return '#FF3D57'; // danger
   };
