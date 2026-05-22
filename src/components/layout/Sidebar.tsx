@@ -111,6 +111,7 @@ export function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [isHoverLogout, setIsHoverLogout] = useState(false);
 
   // Calculate badge counts
   const expiredCertsCount = certifications.filter(c => c.estado === 'vencido').length;
@@ -189,8 +190,8 @@ export function Sidebar() {
       {!isMobile && (
         <button
           onClick={toggleSidebar}
-          className="absolute -right-3 top-20 w-6 h-6 bg-[#111827] border border-[rgba(0,229,255,0.2)] rounded-sm flex items-center justify-center text-[#8892A4] hover:text-[#00E5FF] hover:border-[#00E5FF]/40 transition-all duration-150"
-          style={{ zIndex: 60 }}
+          className="w-6 h-6 bg-[#111827] border border-[rgba(0,229,255,0.2)] rounded-sm flex items-center justify-center text-[#8892A4] hover:text-[#00E5FF] hover:border-[#00E5FF]/40 transition-all duration-150"
+          style={{ position: 'absolute', right: '-12px', top: '80px', zIndex: 60 }}
         >
           {sidebarCollapsed ? (
             <ChevronRight className="w-4 h-4" />
@@ -226,9 +227,17 @@ export function Sidebar() {
                     padding: '10px 12px',
                     borderRadius: '4px',
                     transition: 'all 0.15s ease',
-                    backgroundColor: isActive ? 'rgba(0,229,255,0.12)' : 'transparent',
-                    color: isActive ? '#00E5FF' : '#8892A4',
-                    borderLeft: isActive ? '2px solid #00E5FF' : '2px solid transparent',
+                    backgroundColor: isActive
+                      ? 'rgba(0,229,255,0.12)'
+                      : isHovered
+                        ? 'rgba(0,229,255,0.06)'
+                        : 'transparent',
+                    color: isActive ? '#00E5FF' : isHovered ? '#F0F4FF' : '#8892A4',
+                    borderLeft: isActive
+                      ? '2px solid #00E5FF'
+                      : isHovered
+                        ? '2px solid rgba(0,229,255,0.3)'
+                        : '2px solid transparent',
                     position: 'relative',
                   }}
                 >
@@ -238,7 +247,7 @@ export function Sidebar() {
                         width: '20px',
                         height: '20px',
                         flexShrink: 0,
-                        color: isActive ? '#00E5FF' : '#8892A4',
+                        color: isActive ? '#00E5FF' : isHovered ? '#F0F4FF' : '#8892A4',
                       }}
                     />
                     {badgeCount > 0 && badgeColor && (
@@ -346,13 +355,14 @@ export function Sidebar() {
               style={{
                 marginLeft: 'auto',
                 padding: '6px',
-                color: '#8892A4',
+                color: isHoverLogout ? '#FF3D57' : '#8892A4',
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
+                transition: 'color 0.15s',
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#FF3D57'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#8892A4'}
+              onMouseEnter={() => setIsHoverLogout(true)}
+              onMouseLeave={() => setIsHoverLogout(false)}
             >
               <LogOut style={{ width: '16px', height: '16px' }} />
             </button>
