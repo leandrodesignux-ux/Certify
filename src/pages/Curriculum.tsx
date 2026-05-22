@@ -1,10 +1,9 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Layers, BookOpen, ChevronRight, Search, X, GraduationCap, TrendingUp } from 'lucide-react';
+import { Plus, Layers, BookOpen, Search, X, GraduationCap, TrendingUp, Star, Users, Calendar } from 'lucide-react';
 import { mockMeshes } from '../data/mockData';
 import { MeshGrid } from '../components/curriculum/MeshGrid';
 import { Button } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
 import type { Mesh } from '../types';
 
 const sectionVariants = {
@@ -20,131 +19,34 @@ const sectionVariants = {
   }),
 };
 
-// Progress Ring Component
-function ProgressRing({ percentage, size = 40 }: { percentage: number; size?: number }) {
-  const strokeWidth = 4;
-  const radius = (size - strokeWidth) / 2;
-  const circumference = radius * 2 * Math.PI;
-  const offset = circumference - (percentage / 100) * circumference;
-  
-  const color = percentage > 80 ? '#00E676' : percentage > 50 ? '#FFB800' : '#FF3D57';
+// Category config
+const CATEGORY_CONFIG: Record<string, { color: string; bg: string; icon: typeof Layers }> = {
+  'Seguridad':    { color: '#AAFF00', bg: 'rgba(170,255,0,0.12)',   icon: Layers },
+  'Operaciones':  { color: '#00E5FF', bg: 'rgba(0,229,255,0.12)',   icon: Layers },
+  'Inducción':    { color: '#FFB800', bg: 'rgba(255,184,0,0.12)',   icon: Layers },
+  'Liderazgo':    { color: '#FFB800', bg: 'rgba(255,184,0,0.12)',   icon: Layers },
+  'Emergencias':  { color: '#FF3D57', bg: 'rgba(255,61,87,0.12)',   icon: Layers },
+  'Capacitación': { color: '#00E676', bg: 'rgba(0,230,118,0.12)',   icon: Layers },
+};
 
-  return (
-    <div style={{ position: 'relative', width: size, height: size }}>
-      <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke="rgba(255,255,255,0.1)"
-          strokeWidth={strokeWidth}
-        />
-        <motion.circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke={color}
-          strokeWidth={strokeWidth}
-          strokeLinecap="round"
-          initial={{ strokeDashoffset: circumference }}
-          animate={{ strokeDashoffset: offset }}
-          transition={{ duration: 1, ease: 'easeOut' }}
-          style={{
-            strokeDasharray: circumference,
-          }}
-        />
-      </svg>
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '11px',
-          fontWeight: 700,
-          color,
-        }}
-      >
-        {percentage}%
-      </div>
-    </div>
-  );
+// Derive category from mesh name
+function getMeshCategory(nombre: string): string {
+  if (nombre.toLowerCase().includes('seguridad')) return 'Seguridad';
+  if (nombre.toLowerCase().includes('operacion')) return 'Operaciones';
+  if (nombre.toLowerCase().includes('induccion') || nombre.toLowerCase().includes('inducción')) return 'Inducción';
+  if (nombre.toLowerCase().includes('liderazgo')) return 'Liderazgo';
+  if (nombre.toLowerCase().includes('emergencia')) return 'Emergencias';
+  return 'Capacitación';
 }
 
-// Course Status Dots Component
-function CourseStatusDots({ courses }: { courses: Mesh['cursos'] }) {
-  const statusColors: Record<string, string> = {
-    completado: '#00E676',
-    en_progreso: '#FFB800',
-    pendiente: '#4A5568',
-    bloqueado: '#1C2333',
-  };
-
-  return (
-    <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap' }}>
-      {courses.slice(0, 8).map((course) => (
-        <div
-          key={course.id}
-          style={{
-            width: '6px',
-            height: '6px',
-            borderRadius: '50%',
-            backgroundColor: statusColors[course.estado] || '#4A5568',
-          }}
-          title={`${course.nombre} - ${course.estado}`}
-        />
-      ))}
-      {courses.length > 8 && (
-        <span style={{ fontSize: '9px', color: '#8892A4', marginLeft: '2px' }}>
-          +{courses.length - 8}
-        </span>
-      )}
-    </div>
-  );
-}
-
-// Avatar Stack Component
-function AvatarStack({ count }: { count: number }) {
-  const displayCount = Math.min(count, 3);
-  const initials = Array.from({ length: displayCount }, (_, i) => 
-    String.fromCharCode(65 + i)
-  );
-
-  return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <div style={{ display: 'flex', marginRight: '6px' }}>
-        {initials.map((letter, i) => (
-          <div
-            key={i}
-            style={{
-              width: '22px',
-              height: '22px',
-              borderRadius: '50%',
-              backgroundColor: 'rgba(0,229,255,0.15)',
-              border: '2px solid #111827',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '10px',
-              fontWeight: 600,
-              color: '#00E5FF',
-              marginLeft: i > 0 ? '-8px' : 0,
-              zIndex: displayCount - i,
-            }}
-          >
-            {letter}
-          </div>
-        ))}
-      </div>
-      <span style={{ fontSize: '12px', color: '#8892A4' }}>
-        {count} trabajador{count !== 1 ? 'es' : ''}
-      </span>
-    </div>
-  );
-}
+// Deterministic mock rating & start date per mesh (avoids random re-renders)
+const MESH_MOCK: Record<string, { rating: number; startDate: string }> = {
+  m1: { rating: 4.8, startDate: 'Ene 2024' },
+  m2: { rating: 4.6, startDate: 'Feb 2024' },
+  m3: { rating: 4.3, startDate: 'Mar 2024' },
+  m4: { rating: 4.7, startDate: 'Abr 2024' },
+  m5: { rating: 4.5, startDate: 'May 2024' },
+};
 
 interface MeshCardProps {
   mesh: Mesh;
@@ -153,26 +55,24 @@ interface MeshCardProps {
 }
 
 function MeshCard({ mesh, onClick, index }: MeshCardProps) {
+  const [hovered, setHovered] = useState(false);
   const workersCount = mesh.trabajadoresAsignados.length;
   const coursesCount = mesh.cursos.length;
-  
-  // Derive category from name or default
-  const category = mesh.nombre.includes('Seguridad') ? 'Seguridad' 
-    : mesh.nombre.includes('Operaciones') ? 'Operaciones'
-    : mesh.nombre.includes('Inducción') ? 'Inducción'
-    : 'Capacitación';
-  
-  const categoryColors: Record<string, string> = {
-    'Seguridad': '#AAFF00',
-    'Operaciones': '#00E5FF',
-    'Inducción': '#FFB800',
-    'Capacitación': '#00E676',
-  };
-  
-  // Gradient border color based on completion
-  const borderColor = mesh.completionRate > 80 ? '#00E676' 
-    : mesh.completionRate > 50 ? '#FFB800' 
+  const category = getMeshCategory(mesh.nombre);
+  const cfg = CATEGORY_CONFIG[category] ?? CATEGORY_CONFIG['Capacitación'];
+  const mock = MESH_MOCK[mesh.id] ?? { rating: 4.5, startDate: 'Ene 2024' };
+
+  // Completion color
+  const completionColor = mesh.completionRate >= 80 ? '#00E676'
+    : mesh.completionRate >= 50 ? '#FFB800'
     : '#FF3D57';
+
+  // Compact progress ring (inline SVG, no external component)
+  const ringSize = 36;
+  const strokeW = 3;
+  const r = (ringSize - strokeW) / 2;
+  const circ = r * 2 * Math.PI;
+  const offset = circ - (mesh.completionRate / 100) * circ;
 
   return (
     <motion.div
@@ -180,74 +80,176 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
       variants={sectionVariants}
       initial="hidden"
       animate="visible"
+      style={{
+        backgroundColor: '#1C2333',
+        borderRadius: '12px',
+        border: `1px solid ${hovered ? cfg.color + '40' : 'rgba(0,229,255,0.1)'}`,
+        overflow: 'hidden',
+        cursor: 'pointer',
+        transition: 'border-color 0.2s, box-shadow 0.2s, transform 0.15s',
+        boxShadow: hovered ? `0 8px 32px ${cfg.color}18, 0 0 0 1px ${cfg.color}20` : '0 2px 8px rgba(0,0,0,0.3)',
+        transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
+        display: 'flex',
+        flexDirection: 'row',
+        minHeight: '148px',
+      }}
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      <Card
-        variant="glass"
-        padding="lg"
-        className="cursor-pointer group relative overflow-hidden"
-        onClick={onClick}
-        style={{
-          borderTop: `3px solid ${borderColor}`,
-        }}
-      >
-        {/* Hover gradient overlay */}
-        <div 
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-          style={{
-            background: 'linear-gradient(135deg, rgba(0,229,255,0.03), transparent)',
-          }}
-        />
+      {/* LEFT: Illustration panel */}
+      <div style={{
+        width: '120px',
+        flexShrink: 0,
+        backgroundColor: cfg.bg,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '10px',
+        padding: '16px 12px',
+        position: 'relative',
+      }}>
+        {/* Large icon */}
+        <div style={{
+          width: '52px',
+          height: '52px',
+          borderRadius: '14px',
+          backgroundColor: cfg.color + '20',
+          border: `1px solid ${cfg.color}40`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <BookOpen style={{ width: '24px', height: '24px', color: cfg.color }} />
+        </div>
 
-        <div className="relative z-10">
-          {/* Top Row: Icon + Tag + Chevron */}
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-[rgba(0,229,255,0.1)] rounded-lg">
-                <Layers className="w-6 h-6 text-[#00E5FF]" />
-              </div>
-              <span 
-                className="px-2 py-1 text-[10px] font-medium uppercase tracking-wider rounded-md"
-                style={{ 
-                  backgroundColor: `${categoryColors[category]}15`,
-                  color: categoryColors[category],
-                }}
-              >
-                {category}
-              </span>
-            </div>
-            <ChevronRight className="w-5 h-5 text-[#4A5568] group-hover:text-[#00E5FF] transition-colors" />
-          </div>
-
-          {/* Title & Description */}
-          <h3 className="font-display text-xl font-semibold text-[#F0F4FF] mb-2">
-            {mesh.nombre}
-          </h3>
-          <p className="text-sm text-[#8892A4] line-clamp-2 mb-4">
-            {mesh.descripcion}
-          </p>
-
-          {/* Course Status Dots */}
-          <div className="mb-4">
-            <p className="text-[10px] text-[#4A5568] uppercase tracking-wider mb-2">
-              Estado de cursos
-            </p>
-            <CourseStatusDots courses={mesh.cursos} />
-          </div>
-
-          {/* Bottom Row: Stats + Progress Ring */}
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-sm">
-                <BookOpen className="w-4 h-4 text-[#AAFF00]" />
-                <span className="text-[#F0F4FF]">{coursesCount}</span>
-                <span className="text-[#8892A4]">cursos</span>
-              </div>
-              <AvatarStack count={workersCount} />
-            </div>
-            <ProgressRing percentage={mesh.completionRate} size={48} />
+        {/* Progress ring */}
+        <div style={{ position: 'relative', width: ringSize, height: ringSize }}>
+          <svg width={ringSize} height={ringSize} style={{ transform: 'rotate(-90deg)' }}>
+            <circle cx={ringSize / 2} cy={ringSize / 2} r={r}
+              fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={strokeW} />
+            <motion.circle
+              cx={ringSize / 2} cy={ringSize / 2} r={r}
+              fill="none" stroke={completionColor} strokeWidth={strokeW} strokeLinecap="round"
+              initial={{ strokeDashoffset: circ }}
+              animate={{ strokeDashoffset: offset }}
+              transition={{ duration: 1, ease: 'easeOut', delay: index * 0.1 }}
+              style={{ strokeDasharray: circ }}
+            />
+          </svg>
+          <div style={{
+            position: 'absolute', inset: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '9px', fontWeight: 700, color: completionColor,
+            fontFamily: '"JetBrains Mono", monospace',
+          }}>
+            {mesh.completionRate}%
           </div>
         </div>
-      </Card>
+      </div>
+
+      {/* RIGHT: Content */}
+      <div style={{
+        flex: 1,
+        padding: '14px 16px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        minWidth: 0,
+      }}>
+        {/* Top: category tag + rating */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+          <span style={{
+            display: 'inline-flex', alignItems: 'center', gap: '4px',
+            padding: '3px 9px',
+            backgroundColor: cfg.bg,
+            color: cfg.color,
+            fontSize: '10px', fontWeight: 700,
+            textTransform: 'uppercase', letterSpacing: '0.6px',
+            borderRadius: '20px',
+            border: `1px solid ${cfg.color}30`,
+          }}>
+            {category}
+          </span>
+          {/* Rating badge */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '3px',
+            backgroundColor: 'rgba(255,184,0,0.12)',
+            border: '1px solid rgba(255,184,0,0.25)',
+            borderRadius: '20px',
+            padding: '3px 8px',
+          }}>
+            <Star style={{ width: '10px', height: '10px', color: '#FFB800', fill: '#FFB800' }} />
+            <span style={{ fontSize: '11px', fontWeight: 700, color: '#FFB800', fontFamily: '"JetBrains Mono", monospace' }}>
+              {mock.rating}
+            </span>
+          </div>
+        </div>
+
+        {/* Title */}
+        <h3 style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          fontSize: '17px', fontWeight: 700,
+          color: '#F0F4FF', lineHeight: 1.25,
+          marginBottom: '5px',
+          overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+        }}>
+          {mesh.nombre}
+        </h3>
+
+        {/* Description */}
+        <p style={{
+          fontSize: '12px', color: '#8892A4',
+          lineHeight: 1.5, marginBottom: '10px',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+        } as React.CSSProperties}>
+          {mesh.descripcion}
+        </p>
+
+        {/* Bottom: meta + button */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {/* Start date */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <Calendar style={{ width: '12px', height: '12px', color: '#4A5568' }} />
+              <span style={{ fontSize: '11px', color: '#8892A4' }}>Inicio: {mock.startDate}</span>
+            </div>
+            {/* Workers count */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <Users style={{ width: '12px', height: '12px', color: '#4A5568' }} />
+              <span style={{ fontSize: '11px', color: '#8892A4' }}>{workersCount}</span>
+            </div>
+            {/* Courses count */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <BookOpen style={{ width: '12px', height: '12px', color: '#4A5568' }} />
+              <span style={{ fontSize: '11px', color: '#8892A4' }}>{coursesCount} cursos</span>
+            </div>
+          </div>
+
+          {/* Ver Malla pill button */}
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onClick(); }}
+            style={{
+              padding: '6px 16px',
+              backgroundColor: hovered ? '#00E5FF' : 'rgba(0,229,255,0.1)',
+              border: '1px solid rgba(0,229,255,0.35)',
+              borderRadius: '20px',
+              color: hovered ? '#0A0E1A' : '#00E5FF',
+              fontSize: '12px', fontWeight: 700,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+              flexShrink: 0,
+            }}
+          >
+            Ver Malla
+          </button>
+        </div>
+      </div>
     </motion.div>
   );
 }
@@ -371,7 +373,7 @@ export function Curriculum() {
       </motion.div>
 
       {/* Mesh Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-4">
         {filteredMeshes.length === 0 ? (
           <div className="col-span-full text-center py-16">
             <p className="text-[#8892A4] text-lg">No se encontraron mallas</p>
