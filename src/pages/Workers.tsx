@@ -52,7 +52,7 @@ function WorkersComponent() {
           <h1 className="font-display text-3xl font-bold text-gradient tracking-wider">
             Trabajadores
           </h1>
-          <p style={{ color: '#8892A4', fontSize: '13px', textAlign: 'center', marginTop: '4px' }}>
+          <p style={{ color: '#8892A4', fontSize: '13px', marginTop: '4px' }}>
             {totalWorkers} trabajadores registrados · Corpa Andina Minera S.A.
           </p>
         </div>
