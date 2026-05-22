@@ -254,9 +254,19 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
   );
 }
 
+type TabId = 'todas' | 'activas' | 'proximas' | 'completadas';
+
+const TABS: { id: TabId; label: string; dot?: boolean }[] = [
+  { id: 'todas',       label: 'Todas' },
+  { id: 'activas',     label: 'Activas' },
+  { id: 'proximas',    label: 'Próximas', dot: true },
+  { id: 'completadas', label: 'Completadas' },
+];
+
 export function Curriculum() {
   const [selectedMesh, setSelectedMesh] = useState<Mesh | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<TabId>('todas');
 
   // Calculate summary stats
   const stats = useMemo(() => {
@@ -268,15 +278,21 @@ export function Curriculum() {
     return { totalMeshes, totalCourses, avgCompletion };
   }, []);
 
-  // Filter meshes
+  // Filter meshes by tab + search
   const filteredMeshes = useMemo(() => {
-    if (!searchQuery.trim()) return mockMeshes;
-    const query = searchQuery.toLowerCase();
-    return mockMeshes.filter(m => 
-      m.nombre.toLowerCase().includes(query) ||
-      m.descripcion.toLowerCase().includes(query)
-    );
-  }, [searchQuery]);
+    let list = mockMeshes;
+    if (activeTab === 'activas')     list = list.filter(m => m.completionRate > 0 && m.completionRate < 100);
+    if (activeTab === 'proximas')    list = list.filter(m => m.completionRate === 0);
+    if (activeTab === 'completadas') list = list.filter(m => m.completionRate === 100);
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(m =>
+        m.nombre.toLowerCase().includes(q) ||
+        m.descripcion.toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }, [activeTab, searchQuery]);
 
   // Close modal on ESC
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -303,9 +319,89 @@ export function Curriculum() {
             {mockMeshes.length} mallas de capacitación activas
           </p>
         </div>
-        <Button variant="ghost" size="md" icon={Plus}>
-          Nueva Malla
-        </Button>
+        <div className="flex items-center gap-3">
+          {/* Search input — relocated to header right */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568]" />
+            <input
+              type="text"
+              placeholder="Buscar mallas..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="h-10 w-56 bg-[#1C2333] border border-[rgba(0,229,255,0.1)] rounded-lg pl-9 pr-8 text-sm text-[#F0F4FF] placeholder-[#4A5568] focus:outline-none focus:border-[rgba(0,229,255,0.3)] transition-colors"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#4A5568] hover:text-[#F0F4FF] transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+          <Button variant="ghost" size="md" icon={Plus}>
+            Nueva Malla
+          </Button>
+        </div>
+      </motion.div>
+
+      {/* Tabs bar */}
+      <motion.div
+        custom={0.04}
+        variants={sectionVariants}
+        initial="hidden"
+        animate="visible"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0',
+          borderBottom: '1px solid rgba(0,229,255,0.1)',
+        }}
+      >
+        {TABS.map((tab) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '10px 18px',
+                fontSize: '14px',
+                fontWeight: isActive ? 700 : 500,
+                color: isActive ? '#00E5FF' : '#8892A4',
+                background: 'none',
+                border: 'none',
+                borderBottom: isActive ? '2px solid #00E5FF' : '2px solid transparent',
+                marginBottom: '-1px',
+                cursor: 'pointer',
+                transition: 'color 0.15s, border-color 0.15s',
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) e.currentTarget.style.color = '#C8D6E5';
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) e.currentTarget.style.color = '#8892A4';
+              }}
+            >
+              {tab.dot && (
+                <span style={{
+                  width: '7px', height: '7px',
+                  borderRadius: '50%',
+                  backgroundColor: isActive ? '#00E5FF' : '#8892A4',
+                  flexShrink: 0,
+                  display: 'inline-block',
+                  transition: 'background-color 0.15s',
+                }} />
+              )}
+              {tab.label}
+            </button>
+          );
+        })}
       </motion.div>
 
       {/* Summary Stats Bar */}
@@ -345,32 +441,6 @@ export function Curriculum() {
         </div>
       </motion.div>
 
-      {/* Search Bar */}
-      <motion.div
-        custom={0.1}
-        variants={sectionVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <div className="relative max-w-md">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#4A5568]" />
-          <input
-            type="text"
-            placeholder="Buscar mallas por nombre..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-12 bg-[#1C2333] border border-[rgba(0,229,255,0.1)] rounded-lg pl-12 pr-12 text-sm text-[#F0F4FF] placeholder-[#4A5568] focus:outline-none focus:border-[rgba(0,229,255,0.3)] transition-colors"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#4A5568] hover:text-[#F0F4FF] transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          )}
-        </div>
-      </motion.div>
 
       {/* Mesh Cards Grid */}
       <div className="grid grid-cols-1 gap-4">
