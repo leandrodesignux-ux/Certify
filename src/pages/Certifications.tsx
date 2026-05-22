@@ -165,45 +165,135 @@ function DaysSparkline({ diasRestantes }: { diasRestantes: number }) {
   );
 }
 
-// Empty state with animated glow
-function EmptyState() {
+// Empty state with animated SVG illustration (3 rotating orbit rings)
+interface EmptyStateProps {
+  search?: string;
+  activeTab?: TabType;
+  onClearSearch?: () => void;
+  onSwitchToAll?: () => void;
+}
+
+function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptyStateProps) {
+  const hasSearch = search && search.trim().length > 0;
+  const hasTabFilter = activeTab && activeTab !== 'todas';
+
+  // Determine message based on filters
+  let title = 'Sin certificaciones';
+  let subtitle = 'No hay certificaciones para mostrar en este momento';
+
+  if (hasSearch) {
+    title = `No hay resultados para "${search}"`;
+    subtitle = 'Intenta con otros términos de búsqueda';
+  } else if (hasTabFilter) {
+    const tabLabels: Record<TabType, string> = {
+      todas: 'Todas',
+      vigentes: 'Vigentes',
+      proximas: 'Próximas a vencer',
+      vencidas: 'Vencidas',
+    };
+    title = `Sin certificaciones ${tabLabels[activeTab].toLowerCase()}`;
+    subtitle = `No hay certificaciones en estado "${tabLabels[activeTab]}"`;
+  }
+
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
       style={{ textAlign: 'center', padding: '60px 20px' }}
     >
-      <div style={{ position: 'relative', display: 'inline-block', marginBottom: '24px' }}>
-        {/* Animated glow rings */}
+      <div style={{ position: 'relative', display: 'inline-block', marginBottom: '24px', width: '80px', height: '80px' }}>
+        {/* 3 rotating orbit rings */}
         <motion.div
-          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.1, 0.3] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
           style={{
             position: 'absolute',
-            inset: '-20px',
+            inset: '-10px',
             borderRadius: '50%',
-            border: '2px solid rgba(0,229,255,0.2)',
+            border: '2px dashed rgba(0,229,255,0.3)',
           }}
         />
         <motion.div
-          animate={{ scale: [1, 1.4, 1], opacity: [0.2, 0.05, 0.2] }}
-          transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+          animate={{ rotate: -360 }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+          style={{
+            position: 'absolute',
+            inset: '-25px',
+            borderRadius: '50%',
+            border: '2px dashed rgba(170,255,0,0.2)',
+          }}
+        />
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
           style={{
             position: 'absolute',
             inset: '-40px',
             borderRadius: '50%',
-            border: '2px solid rgba(0,229,255,0.1)',
+            border: '2px dashed rgba(255,184,0,0.15)',
           }}
         />
-        <Award style={{ width: '64px', height: '64px', color: '#00E5FF', position: 'relative', zIndex: 1 }} />
+        <Award style={{ width: '64px', height: '64px', color: '#00E5FF', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
       </div>
       <p style={{ fontSize: '18px', fontWeight: 600, color: '#F0F4FF', marginBottom: '8px' }}>
-        No se encontraron certificaciones
+        {title}
       </p>
-      <p style={{ fontSize: '14px', color: '#8892A4' }}>
-        Ajusta los filtros de búsqueda para ver resultados
+      <p style={{ fontSize: '14px', color: '#8892A4', marginBottom: '20px' }}>
+        {subtitle}
       </p>
+
+      {/* Action buttons */}
+      <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+        {hasSearch && onClearSearch && (
+          <button
+            onClick={onClearSearch}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: 'rgba(0,229,255,0.1)',
+              border: '1px solid rgba(0,229,255,0.3)',
+              borderRadius: '6px',
+              color: '#00E5FF',
+              fontSize: '13px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(0,229,255,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(0,229,255,0.1)';
+            }}
+          >
+            Limpiar búsqueda
+          </button>
+        )}
+        {hasTabFilter && onSwitchToAll && (
+          <button
+            onClick={onSwitchToAll}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: 'rgba(170,255,0,0.1)',
+              border: '1px solid rgba(170,255,0,0.3)',
+              borderRadius: '6px',
+              color: '#AAFF00',
+              fontSize: '13px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(170,255,0,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(170,255,0,0.1)';
+            }}
+          >
+            Ver todas las certificaciones
+          </button>
+        )}
+      </div>
     </motion.div>
   );
 }
@@ -480,8 +570,71 @@ export function Certifications() {
             placeholder="Buscar certificación, trabajador, emisor..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-12 bg-[#1C2333] border border-[rgba(0,229,255,0.15)] rounded-lg pl-12 pr-4 text-sm text-[#F0F4FF] placeholder-[#4A5568] focus:outline-none focus:border-[rgba(0,229,255,0.4)] transition-colors"
+            style={{
+              width: '100%',
+              height: '48px',
+              backgroundColor: '#1C2333',
+              border: `1px solid ${search ? (sorted.length === 0 ? 'rgba(255,61,87,0.4)' : 'rgba(0,229,255,0.4)') : 'rgba(0,229,255,0.15)'}`,
+              borderRadius: '8px',
+              paddingLeft: '48px',
+              paddingRight: search ? '48px' : '100px',
+              fontSize: '14px',
+              color: '#F0F4FF',
+              outline: 'none',
+              transition: 'border-color 0.2s',
+            }}
           />
+          {/* Results count badge */}
+          {!search && (
+            <span
+              style={{
+                position: 'absolute',
+                right: '16px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                fontSize: '12px',
+                color: '#4A5568',
+              }}
+            >
+              {filtered.length} resultados
+            </span>
+          )}
+          {/* Search active badge */}
+          {search && sorted.length > 0 && (
+            <span
+              style={{
+                position: 'absolute',
+                right: '48px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                fontSize: '11px',
+                color: '#00E5FF',
+                backgroundColor: 'rgba(0,229,255,0.1)',
+                padding: '2px 8px',
+                borderRadius: '12px',
+              }}
+            >
+              {sorted.length} resultados
+            </span>
+          )}
+          {/* No results warning */}
+          {search && sorted.length === 0 && (
+            <span
+              style={{
+                position: 'absolute',
+                right: '48px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                fontSize: '11px',
+                color: '#FF3D57',
+                backgroundColor: 'rgba(255,61,87,0.1)',
+                padding: '2px 8px',
+                borderRadius: '12px',
+              }}
+            >
+              Sin resultados
+            </span>
+          )}
           {search && (
             <button
               onClick={() => setSearch('')}
@@ -491,6 +644,16 @@ export function Certifications() {
             </button>
           )}
         </div>
+        {/* No results message below input */}
+        {search && sorted.length === 0 && (
+          <motion.p
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{ fontSize: '12px', color: '#FF3D57', marginTop: '8px', marginLeft: '4px' }}
+          >
+            No se encontraron certificaciones para "{search}". Intenta con otros términos.
+          </motion.p>
+        )}
 
         {/* Select Filters Row */}
         <div className="flex flex-wrap items-end gap-4">
@@ -746,7 +909,14 @@ export function Certifications() {
         </div>
 
         {/* Empty State */}
-        {sorted.length === 0 && <EmptyState />}
+        {sorted.length === 0 && (
+          <EmptyState
+            search={search}
+            activeTab={activeTab}
+            onClearSearch={() => setSearch('')}
+            onSwitchToAll={() => setActiveTab('todas')}
+          />
+        )}
 
         {/* Pagination */}
         {sorted.length > 0 && (

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Users, X, ArrowDown, CheckCircle, Clock, Lock, Play } from 'lucide-react';
+import { Users, X, ArrowDown, CheckCircle, Clock, Lock, Play, BookOpen } from 'lucide-react';
 import type { Mesh, Course } from '../../types';
 import { ProgressBar } from '../ui/ProgressBar';
 
@@ -148,15 +148,40 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
           <h3 className="text-sm font-medium text-[#8892A4] uppercase tracking-wider mb-4">
             Ruta de Aprendizaje
           </h3>
-          
-          <div className="space-y-0">
-            {mesh.cursos.map((course, index) => (
-              <div key={course.id}>
-                <SequentialCourseCard course={course} index={index} />
-                {index < mesh.cursos.length - 1 && <ArrowConnector />}
+
+          {mesh.cursos.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center justify-center py-12 text-center"
+            >
+              <div
+                style={{
+                  width: '64px',
+                  height: '64px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(0,229,255,0.05)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '16px',
+                }}
+              >
+                <BookOpen style={{ width: '28px', height: '28px', color: '#00E5FF' }} />
               </div>
-            ))}
-          </div>
+              <p className="text-[#F0F4FF] font-medium mb-2">Esta malla no tiene cursos asignados</p>
+              <p className="text-sm text-[#8892A4]">Los cursos se agregarán próximamente</p>
+            </motion.div>
+          ) : (
+            <div className="space-y-0">
+              {mesh.cursos.map((course, index) => (
+                <div key={course.id}>
+                  <SequentialCourseCard course={course} index={index} />
+                  {index < mesh.cursos.length - 1 && <ArrowConnector />}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Trabajadores Asignados Section */}

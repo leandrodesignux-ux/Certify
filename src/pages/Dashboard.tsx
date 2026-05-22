@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Award, AlertTriangle, BookOpen } from 'lucide-react';
 import { mockStats, mockWorkers, mockAlerts } from '../data/mockData';
@@ -11,6 +12,7 @@ import { StatusDonutChart } from '../components/dashboard/StatusDonutChart';
 import { TopUrgentWorkers } from '../components/dashboard/TopUrgentWorkers';
 import { AreaComplianceCards } from '../components/dashboard/AreaComplianceCards';
 import { Card } from '../components/ui/Card';
+import { Skeleton } from '../components/ui/Skeleton';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -30,6 +32,15 @@ export function Dashboard() {
     mockWorkers.reduce((acc, w) => acc + w.complianceScore, 0) / mockWorkers.length
   );
   const criticalAlerts = mockAlerts?.filter(a => (a.diasRestantes ?? 0) < 0).length ?? 0;
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div style={{ position: 'relative' }}>
@@ -81,38 +92,49 @@ export function Dashboard() {
         animate="visible"
         style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}
       >
-        <StatsCard
-          value={mockStats.totalWorkers}
-          subtitle="Total Trabajadores"
-          trend={{ direction: 'up', value: '+3 este mes' }}
-          icon={Users}
-          color="electric"
-          delay={0}
-        />
-        <StatsCard
-          value={mockStats.certVigentes}
-          subtitle="Certificaciones Vigentes"
-          trend={{ direction: 'up', value: '87% del total' }}
-          icon={Award}
-          color="success"
-          delay={0.1}
-        />
-        <StatsCard
-          value={mockStats.certProximas}
-          subtitle="Próximas a Vencer"
-          trend={{ direction: 'up', value: '+5 esta semana' }}
-          icon={AlertTriangle}
-          color="warning"
-          delay={0.2}
-        />
-        <StatsCard
-          value={`${avgCompliance}%`}
-          subtitle="Compliance General"
-          trend={{ direction: 'down', value: '-2% vs mes ant.' }}
-          icon={BookOpen}
-          color="volt"
-          delay={0.3}
-        />
+        {isLoading ? (
+          <>
+            <Skeleton height="120px" />
+            <Skeleton height="120px" />
+            <Skeleton height="120px" />
+            <Skeleton height="120px" />
+          </>
+        ) : (
+          <>
+            <StatsCard
+              value={mockStats.totalWorkers}
+              subtitle="Total Trabajadores"
+              trend={{ direction: 'up', value: '+3 este mes' }}
+              icon={Users}
+              color="electric"
+              delay={0}
+            />
+            <StatsCard
+              value={mockStats.certVigentes}
+              subtitle="Certificaciones Vigentes"
+              trend={{ direction: 'up', value: '87% del total' }}
+              icon={Award}
+              color="success"
+              delay={0.1}
+            />
+            <StatsCard
+              value={mockStats.certProximas}
+              subtitle="Próximas a Vencer"
+              trend={{ direction: 'up', value: '+5 esta semana' }}
+              icon={AlertTriangle}
+              color="warning"
+              delay={0.2}
+            />
+            <StatsCard
+              value={`${avgCompliance}%`}
+              subtitle="Compliance General"
+              trend={{ direction: 'down', value: '-2% vs mes ant.' }}
+              icon={BookOpen}
+              color="volt"
+              delay={0.3}
+            />
+          </>
+        )}
       </motion.div>
 
       {/* FILA: Mini cards de compliance por área */}

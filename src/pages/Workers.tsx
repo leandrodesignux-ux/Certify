@@ -165,19 +165,52 @@ function WorkersComponent() {
         animate="visible"
       >
         {displayWorkers.length === 0 ? (
-          <Card variant="glass" padding="lg" className="text-center py-16">
-            <div className="inline-flex p-4 bg-[rgba(0,229,255,0.05)] rounded-full mb-6">
-              <Users className="w-12 h-12 text-[#4A5568]" />
-            </div>
-            <h3 className="font-display text-xl font-semibold text-[#F0F4FF] mb-2">
-              Sin resultados
-            </h3>
-            <p className="text-[#8892A4] mb-6 max-w-md mx-auto">
-              No se encontraron trabajadores con los filtros aplicados. Intenta ajustar tu búsqueda.
-            </p>
-            <Button variant="ghost" size="md" onClick={() => window.location.reload()}>
-              Limpiar filtros
-            </Button>
+          <Card variant="glass" padding="lg" style={{ textAlign: 'center', padding: '48px 24px' }}>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.4 }}
+            >
+              {/* Animated Users Icon with rings */}
+              <div style={{ position: 'relative', display: 'inline-block', marginBottom: '24px', width: '80px', height: '80px' }}>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                  style={{
+                    position: 'absolute',
+                    inset: '-15px',
+                    borderRadius: '50%',
+                    border: '2px dashed rgba(0,229,255,0.2)',
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '64px',
+                    height: '64px',
+                    backgroundColor: 'rgba(0,229,255,0.05)',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Users style={{ width: '32px', height: '32px', color: '#00E5FF' }} />
+                </div>
+              </div>
+              <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '22px', fontWeight: 600, color: '#F0F4FF', marginBottom: '8px' }}>
+                Sin trabajadores
+              </h3>
+              <p style={{ fontSize: '14px', color: '#8892A4', marginBottom: '24px', maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
+                No se encontraron trabajadores con los filtros aplicados. Intenta ajustar tu búsqueda o limpiar los filtros.
+              </p>
+              <Button variant="ghost" size="md" onClick={() => window.location.reload()}>
+                Limpiar filtros
+              </Button>
+            </motion.div>
           </Card>
         ) : viewMode === 'grid' ? (
           <div style={{
