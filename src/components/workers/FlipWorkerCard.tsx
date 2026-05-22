@@ -27,8 +27,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
       transition={{ delay: index * 0.04, duration: 0.4, ease: [0.16,1,0.3,1] }}
       style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}
     >
-      {/* Card flip container */}
-      <div style={{ perspective: '1200px', width: '100%' }}>
+      {/* Card flip container — perspective here, NO preserve-3d, NO transform on this level */}
+      <div style={{ perspective: '1200px', transformStyle: 'flat', width: '100%' }}>
         <motion.div
           animate={{ rotateY: flipped ? 180 : 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
@@ -40,7 +40,6 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             cursor: 'pointer',
           }}
           onClick={() => setFlipped(f => !f)}
-          whileHover={{ scale: 1.01 }}
         >
           {/* ===== FRONT ===== */}
           <div style={{

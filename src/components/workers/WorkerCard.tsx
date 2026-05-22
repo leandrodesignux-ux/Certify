@@ -29,14 +29,12 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -4, scale: 1.01 }}
       className="w-full flex flex-col gap-2"
-      style={{ perspective: '1000px' }}
     >
-      {/* Flip container */}
+      {/* Flip container — perspective here, NO preserve-3d, NO transform on this level */}
       <div
         className="relative cursor-pointer"
-        style={{ height: '340px' }}
+        style={{ height: '340px', perspective: '1200px', transformStyle: 'flat' }}
         onClick={() => setIsFlipped(f => !f)}
       >
         <motion.div
@@ -93,8 +91,8 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
 
           {/* BACK */}
           <div
-            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-            className="absolute inset-0 rounded-xl border border-[rgba(0,229,255,0.2)] bg-[#0D1117] p-4 overflow-y-auto"
+            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)', overflowY: 'auto' }}
+            className="absolute inset-0 rounded-xl border border-[rgba(0,229,255,0.2)] bg-[#0D1117] p-4"
           >
             <div className="flex items-center gap-3 mb-4 pb-3 border-b border-[rgba(0,229,255,0.1)]">
               {worker.foto ? (
