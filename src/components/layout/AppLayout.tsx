@@ -12,7 +12,7 @@ export function AppLayout({ pageTitle, breadcrumbs }: AppLayoutProps) {
   const { sidebarCollapsed } = useUIStore();
 
   return (
-    <div className="flex min-h-screen" style={{ backgroundColor: '#0A0E1A' }}>
+    <div className="flex min-h-screen" style={{ backgroundColor: '#0d0920' }}>
       <Sidebar />
       <div
         style={{

@@ -53,7 +53,7 @@ function NotificationBadge({ count, color }: { count: number; color: string }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        border: '2px solid #0D1B2A',
+        border: '2px solid #130b3a',
       }}
     >
       {count > 9 ? '9+' : count}
@@ -74,14 +74,14 @@ function NavTooltip({ label, visible }: { label: string; visible: boolean }) {
           style={{
             position: 'absolute',
             left: '56px',
-            backgroundColor: '#1C2333',
+            backgroundColor: '#231455',
             color: '#F0F4FF',
             padding: '6px 12px',
             borderRadius: '4px',
             fontSize: '12px',
             fontWeight: 500,
             whiteSpace: 'nowrap',
-            border: '1px solid rgba(0,229,255,0.2)',
+            border: '1px solid rgba(91,34,119,0.4)',
             zIndex: 100,
             pointerEvents: 'none',
             boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
@@ -96,7 +96,7 @@ function NavTooltip({ label, visible }: { label: string; visible: boolean }) {
               transform: 'translateY(-50%)',
               borderWidth: '5px 5px 5px 0',
               borderStyle: 'solid',
-              borderColor: 'transparent rgba(0,229,255,0.2) transparent transparent',
+              borderColor: 'transparent rgba(91,34,119,0.4) transparent transparent',
             }}
           />
         </motion.span>
@@ -161,8 +161,8 @@ export function Sidebar() {
   const SidebarContent = ({ isMobile = false }: { isMobile?: boolean }) => (
     <>
       {/* Logo */}
-      <div className="h-16 flex items-center px-4 border-b border-[rgba(0,229,255,0.1)]">
-        <Zap className="w-7 h-7 text-[#00E5FF] flex-shrink-0" />
+      <div className="h-16 flex items-center px-4 border-b border-[rgba(91,34,119,0.2)]">
+        <Zap className="w-7 h-7 text-[#9b6ab5] flex-shrink-0" />
         <AnimatePresence mode="wait">
           {!sidebarCollapsed && (
             <motion.span
@@ -170,7 +170,7 @@ export function Sidebar() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -10 }}
               transition={{ duration: 0.15 }}
-              className="ml-3 font-display text-xl font-bold text-[#00E5FF] tracking-wide text-glow-electric"
+              className="ml-3 font-display text-xl font-bold text-[#c49fe0] tracking-wide"
             >
               CertifyX
             </motion.span>
@@ -190,7 +190,7 @@ export function Sidebar() {
       {!isMobile && (
         <button
           onClick={toggleSidebar}
-          className="w-6 h-6 bg-[#111827] border border-[rgba(0,229,255,0.2)] rounded-sm flex items-center justify-center text-[#8892A4] hover:text-[#00E5FF] hover:border-[#00E5FF]/40 transition-all duration-150"
+          className="w-6 h-6 bg-[#1a1040] border border-[rgba(91,34,119,0.3)] rounded-sm flex items-center justify-center text-[#a89fc4] hover:text-[#9b6ab5] hover:border-[#5b2277]/50 transition-all duration-150"
           style={{ position: 'absolute', right: '-12px', top: '80px', zIndex: 60 }}
         >
           {sidebarCollapsed ? (
@@ -228,15 +228,15 @@ export function Sidebar() {
                     borderRadius: '4px',
                     transition: 'all 0.15s ease',
                     backgroundColor: isActive
-                      ? 'rgba(0,229,255,0.12)'
+                      ? 'rgba(91,34,119,0.25)'
                       : isHovered
-                        ? 'rgba(0,229,255,0.06)'
+                        ? 'rgba(91,34,119,0.12)'
                         : 'transparent',
-                    color: isActive ? '#00E5FF' : isHovered ? '#F0F4FF' : '#8892A4',
+                    color: isActive ? '#c49fe0' : isHovered ? '#F0F4FF' : '#a89fc4',
                     borderLeft: isActive
-                      ? '2px solid #00E5FF'
+                      ? '2px solid #9b6ab5'
                       : isHovered
-                        ? '2px solid rgba(0,229,255,0.3)'
+                        ? '2px solid rgba(91,34,119,0.4)'
                         : '2px solid transparent',
                     position: 'relative',
                   }}
@@ -247,7 +247,7 @@ export function Sidebar() {
                         width: '20px',
                         height: '20px',
                         flexShrink: 0,
-                        color: isActive ? '#00E5FF' : isHovered ? '#F0F4FF' : '#8892A4',
+                        color: isActive ? '#c49fe0' : isHovered ? '#F0F4FF' : '#a89fc4',
                       }}
                     />
                     {badgeCount > 0 && badgeColor && (
@@ -295,12 +295,12 @@ export function Sidebar() {
             <kbd
               style={{
                 padding: '2px 6px',
-                backgroundColor: 'rgba(28,35,51,0.5)',
+                backgroundColor: 'rgba(28,16,80,0.5)',
                 borderRadius: '4px',
                 fontSize: '10px',
-                color: '#8892A4',
+                color: '#a89fc4',
                 fontFamily: 'monospace',
-                border: '1px solid rgba(0,229,255,0.1)',
+                border: '1px solid rgba(91,34,119,0.2)',
               }}
             >
               ⌘B
@@ -310,7 +310,7 @@ export function Sidebar() {
       </nav>
 
       {/* User Section */}
-      <div style={{ padding: '12px', borderTop: '1px solid rgba(0,229,255,0.1)' }}>
+      <div style={{ padding: '12px', borderTop: '1px solid rgba(91,34,119,0.2)' }}>
         <div
           style={{
             display: 'flex',
@@ -326,15 +326,15 @@ export function Sidebar() {
               width: '32px',
               height: '32px',
               borderRadius: '4px',
-              background: 'linear-gradient(135deg, rgba(0,229,255,0.2) 0%, rgba(170,255,0,0.2) 100%)',
-              border: '1px solid rgba(0,229,255,0.2)',
+              background: 'linear-gradient(135deg, rgba(91,34,119,0.3) 0%, rgba(114,147,98,0.25) 100%)',
+              border: '1px solid rgba(91,34,119,0.3)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               flexShrink: 0,
             }}
           >
-            <User style={{ width: '16px', height: '16px', color: '#00E5FF' }} />
+            <User style={{ width: '16px', height: '16px', color: '#9b6ab5' }} />
           </div>
           <AnimatePresence mode="wait">
             {!sidebarCollapsed && (
@@ -379,7 +379,7 @@ export function Sidebar() {
         initial={false}
         animate={{ width: sidebarCollapsed ? 64 : 240 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="hidden md:flex h-screen bg-[#0D1B2A] border-r border-[rgba(0,229,255,0.1)] flex-col fixed left-0 top-0 z-50"
+        className="hidden md:flex h-screen bg-[#130b3a] border-r border-[rgba(91,34,119,0.2)] flex-col fixed left-0 top-0 z-50"
       >
         <SidebarContent />
       </motion.aside>
@@ -408,7 +408,7 @@ export function Sidebar() {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="md:hidden fixed left-0 top-0 h-screen w-[280px] bg-[#0D1B2A] border-r border-[rgba(0,229,255,0.1)] flex flex-col z-[60]"
+              className="md:hidden fixed left-0 top-0 h-screen w-[280px] bg-[#130b3a] border-r border-[rgba(91,34,119,0.2)] flex flex-col z-[60]"
             >
               <SidebarContent isMobile />
             </motion.aside>
