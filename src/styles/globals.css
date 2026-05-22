@@ -1,24 +1,44 @@
 @import "tailwindcss";
 
 @theme {
-  --color-obsidian: #0A0E1A;
-  --color-navy-deep: #0D1B2A;
-  --color-surface: #111827;
-  --color-surface-alt: #1C2333;
-  --color-electric: #00E5FF;
-  --color-volt: #AAFF00;
+  /* === BRAND CORE === */
+  --color-brand-primary: #1c0f57;
+  --color-brand-secondary: #5b2277;
+  --color-brand-tertiary: #642b5a;
+  --color-brand-accent-warm: #747e44;
+  --color-brand-accent-cool: #729362;
+
+  /* === SURFACES === */
+  --color-obsidian: #0d0920;
+  --color-navy-deep: #130b3a;
+  --color-surface: #1a1040;
+  --color-surface-alt: #231455;
+
+  /* === SEMANTIC STATUS === */
   --color-warning: #FFB800;
   --color-danger: #FF3D57;
-  --color-success: #00E676;
-  --color-neutral: #4A5568;
+  --color-success: #729362;
+  --color-info: #9b6ab5;
+
+  /* === TEXT === */
   --color-text-primary: #F0F4FF;
-  --color-text-secondary: #8892A4;
-  --color-text-muted: #4A5568;
+  --color-text-secondary: #a89fc4;
+  --color-text-muted: #5c5480;
+
+  /* === BRAND GLOW === */
+  --color-electric: #7c4dab;
+  --color-volt: #8a9e52;
+  --color-neutral: #3d3060;
+
+  /* === TYPOGRAPHY === */
   --font-display: "Barlow Condensed", sans-serif;
   --font-body: "DM Sans", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
-  --shadow-electric: 0 0 20px rgba(0,229,255,0.25);
-  --shadow-volt: 0 0 20px rgba(170,255,0,0.25);
+
+  /* === SHADOWS === */
+  --shadow-brand: 0 0 20px rgba(91,34,119,0.35);
+  --shadow-electric: 0 0 20px rgba(91,34,119,0.25);
+  --shadow-volt: 0 0 20px rgba(114,147,98,0.25);
   --shadow-danger: 0 0 20px rgba(255,61,87,0.25);
 }
 
@@ -38,7 +58,7 @@ body {
   color: var(--color-text-primary);
   min-height: 100vh;
   background-image:
-    radial-gradient(circle at 1px 1px, rgba(0, 229, 255, 0.03) 1px, transparent 0);
+    radial-gradient(circle at 1px 1px, rgba(91, 34, 119, 0.04) 1px, transparent 0);
   background-size: 24px 24px;
 }
 
@@ -129,8 +149,8 @@ body {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 229, 255, 0.015) 2px,
-    rgba(0, 229, 255, 0.015) 4px
+    rgba(91, 34, 119, 0.015) 2px,
+    rgba(91, 34, 119, 0.015) 4px
   );
   pointer-events: none;
   animation: scanlines 8s linear infinite;
@@ -146,17 +166,17 @@ select option { background-color: #1C2333; color: #F0F4FF; }
 /* Scrollbar styling */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: #0A0E1A; }
-::-webkit-scrollbar-thumb { background: rgba(0,229,255,0.2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0,229,255,0.4); }
+::-webkit-scrollbar-thumb { background: rgba(91,34,119,0.35); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(91,34,119,0.6); }
 
 ::selection {
-  background: rgba(0, 229, 255, 0.15);
-  color: #00E5FF;
+  background: rgba(91, 34, 119, 0.25);
+  color: #9b6ab5;
 }
 
 /* Gradient text utility */
 .text-gradient {
-  background: linear-gradient(135deg, #00E5FF 0%, #AAFF00 100%);
+  background: linear-gradient(135deg, #7c4dab 0%, #8a9e52 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -164,19 +184,19 @@ select option { background-color: #1C2333; color: #F0F4FF; }
 
 /* Glass surface upgrade */
 .glass-surface {
-  background: rgba(17, 24, 39, 0.7);
+  background: rgba(26, 16, 64, 0.85);
   backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(91, 34, 119, 0.15);
 }
 
 /* Neon glow text */
 .text-glow-electric {
-  text-shadow: 0 0 20px rgba(0, 229, 255, 0.5), 0 0 40px rgba(0, 229, 255, 0.2);
+  text-shadow: 0 0 20px rgba(124, 77, 171, 0.6), 0 0 40px rgba(124, 77, 171, 0.3);
 }
 
 /* Focus ring standard */
 .focus-ring:focus-visible {
-  outline: 2px solid #00E5FF;
+  outline: 2px solid #7c4dab;
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -197,8 +217,8 @@ select option { background-color: #1C2333; color: #F0F4FF; }
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .hover-lift:hover {
-  box-shadow: 0 4px 24px rgba(0,229,255,0.12);
-  border-color: rgba(0,229,255,0.25);
+  box-shadow: 0 4px 24px rgba(91,34,119,0.2);
+  border-color: rgba(124,77,171,0.35);
 }
 
 /* Fix cursor pointer consistente en cards clickeables */
