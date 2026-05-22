@@ -111,13 +111,13 @@ body {
 }
 
 @keyframes borderFlow {
-  0% { border-color: rgba(0,229,255,0.1); }
-  50% { border-color: rgba(0,229,255,0.35); }
-  100% { border-color: rgba(0,229,255,0.1); }
+  0% { border-color: rgba(91,34,119,0.15); }
+  50% { border-color: rgba(91,34,119,0.45); }
+  100% { border-color: rgba(91,34,119,0.15); }
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.06) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(91,34,119,0.08) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: shimmer 2.5s infinite;
 }
@@ -149,8 +149,8 @@ body {
     0deg,
     transparent,
     transparent 2px,
-    rgba(91, 34, 119, 0.015) 2px,
-    rgba(91, 34, 119, 0.015) 4px
+    rgba(91, 34, 119, 0.02) 2px,
+    rgba(91, 34, 119, 0.02) 4px
   );
   pointer-events: none;
   animation: scanlines 8s linear infinite;
@@ -161,7 +161,7 @@ body {
 .font-mono { font-family: "JetBrains Mono", monospace; }
 
 /* Select dropdown styling */
-select option { background-color: #1C2333; color: #F0F4FF; }
+select option { background-color: var(--color-surface-alt); color: #F0F4FF; }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -171,12 +171,12 @@ select option { background-color: #1C2333; color: #F0F4FF; }
 
 ::selection {
   background: rgba(91, 34, 119, 0.25);
-  color: #9b6ab5;
+  color: #7c4dab;
 }
 
 /* Gradient text utility */
 .text-gradient {
-  background: linear-gradient(135deg, #7c4dab 0%, #8a9e52 100%);
+  background: linear-gradient(135deg, #9b6ab5 0%, #747e44 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -218,7 +218,7 @@ select option { background-color: #1C2333; color: #F0F4FF; }
 }
 .hover-lift:hover {
   box-shadow: 0 4px 24px rgba(91,34,119,0.2);
-  border-color: rgba(124,77,171,0.35);
+  border-color: rgba(100,43,90,0.4);
 }
 
 /* Fix cursor pointer consistente en cards clickeables */
