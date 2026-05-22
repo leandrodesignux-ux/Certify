@@ -31,9 +31,9 @@ function getAlertIcon(tipo: string) {
     case 'vencimiento':
       return <AlertTriangle className="w-4 h-4 text-[#FFB800]" />;
     case 'progreso':
-      return <CheckCircle className="w-4 h-4 text-[#00E676]" />;
+      return <CheckCircle className="w-4 h-4 text-[#729362]" />;
     default:
-      return <Clock className="w-4 h-4 text-[#00E5FF]" />;
+      return <Clock className="w-4 h-4 text-[#9b6ab5]" />;
   }
 }
 
@@ -90,9 +90,9 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
         left: isMobile ? '0px' : (sidebarCollapsed ? '64px' : '240px'),
         height: '64px',
         zIndex: 40,
-        backgroundColor: '#111827',
-        borderBottom: '1px solid rgba(0,229,255,0.1)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)',
+        backgroundColor: '#1a1040',
+        borderBottom: '1px solid rgba(91,34,119,0.2)',
+        boxShadow: '0 4px 20px rgba(13,9,32,0.6)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -105,7 +105,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
         {/* Mobile Hamburger Button */}
         <button
           onClick={toggleMobileSidebar}
-          className="md:hidden p-2 text-[#8892A4] hover:text-[#F0F4FF] transition-colors rounded-md hover:bg-[rgba(0,229,255,0.1)]"
+          className="md:hidden p-2 text-[#8892A4] hover:text-[#F0F4FF] transition-colors rounded-md hover:bg-[rgba(91,34,119,0.15)]"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -117,7 +117,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                 <span key={index} className="flex items-center">
                   {index > 0 && <ChevronRight className="w-3 h-3 mx-1.5" />}
                   {crumb.route ? (
-                    <button className="hover:text-[#00E5FF] transition-colors duration-150">
+                    <button className="hover:text-[#9b6ab5] transition-colors duration-150">
                       {crumb.label}
                     </button>
                   ) : (
@@ -142,7 +142,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
         }}
       >
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5c5480]" />
           <input
             id="global-search"
             type="text"
@@ -152,8 +152,8 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
             style={{
               width: '100%',
               height: '40px',
-              backgroundColor: '#1C2333',
-              border: '1px solid rgba(0,229,255,0.1)',
+              backgroundColor: '#231455',
+              border: '1px solid rgba(91,34,119,0.2)',
               borderRadius: '4px',
               paddingLeft: '40px',
               paddingRight: searchFocused ? '16px' : '60px',
@@ -161,7 +161,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
               color: '#F0F4FF',
               outline: 'none',
               transition: 'all 0.2s ease',
-              boxShadow: searchFocused ? '0 0 0 2px rgba(0,229,255,0.2)' : 'none',
+              boxShadow: searchFocused ? '0 0 0 2px rgba(91,34,119,0.4)' : 'none',
             }}
           />
           {/* Keyboard shortcut hint */}
@@ -173,12 +173,12 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                 top: '50%',
                 transform: 'translateY(-50%)',
                 padding: '2px 6px',
-                backgroundColor: 'rgba(28,35,51,0.8)',
+                backgroundColor: 'rgba(28,16,80,0.8)',
                 borderRadius: '4px',
                 fontSize: '10px',
-                color: '#4A5568',
+                color: '#5c5480',
                 fontFamily: 'monospace',
-                border: '1px solid rgba(0,229,255,0.1)',
+                border: '1px solid rgba(91,34,119,0.2)',
               }}
             >
               ⌘K
@@ -193,7 +193,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
         <div className="relative" ref={notificationsRef}>
           <button
             onClick={() => setNotificationsOpen(!notificationsOpen)}
-            className="relative p-2 text-[#8892A4] hover:text-[#F0F4FF] transition-colors duration-150 rounded-md hover:bg-[rgba(0,229,255,0.1)]"
+            className="relative p-2 text-[#8892A4] hover:text-[#F0F4FF] transition-colors duration-150 rounded-md hover:bg-[rgba(91,34,119,0.15)]"
           >
             <Bell className="w-5 h-5" />
             {hasExpiredCerts && (
@@ -225,8 +225,8 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                   top: 'calc(100% + 8px)',
                   right: 0,
                   width: '320px',
-                  backgroundColor: '#1C2333',
-                  border: '1px solid rgba(0,229,255,0.2)',
+                  backgroundColor: '#231455',
+                  border: '1px solid rgba(91,34,119,0.35)',
                   borderRadius: '8px',
                   boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
                   zIndex: 50,
@@ -237,7 +237,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                 <div
                   style={{
                     padding: '12px 16px',
-                    borderBottom: '1px solid rgba(0,229,255,0.1)',
+                    borderBottom: '1px solid rgba(91,34,119,0.2)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
@@ -246,7 +246,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                   <span className="font-medium text-[#F0F4FF] text-sm">Notificaciones</span>
                   <button
                     onClick={() => setNotificationsOpen(false)}
-                    className="text-xs text-[#00E5FF] hover:underline"
+                    className="text-xs text-[#9b6ab5] hover:underline"
                   >
                     Ver todas
                   </button>
@@ -259,14 +259,14 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                       key={alert.id}
                       style={{
                         padding: '12px 16px',
-                        borderBottom: '1px solid rgba(0,229,255,0.05)',
+                        borderBottom: '1px solid rgba(91,34,119,0.1)',
                         display: 'flex',
                         gap: '12px',
                         cursor: 'pointer',
                         transition: 'background-color 0.15s',
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(0,229,255,0.05)';
+                        e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = 'transparent';
@@ -294,8 +294,8 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                 <div
                   style={{
                     padding: '10px 16px',
-                    borderTop: '1px solid rgba(0,229,255,0.1)',
-                    backgroundColor: 'rgba(0,229,255,0.03)',
+                    borderTop: '1px solid rgba(91,34,119,0.15)',
+                    backgroundColor: 'rgba(91,34,119,0.06)',
                   }}
                 >
                   <p className="text-xs text-center text-[#4A5568]">
@@ -311,8 +311,8 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
 
         {/* Avatar */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-sm bg-gradient-to-br from-[#00E5FF]/20 to-[#AAFF00]/20 border border-[rgba(0,229,255,0.2)] flex items-center justify-center">
-            <span className="text-sm font-medium text-[#00E5FF]">AD</span>
+          <div className="w-9 h-9 rounded-sm bg-gradient-to-br from-[#5b2277]/25 to-[#729362]/25 border border-[rgba(91,34,119,0.35)] flex items-center justify-center">
+            <span className="text-sm font-medium text-[#c49fe0]">AD</span>
           </div>
           <div className="hidden md:block">
             <p className="text-sm font-medium text-[#F0F4FF]">Admin</p>
