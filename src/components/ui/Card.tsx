@@ -29,8 +29,7 @@ export function Card({
   };
 
   const baseStyles: React.CSSProperties = variant === 'glass' ? {
-    backgroundColor: 'rgba(17,24,39,0.8)',
-    backdropFilter: 'blur(12px)',
+    backgroundColor: 'rgba(17,24,39,0.92)',
     border: '1px solid rgba(0,229,255,0.1)',
     borderRadius: '6px',
   } : {
@@ -44,7 +43,13 @@ export function Card({
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{ ...baseStyles, ...style, position: 'relative', overflow: 'hidden' }}
+      style={{
+        ...baseStyles,
+        ...style,
+        position: 'relative',
+        overflow: 'hidden',
+        ...(hover && isHovered ? { willChange: 'transform' } : {}),
+      }}
       className={`transition-all duration-200 ${paddingStyles[padding]} ${
         hover
           ? 'hover:border-[rgba(0,229,255,0.25)] hover:shadow-[0_0_16px_rgba(0,229,255,0.08)] hover:-translate-y-1'
@@ -59,6 +64,7 @@ export function Card({
             position: 'absolute',
             inset: 0,
             pointerEvents: 'none',
+            zIndex: -1,
             opacity: isHovered ? 1 : 0,
             transition: 'opacity 0.3s ease',
           }}
