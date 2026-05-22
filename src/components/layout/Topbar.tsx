@@ -43,6 +43,13 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
   const [searchFocused, setSearchFocused] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const notificationsRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
 
   // Check for expired certs for red dot indicator
   const hasExpiredCerts = certifications.some(c => c.estado === 'vencido');
@@ -80,7 +87,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
         position: 'fixed',
         top: 0,
         right: 0,
-        left: sidebarCollapsed ? '64px' : '240px',
+        left: isMobile ? '0px' : (sidebarCollapsed ? '64px' : '240px'),
         height: '64px',
         zIndex: 40,
         backgroundColor: '#111827',
@@ -89,7 +96,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '0 24px',
+        padding: isMobile ? '0 12px' : '0 24px',
         transition: 'left 0.3s cubic-bezier(0.16,1,0.3,1)',
       }}
     >
