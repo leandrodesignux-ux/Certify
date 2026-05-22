@@ -1,23 +1,23 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Download,
   Search,
   ChevronUp,
   ChevronDown,
-  Filter,
+  ChevronLeft,
+  ChevronRight,
   Award,
   CheckCircle,
   Clock,
   AlertCircle,
   X,
+  Eye,
 } from 'lucide-react';
 import { useCertStore } from '../store/useCertStore';
 import { useWorkerStore } from '../store/useWorkerStore';
-import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
-import { ExpiryBadge } from '../components/ui/ExpiryBadge';
 import { formatDate } from '../utils/dates';
 
 type TabType = 'todas' | 'vigentes' | 'proximas' | 'vencidas';
@@ -25,11 +25,188 @@ type SortField = 'worker' | 'cert' | 'emisor' | 'tipo' | 'fechaObt' | 'fechaVen'
 type SortOrder = 'asc' | 'desc';
 
 const tabs = [
-  { id: 'todas' as TabType, label: 'Todas', color: '#00E5FF' },
-  { id: 'vigentes' as TabType, label: 'Vigentes', color: '#00E676' },
-  { id: 'proximas' as TabType, label: 'Por vencer', color: '#FFB800' },
-  { id: 'vencidas' as TabType, label: 'Vencidas', color: '#FF3D57' },
+  { id: 'todas' as TabType, label: 'Todas', color: '#00E5FF', countKey: 'total' as const },
+  { id: 'vigentes' as TabType, label: 'Vigentes', color: '#00E676', countKey: 'vigentes' as const },
+  { id: 'proximas' as TabType, label: 'Por vencer', color: '#FFB800', countKey: 'porvencer' as const },
+  { id: 'vencidas' as TabType, label: 'Vencidas', color: '#FF3D57', countKey: 'vencidas' as const },
 ];
+
+// Animated counter hook
+function useCountUp(end: number, duration: number = 1.5) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    let startTime: number;
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
+      setCount(Math.floor(progress * end));
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    requestAnimationFrame(animate);
+  }, [end, duration]);
+  return count;
+}
+
+// Stat Card Component
+function StatCard({ 
+  icon: Icon, 
+  value, 
+  label, 
+  color, 
+  total 
+}: { 
+  icon: React.ElementType; 
+  value: number; 
+  label: string; 
+  color: string; 
+  total: number;
+}) {
+  const animatedValue = useCountUp(value);
+  const percentage = total > 0 ? (value / total) * 100 : 0;
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      style={{
+        backgroundColor: 'rgba(17,24,39,0.6)',
+        border: '1px solid rgba(0,229,255,0.1)',
+        borderRadius: '12px',
+        padding: '20px',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Glow effect at bottom */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: '2px',
+        background: `linear-gradient(to right, transparent, ${color}, transparent)`,
+        boxShadow: `0 0 20px ${color}40`,
+      }} />
+      
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+        <div style={{
+          width: '48px',
+          height: '48px',
+          borderRadius: '12px',
+          backgroundColor: `${color}15`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <Icon style={{ width: '24px', height: '24px', color }} />
+        </div>
+        <div>
+          <motion.p
+            style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: '36px',
+              fontWeight: 700,
+              color,
+              lineHeight: 1,
+            }}
+          >
+            {animatedValue}
+          </motion.p>
+          <p style={{ fontSize: '13px', color: '#8892A4', marginTop: '4px' }}>{label}</p>
+        </div>
+      </div>
+      
+      {/* Progress bar */}
+      <div style={{ height: '4px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '2px', overflow: 'hidden' }}>
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: `${percentage}%` }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          style={{ height: '100%', backgroundColor: color, borderRadius: '2px' }}
+        />
+      </div>
+      <p style={{ fontSize: '11px', color: '#4A5568', marginTop: '8px', textAlign: 'right' }}>
+        {percentage.toFixed(1)}% del total
+      </p>
+    </motion.div>
+  );
+}
+
+// Sparkline component for days remaining
+function DaysSparkline({ diasRestantes }: { diasRestantes: number }) {
+  const maxDays = 365;
+  const percentage = Math.min(Math.max((diasRestantes / maxDays) * 100, 0), 100);
+  const color = diasRestantes <= 0 ? '#FF3D57' : diasRestantes <= 60 ? '#FFB800' : '#00E676';
+  
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ 
+        width: '60px', 
+        height: '6px', 
+        backgroundColor: 'rgba(255,255,255,0.1)', 
+        borderRadius: '3px',
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          width: `${percentage}%`,
+          height: '100%',
+          backgroundColor: color,
+          borderRadius: '3px',
+          transition: 'width 0.3s ease',
+        }} />
+      </div>
+      <span style={{ fontSize: '12px', color, fontWeight: 600 }}>
+        {diasRestantes}d
+      </span>
+    </div>
+  );
+}
+
+// Empty state with animated glow
+function EmptyState() {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      style={{ textAlign: 'center', padding: '60px 20px' }}
+    >
+      <div style={{ position: 'relative', display: 'inline-block', marginBottom: '24px' }}>
+        {/* Animated glow rings */}
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.1, 0.3] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          style={{
+            position: 'absolute',
+            inset: '-20px',
+            borderRadius: '50%',
+            border: '2px solid rgba(0,229,255,0.2)',
+          }}
+        />
+        <motion.div
+          animate={{ scale: [1, 1.4, 1], opacity: [0.2, 0.05, 0.2] }}
+          transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+          style={{
+            position: 'absolute',
+            inset: '-40px',
+            borderRadius: '50%',
+            border: '2px solid rgba(0,229,255,0.1)',
+          }}
+        />
+        <Award style={{ width: '64px', height: '64px', color: '#00E5FF', position: 'relative', zIndex: 1 }} />
+      </div>
+      <p style={{ fontSize: '18px', fontWeight: 600, color: '#F0F4FF', marginBottom: '8px' }}>
+        No se encontraron certificaciones
+      </p>
+      <p style={{ fontSize: '14px', color: '#8892A4' }}>
+        Ajusta los filtros de búsqueda para ver resultados
+      </p>
+    </motion.div>
+  );
+}
 
 export function Certifications() {
   const { certifications, activeTab, setActiveTab } = useCertStore();
@@ -40,6 +217,9 @@ export function Certifications() {
   const [search, setSearch] = useState('');
   const [areaFilter, setAreaFilter] = useState('');
   const [tipoFilter, setTipoFilter] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [expandedCert, setExpandedCert] = useState<string | null>(null);
+  const ITEMS_PER_PAGE = 15;
 
   // Filter by tab
   const filteredByTab = useMemo(() => {
@@ -61,7 +241,6 @@ export function Certifications() {
       const worker = workers.find((w) => w.id === cert.workerId);
       if (!worker) return false;
 
-      // Search filter
       if (search) {
         const searchLower = search.toLowerCase();
         const matchWorker = `${worker.nombre} ${worker.apellidos}`.toLowerCase().includes(searchLower);
@@ -70,10 +249,7 @@ export function Certifications() {
         if (!matchWorker && !matchCert && !matchEmisor) return false;
       }
 
-      // Area filter
       if (areaFilter && worker.area !== areaFilter) return false;
-
-      // Tipo filter
       if (tipoFilter && cert.tipo !== tipoFilter) return false;
 
       return true;
@@ -84,7 +260,6 @@ export function Certifications() {
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
       const multiplier = sortOrder === 'asc' ? 1 : -1;
-
       switch (sortField) {
         case 'worker': {
           const workerA = workers.find((w) => w.id === a.workerId);
@@ -109,9 +284,15 @@ export function Certifications() {
     });
   }, [filtered, sortField, sortOrder, workers]);
 
+  // Pagination
+  const totalPages = Math.ceil(sorted.length / ITEMS_PER_PAGE);
+  const paginatedCerts = sorted.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
   // Summary counts
   const summary = useMemo(() => {
+    const total = certifications.length;
     return {
+      total,
       vigentes: certifications.filter((c) => c.diasRestantes > 60).length,
       porvencer: certifications.filter((c) => c.diasRestantes > 0 && c.diasRestantes <= 60).length,
       vencidas: certifications.filter((c) => c.diasRestantes <= 0).length,
@@ -119,7 +300,15 @@ export function Certifications() {
     };
   }, [certifications]);
 
-  // CSV export
+  // Tab counts
+  const tabCounts = useMemo(() => ({
+    total: summary.total,
+    vigentes: summary.vigentes,
+    porvencer: summary.porvencer,
+    vencidas: summary.vencidas,
+  }), [summary]);
+
+  // CSV export - all results
   const exportCSV = () => {
     const headers = ['Trabajador', 'Certificación', 'Emisor', 'Tipo', 'Fecha Obtención', 'Vencimiento', 'Estado', 'Días Restantes'];
     const rows = sorted.map((cert) => {
@@ -190,154 +379,179 @@ export function Certifications() {
         </div>
       </motion.div>
 
-      {/* Summary Mini Cards */}
+      {/* Summary Cards with Animation */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
         className="grid grid-cols-2 md:grid-cols-4 gap-4"
       >
-        <Card variant="glass" padding="sm" className="flex items-center gap-3">
-          <div className="p-2 bg-[rgba(0,230,118,0.15)] rounded-sm">
-            <CheckCircle className="w-5 h-5 text-[#00E676]" />
-          </div>
-          <div>
-            <p className="text-2xl font-display font-bold text-[#00E676]">{summary.vigentes}</p>
-            <p className="text-xs text-[#8892A4]">Vigentes</p>
-          </div>
-        </Card>
-        <Card variant="glass" padding="sm" className="flex items-center gap-3">
-          <div className="p-2 bg-[rgba(255,184,0,0.15)] rounded-sm">
-            <Clock className="w-5 h-5 text-[#FFB800]" />
-          </div>
-          <div>
-            <p className="text-2xl font-display font-bold text-[#FFB800]">{summary.porvencer}</p>
-            <p className="text-xs text-[#8892A4]">Por vencer</p>
-          </div>
-        </Card>
-        <Card variant="glass" padding="sm" className="flex items-center gap-3">
-          <div className="p-2 bg-[rgba(255,61,87,0.15)] rounded-sm">
-            <AlertCircle className="w-5 h-5 text-[#FF3D57]" />
-          </div>
-          <div>
-            <p className="text-2xl font-display font-bold text-[#FF3D57]">{summary.vencidas}</p>
-            <p className="text-xs text-[#8892A4]">Vencidas</p>
-          </div>
-        </Card>
-        <Card variant="glass" padding="sm" className="flex items-center gap-3">
-          <div className="p-2 bg-[rgba(0,229,255,0.15)] rounded-sm">
-            <Award className="w-5 h-5 text-[#00E5FF]" />
-          </div>
-          <div>
-            <p className="text-2xl font-display font-bold text-[#00E5FF]">{summary.pendientes}</p>
-            <p className="text-xs text-[#8892A4]">Pendientes</p>
-          </div>
-        </Card>
+        <StatCard
+          icon={CheckCircle}
+          value={summary.vigentes}
+          label="Vigentes"
+          color="#00E676"
+          total={summary.total}
+        />
+        <StatCard
+          icon={Clock}
+          value={summary.porvencer}
+          label="Por vencer"
+          color="#FFB800"
+          total={summary.total}
+        />
+        <StatCard
+          icon={AlertCircle}
+          value={summary.vencidas}
+          label="Vencidas"
+          color="#FF3D57"
+          total={summary.total}
+        />
+        <StatCard
+          icon={Award}
+          value={summary.pendientes}
+          label="Pendientes"
+          color="#00E5FF"
+          total={summary.total}
+        />
       </motion.div>
 
-      {/* Tabs */}
+      {/* Tabs with Sliding Indicator */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
-        style={{ display: 'flex', gap: '4px', backgroundColor: '#1C2333', padding: '4px', borderRadius: '4px' }}
+        className="bg-[#0D1B2A] rounded-lg p-1 flex gap-1"
       >
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => { setActiveTab(tab.id); setCurrentPage(1); }}
+            className="relative flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-md text-sm font-medium transition-all duration-200"
             style={{
-              flex: 1,
-              padding: '8px 16px',
-              fontSize: '14px',
-              fontWeight: 500,
-              borderRadius: '4px',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-              backgroundColor: activeTab === tab.id ? 'rgba(0,229,255,0.15)' : 'transparent',
-              color: activeTab === tab.id ? '#00E5FF' : '#8892A4',
-              borderBottom: activeTab === tab.id ? '2px solid #00E5FF' : '2px solid transparent',
+              color: activeTab === tab.id ? tab.color : '#8892A4',
             }}
           >
-            <span
-              style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '9999px', marginRight: '8px', backgroundColor: tab.color }}
-            />
-            {tab.label}
+            {activeTab === tab.id && (
+              <motion.div
+                layoutId="activeTab"
+                className="absolute inset-0 rounded-md"
+                style={{
+                  backgroundColor: `${tab.color}15`,
+                  boxShadow: `0 0 12px ${tab.color}33`,
+                }}
+                transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+              />
+            )}
+            <span className="relative z-10 flex items-center gap-2">
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: tab.color }}
+              />
+              {tab.label}
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="ml-1 px-1.5 py-0.5 text-xs rounded-full"
+                style={{
+                  backgroundColor: activeTab === tab.id ? `${tab.color}30` : 'rgba(136,146,164,0.2)',
+                  color: activeTab === tab.id ? tab.color : '#8892A4',
+                }}
+              >
+                {tabCounts[tab.countKey]}
+              </motion.span>
+            </span>
           </button>
         ))}
       </motion.div>
 
-      {/* Filters */}
+      {/* Filters - Two Row Layout */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.4 }}
-        className="flex flex-wrap items-center gap-4"
+        className="space-y-3"
       >
-        {/* Search */}
-        <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568]" />
+        {/* Search - Full Width */}
+        <div className="relative w-full">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#4A5568]" />
           <input
             type="text"
-            placeholder="Buscar certificación o trabajador..."
+            placeholder="Buscar certificación, trabajador, emisor..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-10 bg-[#1C2333] border border-[rgba(0,229,255,0.1)] rounded-sm pl-10 pr-4 text-sm text-[#F0F4FF] placeholder-[#4A5568] focus:outline-none focus:border-[rgba(0,229,255,0.3)]"
+            className="w-full h-12 bg-[#1C2333] border border-[rgba(0,229,255,0.15)] rounded-lg pl-12 pr-4 text-sm text-[#F0F4FF] placeholder-[#4A5568] focus:outline-none focus:border-[rgba(0,229,255,0.4)] transition-colors"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#4A5568] hover:text-[#F0F4FF]"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#4A5568] hover:text-[#F0F4FF] transition-colors"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" />
             </button>
           )}
         </div>
 
-        {/* Area Filter */}
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-[#8892A4]" />
-          <select
-            value={areaFilter}
-            onChange={(e) => setAreaFilter(e.target.value)}
-            className="h-10 bg-[#1C2333] border border-[rgba(0,229,255,0.1)] rounded-sm px-3 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(0,229,255,0.3)] cursor-pointer"
-          >
-            <option value="">Todas las áreas</option>
-            <option value="Operaciones">Operaciones</option>
-            <option value="Mantención">Mantención</option>
-            <option value="Seguridad">Seguridad</option>
-            <option value="Logística">Logística</option>
-            <option value="RRHH">RRHH</option>
-          </select>
+        {/* Select Filters Row */}
+        <div className="flex flex-wrap items-end gap-4">
+          {/* Area Filter */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-medium text-[#8892A4] uppercase tracking-wider">Área</label>
+            <div className="relative">
+              <select
+                value={areaFilter}
+                onChange={(e) => setAreaFilter(e.target.value)}
+                className="h-10 w-44 bg-[#1C2333] border border-[rgba(0,229,255,0.15)] rounded-lg pl-3 pr-10 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(0,229,255,0.4)] cursor-pointer appearance-none"
+              >
+                <option value="">Todas las áreas</option>
+                <option value="Operaciones">Operaciones</option>
+                <option value="Mantención">Mantención</option>
+                <option value="Seguridad">Seguridad</option>
+                <option value="Logística">Logística</option>
+                <option value="RRHH">RRHH</option>
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568] pointer-events-none" />
+            </div>
+          </div>
+
+          {/* Tipo Filter */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-medium text-[#8892A4] uppercase tracking-wider">Tipo</label>
+            <div className="relative">
+              <select
+                value={tipoFilter}
+                onChange={(e) => setTipoFilter(e.target.value)}
+                className="h-10 w-40 bg-[#1C2333] border border-[rgba(0,229,255,0.15)] rounded-lg pl-3 pr-10 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(0,229,255,0.4)] cursor-pointer appearance-none"
+              >
+                <option value="">Todos los tipos</option>
+                <option value="obligatoria">Obligatoria</option>
+                <option value="complementaria">Complementaria</option>
+                <option value="legal">Legal</option>
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568] pointer-events-none" />
+            </div>
+          </div>
+
+          {/* Clear Filters */}
+          {activeFilters > 0 && (
+            <button
+              onClick={() => {
+                setSearch('');
+                setAreaFilter('');
+                setTipoFilter('');
+              }}
+              className="flex items-center gap-1.5 h-10 px-4 text-sm text-[#FF3D57] hover:bg-[rgba(255,61,87,0.1)] rounded-lg transition-colors border border-[rgba(255,61,87,0.2)]"
+            >
+              <X className="w-4 h-4" />
+              Limpiar filtros
+            </button>
+          )}
+
+          {/* Results Count */}
+          <span className="ml-auto text-sm text-[#8892A4]">
+            {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
+          </span>
         </div>
-
-        {/* Tipo Filter */}
-        <select
-          value={tipoFilter}
-          onChange={(e) => setTipoFilter(e.target.value)}
-          className="h-10 bg-[#1C2333] border border-[rgba(0,229,255,0.1)] rounded-sm px-3 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(0,229,255,0.3)] cursor-pointer"
-        >
-          <option value="">Todos los tipos</option>
-          <option value="obligatoria">Obligatoria</option>
-          <option value="complementaria">Complementaria</option>
-          <option value="legal">Legal</option>
-        </select>
-
-        {/* Clear Filters */}
-        {activeFilters > 0 && (
-          <button
-            onClick={() => {
-              setSearch('');
-              setAreaFilter('');
-              setTipoFilter('');
-            }}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm text-[#FF3D57] hover:bg-[rgba(255,61,87,0.1)] rounded-sm transition-colors"
-          >
-            <X className="w-3.5 h-3.5" />
-            Limpiar ({activeFilters})
-          </button>
-        )}
       </motion.div>
 
       {/* Table */}
@@ -345,14 +559,26 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
-        style={{ backgroundColor: 'rgba(17,24,39,0.8)', backdropFilter: 'blur(12px)', border: '1px solid rgba(0,229,255,0.1)', borderRadius: '4px', overflow: 'hidden' }}
+        className="bg-[rgba(17,24,39,0.8)] backdrop-blur-[12px] border border-[rgba(0,229,255,0.1)] rounded-lg overflow-hidden"
       >
-        <div style={{ overflowX: 'auto', maxHeight: '600px', overflowY: 'auto' }}>
+        <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="sticky top-0 bg-[#111827] z-10">
+            <thead 
+              className="sticky top-0 z-10"
+              style={{
+                backgroundColor: 'rgba(13,27,42,0.8)',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              {/* Gradient fade at bottom */}
+              <tr>
+                <th colSpan={8} className="p-0">
+                  <div className="h-px bg-gradient-to-r from-transparent via-[rgba(0,229,255,0.2)] to-transparent" />
+                </th>
+              </tr>
               <tr className="border-b border-[rgba(0,229,255,0.1)]">
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('worker')}
                 >
                   <div className="flex items-center gap-1">
@@ -361,7 +587,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('cert')}
                 >
                   <div className="flex items-center gap-1">
@@ -370,7 +596,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('emisor')}
                 >
                   <div className="flex items-center gap-1">
@@ -379,7 +605,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('tipo')}
                 >
                   <div className="flex items-center gap-1">
@@ -388,7 +614,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('fechaObt')}
                 >
                   <div className="flex items-center gap-1">
@@ -397,7 +623,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('fechaVen')}
                 >
                   <div className="flex items-center gap-1">
@@ -406,7 +632,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors"
+                  className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('estado')}
                 >
                   <div className="flex items-center justify-center gap-1">
@@ -414,15 +640,20 @@ export function Certifications() {
                     <SortIcon field="estado" />
                   </div>
                 </th>
+                <th className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+                  Acción
+                </th>
               </tr>
             </thead>
             <tbody>
               <AnimatePresence mode="wait">
-                {sorted.map((cert, index) => {
+                {paginatedCerts.map((cert, index) => {
                   const worker = workers.find((w) => w.id === cert.workerId);
                   const initials = worker
                     ? `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase()
                     : '?';
+                  const isExpanded = expandedCert === cert.id;
+                  const borderColor = cert.estado === 'vigente' ? '#00E676' : cert.estado === 'proximo_vencer' ? '#FFB800' : cert.estado === 'vencido' ? '#FF3D57' : '#00E5FF';
 
                   return (
                     <motion.tr
@@ -430,10 +661,18 @@ export function Certifications() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
-                      transition={{ delay: index * 0.02, duration: 0.3 }}
+                      transition={{ delay: index * 0.03, duration: 0.3 }}
+                      className="group cursor-pointer"
                       style={{
                         backgroundColor: index % 2 === 0 ? 'rgba(17,24,39,0.6)' : 'rgba(28,35,51,0.4)',
-                        borderLeft: cert.estado === 'vigente' ? '3px solid #00E676' : cert.estado === 'proximo_vencer' ? '3px solid #FFB800' : cert.estado === 'vencido' ? '3px solid #FF3D57' : '3px solid #00E5FF',
+                        borderLeft: `3px solid ${borderColor}`,
+                        transition: 'background-color 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(0,229,255,0.03)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(17,24,39,0.6)' : 'rgba(28,35,51,0.4)';
                       }}
                     >
                       <td className="px-4 py-3">
@@ -484,15 +723,19 @@ export function Certifications() {
                         </span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className="text-sm text-[#F0F4FF]">
-                          {formatDate(cert.fechaVencimiento)}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <ExpiryBadge diasRestantes={cert.diasRestantes} />
+                        <DaysSparkline diasRestantes={cert.diasRestantes} />
                       </td>
                       <td className="px-4 py-3 text-center">
                         <Badge status={cert.estado} />
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <button
+                          onClick={() => setExpandedCert(isExpanded ? null : cert.id)}
+                          className="p-1.5 rounded-md hover:bg-[rgba(0,229,255,0.1)] transition-colors"
+                          title="Ver detalle"
+                        >
+                          <Eye className="w-4 h-4 text-[#00E5FF]" />
+                        </button>
                       </td>
                     </motion.tr>
                   );
@@ -502,11 +745,33 @@ export function Certifications() {
           </table>
         </div>
 
-        {sorted.length === 0 && (
-          <div className="text-center py-12">
-            <Award className="w-12 h-12 text-[#4A5568] mx-auto mb-4" />
-            <p className="text-[#F0F4FF]">No se encontraron certificaciones</p>
-            <p className="text-sm text-[#8892A4] mt-1">Ajusta los filtros de búsqueda</p>
+        {/* Empty State */}
+        {sorted.length === 0 && <EmptyState />}
+
+        {/* Pagination */}
+        {sorted.length > 0 && (
+          <div className="flex items-center justify-between px-4 py-3 border-t border-[rgba(0,229,255,0.1)]">
+            <span className="text-sm text-[#8892A4]">
+              Página {currentPage} de {totalPages}
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#F0F4FF] bg-[#1C2333] border border-[rgba(0,229,255,0.15)] rounded-md hover:border-[rgba(0,229,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Anterior
+              </button>
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#F0F4FF] bg-[#1C2333] border border-[rgba(0,229,255,0.15)] rounded-md hover:border-[rgba(0,229,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Siguiente
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         )}
       </motion.div>
