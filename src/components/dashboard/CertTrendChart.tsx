@@ -77,7 +77,11 @@ export function CertTrendChart() {
             axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
             tickLine={false}
           />
-          <Tooltip content={<CustomTooltip />} contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '8px', color: '#F0F4FF', fontSize: '12px' }} />
+          <Tooltip
+            content={<CustomTooltip />}
+            contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '6px', color: '#F0F4FF' }}
+            cursor={{ stroke: 'rgba(0,229,255,0.2)', strokeWidth: 1 }}
+          />
           <Area
             type="monotone"
             dataKey="vigentes"
@@ -86,6 +90,8 @@ export function CertTrendChart() {
             strokeWidth={2}
             fillOpacity={1}
             fill="url(#colorVigentes)"
+            isAnimationActive={true}
+            animationDuration={1000}
           />
           <Area
             type="monotone"
@@ -95,6 +101,8 @@ export function CertTrendChart() {
             strokeWidth={2}
             fillOpacity={1}
             fill="url(#colorVencidas)"
+            isAnimationActive={true}
+            animationDuration={1000}
           />
         </AreaChart>
       </ResponsiveContainer>

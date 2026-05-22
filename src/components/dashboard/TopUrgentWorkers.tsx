@@ -44,7 +44,7 @@ export function TopUrgentWorkers() {
               key={worker.id}
               onClick={() => navigate(`/workers/${worker.id}`)}
               style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', transition: 'background 0.15s' }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(28,35,51,0.5)')}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(0,229,255,0.04)')}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
             >
               {worker.foto
@@ -65,7 +65,17 @@ export function TopUrgentWorkers() {
                   <p style={{ fontSize: '10px', color: '#FF3D57', marginTop: '2px' }}>Cert. vencida</p>
                 )}
               </div>
-              <ArrowRight style={{ width: '14px', height: '14px', color: '#4A5568', flexShrink: 0 }} />
+              <ArrowRight
+                className="arrow-icon"
+                style={{
+                  width: '14px',
+                  height: '14px',
+                  color: '#4A5568',
+                  flexShrink: 0,
+                  transition: 'all 0.2s',
+                  opacity: 0.5,
+                }}
+              />
             </div>
           );
         })}

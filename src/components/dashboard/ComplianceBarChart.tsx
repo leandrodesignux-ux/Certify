@@ -58,8 +58,18 @@ export function ComplianceBarChart() {
             domain={[0, 100]}
             tickFormatter={(value) => `${value}%`}
           />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0,229,255,0.05)' }} contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '8px', color: '#F0F4FF', fontSize: '12px' }} />
-          <Bar dataKey="value" radius={[2, 2, 0, 0]} maxBarSize={50}>
+          <Tooltip
+            content={<CustomTooltip />}
+            cursor={{ fill: 'rgba(0,229,255,0.05)' }}
+            contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '6px', color: '#F0F4FF' }}
+          />
+          <Bar
+            dataKey="value"
+            radius={[2, 2, 0, 0]}
+            maxBarSize={50}
+            isAnimationActive={true}
+            animationDuration={1000}
+          >
             <LabelList
               dataKey="value"
               position="top"

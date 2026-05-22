@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { RadialBarChart, RadialBar, ResponsiveContainer, PolarAngleAxis } from 'recharts';
 
 interface ComplianceGaugeProps {
   score: number;
@@ -6,67 +7,68 @@ interface ComplianceGaugeProps {
 
 export function ComplianceGauge({ score }: ComplianceGaugeProps) {
   const clampedScore = Math.max(0, Math.min(100, score));
-  const radius = 80;
-  const strokeWidth = 12;
-  const normalizedRadius = radius - strokeWidth / 2;
-  const circumference = normalizedRadius * Math.PI;
-  const strokeDashoffset = circumference - (clampedScore / 100) * circumference;
 
+  // Calculate color based on score with gradient logic
   const getColor = () => {
-    if (clampedScore >= 90) return { stroke: '#00E5FF', glow: 'drop-shadow(0 0 6px rgba(0,229,255,0.5))' };
-    if (clampedScore >= 70) return { stroke: '#AAFF00', glow: 'drop-shadow(0 0 6px rgba(170,255,0,0.5))' };
-    if (clampedScore >= 50) return { stroke: '#FFB800', glow: 'drop-shadow(0 0 6px rgba(255,184,0,0.5))' };
-    return { stroke: '#FF3D57', glow: 'drop-shadow(0 0 6px rgba(255,61,87,0.5))' };
+    if (clampedScore >= 80) return '#00E676'; // Green
+    if (clampedScore >= 60) return '#FFB800'; // Yellow
+    return '#FF3D57'; // Red
   };
 
-  const color = getColor();
+  const data = [{ name: 'Compliance', value: clampedScore, fill: getColor() }];
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-[200px] h-[120px]">
-        <svg
-          width="200"
-          height="120"
-          viewBox="0 0 200 120"
-          className="transform -rotate-90"
-        >
-          {/* Background arc */}
-          <circle
-            cx="100"
-            cy="100"
-            r={normalizedRadius}
-            fill="none"
-            stroke="#1C2333"
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={circumference / 2}
-          />
-          {/* Progress arc */}
-          <motion.circle
-            cx="100"
-            cy="100"
-            r={normalizedRadius}
-            fill="none"
-            stroke={color.stroke}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            initial={{ strokeDashoffset: circumference }}
-            animate={{ strokeDashoffset: strokeDashoffset + circumference / 2 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            style={{ filter: color.glow }}
-          />
-        </svg>
+      <div className="relative w-[200px] h-[200px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <RadialBarChart
+            cx="50%"
+            cy="50%"
+            innerRadius="60%"
+            outerRadius="80%"
+            data={data}
+            startAngle={90}
+            endAngle={-270}
+          >
+            {/* Gradient definitions */}
+            <defs>
+              <linearGradient id="gaugeGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#FF3D57" />
+                <stop offset="60%" stopColor="#FFB800" />
+                <stop offset="100%" stopColor="#00E676" />
+              </linearGradient>
+            </defs>
+            <PolarAngleAxis
+              type="number"
+              domain={[0, 100]}
+              tick={false}
+            />
+            {/* Background track */}
+            <RadialBar
+              background
+              dataKey="value"
+              cornerRadius={10}
+              fill="#1C2333"
+            />
+            {/* Progress bar with gradient */}
+            <RadialBar
+              dataKey="value"
+              cornerRadius={10}
+              fill="url(#gaugeGradient)"
+              isAnimationActive={true}
+              animationDuration={1000}
+            />
+          </RadialBarChart>
+        </ResponsiveContainer>
 
         {/* Center content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-end pb-4">
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
           <motion.span
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 0.4 }}
             className="font-display text-4xl font-bold"
-            style={{ color: color.stroke }}
+            style={{ color: getColor() }}
           >
             {Math.round(clampedScore)}%
           </motion.span>

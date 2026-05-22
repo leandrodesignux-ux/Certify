@@ -52,6 +52,8 @@ export function StatusDonutChart() {
               paddingAngle={3}
               dataKey="value"
               stroke="none"
+              isAnimationActive={true}
+              animationDuration={1000}
             >
               {data.map((entry, index) => (
                 <Cell
@@ -63,7 +65,10 @@ export function StatusDonutChart() {
                 />
               ))}
             </Pie>
-            <Tooltip content={<CustomTooltip />} contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '8px', color: '#F0F4FF', fontSize: '12px' }} />
+            <Tooltip
+              content={<CustomTooltip />}
+              contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '6px', color: '#F0F4FF' }}
+            />
           </PieChart>
         </ResponsiveContainer>
 
