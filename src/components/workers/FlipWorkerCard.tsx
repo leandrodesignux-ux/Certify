@@ -17,7 +17,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
   const vigentes = worker.certifications.filter(c => c.estado === 'vigente').length;
   const vencidas = worker.certifications.filter(c => c.estado === 'vencido').length;
 
-  const scoreColor = worker.complianceScore >= 80 ? '#00E676'
+  const scoreColor = worker.complianceScore >= 80 ? '#729362'
     : worker.complianceScore >= 60 ? '#FFB800' : '#FF3D57';
 
   return (
@@ -50,8 +50,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             inset: 0,
             borderRadius: '6px',
             overflow: 'hidden',
-            backgroundColor: '#111827',
-            border: '1px solid rgba(0,229,255,0.12)',
+            backgroundColor: '#1a1040',
+            border: '1px solid rgba(91,34,119,0.25)',
           }}>
             {/* Alert badge */}
             {expired && (
@@ -74,29 +74,29 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                     style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
                 : <div style={{
                     width: '100%', height: '100%',
-                    backgroundColor: '#1C2333',
+                    backgroundColor: '#231455',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '64px', fontWeight: 700, color: '#00E5FF' }}>{initials}</span>
+                    <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '64px', fontWeight: 700, color: '#9b6ab5' }}>{initials}</span>
                   </div>
               }
               {/* Gradient overlay */}
               <div style={{
                 position: 'absolute', inset: 0,
-                background: 'linear-gradient(to top, rgba(17,24,39,0.95) 0%, rgba(17,24,39,0.3) 50%, transparent 100%)',
+                background: 'linear-gradient(to top, rgba(26,16,64,0.95) 0%, rgba(26,16,64,0.3) 50%, transparent 100%)',
               }} />
               {/* Area badge top-left */}
               <div style={{
                 position: 'absolute', top: '10px', left: '10px',
-                backgroundColor: 'rgba(0,229,255,0.2)',
-                border: '1px solid rgba(0,229,255,0.4)',
+                backgroundColor: 'rgba(91,34,119,0.2)',
+                border: '1px solid rgba(91,34,119,0.4)',
                 borderRadius: '20px', padding: '3px 10px',
-                fontSize: '10px', fontWeight: 700, color: '#00E5FF',
+                fontSize: '10px', fontWeight: 700, color: '#c49fe0',
               }}>{worker.area}</div>
               {/* Score badge bottom-right */}
               <div style={{
                 position: 'absolute', bottom: '10px', right: '10px',
-                backgroundColor: 'rgba(10,14,26,0.9)',
+                backgroundColor: 'rgba(19,11,58,0.9)',
                 border: `1px solid ${scoreColor}`,
                 borderRadius: '20px', padding: '3px 10px',
                 fontSize: '11px', fontWeight: 700, color: scoreColor,
@@ -138,8 +138,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             inset: 0,
             transform: 'rotateY(180deg)',
             borderRadius: '6px',
-            backgroundColor: '#0D1B2A',
-            border: '1px solid rgba(0,229,255,0.2)',
+            backgroundColor: '#130b3a',
+            border: '1px solid rgba(91,34,119,0.3)',
             padding: '16px',
             overflowY: 'auto',
             display: 'flex',
@@ -147,10 +147,10 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             gap: '12px',
           }}>
             {/* Avatar + nombre */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingBottom: '12px', borderBottom: '1px solid rgba(0,229,255,0.08)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingBottom: '12px', borderBottom: '1px solid rgba(91,34,119,0.2)' }}>
               {worker.foto
-                ? <img src={worker.foto} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(0,229,255,0.4)', flexShrink: 0 }} />
-                : <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: '#1C2333', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00E5FF', fontWeight: 700, fontSize: '15px', flexShrink: 0 }}>{initials}</div>
+                ? <img src={worker.foto} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(91,34,119,0.4)', flexShrink: 0 }} />
+                : <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9b6ab5', fontWeight: 700, fontSize: '15px', flexShrink: 0 }}>{initials}</div>
               }
               <div style={{ minWidth: 0 }}>
                 <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1.2 }}>{worker.nombre} {worker.apellidos}</p>
@@ -184,10 +184,10 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                   {meshes.slice(0, 3).map(m => (
                     <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <p style={{ fontSize: '10px', color: '#F0F4FF', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.nombre}</p>
-                      <span style={{ fontSize: '9px', backgroundColor: 'rgba(0,229,255,0.15)', color: '#00E5FF', borderRadius: '4px', padding: '1px 5px', fontWeight: 700, flexShrink: 0 }}>
+                      <span style={{ fontSize: '9px', backgroundColor: 'rgba(91,34,119,0.2)', color: '#c49fe0', borderRadius: '4px', padding: '1px 5px', fontWeight: 700, flexShrink: 0 }}>
                         {m.completionRate} de 15
                       </span>
-                      <span style={{ fontSize: '10px', color: '#00E5FF', cursor: 'pointer', flexShrink: 0, fontWeight: 600 }}>Ver</span>
+                      <span style={{ fontSize: '10px', color: '#c49fe0', cursor: 'pointer', flexShrink: 0, fontWeight: 600 }}>Ver</span>
                     </div>
                   ))}
                 </div>
@@ -196,11 +196,33 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
 
             {/* Cert badges */}
             <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: 'auto' }}>
-              {vigentes > 0 && <span style={{ padding: '2px 8px', borderRadius: '20px', fontSize: '10px', fontWeight: 600, backgroundColor: 'rgba(0,230,118,0.15)', color: '#00E676', border: '1px solid rgba(0,230,118,0.3)' }}>{vigentes} vigentes</span>}
+              {vigentes > 0 && <span style={{ padding: '2px 8px', borderRadius: '20px', fontSize: '10px', fontWeight: 600, backgroundColor: 'rgba(114,147,98,0.18)', color: '#8fb87a', border: '1px solid rgba(114,147,98,0.4)' }}>{vigentes} vigentes</span>}
               {vencidas > 0 && <span style={{ padding: '2px 8px', borderRadius: '20px', fontSize: '10px', fontWeight: 600, backgroundColor: 'rgba(255,61,87,0.15)', color: '#FF3D57', border: '1px solid rgba(255,61,87,0.3)' }}>{vencidas} vencidas</span>}
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end' }}>
+            <button
+              onClick={(e) => { e.stopPropagation(); navigate(`/workers/${worker.id}`); }}
+              style={{
+                marginTop: '12px',
+                width: '100%',
+                padding: '8px',
+                backgroundColor: 'rgba(91,34,119,0.2)',
+                border: '1px solid rgba(91,34,119,0.4)',
+                borderRadius: '6px',
+                color: '#c49fe0',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+              }}
+            >
+              <Eye style={{ width: '13px', height: '13px' }} />
+              Ver perfil completo
+            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end', marginTop: '6px' }}>
               <RotateCcw style={{ width: '11px', height: '11px', color: '#4A5568' }} />
               <span style={{ fontSize: '10px', color: '#4A5568' }}>volver</span>
             </div>
@@ -214,8 +236,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
         style={{
           width: '100%',
           padding: '10px',
-          backgroundColor: '#00E5FF',
-          color: '#0A0E1A',
+          backgroundColor: '#5b2277',
+          color: '#F0F4FF',
           border: 'none',
           borderRadius: '0 0 16px 16px',
           fontSize: '13px',
@@ -229,8 +251,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
           justifyContent: 'center',
           gap: '6px',
         }}
-        onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#00CCEE')}
-        onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#00E5FF')}
+        onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#7c4dab')}
+        onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#5b2277')}
       >
         <Eye style={{ width: '14px', height: '14px' }} />
         VER MÁS DETALLES

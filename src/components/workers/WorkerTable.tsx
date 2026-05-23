@@ -22,35 +22,35 @@ export function WorkerTable({ workers }: WorkerTableProps) {
   };
 
   return (
-    <div className="bg-[#111827]/80 backdrop-blur-[12px] border border-[rgba(0,229,255,0.1)] rounded-sm overflow-hidden">
+    <div className="bg-[#1a1040]/90 backdrop-blur-[12px] border border-[rgba(91,34,119,0.2)] rounded-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-[rgba(0,229,255,0.1)]">
-              <th className="px-5 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+            <tr className="border-b border-[rgba(91,34,119,0.2)]">
+              <th className="px-5 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                 Trabajador
               </th>
-              <th className="px-5 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+              <th className="px-5 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                 Área
               </th>
-              <th className="px-5 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+              <th className="px-5 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                 Cargo
               </th>
-              <th className="px-5 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+              <th className="px-5 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                 Score
               </th>
-              <th className="px-5 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+              <th className="px-5 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                 Certs Vigentes
               </th>
-              <th className="px-5 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+              <th className="px-5 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                 Estado
               </th>
-              <th className="px-5 py-3 text-right text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+              <th className="px-5 py-3 text-right text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                 Acción
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[rgba(0,229,255,0.05)]">
+          <tbody className="divide-y divide-[rgba(91,34,119,0.1)]">
             {workers.map((worker, index) => {
               const status = getWorkerStatus(worker);
               const scoreColor = getComplianceColor(worker.complianceScore);
@@ -65,7 +65,7 @@ export function WorkerTable({ workers }: WorkerTableProps) {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.03, duration: 0.3 }}
-                  className="hover:bg-[#1C2333]/50 transition-colors duration-150"
+                  className="hover:bg-[rgba(91,34,119,0.08)] transition-colors duration-150"
                 >
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
@@ -73,11 +73,11 @@ export function WorkerTable({ workers }: WorkerTableProps) {
                         <img
                           src={worker.foto}
                           alt={`${worker.nombre} ${worker.apellidos}`}
-                          className="w-10 h-10 rounded-full object-cover border border-[rgba(0,229,255,0.2)]"
+                          className="w-10 h-10 rounded-full object-cover border border-[rgba(91,34,119,0.3)]"
                         />
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-[#1C2333] border border-[rgba(0,229,255,0.2)] flex items-center justify-center">
-                          <span className="font-display text-sm font-semibold text-[#00E5FF]">
+                        <div className="w-10 h-10 rounded-full bg-[#231455] border border-[rgba(91,34,119,0.3)] flex items-center justify-center">
+                          <span className="font-display text-sm font-semibold text-[#c49fe0]">
                             {initials}
                           </span>
                         </div>
@@ -102,7 +102,7 @@ export function WorkerTable({ workers }: WorkerTableProps) {
                     </span>
                   </td>
                   <td className="px-5 py-4 text-center">
-                    <span className="font-mono text-sm text-[#00E676]">{activeCerts}</span>
+                    <span className="font-mono text-sm text-[#8fb87a]">{activeCerts}</span>
                     <span className="text-[#4A5568] text-sm">
                       /{worker.certifications.length}
                     </span>
