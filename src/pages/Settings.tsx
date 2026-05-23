@@ -25,7 +25,7 @@ export function Settings() {
         initial="hidden"
         animate="visible"
       >
-        <h1 className="font-display text-3xl font-bold text-[#F0F4FF] tracking-tight">
+        <h1 className="font-display text-3xl font-bold text-gradient tracking-tight">
           Configuración
         </h1>
         <p className="text-[#8892A4] mt-1">

@@ -226,3 +226,19 @@ select option { background-color: var(--color-surface-alt); color: #F0F4FF; }
   cursor: pointer;
   user-select: none;
 }
+
+/* Brand gradient backgrounds */
+.bg-brand-gradient {
+  background: linear-gradient(135deg, rgba(28,15,87,0.8) 0%, rgba(91,34,119,0.6) 100%);
+}
+
+/* Separator line brand */
+.separator-brand {
+  border-color: rgba(91, 34, 119, 0.2);
+}
+
+/* Card surface brand */
+.surface-brand {
+  background-color: #1a1040;
+  border: 1px solid rgba(91, 34, 119, 0.2);
+}
