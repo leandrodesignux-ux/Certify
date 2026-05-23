@@ -85,9 +85,9 @@ function KPICard({ title, value, subtitle, icon: Icon, color, delay = 0 }: KPICa
 function CustomBarTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#1C2333] border border-[rgba(0,229,255,0.2)] rounded-lg p-3 shadow-lg">
+      <div className="bg-[#231455] border border-[rgba(91,34,119,0.4)] rounded-lg p-3 shadow-lg">
         <p className="text-sm font-medium text-[#F0F4FF]">{label}</p>
-        <p className="text-lg font-bold text-[#00E5FF]">{payload[0].value}%</p>
+        <p className="text-lg font-bold text-[#9b6ab5]">{payload[0].value}%</p>
         <p className="text-xs text-[#8892A4]">Cumplimiento promedio</p>
       </div>
     );
@@ -102,7 +102,7 @@ function CustomPieTooltip({ active, payload }: { active?: boolean; payload?: Arr
     const total = 100; // Simplified
     const percentage = ((data.value / total) * 100).toFixed(1);
     return (
-      <div className="bg-[#1C2333] border border-[rgba(0,229,255,0.2)] rounded-lg p-3 shadow-lg">
+      <div className="bg-[#231455] border border-[rgba(91,34,119,0.4)] rounded-lg p-3 shadow-lg">
         <p className="text-sm font-medium text-[#F0F4FF]">{data.name}</p>
         <p className="text-lg font-bold" style={{ color: data.payload.color }}>
           {data.value} ({percentage}%)
@@ -158,7 +158,7 @@ export function Reports() {
       
       // Color coding
       let color = '#FF3D57';
-      if (avgScore > 80) color = '#00E676';
+      if (avgScore > 80) color = '#729362';
       else if (avgScore > 60) color = '#FFB800';
 
       return {
@@ -178,7 +178,7 @@ export function Reports() {
     const total = certifications.length || 1;
 
     return [
-      { name: 'Vigentes', value: vigentes, color: '#00E676', percentage: ((vigentes / total) * 100).toFixed(1) },
+      { name: 'Vigentes', value: vigentes, color: '#729362', percentage: ((vigentes / total) * 100).toFixed(1) },
       { name: 'Próx. vencer', value: proximas, color: '#FFB800', percentage: ((proximas / total) * 100).toFixed(1) },
       { name: 'Vencidas', value: vencidas, color: '#FF3D57', percentage: ((vencidas / total) * 100).toFixed(1) },
       { name: 'Pendientes', value: pendientes, color: '#8892A4', percentage: ((pendientes / total) * 100).toFixed(1) },
@@ -195,7 +195,7 @@ export function Reports() {
         const expiringCount = worker.certifications.filter(c => c.estado === 'proximo_vencer').length;
         
         let scoreColor = '#FF3D57';
-        if (worker.complianceScore >= 80) scoreColor = '#00E676';
+        if (worker.complianceScore >= 80) scoreColor = '#729362';
         else if (worker.complianceScore >= 60) scoreColor = '#FFB800';
 
         return {
@@ -265,7 +265,7 @@ Generado automáticamente por CertifyX
   };
 
   const getComplianceColor = (score: number) => {
-    if (score >= 80) return '#00E676';
+    if (score >= 80) return '#729362';
     if (score >= 60) return '#FFB800';
     return '#FF3D57';
   };
@@ -312,7 +312,7 @@ Generado automáticamente por CertifyX
           value={kpis.activeCerts}
           subtitle={`de ${certifications.length} totales`}
           icon={Award}
-          color="#00E676"
+          color="#729362"
           delay={0.2}
         />
         <KPICard
@@ -357,7 +357,7 @@ Generado automáticamente por CertifyX
                   axisLine={false}
                   tickLine={false}
                 />
-                <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(0,229,255,0.05)' }} />
+                <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(91,34,119,0.08)' }} />
                 <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={24}>
                   {complianceByArea.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.fill} />
@@ -438,24 +438,24 @@ Generado automáticamente por CertifyX
           
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="border-b border-[rgba(0,229,255,0.1)]">
+              <thead className="border-b border-[rgba(91,34,119,0.2)]">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                     Trabajador
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                     Área
                   </th>
-                  <th className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                     Score
                   </th>
-                  <th className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                     Certs Vencidas
                   </th>
-                  <th className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                     Certs Por Vencer
                   </th>
-                  <th className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+                  <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                     Acción
                   </th>
                 </tr>
@@ -464,9 +464,9 @@ Generado automáticamente por CertifyX
                 {topRiskWorkers.map((worker, index) => (
                   <tr
                     key={worker.id}
-                    className="group hover:bg-[rgba(0,229,255,0.03)] transition-colors"
+                    className="group hover:bg-[rgba(91,34,119,0.08)] transition-colors"
                     style={{
-                      backgroundColor: index % 2 === 0 ? 'rgba(17,24,39,0.3)' : 'transparent',
+                      backgroundColor: index % 2 === 0 ? 'rgba(26,16,64,0.3)' : 'transparent',
                     }}
                   >
                     <td className="px-4 py-3">
@@ -475,11 +475,11 @@ Generado automáticamente por CertifyX
                           <img
                             src={worker.foto}
                             alt={`${worker.nombre} ${worker.apellidos}`}
-                            className="w-8 h-8 rounded-full object-cover border border-[rgba(0,229,255,0.2)]"
+                            className="w-8 h-8 rounded-full object-cover border border-[rgba(91,34,119,0.3)]"
                           />
                         ) : (
-                          <div className="w-8 h-8 rounded-full bg-[#1C2333] border border-[rgba(0,229,255,0.2)] flex items-center justify-center">
-                            <span className="text-xs font-semibold text-[#00E5FF]">
+                          <div className="w-8 h-8 rounded-full bg-[#231455] border border-[rgba(91,34,119,0.3)] flex items-center justify-center">
+                            <span className="text-xs font-semibold text-[#c49fe0]">
                               {worker.nombre[0]}{worker.apellidos[0]}
                             </span>
                           </div>
@@ -542,7 +542,7 @@ Generado automáticamente por CertifyX
       >
         <Card variant="glass" padding="lg">
           <div className="flex items-center gap-3 mb-6">
-            <Download className="w-6 h-6 text-[#00E5FF]" />
+            <Download className="w-6 h-6 text-[#9b6ab5]" />
             <h3 className="font-display text-lg font-bold text-[#F0F4FF]">
               Exportar Reportes
             </h3>
@@ -593,10 +593,10 @@ Generado automáticamente por CertifyX
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-[#1C2333] border border-[rgba(0,229,255,0.2)] rounded-lg text-xs text-[#8892A4] whitespace-nowrap z-10"
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-[#231455] border border-[rgba(91,34,119,0.35)] rounded-lg text-xs text-[#8892A4] whitespace-nowrap z-10"
                 >
                   Actualiza a CertifyX Pro para desbloquear
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[rgba(0,229,255,0.2)]" />
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[rgba(91,34,119,0.35)]" />
                 </motion.div>
               )}
             </div>
