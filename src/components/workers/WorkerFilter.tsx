@@ -26,9 +26,9 @@ export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) 
 
   return (
     <div style={{
-      backgroundColor: 'rgba(17,24,39,0.8)',
+      backgroundColor: 'rgba(26,16,64,0.8)',
       backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(0,229,255,0.1)',
+      border: '1px solid rgba(91,34,119,0.2)',
       borderRadius: '12px',
       padding: '12px 16px',
       display: 'flex',
@@ -49,16 +49,16 @@ export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) 
             width: '100%',
             minWidth: '240px',
             height: '40px',
-            backgroundColor: '#1C2333',
-            border: '1px solid rgba(0,229,255,0.15)',
+            backgroundColor: '#231455',
+            border: '1px solid rgba(91,34,119,0.25)',
             borderRadius: '10px',
             padding: '0 16px 0 40px',
             fontSize: '13px',
             color: '#F0F4FF',
             outline: 'none',
           }}
-          onFocus={e => e.currentTarget.style.borderColor = 'rgba(0,229,255,0.4)'}
-          onBlur={e => e.currentTarget.style.borderColor = 'rgba(0,229,255,0.15)'}
+          onFocus={e => e.currentTarget.style.borderColor = 'rgba(91,34,119,0.6)'}
+          onBlur={e => e.currentTarget.style.borderColor = 'rgba(91,34,119,0.25)'}
         />
         {filters.search && (
           <button
@@ -78,8 +78,8 @@ export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) 
         }
         style={{
           height: '40px',
-          backgroundColor: '#1C2333',
-          border: '1px solid rgba(0,229,255,0.15)',
+          backgroundColor: '#231455',
+          border: '1px solid rgba(91,34,119,0.25)',
           borderRadius: '10px',
           padding: '0 12px',
           fontSize: '13px',
@@ -117,8 +117,8 @@ export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) 
         }}
         style={{
           height: '40px',
-          backgroundColor: '#1C2333',
-          border: '1px solid rgba(0,229,255,0.15)',
+          backgroundColor: '#231455',
+          border: '1px solid rgba(91,34,119,0.25)',
           borderRadius: '10px',
           padding: '0 12px',
           fontSize: '13px',
@@ -159,7 +159,7 @@ export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) 
       )}
 
       {/* Grid/List Toggle */}
-      <div style={{ display: 'flex', gap: '4px', backgroundColor: '#1C2333', borderRadius: '10px', padding: '4px' }}>
+      <div style={{ display: 'flex', gap: '4px', backgroundColor: '#231455', borderRadius: '10px', padding: '4px' }}>
         {(['grid', 'table'] as const).map(mode => (
           <button
             key={mode}
@@ -168,8 +168,8 @@ export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) 
               width: '36px', height: '32px',
               borderRadius: '8px',
               border: 'none',
-              backgroundColor: viewMode === mode ? 'rgba(0,229,255,0.2)' : 'transparent',
-              color: viewMode === mode ? '#00E5FF' : '#8892A4',
+              backgroundColor: viewMode === mode ? 'rgba(91,34,119,0.3)' : 'transparent',
+              color: viewMode === mode ? '#9b6ab5' : '#8892A4',
               cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'all 0.15s',

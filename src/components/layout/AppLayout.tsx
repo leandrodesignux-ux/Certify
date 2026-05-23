@@ -29,9 +29,9 @@ export function AppLayout({ pageTitle, breadcrumbs }: AppLayoutProps) {
         <main
           style={{
             flex: 1,
-            paddingTop: '88px',
-            paddingLeft: '24px',
-            paddingRight: '24px',
+            paddingTop: '80px',
+            paddingLeft: '28px',
+            paddingRight: '28px',
             paddingBottom: '24px',
             overflowY: 'auto',
             overflowX: 'hidden',

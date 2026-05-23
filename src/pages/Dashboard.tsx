@@ -148,7 +148,7 @@ export function Dashboard() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}
+        style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(280px, 1fr)', gap: '20px', alignItems: 'start' }}
       >
         {/* Columna izquierda: "Cumplimiento por Área" */}
         <Card variant="glass" style={{ borderRadius: '6px', padding: '24px' }}>
@@ -209,7 +209,7 @@ export function Dashboard() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '20px', alignItems: 'start' }}
       >
         {/* Panel 1: Alertas */}
         <AlertsPanel />

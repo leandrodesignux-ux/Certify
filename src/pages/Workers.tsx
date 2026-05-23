@@ -61,10 +61,10 @@ function WorkersComponent() {
             onClick={() => setShowFilters(f => !f)}
             style={{
               padding: '8px 20px',
-              backgroundColor: showFilters ? 'rgba(0,229,255,0.15)' : 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(0,229,255,0.3)',
+              backgroundColor: showFilters ? 'rgba(91,34,119,0.2)' : 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(91,34,119,0.35)',
               borderRadius: '8px',
-              color: '#00E5FF',
+              color: '#9b6ab5',
               fontSize: '13px',
               fontWeight: 600,
               cursor: 'pointer',
@@ -174,7 +174,7 @@ function WorkersComponent() {
                     position: 'absolute',
                     inset: '-15px',
                     borderRadius: '50%',
-                    border: '2px dashed rgba(0,229,255,0.2)',
+                    border: '2px dashed rgba(91,34,119,0.25)',
                   }}
                 />
                 <div
@@ -185,14 +185,14 @@ function WorkersComponent() {
                     transform: 'translate(-50%, -50%)',
                     width: '64px',
                     height: '64px',
-                    backgroundColor: 'rgba(0,229,255,0.05)',
+                    backgroundColor: 'rgba(91,34,119,0.08)',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <Users style={{ width: '32px', height: '32px', color: '#00E5FF' }} />
+                  <Users style={{ width: '32px', height: '32px', color: '#9b6ab5' }} />
                 </div>
               </div>
               <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '22px', fontWeight: 600, color: '#F0F4FF', marginBottom: '8px' }}>
@@ -209,7 +209,7 @@ function WorkersComponent() {
         ) : viewMode === 'grid' ? (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
             gap: '16px',
           }}>
             {displayWorkers.map((worker, index) => (
