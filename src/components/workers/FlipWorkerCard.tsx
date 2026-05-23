@@ -70,7 +70,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             {/* Full photo */}
             <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
               {worker.foto
-                ? <img src={worker.foto} alt={worker.nombre}
+                ? <img src={worker.foto} alt={`${worker.nombre} ${worker.apellidos}, ${worker.cargo}`}
                     style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
                 : <div style={{
                     width: '100%', height: '100%',
@@ -111,7 +111,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                 }}>
                   {worker.nombre} {worker.apellidos}
                 </p>
-                <p style={{ fontSize: '11px', color: '#8892A4', textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
+                <p style={{ fontSize: '11px', color: 'var(--color-text-secondary)', textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
                   {worker.cargo}
                 </p>
               </div>
@@ -124,8 +124,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             }}>
               <ProgressBar value={worker.complianceScore} showLabel={false} />
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '8px', flexShrink: 0 }}>
-                <RotateCcw style={{ width: '11px', height: '11px', color: '#4A5568' }} />
-                <span style={{ fontSize: '10px', color: '#4A5568' }}>girar</span>
+                <RotateCcw style={{ width: '11px', height: '11px', color: 'var(--color-text-muted)' }} />
+                <span style={{ fontSize: '10px', color: 'var(--color-text-muted)' }}>girar</span>
               </div>
             </div>
           </div>
@@ -149,18 +149,18 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             {/* Avatar + nombre */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingBottom: '12px', borderBottom: '1px solid rgba(91,34,119,0.2)' }}>
               {worker.foto
-                ? <img src={worker.foto} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(91,34,119,0.4)', flexShrink: 0 }} />
+                ? <img src={worker.foto} alt={`Foto de perfil de ${worker.nombre} ${worker.apellidos}`} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(91,34,119,0.4)', flexShrink: 0 }} />
                 : <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9b6ab5', fontWeight: 700, fontSize: '15px', flexShrink: 0 }}>{initials}</div>
               }
               <div style={{ minWidth: 0 }}>
                 <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1.2 }}>{worker.nombre} {worker.apellidos}</p>
-                <p style={{ fontSize: '10px', color: '#8892A4', fontFamily: '"JetBrains Mono"', marginTop: '2px' }}>{worker.rut}</p>
+                <p style={{ fontSize: '10px', color: 'var(--color-text-secondary)', fontFamily: '"JetBrains Mono"', marginTop: '2px' }}>{worker.rut}</p>
               </div>
             </div>
 
             {/* DATOS PERSONALES */}
             <div>
-              <p style={{ fontSize: '9px', fontWeight: 700, color: '#4A5568', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>DATOS PERSONALES</p>
+              <p style={{ fontSize: '9px', fontWeight: 700, color: 'var(--color-text-muted)', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>DATOS PERSONALES</p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 12px' }}>
                 {[
                   { label: 'RUT', value: worker.rut },
@@ -169,7 +169,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                   { label: 'VP', value: worker.area },
                 ].map(item => (
                   <div key={item.label}>
-                    <p style={{ fontSize: '9px', color: '#4A5568' }}>{item.label}</p>
+                    <p style={{ fontSize: '9px', color: 'var(--color-text-muted)' }}>{item.label}</p>
                     <p style={{ fontSize: '11px', color: '#F0F4FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.value}</p>
                   </div>
                 ))}
@@ -179,7 +179,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             {/* MALLAS EN CURSO */}
             {meshes.length > 0 && (
               <div>
-                <p style={{ fontSize: '9px', fontWeight: 700, color: '#4A5568', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>MALLAS EN CURSO</p>
+                <p style={{ fontSize: '9px', fontWeight: 700, color: 'var(--color-text-muted)', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>MALLAS EN CURSO</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {meshes.slice(0, 3).map(m => (
                     <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -223,8 +223,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
               Ver perfil completo
             </button>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end', marginTop: '6px' }}>
-              <RotateCcw style={{ width: '11px', height: '11px', color: '#4A5568' }} />
-              <span style={{ fontSize: '10px', color: '#4A5568' }}>volver</span>
+              <RotateCcw style={{ width: '11px', height: '11px', color: 'var(--color-text-muted)' }} />
+              <span style={{ fontSize: '10px', color: 'var(--color-text-muted)' }}>volver</span>
             </div>
           </div>
         </motion.div>
@@ -232,6 +232,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
 
       {/* VER PERFIL button — debajo de la card, como la imagen de referencia */}
       <button
+        className="focus-ring"
         onClick={(e) => { e.stopPropagation(); navigate(`/workers/${worker.id}`); }}
         style={{
           width: '100%',
