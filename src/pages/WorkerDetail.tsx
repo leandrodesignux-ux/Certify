@@ -26,18 +26,18 @@ const sectionVariants = {
 type TabType = 'certificaciones' | 'mallas' | 'historial';
 
 const tabs = [
-  { id: 'certificaciones' as TabType, label: 'Certificaciones', icon: Award, color: '#00E5FF' },
-  { id: 'mallas' as TabType, label: 'Mallas', icon: BookOpen, color: '#AAFF00' },
+  { id: 'certificaciones' as TabType, label: 'Certificaciones', icon: Award, color: '#7c4dab' },
+  { id: 'mallas' as TabType, label: 'Mallas', icon: BookOpen, color: '#8a9e52' },
   { id: 'historial' as TabType, label: 'Historial', icon: Clock, color: '#FFB800' },
 ];
 
 // Mock history activities
 const mockHistoryActivities = [
-  { id: 'h1', tipo: 'certificacion', titulo: 'Certificación renovada', descripcion: 'Certificación de Altura aprobada', fecha: '2024-05-15T10:30:00', color: '#00E676' },
-  { id: 'h2', tipo: 'malla', titulo: 'Malla completada', descripcion: 'Malla de Seguridad Industrial 100% completada', fecha: '2024-05-10T14:20:00', color: '#AAFF00' },
+  { id: 'h1', tipo: 'certificacion', titulo: 'Certificación renovada', descripcion: 'Certificación de Altura aprobada', fecha: '2024-05-15T10:30:00', color: '#729362' },
+  { id: 'h2', tipo: 'malla', titulo: 'Malla completada', descripcion: 'Malla de Seguridad Industrial 100% completada', fecha: '2024-05-10T14:20:00', color: '#8a9e52' },
   { id: 'h3', tipo: 'alerta', titulo: 'Alerta de vencimiento', descripcion: 'Próximo vencimiento: Equipos Pesados', fecha: '2024-05-08T09:15:00', color: '#FFB800' },
-  { id: 'h4', tipo: 'curso', titulo: 'Curso iniciado', descripcion: 'Inició curso de Liderazgo en Terreno', fecha: '2024-05-05T11:00:00', color: '#00E5FF' },
-  { id: 'h5', tipo: 'certificacion', titulo: 'Nueva certificación', descripcion: 'Certificación de Primeros Auxilios obtenida', fecha: '2024-05-01T16:45:00', color: '#00E676' },
+  { id: 'h4', tipo: 'curso', titulo: 'Curso iniciado', descripcion: 'Inició curso de Liderazgo en Terreno', fecha: '2024-05-05T11:00:00', color: '#9b6ab5' },
+  { id: 'h5', tipo: 'certificacion', titulo: 'Nueva certificación', descripcion: 'Certificación de Primeros Auxilios obtenida', fecha: '2024-05-01T16:45:00', color: '#729362' },
 ];
 
 // Format relative time
@@ -75,7 +75,7 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
       const hasValid = certsInMonth.some((c) => c.estado === 'vigente');
 
       return {
-        color: hasExpired ? '#FF3D57' : hasExpiring ? '#FFB800' : hasValid ? '#00E676' : '#1C2333',
+        color: hasExpired ? '#FF3D57' : hasExpiring ? '#FFB800' : hasValid ? '#729362' : '#231455',
         count: certsInMonth.length,
       };
     });
@@ -84,7 +84,7 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
   return (
     <Card variant="glass" style={{ padding: '16px', marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-        <Clock style={{ width: '16px', height: '16px', color: '#00E5FF' }} />
+        <Clock style={{ width: '16px', height: '16px', color: '#9b6ab5' }} />
         <span style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF' }}>Timeline de Vencimientos {new Date().getFullYear()}</span>
       </div>
       <div style={{ display: 'flex', gap: '4px', height: '32px' }}>
@@ -127,7 +127,7 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
             <span
               style={{
                 fontSize: '9px',
-                color: index === currentMonth ? '#00E5FF' : '#4A5568',
+                color: index === currentMonth ? '#9b6ab5' : '#4A5568',
                 fontWeight: index === currentMonth ? 700 : 400,
               }}
             >
@@ -150,27 +150,27 @@ function MeshCompactCard({ mesh }: { mesh: typeof mockMeshes[number] }) {
             width: '40px',
             height: '40px',
             borderRadius: '8px',
-            backgroundColor: 'rgba(170,255,0,0.1)',
+            backgroundColor: 'rgba(138,158,82,0.12)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <BookOpen style={{ width: '20px', height: '20px', color: '#AAFF00' }} />
+          <BookOpen style={{ width: '20px', height: '20px', color: '#8a9e52' }} />
         </div>
         <div style={{ flex: 1 }}>
           <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#F0F4FF', marginBottom: '4px' }}>{mesh.nombre}</h4>
           <p style={{ fontSize: '12px', color: '#8892A4', marginBottom: '8px' }}>{mesh.cursos.length} cursos</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ flex: 1, height: '6px', backgroundColor: '#1C2333', borderRadius: '3px', overflow: 'hidden' }}>
+            <div style={{ flex: 1, height: '6px', backgroundColor: '#231455', borderRadius: '3px', overflow: 'hidden' }}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${mesh.completionRate}%` }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                style={{ height: '100%', backgroundColor: mesh.completionRate >= 80 ? '#00E676' : mesh.completionRate >= 50 ? '#FFB800' : '#FF3D57', borderRadius: '3px' }}
+                style={{ height: '100%', backgroundColor: mesh.completionRate >= 80 ? '#729362' : mesh.completionRate >= 50 ? '#FFB800' : '#FF3D57', borderRadius: '3px' }}
               />
             </div>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: mesh.completionRate >= 80 ? '#00E676' : mesh.completionRate >= 50 ? '#FFB800' : '#FF3D57' }}>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: mesh.completionRate >= 80 ? '#729362' : mesh.completionRate >= 50 ? '#FFB800' : '#FF3D57' }}>
               {mesh.completionRate}%
             </span>
           </div>
@@ -206,7 +206,7 @@ function HistoryItem({ activity, index }: { activity: typeof mockHistoryActiviti
             top: '32px',
             width: '2px',
             height: 'calc(100% + 8px)',
-            backgroundColor: 'rgba(0,229,255,0.1)',
+            backgroundColor: 'rgba(91,34,119,0.2)',
           }}
         />
       )}
@@ -286,7 +286,7 @@ export function WorkerDetail() {
               maxWidth: '200px',
               padding: '12px 24px',
               backgroundColor: activeTab === tab.id ? `${tab.color}15` : 'transparent',
-              border: `1px solid ${activeTab === tab.id ? tab.color : 'rgba(0,229,255,0.15)'}`,
+              border: `1px solid ${activeTab === tab.id ? tab.color : 'rgba(91,34,119,0.2)'}`,
               borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
@@ -302,7 +302,7 @@ export function WorkerDetail() {
             }}
             onMouseLeave={(e) => {
               if (activeTab !== tab.id) {
-                e.currentTarget.style.borderColor = 'rgba(0,229,255,0.15)';
+                e.currentTarget.style.borderColor = 'rgba(91,34,119,0.2)';
               }
             }}
           >
@@ -351,12 +351,12 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
             Resumen
           </h3>
           {[
-            { label: 'Vigentes', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'vigente').length, color: '#00E676' },
+            { label: 'Vigentes', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'vigente').length, color: '#729362' },
             { label: 'Vencidas', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'vencido').length, color: '#FF3D57' },
             { label: 'Próx. vencer', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'proximo_vencer').length, color: '#FFB800' },
             { label: 'Pendientes', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'pendiente').length, color: '#4A5568' },
           ].map(item => (
-            <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(0,229,255,0.06)' }}>
+            <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(91,34,119,0.1)' }}>
               <span style={{ fontSize: '13px', color: '#8892A4' }}>{item.label}</span>
               <span style={{ fontSize: '24px', fontWeight: 700, fontFamily: '"Barlow Condensed"', color: item.color }}>{item.value}</span>
             </div>
@@ -394,7 +394,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
               { label: 'Email', value: worker.email },
               { label: 'Empresa', value: worker.empresa },
             ].map(item => (
-              <div key={item.label} style={{ borderBottom: '1px solid rgba(0,229,255,0.06)', paddingBottom: '10px' }}>
+              <div key={item.label} style={{ borderBottom: '1px solid rgba(91,34,119,0.1)', paddingBottom: '10px' }}>
                 <p style={{ fontSize: '10px', color: '#4A5568', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '3px' }}>{item.label}</p>
                 <p style={{ fontSize: '13px', color: '#F0F4FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.value}</p>
               </div>
@@ -407,7 +407,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
           </h3>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {['Operación Maquinaria', 'Seguridad Industrial', 'Trabajo en Equipo', 'Liderazgo'].map(tag => (
-              <span key={tag} style={{ padding: '4px 10px', backgroundColor: 'rgba(0,229,255,0.1)', color: '#00E5FF', fontSize: '11px', borderRadius: '20px', border: '1px solid rgba(0,229,255,0.2)', fontWeight: 500 }}>
+              <span key={tag} style={{ padding: '4px 10px', backgroundColor: 'rgba(91,34,119,0.12)', color: '#c49fe0', fontSize: '11px', borderRadius: '20px', border: '1px solid rgba(91,34,119,0.25)', fontWeight: 500 }}>
                 {tag}
               </span>
             ))}

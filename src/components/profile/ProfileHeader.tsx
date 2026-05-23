@@ -10,8 +10,8 @@ interface ProfileHeaderProps {
 }
 
 function getComplianceColorAndLabel(score: number): { color: string; label: string } {
-  if (score >= 90) return { color: '#00E5FF', label: 'Excelente' };
-  if (score >= 70) return { color: '#AAFF00', label: 'Bueno' };
+  if (score >= 90) return { color: '#9b6ab5', label: 'Excelente' };
+  if (score >= 70) return { color: '#8a9e52', label: 'Bueno' };
   if (score >= 50) return { color: '#FFB800', label: 'Regular' };
   return { color: '#FF3D57', label: 'Crítico' };
 }
@@ -19,7 +19,7 @@ function getComplianceColorAndLabel(score: number): { color: string; label: stri
 // Get banner gradient based on compliance score
 function getBannerGradient(score: number): string {
   if (score > 80) {
-    return 'linear-gradient(135deg, rgba(0,230,118,0.3) 0%, rgba(0,200,100,0.15) 50%, rgba(0,230,118,0.05) 100%)';
+    return 'linear-gradient(135deg, rgba(114,147,98,0.3) 0%, rgba(91,130,80,0.15) 50%, rgba(114,147,98,0.05) 100%)';
   }
   if (score > 60) {
     return 'linear-gradient(135deg, rgba(255,184,0,0.3) 0%, rgba(200,150,0,0.15) 50%, rgba(255,184,0,0.05) 100%)';
@@ -42,7 +42,7 @@ function ComplianceRing({ score, color }: { score: number; color: string }) {
           cy="40"
           r={radius}
           fill="none"
-          stroke="rgba(0,229,255,0.1)"
+          stroke="rgba(91,34,119,0.2)"
           strokeWidth="6"
         />
         {/* Progress circle */}
@@ -102,14 +102,14 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
         position: 'relative',
         overflow: 'hidden',
         borderRadius: '6px',
-        background: 'linear-gradient(135deg, #0D1B2A 0%, #111827 100%)',
-        border: '1px solid rgba(0,229,255,0.15)',
+        background: 'linear-gradient(135deg, #130b3a 0%, #1a1040 100%)',
+        border: '1px solid rgba(91,34,119,0.25)',
       }}
     >
       {/* Dot grid background */}
       <div style={{
         position: 'absolute', inset: 0, opacity: 0.2,
-        backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,229,255,0.2) 1px, transparent 0)',
+        backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(91,34,119,0.2) 1px, transparent 0)',
         backgroundSize: '20px 20px', pointerEvents: 'none',
       }} />
 
@@ -135,7 +135,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
               borderRadius: '50%',
               overflow: 'hidden',
               border: `3px solid ${compliance.color}`,
-              backgroundColor: '#1C2333',
+              backgroundColor: '#231455',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -169,7 +169,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
         {/* INFO CENTRAL */}
         <div style={{ flex: 1, padding: '16px 24px 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {/* Badge "PERFIL DE TRABAJADOR" */}
-          <p style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', color: '#00E5FF', textTransform: 'uppercase' }}>
+          <p style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', color: '#9b6ab5', textTransform: 'uppercase' }}>
             PERFIL DE TRABAJADOR
           </p>
           {/* Nombre */}
@@ -180,7 +180,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
           }}>
             {worker.nombre} {worker.apellidos}
           </h1>
-          <p style={{ fontSize: '14px', color: '#00E5FF', fontWeight: 500, margin: 0 }}>{worker.cargo}</p>
+          <p style={{ fontSize: '14px', color: '#c49fe0', fontWeight: 500, margin: 0 }}>{worker.cargo}</p>
 
           {/* Quick Action Buttons */}
           <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
@@ -210,8 +210,8 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
         {/* PANEL DERECHO — CERTIFICADOS */}
         <div style={{
           width: '200px', flexShrink: 0,
-          backgroundColor: 'rgba(0,229,255,0.05)',
-          borderLeft: '1px solid rgba(0,229,255,0.12)',
+          backgroundColor: 'rgba(91,34,119,0.07)',
+          borderLeft: '1px solid rgba(91,34,119,0.2)',
           borderRadius: '0 0 16px 0',
           padding: '20px',
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px',
@@ -245,7 +245,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
 
       {/* Bottom bar — avance general con barra */}
       <div style={{
-        borderTop: '1px solid rgba(0,229,255,0.1)',
+        borderTop: '1px solid rgba(91,34,119,0.2)',
         padding: '12px 24px',
         display: 'flex', alignItems: 'center', gap: '16px',
       }}>
