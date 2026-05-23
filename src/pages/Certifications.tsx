@@ -573,8 +573,8 @@ export function Certifications() {
             style={{
               width: '100%',
               height: '48px',
-              backgroundColor: '#1C2333',
-              border: `1px solid ${search ? (sorted.length === 0 ? 'rgba(255,61,87,0.4)' : 'rgba(0,229,255,0.4)') : 'rgba(0,229,255,0.15)'}`,
+              backgroundColor: '#231455',
+              border: `1px solid ${search ? (sorted.length === 0 ? 'rgba(255,61,87,0.4)' : 'rgba(91,34,119,0.5)') : 'rgba(91,34,119,0.25)'}`,
               borderRadius: '8px',
               paddingLeft: '48px',
               paddingRight: search ? '48px' : '100px',

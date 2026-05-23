@@ -18,7 +18,7 @@ function PageLoader() {
   return (
     <div className="flex items-center justify-center h-screen">
       <Card variant="glass" padding="lg" className="text-center">
-        <div className="w-8 h-8 border-2 border-[#00E5FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <div className="w-8 h-8 border-2 border-[#9b6ab5] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
         <p className="text-[#8892A4]">Cargando...</p>
       </Card>
     </div>

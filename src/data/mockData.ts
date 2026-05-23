@@ -603,7 +603,7 @@ export const mockChartData = {
       {
         label: 'Certificaciones Renovadas',
         data: [5, 3, 6, 4, 7, 2, 4, 5, 6, 3, 4, 5],
-        color: '#00E676',
+        color: '#729362',
       },
       {
         label: 'Próximas a Vencer',
@@ -617,7 +617,7 @@ export const mockChartData = {
   byArea: {
     labels: ['Operaciones', 'Mantención', 'Seguridad', 'Logística', 'RRHH'],
     data: [45, 78, 92, 68, 85],
-    colors: ['#00E5FF', '#AAFF00', '#00E676', '#FFB800', '#FF3D57'],
+    colors: ['#7c4dab', '#8a9e52', '#729362', '#FFB800', '#FF3D57'],
   },
   
   // Gráfica donut de estados
@@ -629,7 +629,7 @@ export const mockChartData = {
       mockCertifications.filter(c => c.estado === 'vencido').length,
       mockCertifications.filter(c => c.estado === 'pendiente').length,
     ],
-    colors: ['#00E676', '#FFB800', '#FF3D57', '#00E5FF'],
+    colors: ['#729362', '#FFB800', '#FF3D57', '#9b6ab5'],
   },
   
   // Gráfica de compliance por empresa
@@ -640,6 +640,6 @@ export const mockChartData = {
       Math.round(mockWorkers.filter(w => w.empresa === empresas[1]).reduce((a, w) => a + w.complianceScore, 0) / mockWorkers.filter(w => w.empresa === empresas[1]).length),
       Math.round(mockWorkers.filter(w => w.empresa === empresas[2]).reduce((a, w) => a + w.complianceScore, 0) / mockWorkers.filter(w => w.empresa === empresas[2]).length),
     ],
-    colors: ['#00E5FF', '#AAFF00', '#FFB800'],
+    colors: ['#7c4dab', '#8a9e52', '#FFB800'],
   },
 };

@@ -11,7 +11,7 @@ interface CertCardProps {
 }
 
 const statusBorderColors: Record<string, string> = {
-  vigente: 'border-l-[3px] border-l-[#00E676]',
+  vigente: 'border-l-[3px] border-l-[#729362]',
   proximo_vencer: 'border-l-[3px] border-l-[#FFB800]',
   vencido: 'border-l-[3px] border-l-[#FF3D57]',
   pendiente: 'border-l-[3px] border-l-[#7c4dab]',
