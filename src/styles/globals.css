@@ -22,8 +22,8 @@
 
   /* === TEXT === */
   --color-text-primary: #F0F4FF;
-  --color-text-secondary: #a89fc4;
-  --color-text-muted: #5c5480;
+  --color-text-secondary: #A8B3C5;
+  --color-text-muted: #6B7280;
 
   /* === BRAND GLOW === */
   --color-electric: #7c4dab;
@@ -34,6 +34,30 @@
   --font-display: "Barlow Condensed", sans-serif;
   --font-body: "DM Sans", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
+
+  /* ===== STATUS TOKENS ===== */
+  --status-ok-bg: rgba(114,147,98,0.12);
+  --status-ok-border: rgba(114,147,98,0.4);
+  --status-ok-text: #8fb87a;
+  --status-warn-bg: rgba(255,184,0,0.12);
+  --status-warn-border: rgba(255,184,0,0.4);
+  --status-warn-text: #FFB800;
+  --status-danger-bg: rgba(255,61,87,0.12);
+  --status-danger-border: rgba(255,61,87,0.4);
+  --status-danger-text: #FF5C71;
+
+  /* ===== BORDER RADIUS SYSTEM ===== */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* ===== SURFACES (centralizar) ===== */
+  --surface-card: rgba(26,16,64,0.85);
+  --surface-deep: #130b3a;
+  --surface-alt: #231455;
+  --border-brand: rgba(91,34,119,0.2);
+  --border-brand-hover: rgba(91,34,119,0.5);
 
   /* === SHADOWS === */
   --shadow-brand: 0 0 20px rgba(91,34,119,0.35);
@@ -241,4 +265,21 @@ select option { background-color: var(--color-surface-alt); color: #F0F4FF; }
 .surface-brand {
   background-color: #1a1040;
   border: 1px solid rgba(91, 34, 119, 0.2);
+}
+
+/* ===== FOCUS VISIBLE GLOBAL (WCAG 2.4.7) ===== */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #7c4dab;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #7c4dab;
+  outline-offset: 0;
+  border-color: rgba(91,34,119,0.6) !important;
 }
