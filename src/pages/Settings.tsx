@@ -41,8 +41,8 @@ export function Settings() {
         animate="visible"
       >
         <Card variant="glass" padding="lg" className="text-center py-16">
-          <div className="inline-flex p-4 bg-[rgba(0,229,255,0.1)] rounded-full mb-6">
-            <Settings2 className="w-12 h-12 text-[#00E5FF]" />
+          <div className="inline-flex p-4 bg-[rgba(91,34,119,0.15)] rounded-full mb-6">
+            <Settings2 className="w-12 h-12 text-[#9b6ab5]" />
           </div>
           <h2 className="font-display text-2xl font-bold text-[#F0F4FF] mb-3">
             Próximamente
@@ -53,28 +53,28 @@ export function Settings() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-            <div className="p-4 bg-[#1C2333]/50 rounded-sm flex items-center gap-4">
-              <Users className="w-6 h-6 text-[#AAFF00]" />
+            <div className="p-4 bg-[#231455]/60 rounded-sm flex items-center gap-4">
+              <Users className="w-6 h-6 text-[#8a9e52]" />
               <div className="text-left">
                 <p className="text-sm text-[#F0F4FF]">Usuarios y roles</p>
                 <p className="text-xs text-[#8892A4]">Gestión de permisos</p>
               </div>
             </div>
-            <div className="p-4 bg-[#1C2333]/50 rounded-sm flex items-center gap-4">
-              <Bell className="w-6 h-6 text-[#00E5FF]" />
+            <div className="p-4 bg-[#231455]/60 rounded-sm flex items-center gap-4">
+              <Bell className="w-6 h-6 text-[#9b6ab5]" />
               <div className="text-left">
                 <p className="text-sm text-[#F0F4FF]">Notificaciones</p>
                 <p className="text-xs text-[#8892A4]">Alertas y recordatorios</p>
               </div>
             </div>
-            <div className="p-4 bg-[#1C2333]/50 rounded-sm flex items-center gap-4">
+            <div className="p-4 bg-[#231455]/60 rounded-sm flex items-center gap-4">
               <Shield className="w-6 h-6 text-[#FFB800]" />
               <div className="text-left">
                 <p className="text-sm text-[#F0F4FF]">Seguridad</p>
                 <p className="text-xs text-[#8892A4]">Autenticación y acceso</p>
               </div>
             </div>
-            <div className="p-4 bg-[#1C2333]/50 rounded-sm flex items-center gap-4">
+            <div className="p-4 bg-[#231455]/60 rounded-sm flex items-center gap-4">
               <Database className="w-6 h-6 text-[#FF3D57]" />
               <div className="text-left">
                 <p className="text-sm text-[#F0F4FF]">Datos</p>

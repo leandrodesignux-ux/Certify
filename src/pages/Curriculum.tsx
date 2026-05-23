@@ -21,12 +21,12 @@ const sectionVariants = {
 
 // Category config
 const CATEGORY_CONFIG: Record<string, { color: string; bg: string; icon: typeof Layers }> = {
-  'Seguridad':    { color: '#AAFF00', bg: 'rgba(170,255,0,0.12)',   icon: Layers },
-  'Operaciones':  { color: '#00E5FF', bg: 'rgba(0,229,255,0.12)',   icon: Layers },
+  'Seguridad':    { color: '#8a9e52', bg: 'rgba(138,158,82,0.12)',  icon: Layers },
+  'Operaciones':  { color: '#9b6ab5', bg: 'rgba(91,34,119,0.12)',   icon: Layers },
   'Inducción':    { color: '#FFB800', bg: 'rgba(255,184,0,0.12)',   icon: Layers },
   'Liderazgo':    { color: '#FFB800', bg: 'rgba(255,184,0,0.12)',   icon: Layers },
   'Emergencias':  { color: '#FF3D57', bg: 'rgba(255,61,87,0.12)',   icon: Layers },
-  'Capacitación': { color: '#00E676', bg: 'rgba(0,230,118,0.12)',   icon: Layers },
+  'Capacitación': { color: '#729362', bg: 'rgba(114,147,98,0.12)',  icon: Layers },
 };
 
 // Derive category from mesh name
@@ -63,7 +63,7 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
   const mock = MESH_MOCK[mesh.id] ?? { rating: 4.5, startDate: 'Ene 2024' };
 
   // Completion color
-  const completionColor = mesh.completionRate >= 80 ? '#00E676'
+  const completionColor = mesh.completionRate >= 80 ? '#729362'
     : mesh.completionRate >= 50 ? '#FFB800'
     : '#FF3D57';
 
@@ -82,13 +82,13 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
       animate="visible"
       className="transition-all duration-200"
       style={{
-        backgroundColor: '#1C2333',
+        backgroundColor: '#1a1040',
         borderRadius: '12px',
-        border: `1px solid ${hovered ? cfg.color + '40' : 'rgba(0,229,255,0.1)'}`,
+        border: `1px solid ${hovered ? cfg.color + '40' : 'rgba(91,34,119,0.2)'}`,
         overflow: 'hidden',
         cursor: 'pointer',
         boxShadow: hovered
-          ? `0 4px 24px rgba(0,229,255,0.15), 0 0 0 1px ${cfg.color}20`
+          ? `0 4px 24px rgba(91,34,119,0.2), 0 0 0 1px ${cfg.color}20`
           : '0 2px 8px rgba(0,0,0,0.3)',
         transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
         display: 'flex',
@@ -239,10 +239,10 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
             className="transition-colors duration-200"
             style={{
               padding: '8px 16px',
-              backgroundColor: hovered ? '#00C8E0' : '#00E5FF',
+              backgroundColor: hovered ? '#7c4dab' : '#5b2277',
               border: 'none',
               borderRadius: '9999px',
-              color: '#0A0E1A',
+              color: '#F0F4FF',
               fontSize: '14px', fontWeight: 600,
               cursor: 'pointer',
               flexShrink: 0,
@@ -322,8 +322,8 @@ function SidePanel() {
     <div style={{
       width: '320px',
       flexShrink: 0,
-      backgroundColor: '#111827',
-      borderLeft: '1px solid rgba(0,229,255,0.1)',
+      backgroundColor: '#1a1040',
+      borderLeft: '1px solid rgba(91,34,119,0.2)',
       borderRadius: '12px',
       display: 'flex',
       flexDirection: 'column',
@@ -382,7 +382,7 @@ function SidePanel() {
                 color: day === null ? 'transparent'
                   : isToday(day) ? '#0A0E1A'
                   : '#8892A4',
-                backgroundColor: isToday(day) ? '#00E5FF' : 'transparent',
+                backgroundColor: isToday(day) ? '#7c4dab' : 'transparent',
                 borderRadius: '50%',
                 width: '28px',
                 margin: '0 auto',
@@ -396,7 +396,7 @@ function SidePanel() {
       </div>
 
       {/* Divider */}
-      <div style={{ height: '1px', backgroundColor: 'rgba(0,229,255,0.08)', margin: '0 20px' }} />
+      <div style={{ height: '1px', backgroundColor: 'rgba(91,34,119,0.15)', margin: '0 20px' }} />
 
       {/* ── Próximas Actividades ── */}
       <div style={{ padding: '16px 20px 20px', flex: 1, overflowY: 'auto' }}>
@@ -412,13 +412,13 @@ function SidePanel() {
                 alignItems: 'center',
                 gap: '12px',
                 padding: '10px 12px',
-                backgroundColor: 'rgba(0,229,255,0.03)',
-                border: '1px solid rgba(0,229,255,0.08)',
+                backgroundColor: 'rgba(91,34,119,0.05)',
+                border: '1px solid rgba(91,34,119,0.12)',
                 borderRadius: '8px',
                 transition: 'border-color 0.15s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(0,229,255,0.2)')}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(0,229,255,0.08)')}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(91,34,119,0.3)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(91,34,119,0.12)')}
             >
               {/* Day number */}
               <div style={{ width: '32px', flexShrink: 0, textAlign: 'center' }}>
@@ -529,7 +529,7 @@ export function Curriculum() {
               placeholder="Buscar mallas..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-10 w-56 bg-[#1C2333] border border-[rgba(0,229,255,0.1)] rounded-lg pl-9 pr-8 text-sm text-[#F0F4FF] placeholder-[#4A5568] focus:outline-none focus:border-[rgba(0,229,255,0.3)] transition-colors"
+              className="h-10 w-56 bg-[#231455] border border-[rgba(91,34,119,0.25)] rounded-lg pl-9 pr-8 text-sm text-[#F0F4FF] placeholder-[#4A5568] focus:outline-none focus:border-[rgba(91,34,119,0.5)] transition-colors"
             />
             {searchQuery && (
               <button
@@ -557,7 +557,7 @@ export function Curriculum() {
           display: 'flex',
           alignItems: 'center',
           gap: '0',
-          borderBottom: '1px solid rgba(0,229,255,0.1)',
+          borderBottom: '1px solid rgba(91,34,119,0.2)',
         }}
       >
         {TABS.map((tab) => {
@@ -574,10 +574,10 @@ export function Curriculum() {
                 padding: '10px 18px',
                 fontSize: '14px',
                 fontWeight: isActive ? 700 : 500,
-                color: isActive ? '#00E5FF' : '#8892A4',
+                color: isActive ? '#9b6ab5' : '#8892A4',
                 background: 'none',
                 border: 'none',
-                borderBottom: isActive ? '2px solid #00E5FF' : '2px solid transparent',
+                borderBottom: isActive ? '2px solid #9b6ab5' : '2px solid transparent',
                 marginBottom: '-1px',
                 cursor: 'pointer',
                 transition: 'color 0.15s, border-color 0.15s',
@@ -593,7 +593,7 @@ export function Curriculum() {
                 <span style={{
                   width: '7px', height: '7px',
                   borderRadius: '50%',
-                  backgroundColor: isActive ? '#00E5FF' : '#8892A4',
+                  backgroundColor: isActive ? '#9b6ab5' : '#8892A4',
                   flexShrink: 0,
                   display: 'inline-block',
                   transition: 'background-color 0.15s',
@@ -613,27 +613,27 @@ export function Curriculum() {
         animate="visible"
         className="flex flex-wrap gap-3"
       >
-        <div className="flex items-center gap-3 px-4 py-3 bg-[rgba(17,24,39,0.6)] border border-[rgba(0,229,255,0.1)] rounded-lg">
-          <div className="p-2 bg-[rgba(0,229,255,0.1)] rounded-md">
-            <Layers className="w-4 h-4 text-[#00E5FF]" />
+        <div className="flex items-center gap-3 px-4 py-3 bg-[#1a1040]/70 border border-[rgba(91,34,119,0.2)] rounded-lg">
+          <div className="p-2 bg-[rgba(91,34,119,0.15)] rounded-md">
+            <Layers className="w-4 h-4 text-[#9b6ab5]" />
           </div>
           <div>
             <p className="text-lg font-display font-bold text-[#F0F4FF]">{stats.totalMeshes}</p>
             <p className="text-xs text-[#8892A4]">Total Mallas</p>
           </div>
         </div>
-        <div className="flex items-center gap-3 px-4 py-3 bg-[rgba(17,24,39,0.6)] border border-[rgba(0,229,255,0.1)] rounded-lg">
-          <div className="p-2 bg-[rgba(170,255,0,0.1)] rounded-md">
-            <GraduationCap className="w-4 h-4 text-[#AAFF00]" />
+        <div className="flex items-center gap-3 px-4 py-3 bg-[#1a1040]/70 border border-[rgba(91,34,119,0.2)] rounded-lg">
+          <div className="p-2 bg-[rgba(138,158,82,0.15)] rounded-md">
+            <GraduationCap className="w-4 h-4 text-[#8a9e52]" />
           </div>
           <div>
             <p className="text-lg font-display font-bold text-[#F0F4FF]">{stats.totalCourses}</p>
             <p className="text-xs text-[#8892A4]">Total Cursos</p>
           </div>
         </div>
-        <div className="flex items-center gap-3 px-4 py-3 bg-[rgba(17,24,39,0.6)] border border-[rgba(0,229,255,0.1)] rounded-lg">
-          <div className="p-2 bg-[rgba(0,230,118,0.1)] rounded-md">
-            <TrendingUp className="w-4 h-4 text-[#00E676]" />
+        <div className="flex items-center gap-3 px-4 py-3 bg-[#1a1040]/70 border border-[rgba(91,34,119,0.2)] rounded-lg">
+          <div className="p-2 bg-[rgba(114,147,98,0.15)] rounded-md">
+            <TrendingUp className="w-4 h-4 text-[#729362]" />
           </div>
           <div>
             <p className="text-lg font-display font-bold text-[#F0F4FF]">{stats.avgCompletion}%</p>
