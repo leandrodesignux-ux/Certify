@@ -62,11 +62,11 @@ export function ExpiryBadge({ diasRestantes, fechaVencimiento }: ExpiryBadgeProp
       text: `${diasRestantes}d`,
       style: {
         ...base,
-        backgroundColor: 'rgba(170,255,0,0.1)',
-        color: '#AAFF00',
-        borderColor: 'rgba(170,255,0,0.3)',
+        backgroundColor: 'rgba(114,147,98,0.12)',
+        color: '#729362',
+        borderColor: 'rgba(114,147,98,0.3)',
       },
-        tooltipColor: '#AAFF00',
+        tooltipColor: '#729362',
     };
   };
 
@@ -102,7 +102,7 @@ export function ExpiryBadge({ diasRestantes, fechaVencimiento }: ExpiryBadgeProp
           bottom: 'calc(100% + 8px)',
           left: '50%',
           transform: 'translateX(-50%)',
-          backgroundColor: '#1C2333',
+          backgroundColor: '#231455',
           color: '#F0F4FF',
           padding: '8px 12px',
           borderRadius: '6px',
