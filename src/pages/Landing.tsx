@@ -42,14 +42,14 @@ function Navbar() {
         zIndex: 50,
         backdropFilter: scrolled ? 'blur(12px)' : 'none',
         backgroundColor: scrolled ? 'rgba(10,14,26,0.85)' : 'transparent',
-        borderBottom: scrolled ? '1px solid rgba(0,229,255,0.1)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(91,34,119,0.2)' : 'none',
         transition: 'all 0.3s ease',
       }}
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <Zap className="w-6 h-6 text-[#00E5FF]" />
+          <Zap className="w-6 h-6 text-[#9b6ab5]" />
           <span className="font-display text-xl font-bold text-[#F0F4FF]">CertifyX</span>
         </div>
 
@@ -89,13 +89,13 @@ function Hero() {
   const navigate = useNavigate();
 
   return (
-    <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: '#0A0E1A' }}>
+    <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: '#0d0920' }}>
       {/* Background */}
-      <div style={{ position: 'absolute', inset: 0, backgroundColor: '#0A0E1A' }}>
+      <div style={{ position: 'absolute', inset: 0, backgroundColor: '#0d0920' }}>
         <div
           className="absolute inset-0 opacity-30"
           style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0, 229, 255, 0.15) 1px, transparent 0)',
+            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(91, 34, 119, 0.2) 1px, transparent 0)',
             backgroundSize: '32px 32px',
           }}
         />
@@ -103,7 +103,7 @@ function Hero() {
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(91,34,119,0.12) 0%, transparent 70%)',
           }}
         />
       </div>
@@ -118,7 +118,7 @@ function Hero() {
             fontFamily: '"Barlow Condensed", sans-serif',
             fontSize: 'clamp(48px, 8vw, 96px)',
             fontWeight: 700,
-            color: '#00E5FF',
+            color: '#9b6ab5',
             lineHeight: 1.1,
             letterSpacing: '-0.02em',
           }}
@@ -148,8 +148,8 @@ function Hero() {
           <button
             onClick={() => navigate('/dashboard')}
             style={{
-              backgroundColor: '#00E5FF',
-              color: '#0A0E1A',
+              backgroundColor: '#7c4dab',
+              color: '#F0F4FF',
               padding: '12px 28px',
               borderRadius: '8px',
               fontWeight: 600,
@@ -186,13 +186,13 @@ function Hero() {
           transition={{ duration: 1, delay: 0.8 }}
           className="mt-16 mx-auto max-w-4xl"
         >
-          <div className="relative bg-[#111827] rounded-lg border border-[rgba(0,229,255,0.2)] shadow-[0_0_40px_rgba(0,229,255,0.15)] p-6">
+          <div className="relative bg-[#1a1040] rounded-lg border border-[rgba(91,34,119,0.3)] shadow-[0_0_40px_rgba(91,34,119,0.2)] p-6">
             {/* Mock Header */}
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-[rgba(0,229,255,0.1)]">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-[rgba(91,34,119,0.2)]">
               <div className="flex items-center gap-4">
                 <div className="w-3 h-3 rounded-full bg-[#FF3D57]" />
                 <div className="w-3 h-3 rounded-full bg-[#FFB800]" />
-                <div className="w-3 h-3 rounded-full bg-[#00E676]" />
+                <div className="w-3 h-3 rounded-full bg-[#729362]" />
               </div>
               <div className="text-xs text-[#8892A4]">Dashboard CertifyX</div>
             </div>
@@ -200,12 +200,12 @@ function Hero() {
             {/* Mock Stats */}
             <div className="grid grid-cols-4 gap-4">
               {[
-                { label: 'Trabajadores', value: '20', color: '#00E5FF' },
-                { label: 'Certificaciones Vigentes', value: '45', color: '#00E676' },
+                { label: 'Trabajadores', value: '20', color: '#9b6ab5' },
+                { label: 'Certificaciones Vigentes', value: '45', color: '#729362' },
                 { label: 'Próximas a Vencer', value: '12', color: '#FFB800' },
-                { label: 'Compliance', value: '78%', color: '#AAFF00' },
+                { label: 'Compliance', value: '78%', color: '#8a9e52' },
               ].map((stat) => (
-                <div key={stat.label} className="bg-[#1C2333] rounded p-4">
+                <div key={stat.label} className="bg-[#231455] rounded p-4">
                   <p className="text-xs text-[#8892A4] mb-1">{stat.label}</p>
                   <p
                     className="font-display text-2xl font-bold"
@@ -269,7 +269,7 @@ function PainPoints() {
   ];
 
   return (
-    <section id="features" className="py-24 bg-[#0A0E1A]">
+    <section id="features" className="py-24 bg-[#0d0920]">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -295,8 +295,8 @@ function PainPoints() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 style={{
-                  backgroundColor: '#111827',
-                  border: '1px solid rgba(0,229,255,0.1)',
+                  backgroundColor: '#1a1040',
+                  border: '1px solid rgba(91,34,119,0.2)',
                   borderRadius: '12px',
                   padding: '24px',
                 }}
@@ -336,11 +336,11 @@ function Features() {
   ];
 
   return (
-    <section className="py-24 bg-[#0D1B2A]">
+    <section className="py-24 bg-[#130b3a]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="relative">
           {/* Connection Line */}
-          <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-px bg-gradient-to-r from-transparent via-[#00E5FF] to-transparent" />
+          <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-px bg-gradient-to-r from-transparent via-[#7c4dab] to-transparent" />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {features.map((feature, index) => {
@@ -354,8 +354,8 @@ function Features() {
                   transition={{ duration: 0.6, delay: index * 0.15 }}
                   className="text-center"
                 >
-                  <div className="inline-flex p-4 bg-[rgba(0,229,255,0.1)] rounded-sm mb-6">
-                    <Icon className="w-8 h-8 text-[#00E5FF]" />
+                  <div className="inline-flex p-4 bg-[rgba(91,34,119,0.15)] rounded-sm mb-6">
+                    <Icon className="w-8 h-8 text-[#9b6ab5]" />
                   </div>
                   <h3 className="font-display text-2xl font-semibold text-[#F0F4FF] mb-3">
                     {feature.title}
@@ -380,7 +380,7 @@ function Stats() {
   ];
 
   return (
-    <section className="py-20 bg-[#111827]">
+    <section className="py-20 bg-[#130b3a]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {stats.map((stat, index) => (
@@ -392,7 +392,7 @@ function Stats() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               style={{ textAlign: 'center' }}
             >
-              <p style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '56px', fontWeight: 700, color: '#00E5FF' }}>{stat.value}</p>
+              <p style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '56px', fontWeight: 700, color: '#9b6ab5' }}>{stat.value}</p>
               <p style={{ marginTop: '8px', color: '#8892A4' }}>{stat.label}</p>
             </motion.div>
           ))}
@@ -422,7 +422,7 @@ function Testimonials() {
   ];
 
   return (
-    <section className="py-24 bg-[#0A0E1A]">
+    <section className="py-24 bg-[#0d0920]">
       <div className="max-w-7xl mx-auto px-6">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -442,17 +442,17 @@ function Testimonials() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
               style={{
-                backgroundColor: '#1C2333',
-                border: '1px solid rgba(0,229,255,0.08)',
+                backgroundColor: '#231455',
+                border: '1px solid rgba(91,34,119,0.18)',
                 borderRadius: '12px',
                 padding: '24px',
               }}
             >
-              <Quote style={{ width: '32px', height: '32px', color: '#00E5FF', marginBottom: '16px' }} />
+              <Quote style={{ width: '32px', height: '32px', color: '#9b6ab5', marginBottom: '16px' }} />
               <p style={{ color: '#F0F4FF', lineHeight: 1.6, marginBottom: '24px' }}>"{testimonial.quote}"</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '9999px', backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontWeight: 700, color: '#00E5FF' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '9999px', backgroundColor: '#1a1040', border: '1px solid rgba(91,34,119,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontWeight: 700, color: '#c49fe0' }}>
                     {testimonial.initials}
                   </span>
                 </div>
@@ -480,14 +480,14 @@ function CTA() {
       id="pricing"
       className="py-24 relative overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #0D1B2A 0%, #0A0E1A 100%)',
+        background: 'linear-gradient(180deg, #130b3a 0%, #0d0920 100%)',
       }}
     >
       {/* Glow */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(0,229,255,0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(91,34,119,0.18) 0%, transparent 70%)',
         }}
       />
 
@@ -516,14 +516,14 @@ function CTA() {
 // Footer
 function Footer() {
   return (
-    <footer className="py-8 bg-[#0A0E1A] border-t border-[rgba(0,229,255,0.05)]">
+    <footer className="py-8 bg-[#0d0920] border-t border-[rgba(91,34,119,0.15)]">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Zap className="w-5 h-5 text-[#00E5FF]" />
+          <Zap className="w-5 h-5 text-[#9b6ab5]" />
           <span className="font-display text-lg font-bold text-[#F0F4FF]">CertifyX</span>
         </div>
-        <p className="text-sm text-[#4A5568]">
-          © 2024 CertifyX. Plataforma de gestión de competencias industriales.
+        <p className="text-sm text-[#5c5480]">
+          © 2025 CertifyX. Plataforma de gestión de competencias industriales.
         </p>
       </div>
     </footer>
@@ -533,7 +533,7 @@ function Footer() {
 // Main Landing Page
 export function Landing() {
   return (
-    <div className="bg-[#0A0E1A] min-h-screen">
+    <div className="bg-[#0d0920] min-h-screen">
       <Navbar />
       <Hero />
       <PainPoints />
