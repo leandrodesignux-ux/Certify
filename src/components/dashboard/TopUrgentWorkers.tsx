@@ -15,7 +15,7 @@ export function TopUrgentWorkers() {
 
   return (
     <div style={{
-      backgroundColor: 'rgba(17,24,39,0.8)',
+      backgroundColor: 'rgba(26,16,64,0.8)',
       backdropFilter: 'blur(12px)',
       border: '1px solid rgba(255,61,87,0.15)',
       borderRadius: '6px',
@@ -23,7 +23,7 @@ export function TopUrgentWorkers() {
       flexDirection: 'column',
       height: '400px',
     }}>
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(0,229,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(91,34,119,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h2 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>
           Requieren Acción
         </h2>
@@ -44,12 +44,12 @@ export function TopUrgentWorkers() {
               key={worker.id}
               onClick={() => navigate(`/workers/${worker.id}`)}
               style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', transition: 'background 0.15s' }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(0,229,255,0.04)')}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)')}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
             >
               {worker.foto
                 ? <img src={worker.foto} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
-                : <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#1C2333', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00E5FF', fontWeight: 700, fontSize: '13px', flexShrink: 0 }}>{initials}</div>
+                : <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c49fe0', fontWeight: 700, fontSize: '13px', flexShrink: 0 }}>{initials}</div>
               }
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -80,10 +80,10 @@ export function TopUrgentWorkers() {
           );
         })}
       </div>
-      <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,229,255,0.08)' }}>
+      <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(91,34,119,0.15)' }}>
         <button
           onClick={() => navigate('/workers')}
-          style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '8px', padding: '8px', fontSize: '12px', color: '#00E5FF', cursor: 'pointer', fontWeight: 600 }}
+          style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid rgba(91,34,119,0.3)', borderRadius: '8px', padding: '8px', fontSize: '12px', color: '#9b6ab5', cursor: 'pointer', fontWeight: 600 }}
         >
           Ver todos los trabajadores →
         </button>

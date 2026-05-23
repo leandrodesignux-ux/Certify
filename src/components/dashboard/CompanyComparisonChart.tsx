@@ -16,8 +16,8 @@ const CustomTooltip = ({ active, payload, label }: {
   if (active && payload && payload.length) {
     return (
       <div style={{
-        backgroundColor: '#1C2333',
-        border: '1px solid rgba(0,229,255,0.2)',
+        backgroundColor: '#231455',
+        border: '1px solid rgba(91,34,119,0.4)',
         borderRadius: '8px',
         color: '#F0F4FF',
         fontSize: '12px',
@@ -61,34 +61,34 @@ export function CompanyComparisonChart() {
           <XAxis
             dataKey="month"
             tick={{ fill: '#8892A4', fontSize: 11 }}
-            axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
+            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
             tickLine={false}
           />
           <YAxis
             tick={{ fill: '#8892A4', fontSize: 11 }}
-            axisLine={{ stroke: 'rgba(0,229,255,0.1)' }}
+            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
             tickLine={false}
             domain={[60, 100]}
             tickFormatter={(value) => `${value}%`}
           />
-          <Tooltip content={<CustomTooltip />} contentStyle={{ backgroundColor: '#1C2333', border: '1px solid rgba(0,229,255,0.2)', borderRadius: '8px', color: '#F0F4FF', fontSize: '12px' }} />
+          <Tooltip content={<CustomTooltip />} contentStyle={{ backgroundColor: '#231455', border: '1px solid rgba(91,34,119,0.4)', borderRadius: '8px', color: '#F0F4FF', fontSize: '12px' }} />
           <Line
             type="monotone"
             dataKey="corpa"
             name="Corpa Andina"
-            stroke="#00E5FF"
+            stroke="#7c4dab"
             strokeWidth={2}
-            dot={{ fill: '#00E5FF', r: 3, strokeWidth: 0 }}
-            activeDot={{ r: 5, fill: '#00E5FF', stroke: '#0A0E1A', strokeWidth: 2 }}
+            dot={{ fill: '#7c4dab', r: 3, strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: '#7c4dab', stroke: '#0d0920', strokeWidth: 2 }}
           />
           <Line
             type="monotone"
             dataKey="vial"
             name="Vial Norte"
-            stroke="#AAFF00"
+            stroke="#8a9e52"
             strokeWidth={2}
-            dot={{ fill: '#AAFF00', r: 3, strokeWidth: 0 }}
-            activeDot={{ r: 5, fill: '#AAFF00', stroke: '#0A0E1A', strokeWidth: 2 }}
+            dot={{ fill: '#8a9e52', r: 3, strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: '#8a9e52', stroke: '#0d0920', strokeWidth: 2 }}
           />
           <Line
             type="monotone"

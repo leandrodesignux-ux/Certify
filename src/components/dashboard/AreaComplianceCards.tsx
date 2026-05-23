@@ -4,9 +4,9 @@ import { TrendingUp, TrendingDown } from 'lucide-react';
 import { mockChartData } from '../../data/mockData';
 
 const AREA_COLORS: Record<string, string> = {
-  Operaciones: '#00E5FF',
-  Mantención: '#AAFF00',
-  Seguridad: '#00E676',
+  Operaciones: '#7c4dab',
+  Mantención: '#8a9e52',
+  Seguridad: '#729362',
   Logística: '#FFB800',
   RRHH: '#FF3D57',
 };
@@ -27,7 +27,7 @@ export function AreaComplianceCards() {
   const areas = mockChartData.byArea.labels.map((label, i) => ({
     label,
     value: mockChartData.byArea.data[i],
-    color: AREA_COLORS[label] || '#00E5FF',
+    color: AREA_COLORS[label] || '#9b6ab5',
     rank: i + 1,
     trend: getMockTrend(i),
   }));
@@ -46,8 +46,8 @@ export function AreaComplianceCards() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.4 }}
             style={{
-              backgroundColor: '#111827',
-              border: `1px solid ${area.color}20`,
+              backgroundColor: '#1a1040',
+              border: `1px solid ${area.color}30`,
               borderRadius: '6px',
               padding: '16px',
               display: 'flex',
@@ -87,7 +87,7 @@ export function AreaComplianceCards() {
                       opacity={0.9}
                       className="animate-fillBar"
                     />
-                    <Cell fill="#1C2333" />
+                    <Cell fill="#231455" />
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
@@ -112,7 +112,7 @@ export function AreaComplianceCards() {
               alignItems: 'center',
               gap: '4px',
               fontSize: '10px',
-              color: area.trend.direction === 'up' ? '#00E676' : '#FF3D57',
+              color: area.trend.direction === 'up' ? '#729362' : '#FF3D57',
             }}>
               {area.trend.direction === 'up' ? (
                 <TrendingUp style={{ width: '10px', height: '10px' }} />

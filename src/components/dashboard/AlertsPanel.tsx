@@ -50,11 +50,11 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
       transition={{ duration: 0.3 }}
       style={{
         padding: '10px 20px',
-        borderBottom: '1px solid rgba(0,229,255,0.04)',
+        borderBottom: '1px solid rgba(91,34,119,0.1)',
         transition: 'background 0.15s',
         cursor: 'pointer',
       }}
-      onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(28,35,51,0.5)')}
+      onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)')}
       onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
     >
       {/* Main alert row */}
@@ -96,14 +96,14 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
             transition={{ duration: 0.2 }}
             style={{ overflow: 'hidden', marginTop: '12px', marginLeft: '20px' }}
           >
-            <div style={{ padding: '12px', backgroundColor: 'rgba(0,229,255,0.03)', borderRadius: '8px', border: '1px solid rgba(0,229,255,0.1)' }}>
+            <div style={{ padding: '12px', backgroundColor: 'rgba(91,34,119,0.06)', borderRadius: '8px', border: '1px solid rgba(91,34,119,0.18)' }}>
               <div style={{ marginBottom: '8px' }}>
                 <span style={{ fontSize: '11px', color: '#4A5568', textTransform: 'uppercase' }}>Certificación</span>
                 <p style={{ fontSize: '12px', color: '#F0F4FF', marginTop: '2px' }}>{certName}</p>
               </div>
               <div style={{ marginBottom: '8px' }}>
                 <span style={{ fontSize: '11px', color: '#4A5568', textTransform: 'uppercase' }}>Días restantes</span>
-                <p style={{ fontSize: '12px', color: status === 'vencido' ? '#FF3D57' : status === 'proximo_vencer' ? '#FFB800' : '#00E676', marginTop: '2px', fontWeight: 600 }}>
+                <p style={{ fontSize: '12px', color: status === 'vencido' ? '#FF3D57' : status === 'proximo_vencer' ? '#FFB800' : '#729362', marginTop: '2px', fontWeight: 600 }}>
                   {alert.diasRestantes && alert.diasRestantes < 0 ? `${Math.abs(alert.diasRestantes)} días vencida` : `${alert.diasRestantes} días`}
                 </p>
               </div>
@@ -121,20 +121,20 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
                   alignItems: 'center',
                   gap: '6px',
                   padding: '6px 12px',
-                  backgroundColor: 'rgba(0,230,118,0.1)',
-                  border: '1px solid rgba(0,230,118,0.3)',
+                  backgroundColor: 'rgba(114,147,98,0.12)',
+                  border: '1px solid rgba(114,147,98,0.3)',
                   borderRadius: '6px',
-                  color: '#00E676',
+                  color: '#729362',
                   fontSize: '12px',
                   fontWeight: 500,
                   cursor: 'pointer',
                   transition: 'all 0.15s',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(0,230,118,0.15)';
+                  e.currentTarget.style.backgroundColor = 'rgba(114,147,98,0.18)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(0,230,118,0.1)';
+                  e.currentTarget.style.backgroundColor = 'rgba(114,147,98,0.12)';
                 }}
               >
                 <X style={{ width: '12px', height: '12px' }} />
@@ -162,16 +162,16 @@ export function AlertsPanel() {
 
   return (
     <div style={{
-      backgroundColor: 'rgba(17,24,39,0.8)',
+      backgroundColor: 'rgba(26,16,64,0.8)',
       backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(0,229,255,0.1)',
+      border: '1px solid rgba(91,34,119,0.2)',
       borderRadius: '6px',
       display: 'flex',
       flexDirection: 'column',
       height: '400px',
     }}>
       {/* Header */}
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(0,229,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(91,34,119,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <AlertTriangle style={{ width: '20px', height: '20px', color: '#FFB800' }} />
           <h2 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>Alertas</h2>
@@ -199,23 +199,23 @@ export function AlertsPanel() {
       </div>
 
       {/* Footer link */}
-      <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,229,255,0.08)' }}>
+      <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(91,34,119,0.15)' }}>
         <button
           onClick={() => navigate('/certifications?tab=vencidas')}
           style={{
             width: '100%',
             backgroundColor: 'transparent',
-            border: '1px solid rgba(0,229,255,0.2)',
+            border: '1px solid rgba(91,34,119,0.3)',
             borderRadius: '8px',
             padding: '8px',
             fontSize: '12px',
-            color: '#00E5FF',
+            color: '#9b6ab5',
             cursor: 'pointer',
             fontWeight: 600,
             transition: 'all 0.15s',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(0,229,255,0.05)';
+            e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = 'transparent';
