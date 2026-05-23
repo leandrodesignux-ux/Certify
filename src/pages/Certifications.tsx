@@ -25,8 +25,8 @@ type SortField = 'worker' | 'cert' | 'emisor' | 'tipo' | 'fechaObt' | 'fechaVen'
 type SortOrder = 'asc' | 'desc';
 
 const tabs = [
-  { id: 'todas' as TabType, label: 'Todas', color: '#00E5FF', countKey: 'total' as const },
-  { id: 'vigentes' as TabType, label: 'Vigentes', color: '#00E676', countKey: 'vigentes' as const },
+  { id: 'todas' as TabType, label: 'Todas', color: '#7c4dab', countKey: 'total' as const },
+  { id: 'vigentes' as TabType, label: 'Vigentes', color: '#729362', countKey: 'vigentes' as const },
   { id: 'proximas' as TabType, label: 'Por vencer', color: '#FFB800', countKey: 'porvencer' as const },
   { id: 'vencidas' as TabType, label: 'Vencidas', color: '#FF3D57', countKey: 'vencidas' as const },
 ];
@@ -72,8 +72,8 @@ function StatCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       style={{
-        backgroundColor: 'rgba(17,24,39,0.6)',
-        border: '1px solid rgba(0,229,255,0.1)',
+        backgroundColor: 'rgba(26,16,64,0.7)',
+        border: '1px solid rgba(91,34,119,0.2)',
         borderRadius: '12px',
         padding: '20px',
         position: 'relative',
@@ -139,7 +139,7 @@ function StatCard({
 function DaysSparkline({ diasRestantes }: { diasRestantes: number }) {
   const maxDays = 365;
   const percentage = Math.min(Math.max((diasRestantes / maxDays) * 100, 0), 100);
-  const color = diasRestantes <= 0 ? '#FF3D57' : diasRestantes <= 60 ? '#FFB800' : '#00E676';
+  const color = diasRestantes <= 0 ? '#FF3D57' : diasRestantes <= 60 ? '#FFB800' : '#729362';
   
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -211,7 +211,7 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
             position: 'absolute',
             inset: '-10px',
             borderRadius: '50%',
-            border: '2px dashed rgba(0,229,255,0.3)',
+            border: '2px dashed rgba(91,34,119,0.4)',
           }}
         />
         <motion.div
@@ -221,7 +221,7 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
             position: 'absolute',
             inset: '-25px',
             borderRadius: '50%',
-            border: '2px dashed rgba(170,255,0,0.2)',
+            border: '2px dashed rgba(138,158,82,0.25)',
           }}
         />
         <motion.div
@@ -234,7 +234,7 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
             border: '2px dashed rgba(255,184,0,0.15)',
           }}
         />
-        <Award style={{ width: '64px', height: '64px', color: '#00E5FF', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
+        <Award style={{ width: '64px', height: '64px', color: '#7c4dab', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
       </div>
       <p style={{ fontSize: '18px', fontWeight: 600, color: '#F0F4FF', marginBottom: '8px' }}>
         {title}
@@ -250,20 +250,20 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
             onClick={onClearSearch}
             style={{
               padding: '8px 16px',
-              backgroundColor: 'rgba(0,229,255,0.1)',
-              border: '1px solid rgba(0,229,255,0.3)',
+              backgroundColor: 'rgba(91,34,119,0.12)',
+              border: '1px solid rgba(91,34,119,0.35)',
               borderRadius: '6px',
-              color: '#00E5FF',
+              color: '#9b6ab5',
               fontSize: '13px',
               fontWeight: 500,
               cursor: 'pointer',
               transition: 'all 0.15s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(0,229,255,0.15)';
+              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.2)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(0,229,255,0.1)';
+              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.12)';
             }}
           >
             Limpiar búsqueda
@@ -274,20 +274,20 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
             onClick={onSwitchToAll}
             style={{
               padding: '8px 16px',
-              backgroundColor: 'rgba(170,255,0,0.1)',
-              border: '1px solid rgba(170,255,0,0.3)',
+              backgroundColor: 'rgba(138,158,82,0.1)',
+              border: '1px solid rgba(138,158,82,0.35)',
               borderRadius: '6px',
-              color: '#AAFF00',
+              color: '#8a9e52',
               fontSize: '13px',
               fontWeight: 500,
               cursor: 'pointer',
               transition: 'all 0.15s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(170,255,0,0.15)';
+              e.currentTarget.style.backgroundColor = 'rgba(138,158,82,0.18)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(170,255,0,0.1)';
+              e.currentTarget.style.backgroundColor = 'rgba(138,158,82,0.1)';
             }}
           >
             Ver todas las certificaciones
@@ -437,9 +437,9 @@ export function Certifications() {
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <span className="w-4" />;
     return sortOrder === 'asc' ? (
-      <ChevronUp className="w-4 h-4 text-[#00E5FF]" />
+      <ChevronUp className="w-4 h-4 text-[#9b6ab5]" />
     ) : (
-      <ChevronDown className="w-4 h-4 text-[#00E5FF]" />
+      <ChevronDown className="w-4 h-4 text-[#9b6ab5]" />
     );
   };
 
@@ -480,7 +480,7 @@ export function Certifications() {
           icon={CheckCircle}
           value={summary.vigentes}
           label="Vigentes"
-          color="#00E676"
+          color="#729362"
           total={summary.total}
         />
         <StatCard
@@ -501,7 +501,7 @@ export function Certifications() {
           icon={Award}
           value={summary.pendientes}
           label="Pendientes"
-          color="#00E5FF"
+          color="#7c4dab"
           total={summary.total}
         />
       </motion.div>
@@ -511,7 +511,7 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
-        className="bg-[#0D1B2A] rounded-lg p-1 flex gap-1"
+        className="bg-[#130b3a] rounded-lg p-1 flex gap-1"
       >
         {tabs.map((tab) => (
           <button
@@ -608,8 +608,8 @@ export function Certifications() {
                 top: '50%',
                 transform: 'translateY(-50%)',
                 fontSize: '11px',
-                color: '#00E5FF',
-                backgroundColor: 'rgba(0,229,255,0.1)',
+                color: '#9b6ab5',
+                backgroundColor: 'rgba(91,34,119,0.12)',
                 padding: '2px 8px',
                 borderRadius: '12px',
               }}
@@ -664,7 +664,7 @@ export function Certifications() {
               <select
                 value={areaFilter}
                 onChange={(e) => setAreaFilter(e.target.value)}
-                className="h-10 w-44 bg-[#1C2333] border border-[rgba(0,229,255,0.15)] rounded-lg pl-3 pr-10 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(0,229,255,0.4)] cursor-pointer appearance-none"
+                className="h-10 w-44 bg-[#231455] border border-[rgba(91,34,119,0.25)] rounded-lg pl-3 pr-10 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(91,34,119,0.5)] cursor-pointer appearance-none"
               >
                 <option value="">Todas las áreas</option>
                 <option value="Operaciones">Operaciones</option>
@@ -684,7 +684,7 @@ export function Certifications() {
               <select
                 value={tipoFilter}
                 onChange={(e) => setTipoFilter(e.target.value)}
-                className="h-10 w-40 bg-[#1C2333] border border-[rgba(0,229,255,0.15)] rounded-lg pl-3 pr-10 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(0,229,255,0.4)] cursor-pointer appearance-none"
+                className="h-10 w-40 bg-[#231455] border border-[rgba(91,34,119,0.25)] rounded-lg pl-3 pr-10 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(91,34,119,0.5)] cursor-pointer appearance-none"
               >
                 <option value="">Todos los tipos</option>
                 <option value="obligatoria">Obligatoria</option>
@@ -722,26 +722,26 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
-        className="bg-[rgba(17,24,39,0.8)] backdrop-blur-[12px] border border-[rgba(0,229,255,0.1)] rounded-lg overflow-hidden"
+        className="bg-[#1a1040]/90 backdrop-blur-[12px] border border-[rgba(91,34,119,0.2)] rounded-lg overflow-hidden"
       >
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead 
               className="sticky top-0 z-10"
               style={{
-                backgroundColor: 'rgba(13,27,42,0.8)',
+                backgroundColor: 'rgba(19,11,58,0.9)',
                 backdropFilter: 'blur(8px)',
               }}
             >
               {/* Gradient fade at bottom */}
               <tr>
                 <th colSpan={8} className="p-0">
-                  <div className="h-px bg-gradient-to-r from-transparent via-[rgba(0,229,255,0.2)] to-transparent" />
+                  <div className="h-px bg-gradient-to-r from-transparent via-[rgba(91,34,119,0.3)] to-transparent" />
                 </th>
               </tr>
-              <tr className="border-b border-[rgba(0,229,255,0.1)]">
+              <tr className="border-b border-[rgba(91,34,119,0.2)]">
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('worker')}
                 >
                   <div className="flex items-center gap-1">
@@ -750,7 +750,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('cert')}
                 >
                   <div className="flex items-center gap-1">
@@ -759,7 +759,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('emisor')}
                 >
                   <div className="flex items-center gap-1">
@@ -768,7 +768,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('tipo')}
                 >
                   <div className="flex items-center gap-1">
@@ -777,7 +777,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('fechaObt')}
                 >
                   <div className="flex items-center gap-1">
@@ -786,7 +786,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('fechaVen')}
                 >
                   <div className="flex items-center gap-1">
@@ -795,7 +795,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('estado')}
                 >
                   <div className="flex items-center justify-center gap-1">
@@ -803,7 +803,7 @@ export function Certifications() {
                     <SortIcon field="estado" />
                   </div>
                 </th>
-                <th className="px-4 py-3 text-center text-xs font-medium text-[#8892A4] uppercase tracking-wider">
+                <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
                   Acción
                 </th>
               </tr>
@@ -816,7 +816,7 @@ export function Certifications() {
                     ? `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase()
                     : '?';
                   const isExpanded = expandedCert === cert.id;
-                  const borderColor = cert.estado === 'vigente' ? '#00E676' : cert.estado === 'proximo_vencer' ? '#FFB800' : cert.estado === 'vencido' ? '#FF3D57' : '#00E5FF';
+                  const borderColor = cert.estado === 'vigente' ? '#729362' : cert.estado === 'proximo_vencer' ? '#FFB800' : cert.estado === 'vencido' ? '#FF3D57' : '#7c4dab';
 
                   return (
                     <motion.tr
@@ -827,15 +827,15 @@ export function Certifications() {
                       transition={{ delay: index * 0.03, duration: 0.3 }}
                       className="group cursor-pointer"
                       style={{
-                        backgroundColor: index % 2 === 0 ? 'rgba(17,24,39,0.6)' : 'rgba(28,35,51,0.4)',
+                        backgroundColor: index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)',
                         borderLeft: `3px solid ${borderColor}`,
                         transition: 'background-color 0.2s ease',
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(0,229,255,0.03)';
+                        e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(17,24,39,0.6)' : 'rgba(28,35,51,0.4)';
+                        e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)';
                       }}
                     >
                       <td className="px-4 py-3">
@@ -844,11 +844,11 @@ export function Certifications() {
                             <img
                               src={worker.foto}
                               alt={`${worker.nombre} ${worker.apellidos}`}
-                              className="w-8 h-8 rounded-full object-cover border border-[rgba(0,229,255,0.2)]"
+                              className="w-8 h-8 rounded-full object-cover border border-[rgba(91,34,119,0.3)]"
                             />
                           ) : (
-                            <div className="w-8 h-8 rounded-full bg-[#1C2333] border border-[rgba(0,229,255,0.2)] flex items-center justify-center">
-                              <span className="text-xs font-display font-semibold text-[#00E5FF]">
+                            <div className="w-8 h-8 rounded-full bg-[#231455] border border-[rgba(91,34,119,0.3)] flex items-center justify-center">
+                              <span className="text-xs font-display font-semibold text-[#c49fe0]">
                                 {initials}
                               </span>
                             </div>
@@ -897,10 +897,10 @@ export function Certifications() {
                       <td className="px-4 py-3 text-center">
                         <button
                           onClick={() => setExpandedCert(isExpanded ? null : cert.id)}
-                          className="p-1.5 rounded-md hover:bg-[rgba(0,229,255,0.1)] transition-colors"
+                          className="p-1.5 rounded-md hover:bg-[rgba(91,34,119,0.15)] transition-colors"
                           title="Ver detalle"
                         >
-                          <Eye className="w-4 h-4 text-[#00E5FF]" />
+                          <Eye className="w-4 h-4 text-[#9b6ab5]" />
                         </button>
                       </td>
                     </motion.tr>
@@ -923,7 +923,7 @@ export function Certifications() {
 
         {/* Pagination */}
         {sorted.length > 0 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-[rgba(0,229,255,0.1)]">
+          <div className="flex items-center justify-between px-4 py-3 border-t border-[rgba(91,34,119,0.2)]">
             <span className="text-sm text-[#8892A4]">
               Página {currentPage} de {totalPages}
             </span>
@@ -931,7 +931,7 @@ export function Certifications() {
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#F0F4FF] bg-[#1C2333] border border-[rgba(0,229,255,0.15)] rounded-md hover:border-[rgba(0,229,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#F0F4FF] bg-[#231455] border border-[rgba(91,34,119,0.25)] rounded-md hover:border-[rgba(91,34,119,0.5)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
                 Anterior
@@ -939,7 +939,7 @@ export function Certifications() {
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#F0F4FF] bg-[#1C2333] border border-[rgba(0,229,255,0.15)] rounded-md hover:border-[rgba(0,229,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#F0F4FF] bg-[#231455] border border-[rgba(91,34,119,0.25)] rounded-md hover:border-[rgba(91,34,119,0.5)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Siguiente
                 <ChevronRight className="w-4 h-4" />
