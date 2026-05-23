@@ -8,10 +8,10 @@ interface CertTimelineProps {
 }
 
 const statusConfig = {
-  vigente: { icon: CheckCircle, color: '#00E676', bg: 'bg-[rgba(0,230,118,0.15)]' },
+  vigente: { icon: CheckCircle, color: '#729362', bg: 'bg-[rgba(114,147,98,0.15)]' },
   proximo_vencer: { icon: Clock, color: '#FFB800', bg: 'bg-[rgba(255,184,0,0.15)]' },
   vencido: { icon: AlertCircle, color: '#FF3D57', bg: 'bg-[rgba(255,61,87,0.15)]' },
-  pendiente: { icon: Award, color: '#00E5FF', bg: 'bg-[rgba(0,229,255,0.15)]' },
+  pendiente: { icon: Award, color: '#7c4dab', bg: 'bg-[rgba(91,34,119,0.15)]' },
 };
 
 export function CertTimeline({ certs }: CertTimelineProps) {
@@ -27,7 +27,7 @@ export function CertTimeline({ certs }: CertTimelineProps) {
         <div
           className="absolute top-6 left-0 right-0 h-0.5"
           style={{
-            background: 'linear-gradient(90deg, #00E676 0%, #FFB800 50%, #FF3D57 100%)',
+            background: 'linear-gradient(90deg, #729362 0%, #FFB800 50%, #FF3D57 100%)',
             opacity: 0.3,
           }}
         />

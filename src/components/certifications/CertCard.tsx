@@ -14,14 +14,14 @@ const statusBorderColors: Record<string, string> = {
   vigente: 'border-l-[3px] border-l-[#00E676]',
   proximo_vencer: 'border-l-[3px] border-l-[#FFB800]',
   vencido: 'border-l-[3px] border-l-[#FF3D57]',
-  pendiente: 'border-l-[3px] border-l-[#00E5FF]',
+  pendiente: 'border-l-[3px] border-l-[#7c4dab]',
 };
 
 const statusGlows: Record<string, string> = {
-  vigente: 'hover:shadow-[0_0_12px_rgba(0,230,118,0.2)]',
+  vigente: 'hover:shadow-[0_0_12px_rgba(114,147,98,0.25)]',
   proximo_vencer: 'hover:shadow-[0_0_12px_rgba(255,184,0,0.2)]',
   vencido: 'hover:shadow-[0_0_12px_rgba(255,61,87,0.2)]',
-  pendiente: 'hover:shadow-[0_0_12px_rgba(0,229,255,0.2)]',
+  pendiente: 'hover:shadow-[0_0_12px_rgba(91,34,119,0.35)]',
 };
 
 export function CertCard({ cert, index = 0 }: CertCardProps) {

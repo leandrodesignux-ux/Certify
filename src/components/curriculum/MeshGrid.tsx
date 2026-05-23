@@ -10,8 +10,8 @@ interface MeshGridProps {
 }
 
 const statusConfig = {
-  completado: { icon: CheckCircle, color: '#AAFF00', bg: 'bg-[rgba(170,255,0,0.15)]', label: 'Completado' },
-  en_progreso: { icon: Play, color: '#00E5FF', bg: 'bg-[rgba(0,229,255,0.15)]', label: 'En progreso' },
+  completado: { icon: CheckCircle, color: '#729362', bg: 'bg-[rgba(114,147,98,0.15)]', label: 'Completado' },
+  en_progreso: { icon: Play, color: '#7c4dab', bg: 'bg-[rgba(91,34,119,0.15)]', label: 'En progreso' },
   pendiente: { icon: Clock, color: '#8892A4', bg: 'bg-[rgba(136,146,164,0.15)]', label: 'Pendiente' },
   bloqueado: { icon: Lock, color: '#4A5568', bg: 'bg-[rgba(74,85,104,0.15)]', label: 'Bloqueado' },
 };
@@ -28,10 +28,10 @@ function SequentialCourseCard({ course, index }: { course: Course; index: number
       transition={{ delay: index * 0.1, duration: 0.3 }}
       className="relative"
     >
-      <div className="bg-[#1C2333] border border-[rgba(0,229,255,0.1)] rounded-lg p-4 hover:border-[rgba(0,229,255,0.2)] transition-colors">
+      <div className="bg-[#1a1040] border border-[rgba(91,34,119,0.2)] rounded-lg p-4 hover:border-[rgba(91,34,119,0.4)] transition-colors">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
-            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[rgba(0,229,255,0.1)] text-[#00E5FF] text-xs font-bold">
+            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[rgba(91,34,119,0.15)] text-[#9b6ab5] text-xs font-bold">
               {index + 1}
             </span>
             <h4 className="font-display text-sm font-semibold text-[#F0F4FF] max-w-[200px] truncate">
@@ -62,8 +62,8 @@ function ArrowConnector() {
   return (
     <div className="flex justify-center py-2">
       <div className="flex flex-col items-center gap-1">
-        <div className="w-px h-4 border-l-2 border-dashed border-[rgba(0,229,255,0.3)]" />
-        <ArrowDown className="w-4 h-4 text-[rgba(0,229,255,0.4)]" />
+        <div className="w-px h-4 border-l-2 border-dashed border-[rgba(91,34,119,0.4)]" />
+        <ArrowDown className="w-4 h-4 text-[rgba(91,34,119,0.5)]" />
       </div>
     </div>
   );
@@ -96,11 +96,11 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.3 }}
-      className="bg-[#111827] rounded-lg max-w-4xl w-full mx-auto overflow-hidden shadow-2xl"
+      className="bg-[#1a1040] rounded-lg max-w-4xl w-full mx-auto overflow-hidden shadow-2xl"
       style={{ maxHeight: '85vh' }}
     >
       {/* Header with Close Button */}
-      <div className="relative p-6 border-b border-[rgba(0,229,255,0.1)]">
+      <div className="relative p-6 border-b border-[rgba(91,34,119,0.2)]">
         {/* Close Button - Top Right */}
         {onClose && (
           <button
@@ -124,13 +124,13 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
               <div className="w-32">
                 <ProgressBar value={mesh.completionRate} showLabel={false} />
               </div>
-              <span className="font-display text-lg font-bold text-[#00E5FF]">
+              <span className="font-display text-lg font-bold text-[#9b6ab5]">
                 {mesh.completionRate}%
               </span>
             </div>
 
             {/* Courses Count */}
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#1C2333] rounded-lg">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#231455] rounded-lg">
               <span className="text-sm text-[#F0F4FF]">{mesh.cursos.length}</span>
               <span className="text-xs text-[#8892A4]">cursos</span>
             </div>
@@ -160,14 +160,14 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
                   width: '64px',
                   height: '64px',
                   borderRadius: '50%',
-                  backgroundColor: 'rgba(0,229,255,0.05)',
+                  backgroundColor: 'rgba(91,34,119,0.08)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginBottom: '16px',
                 }}
               >
-                <BookOpen style={{ width: '28px', height: '28px', color: '#00E5FF' }} />
+                <BookOpen style={{ width: '28px', height: '28px', color: '#9b6ab5' }} />
               </div>
               <p className="text-[#F0F4FF] font-medium mb-2">Esta malla no tiene cursos asignados</p>
               <p className="text-sm text-[#8892A4]">Los cursos se agregarán próximamente</p>
@@ -185,25 +185,25 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
         </div>
 
         {/* Trabajadores Asignados Section */}
-        <div className="mt-8 pt-6 border-t border-[rgba(0,229,255,0.1)]">
+        <div className="mt-8 pt-6 border-t border-[rgba(91,34,119,0.2)]">
           <h3 className="text-sm font-medium text-[#8892A4] uppercase tracking-wider mb-4 flex items-center gap-2">
             <Users className="w-4 h-4" />
             Trabajadores Asignados
           </h3>
           
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-4 py-3 bg-[#1C2333] rounded-lg">
+            <div className="flex items-center gap-2 px-4 py-3 bg-[#231455] rounded-lg">
               <div className="flex -space-x-2">
                 {Array.from({ length: Math.min(workersCount, 4) }).map((_, i) => (
                   <div
                     key={i}
-                    className="w-8 h-8 rounded-full bg-[rgba(0,229,255,0.15)] border-2 border-[#111827] flex items-center justify-center text-xs font-semibold text-[#00E5FF]"
+                    className="w-8 h-8 rounded-full bg-[rgba(91,34,119,0.2)] border-2 border-[#1a1040] flex items-center justify-center text-xs font-semibold text-[#c49fe0]"
                   >
                     {String.fromCharCode(65 + i)}
                   </div>
                 ))}
                 {workersCount > 4 && (
-                  <div className="w-8 h-8 rounded-full bg-[#1C2333] border-2 border-[#111827] flex items-center justify-center text-xs text-[#8892A4]">
+                  <div className="w-8 h-8 rounded-full bg-[#231455] border-2 border-[#1a1040] flex items-center justify-center text-xs text-[#8892A4]">
                     +{workersCount - 4}
                   </div>
                 )}
@@ -213,7 +213,7 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
               </span>
             </div>
             
-            <button className="px-4 py-2 text-sm text-[#00E5FF] bg-[rgba(0,229,255,0.1)] hover:bg-[rgba(0,229,255,0.15)] rounded-lg transition-colors border border-[rgba(0,229,255,0.2)]">
+            <button className="px-4 py-2 text-sm text-[#9b6ab5] bg-[rgba(91,34,119,0.12)] hover:bg-[rgba(91,34,119,0.2)] rounded-lg transition-colors border border-[rgba(91,34,119,0.25)]">
               Ver todos
             </button>
           </div>
