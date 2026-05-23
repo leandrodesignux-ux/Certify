@@ -91,9 +91,9 @@ function WorkersComponent() {
         className="flex flex-wrap gap-4"
       >
         {/* Total Trabajadores */}
-        <div className="flex items-center gap-3 rounded-xl border border-[rgba(0,229,255,0.1)] bg-[#111827]/60 px-4 py-3">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(0,229,255,0.15)]">
-            <Users2 className="w-5 h-5 text-[#00E5FF]" />
+        <div className="flex items-center gap-3 rounded-xl border border-[rgba(91,34,119,0.2)] bg-[#1a1040]/70 px-4 py-3">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(91,34,119,0.2)]">
+            <Users2 className="w-5 h-5 text-[#9b6ab5]" />
           </div>
           <div>
             <p className="font-display text-2xl font-bold text-[#F0F4FF]">{totalWorkers}</p>
@@ -102,9 +102,9 @@ function WorkersComponent() {
         </div>
 
         {/* Cumplimiento OK */}
-        <div className="flex items-center gap-3 rounded-xl border border-[rgba(0,229,255,0.1)] bg-[#111827]/60 px-4 py-3">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(0,230,118,0.15)]">
-            <ShieldCheck className="w-5 h-5 text-[#00E676]" />
+        <div className="flex items-center gap-3 rounded-xl border border-[rgba(91,34,119,0.2)] bg-[#1a1040]/70 px-4 py-3">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(114,147,98,0.18)]">
+            <ShieldCheck className="w-5 h-5 text-[#729362]" />
           </div>
           <div>
             <p className="font-display text-2xl font-bold text-[#F0F4FF]">{complianceOkCount}</p>
@@ -113,7 +113,7 @@ function WorkersComponent() {
         </div>
 
         {/* Requieren acción */}
-        <div className="flex items-center gap-3 rounded-xl border border-[rgba(0,229,255,0.1)] bg-[#111827]/60 px-4 py-3">
+        <div className="flex items-center gap-3 rounded-xl border border-[rgba(91,34,119,0.2)] bg-[#1a1040]/70 px-4 py-3">
           <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(255,61,87,0.15)]">
             <ShieldAlert className="w-5 h-5 text-[#FF3D57]" />
           </div>
