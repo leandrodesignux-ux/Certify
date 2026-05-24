@@ -99,7 +99,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
       style={{
         position: 'relative',
         overflow: 'hidden',
-        borderRadius: '6px',
+        borderRadius: 'var(--radius-sm)',
         background: 'linear-gradient(135deg, #130b3a 0%, #1a1040 100%)',
         border: '1px solid rgba(91,34,119,0.25)',
       }}

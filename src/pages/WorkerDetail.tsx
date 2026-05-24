@@ -427,7 +427,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
   return (
     <div className="worker-detail-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(200px, 1fr) minmax(0, 2fr)', gap: '24px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Card variant="glass" padding="lg" style={{ borderRadius: '6px' }}>
+        <Card variant="glass" padding="lg" style={{ borderRadius: 'var(--radius-sm)' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase' }}>
             Resumen
           </h3>
@@ -445,7 +445,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
         </Card>
         <MiniComplianceTimeline certifications={worker.certifications} />
       </div>
-      <Card variant="glass" padding="lg" style={{ borderRadius: '6px' }}>
+      <Card variant="glass" padding="lg" style={{ borderRadius: 'var(--radius-sm)' }}>
         <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase' }}>
           Certificaciones
         </h3>
@@ -464,7 +464,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
   return (
     <div className="worker-detail-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(180px, 1fr) minmax(0, 3fr)', gap: '24px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Card variant="glass" padding="lg" style={{ borderRadius: '6px' }}>
+        <Card variant="glass" padding="lg" style={{ borderRadius: 'var(--radius-sm)' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '1px' }}>
             Información
           </h3>
@@ -482,7 +482,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
             ))}
           </div>
         </Card>
-        <Card variant="glass" padding="lg" style={{ borderRadius: '6px' }}>
+        <Card variant="glass" padding="lg" style={{ borderRadius: 'var(--radius-sm)' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>
             Competencias
           </h3>
@@ -513,7 +513,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
 // Historial Tab Component
 function HistorialTab() {
   return (
-    <Card variant="glass" padding="lg" style={{ borderRadius: '16px', maxWidth: '800px' }}>
+    <Card variant="glass" padding="lg" style={{ borderRadius: 'var(--radius-lg)', maxWidth: '800px' }}>
       <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: '#F0F4FF', marginBottom: '24px', textTransform: 'uppercase', letterSpacing: '1px' }}>
         Historial de Actividad
       </h3>
