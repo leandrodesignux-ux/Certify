@@ -8,6 +8,8 @@ interface CardProps {
   className?: string;
   hover?: boolean;
   onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   style?: React.CSSProperties;
 }
 
@@ -18,6 +20,8 @@ export function Card({
   className = '',
   hover = true,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
   style,
 }: CardProps) {
   const [isHovered, setIsHovered] = useState(false);
@@ -41,8 +45,8 @@ export function Card({
   return (
     <div
       onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => { setIsHovered(true); onMouseEnter?.(); }}
+      onMouseLeave={() => { setIsHovered(false); onMouseLeave?.(); }}
       style={{
         ...baseStyles,
         ...style,
