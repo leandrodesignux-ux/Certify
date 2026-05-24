@@ -121,7 +121,11 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
           borderBottom: `1px solid ${compliance.color}30`,
           position: 'relative',
         }}
-      />
+      >
+        <div style={{ position: 'absolute', top: '12px', right: '16px', zIndex: 10 }}>
+          <Button variant="ghost" size="sm" icon={Edit3}>Editar</Button>
+        </div>
+      </div>
 
       {/* Main Content */}
       <div style={{ position: 'relative', display: 'flex', alignItems: 'flex-start', padding: '0 24px 24px' }}>
@@ -144,7 +148,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
             {worker.foto ? (
               <img
                 src={worker.foto}
-                alt={worker.nombre}
+                alt={`Foto de perfil de ${worker.nombre} ${worker.apellidos}`}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             ) : (
@@ -200,7 +204,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
               { label: 'Ingreso', value: new Date(worker.fechaIngreso).toLocaleDateString('es-CL') },
             ].map(item => (
               <div key={item.label} style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-                <span style={{ fontSize: '11px', color: '#4A5568', flexShrink: 0, minWidth: '70px' }}>{item.label}</span>
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', flexShrink: 0, minWidth: '70px' }}>{item.label}</span>
                 <span style={{ fontSize: '12px', color: '#F0F4FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.value}</span>
               </div>
             ))}
@@ -217,7 +221,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px',
           marginTop: '-24px',
         }}>
-          <p style={{ fontSize: '11px', fontWeight: 700, color: '#8892A4', letterSpacing: '1px', textTransform: 'uppercase', textAlign: 'center' }}>CERTIFICADOS</p>
+          <p style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-text-secondary)', letterSpacing: '1px', textTransform: 'uppercase', textAlign: 'center' }}>CERTIFICADOS</p>
           <p style={{
             fontFamily: '"Barlow Condensed", sans-serif',
             fontSize: '64px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1, textAlign: 'center',
@@ -230,17 +234,13 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
             border: `1px solid ${compliance.color}40`,
             borderRadius: '8px', padding: '6px 14px', textAlign: 'center',
           }}>
-            <p style={{ fontSize: '9px', color: '#8892A4', textTransform: 'uppercase', letterSpacing: '1px' }}>RANGO</p>
+            <p style={{ fontSize: '9px', color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>RANGO</p>
             <p style={{ fontSize: '16px', fontWeight: 700, color: compliance.color, fontFamily: '"Barlow Condensed"' }}>
               {compliance.label.toUpperCase()}
             </p>
           </div>
         </div>
 
-        {/* Botón editar — top right */}
-        <div style={{ position: 'absolute', top: '-104px', right: '16px' }}>
-          <Button variant="ghost" size="sm" icon={Edit3}>Editar</Button>
-        </div>
       </div>
 
       {/* Bottom bar — avance general con barra */}
@@ -249,7 +249,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
         padding: '12px 24px',
         display: 'flex', alignItems: 'center', gap: '16px',
       }}>
-        <span style={{ fontSize: '12px', color: '#8892A4', flexShrink: 0 }}>Avance general</span>
+        <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)', flexShrink: 0 }}>Avance general</span>
         <div style={{ flex: 1 }}>
           <ProgressBar value={worker.complianceScore} showLabel={false} />
         </div>

@@ -26,7 +26,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04, duration: 0.4, ease: [0.16,1,0.3,1] }}
       className="hover-lift card-clickable"
-      style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}
+      style={{ display: 'flex', flexDirection: 'column', gap: '0px', borderRadius: '12px', overflow: 'hidden' }}
     >
       {/* Card flip container — perspective here, NO preserve-3d, NO transform on this level */}
       <div style={{ perspective: '1200px', transformStyle: 'flat', width: '100%' }}>
@@ -48,7 +48,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             WebkitBackfaceVisibility: 'hidden',
             position: 'absolute',
             inset: 0,
-            borderRadius: '6px',
+            borderRadius: '0',
             overflow: 'hidden',
             backgroundColor: '#1a1040',
             border: '1px solid rgba(91,34,119,0.25)',
@@ -137,7 +137,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             position: 'absolute',
             inset: 0,
             transform: 'rotateY(180deg)',
-            borderRadius: '6px',
+            borderRadius: '0',
             backgroundColor: '#130b3a',
             border: '1px solid rgba(91,34,119,0.3)',
             padding: '16px',
@@ -240,7 +240,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
           backgroundColor: '#5b2277',
           color: '#F0F4FF',
           border: 'none',
-          borderRadius: '0 0 16px 16px',
+          borderRadius: '0',
           fontSize: '13px',
           fontWeight: 700,
           cursor: 'pointer',
