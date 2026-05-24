@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { Edit3, Plus, Download, Bell } from 'lucide-react';
 import type { Worker } from '../../types';
 import { Button } from '../ui/Button';
-import { ProgressBar } from '../ui/ProgressBar';
 import { formatRut } from '../../utils/format';
 
 interface ProfileHeaderProps {
@@ -90,7 +89,6 @@ function ComplianceRing({ score, color }: { score: number; color: string }) {
 export function ProfileHeader({ worker }: ProfileHeaderProps) {
   const initials = `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase();
   const compliance = getComplianceColorAndLabel(worker.complianceScore);
-  const activeCerts = worker.certifications.filter((c) => c.estado === 'vigente').length;
   const bannerGradient = getBannerGradient(worker.complianceScore);
 
   return (
@@ -211,51 +209,79 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
           </div>
         </div>
 
-        {/* PANEL DERECHO — CERTIFICADOS */}
+        {/* PANEL DERECHO — COMPLIANCE SCORE */}
         <div style={{
-          width: '200px', flexShrink: 0,
+          width: '180px', flexShrink: 0,
           backgroundColor: 'rgba(91,34,119,0.07)',
           borderLeft: '1px solid rgba(91,34,119,0.2)',
-          borderRadius: '0 0 16px 0',
-          padding: '20px',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px',
+          borderRadius: '0 0 var(--radius-lg) 0',
+          padding: '20px 16px',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px',
           marginTop: '-24px',
         }}>
-          <p style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-text-secondary)', letterSpacing: '1px', textTransform: 'uppercase', textAlign: 'center' }}>CERTIFICADOS</p>
-          <p style={{
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: '64px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1, textAlign: 'center',
-          }}>
-            {activeCerts}
-          </p>
-          {/* Rango / compliance badge */}
+          {/* ComplianceRing */}
+          <ComplianceRing score={worker.complianceScore} color={compliance.color} />
+
+          {/* Rango badge */}
           <div style={{
             backgroundColor: `${compliance.color}20`,
             border: `1px solid ${compliance.color}40`,
-            borderRadius: '8px', padding: '6px 14px', textAlign: 'center',
+            borderRadius: 'var(--radius-sm)', padding: '5px 12px', textAlign: 'center',
           }}>
-            <p style={{ fontSize: '9px', color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>RANGO</p>
-            <p style={{ fontSize: '16px', fontWeight: 700, color: compliance.color, fontFamily: '"Barlow Condensed"' }}>
+            <p style={{ fontSize: '9px', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>RANGO</p>
+            <p style={{ fontSize: '15px', fontWeight: 700, color: compliance.color, fontFamily: '"Barlow Condensed"' }}>
               {compliance.label.toUpperCase()}
             </p>
+          </div>
+
+          {/* Desglose de certificaciones */}
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            {[
+              { label: 'Total', value: worker.certifications.length, color: 'var(--color-text-secondary)' },
+              { label: 'Vigentes', value: worker.certifications.filter(c => c.estado === 'vigente').length, color: '#8fb87a' },
+              { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: '#FF5C71' },
+            ].map(item => (
+              <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '2px 0' }}>
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{item.label}</span>
+                <span style={{ fontSize: '13px', fontWeight: 700, fontFamily: '"Barlow Condensed"', color: item.color }}>{item.value}</span>
+              </div>
+            ))}
           </div>
         </div>
 
       </div>
 
-      {/* Bottom bar — avance general con barra */}
+      {/* Bottom bar — información de mayor valor */}
       <div style={{
         borderTop: '1px solid rgba(91,34,119,0.2)',
-        padding: '12px 24px',
-        display: 'flex', alignItems: 'center', gap: '16px',
+        padding: '10px 24px',
+        display: 'flex', alignItems: 'center', gap: '32px',
+        flexWrap: 'wrap',
       }}>
-        <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)', flexShrink: 0 }}>Avance general</span>
-        <div style={{ flex: 1 }}>
-          <ProgressBar value={worker.complianceScore} showLabel={false} />
+        {/* Próximo vencimiento */}
+        {(() => {
+          const proxima = worker.certifications
+            .filter(c => c.estado === 'proximo_vencer' || c.estado === 'vigente')
+            .sort((a, b) => new Date(a.fechaVencimiento).getTime() - new Date(b.fechaVencimiento).getTime())[0];
+          return proxima ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', flexShrink: 0 }}>Próximo vencimiento:</span>
+              <span style={{ fontSize: '12px', fontWeight: 600, color: '#FFB800' }}>
+                {proxima.nombre} — {new Date(proxima.fechaVencimiento).toLocaleDateString('es-CL')}
+              </span>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>Sin vencimientos próximos</span>
+            </div>
+          );
+        })()}
+
+        {/* Última actividad — mock por ahora */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', flexShrink: 0 }}>Última actividad:</span>
+          <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>hace 3 días</span>
         </div>
-        <span style={{ fontSize: '13px', fontWeight: 700, color: compliance.color, flexShrink: 0 }}>
-          {worker.complianceScore}%
-        </span>
       </div>
     </motion.div>
   );
