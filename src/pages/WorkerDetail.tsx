@@ -51,12 +51,11 @@ function getRelativeTime(dateString: string): string {
   return date.toLocaleDateString('es-CL');
 }
 
-// Mini Compliance Timeline Component
 function MiniComplianceTimeline({ certifications }: { certifications: WorkerType['certifications'] }) {
   const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
   const currentMonth = new Date().getMonth();
+  const [tooltip, setTooltip] = useState<{ index: number; certs: string[] } | null>(null);
 
-  // Calculate certs expiring per month
   const monthData = useMemo(() => {
     return months.map((_, index) => {
       const certsInMonth = certifications.filter((cert) => {
@@ -69,62 +68,90 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
       const hasValid = certsInMonth.some((c) => c.estado === 'vigente');
 
       return {
-        color: hasExpired ? '#FF3D57' : hasExpiring ? '#FFB800' : hasValid ? '#729362' : '#231455',
+        color: hasExpired ? '#FF3D57' : hasExpiring ? '#FFB800' : hasValid ? '#729362' : 'rgba(91,34,119,0.2)',
         count: certsInMonth.length,
+        certNames: certsInMonth.map(c => c.nombre),
       };
     });
   }, [certifications]);
+
+  const maxCount = Math.max(...monthData.map(d => d.count), 1);
 
   return (
     <Card variant="glass" style={{ padding: '16px', marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
         <Clock style={{ width: '16px', height: '16px', color: '#9b6ab5' }} />
-        <span style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF' }}>Timeline de Vencimientos {new Date().getFullYear()}</span>
+        <span style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF' }}>
+          Timeline de Vencimientos {new Date().getFullYear()}
+        </span>
       </div>
-      <div style={{ display: 'flex', gap: '4px', height: '32px' }}>
-        {monthData.map((data, index) => (
-          <motion.div
-            key={index}
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            transition={{ delay: index * 0.05, duration: 0.3 }}
-            style={{
-              flex: 1,
-              backgroundColor: data.color,
-              borderRadius: '4px',
-              opacity: index === currentMonth ? 1 : 0.7,
-              position: 'relative',
-              transformOrigin: 'bottom',
-            }}
-          >
-            {data.count > 0 && (
-              <span
+
+      {/* Barras con altura proporcional */}
+      <div style={{ display: 'flex', gap: '4px', height: '40px', alignItems: 'flex-end' }}>
+        {monthData.map((data, index) => {
+          const barHeight = data.count > 0
+            ? Math.max((data.count / maxCount) * 36, 8)
+            : 4;
+
+          return (
+            <div
+              key={index}
+              style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'flex-end' }}
+              onMouseEnter={() => data.count > 0 && setTooltip({ index, certs: data.certNames })}
+              onMouseLeave={() => setTooltip(null)}
+            >
+              <motion.div
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ delay: index * 0.05, duration: 0.3 }}
                 style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  color: '#0A0E1A',
+                  width: '100%',
+                  height: `${barHeight}px`,
+                  backgroundColor: data.color,
+                  borderRadius: '3px',
+                  opacity: index === currentMonth ? 1 : 0.65,
+                  cursor: data.count > 0 ? 'pointer' : 'default',
+                  transformOrigin: 'bottom',
+                  transition: 'opacity 0.15s',
                 }}
-              >
-                {data.count}
-              </span>
-            )}
-          </motion.div>
-        ))}
+              />
+              {/* Tooltip */}
+              {tooltip?.index === index && (
+                <div style={{
+                  position: 'absolute',
+                  bottom: 'calc(100% + 6px)',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#130b3a',
+                  border: '1px solid rgba(91,34,119,0.4)',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '6px 10px',
+                  fontSize: '11px',
+                  color: '#F0F4FF',
+                  whiteSpace: 'nowrap',
+                  zIndex: 50,
+                  pointerEvents: 'none',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+                }}>
+                  {tooltip.certs.map((name, i) => (
+                    <div key={i} style={{ color: data.color }}>{name}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
-      <div style={{ display: 'flex', gap: '4px', marginTop: '4px' }}>
+
+      {/* Labels de mes — mínimo 11px */}
+      <div style={{ display: 'flex', gap: '4px', marginTop: '6px' }}>
         {months.map((month, index) => (
           <div key={index} style={{ flex: 1, textAlign: 'center' }}>
-            <span
-              style={{
-                fontSize: '9px',
-                color: index === currentMonth ? '#9b6ab5' : '#4A5568',
-                fontWeight: index === currentMonth ? 700 : 400,
-              }}
-            >
+            <span style={{
+              fontSize: '11px',
+              color: index === currentMonth ? '#9b6ab5' : 'var(--color-text-muted)',
+              fontWeight: index === currentMonth ? 700 : 400,
+            }}>
               {month}
             </span>
           </div>
@@ -398,7 +425,7 @@ export function WorkerDetail() {
 // Certificaciones Tab Component
 function CertificacionesTab({ worker }: { worker: WorkerType }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '24px' }}>
+    <div className="worker-detail-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(200px, 1fr) minmax(0, 2fr)', gap: '24px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <Card variant="glass" padding="lg" style={{ borderRadius: '6px' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase' }}>
@@ -435,7 +462,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
 // Mallas Tab Component
 function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes: typeof mockMeshes }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 3fr', gap: '24px' }}>
+    <div className="worker-detail-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(180px, 1fr) minmax(0, 3fr)', gap: '24px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <Card variant="glass" padding="lg" style={{ borderRadius: '6px' }}>
           <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '1px' }}>

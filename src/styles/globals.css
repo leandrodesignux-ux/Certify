@@ -283,3 +283,10 @@ textarea:focus-visible {
   outline-offset: 0;
   border-color: rgba(91,34,119,0.6) !important;
 }
+
+/* Responsive grids en WorkerDetail */
+@media (max-width: 1024px) {
+  .worker-detail-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
