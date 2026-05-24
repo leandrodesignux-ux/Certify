@@ -200,6 +200,80 @@ function WorkersComponent() {
         </button>
       </motion.div>
 
+      {/* Chips de filtros activos */}
+      {activeFiltersCount > 0 && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}
+        >
+          <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', flexShrink: 0 }}>Filtros activos:</span>
+          {filters.search && (
+            <span
+              style={{
+                display: 'flex', alignItems: 'center', gap: '5px',
+                padding: '3px 10px 3px 10px',
+                backgroundColor: 'rgba(91,34,119,0.15)',
+                border: '1px solid rgba(91,34,119,0.35)',
+                borderRadius: 'var(--radius-full)',
+                fontSize: '12px', color: '#c49fe0',
+                cursor: 'pointer',
+              }}
+              onClick={() => setFilters({ search: '' })}
+            >
+              "{filters.search}" ×
+            </span>
+          )}
+          {filters.area && (
+            <span
+              style={{
+                display: 'flex', alignItems: 'center', gap: '5px',
+                padding: '3px 10px',
+                backgroundColor: 'rgba(91,34,119,0.15)',
+                border: '1px solid rgba(91,34,119,0.35)',
+                borderRadius: 'var(--radius-full)',
+                fontSize: '12px', color: '#c49fe0',
+                cursor: 'pointer',
+              }}
+              onClick={() => setFilters({ area: '' })}
+            >
+              Área: {filters.area} ×
+            </span>
+          )}
+          {filters.complianceMin > 0 && (
+            <span
+              style={{
+                display: 'flex', alignItems: 'center', gap: '5px',
+                padding: '3px 10px',
+                backgroundColor: 'rgba(91,34,119,0.15)',
+                border: '1px solid rgba(91,34,119,0.35)',
+                borderRadius: 'var(--radius-full)',
+                fontSize: '12px', color: '#c49fe0',
+                cursor: 'pointer',
+              }}
+              onClick={() => setFilters({ complianceMin: 0 })}
+            >
+              Compliance ≥{filters.complianceMin}% ×
+            </span>
+          )}
+          <button
+            onClick={clearFilters}
+            style={{
+              padding: '3px 10px',
+              backgroundColor: 'transparent',
+              border: '1px solid rgba(255,61,87,0.3)',
+              borderRadius: 'var(--radius-full)',
+              color: '#FF5C71',
+              fontSize: '12px',
+              cursor: 'pointer',
+            }}
+          >
+            Limpiar todo
+          </button>
+        </motion.div>
+      )}
+
       {/* Filters - Toggleable */}
       {showFilters && (
         <motion.div
