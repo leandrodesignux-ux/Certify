@@ -25,7 +25,7 @@ export function WorkerFilter({}: WorkerFilterProps) {
 
   return (
     <div style={{
-      backgroundColor: 'rgba(26,16,64,0.8)',
+      backgroundColor: 'var(--color-surface)',
       backdropFilter: 'blur(12px)',
       border: '1px solid rgba(91,34,119,0.2)',
       borderRadius: 'var(--radius-md)',
@@ -43,12 +43,12 @@ export function WorkerFilter({}: WorkerFilterProps) {
         }
         style={{
           height: '40px',
-          backgroundColor: '#231455',
+          backgroundColor: 'var(--color-surface-alt)',
           border: '1px solid rgba(91,34,119,0.25)',
           borderRadius: 'var(--radius-md)',
           padding: '0 12px',
           fontSize: '13px',
-          color: '#F0F4FF',
+          color: 'var(--color-text-primary)',
           cursor: 'pointer',
           outline: 'none',
           minWidth: '120px',
@@ -82,12 +82,12 @@ export function WorkerFilter({}: WorkerFilterProps) {
         }}
         style={{
           height: '40px',
-          backgroundColor: '#231455',
+          backgroundColor: 'var(--color-surface-alt)',
           border: '1px solid rgba(91,34,119,0.25)',
           borderRadius: 'var(--radius-md)',
           padding: '0 12px',
           fontSize: '13px',
-          color: '#F0F4FF',
+          color: 'var(--color-text-primary)',
           cursor: 'pointer',
           outline: 'none',
           minWidth: '150px',

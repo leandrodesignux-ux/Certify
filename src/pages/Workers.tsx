@@ -52,7 +52,7 @@ function WorkersComponent() {
           <h1 className="font-display text-3xl font-bold text-gradient tracking-wider">
             Trabajadores
           </h1>
-          <p style={{ color: '#8892A4', fontSize: '13px', marginTop: '4px' }}>
+          <p style={{ color: 'var(--color-text-secondary)', fontSize: '13px', marginTop: '4px' }}>
             {totalWorkers} trabajadores registrados · Corpa Andina Minera S.A.
           </p>
         </div>
@@ -75,13 +75,13 @@ function WorkersComponent() {
         <div
           onClick={clearFilters}
           style={{ cursor: 'pointer' }}
-          className="flex items-center gap-3 rounded-xl border border-[rgba(91,34,119,0.2)] bg-[#1a1040]/70 px-4 py-3 hover:border-[rgba(91,34,119,0.5)] transition-all"
+          className="flex items-center gap-3 rounded-xl border border-[var(--border-brand)] bg-[var(--color-surface)]/70 px-4 py-3 hover:border-[var(--border-brand-hover)] transition-all"
         >
           <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(91,34,119,0.2)]">
             <Users2 className="w-5 h-5 text-[#9b6ab5]" />
           </div>
           <div>
-            <p className="font-display text-2xl font-bold text-[#F0F4FF]">{totalWorkers}</p>
+            <p className="font-display text-2xl font-bold text-[var(--color-text-primary)]">{totalWorkers}</p>
             <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Total trabajadores</p>
           </div>
         </div>
@@ -90,13 +90,13 @@ function WorkersComponent() {
         <div
           onClick={() => setFilters({ complianceMin: 80 })}
           style={{ cursor: 'pointer', border: filters.complianceMin === 80 ? '1px solid rgba(114,147,98,0.6)' : '1px solid rgba(114,147,98,0.2)' }}
-          className="flex items-center gap-3 rounded-xl bg-[#1a1040]/70 px-4 py-3 hover:border-[rgba(114,147,98,0.6)] transition-all"
+          className="flex items-center gap-3 rounded-xl bg-[var(--color-surface)]/70 px-4 py-3 hover:border-[rgba(114,147,98,0.6)] transition-all"
         >
           <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(114,147,98,0.18)]">
             <ShieldCheck className="w-5 h-5 text-[#729362]" />
           </div>
           <div>
-            <p className="font-display text-2xl font-bold text-[#F0F4FF]">{complianceOkCount}</p>
+            <p className="font-display text-2xl font-bold text-[var(--color-text-primary)]">{complianceOkCount}</p>
             <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Cumplimiento OK</p>
           </div>
         </div>
@@ -107,7 +107,7 @@ function WorkersComponent() {
           style={{
             cursor: 'pointer',
             border: filters.complianceMax === 79 ? '1px solid rgba(255,61,87,0.6)' : '1px solid rgba(255,61,87,0.2)',
-            backgroundColor: filters.complianceMax === 79 ? 'rgba(255,61,87,0.06)' : 'rgba(26,16,64,0.7)',
+            backgroundColor: filters.complianceMax === 79 ? 'rgba(255,61,87,0.06)' : 'var(--color-surface)',
           }}
           className="flex items-center gap-3 rounded-xl px-4 py-3 hover:border-[rgba(255,61,87,0.6)] transition-all"
         >
@@ -115,7 +115,7 @@ function WorkersComponent() {
             <ShieldAlert className="w-5 h-5 text-[#FF3D57]" />
           </div>
           <div>
-            <p className="font-display text-2xl font-bold text-[#F0F4FF]">{requireActionCount}</p>
+            <p className="font-display text-2xl font-bold text-[var(--color-text-primary)]">{requireActionCount}</p>
             <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Requieren acción</p>
           </div>
         </div>
@@ -140,12 +140,12 @@ function WorkersComponent() {
             style={{
               width: '100%',
               height: '42px',
-              backgroundColor: '#231455',
+              backgroundColor: 'var(--color-surface-alt)',
               border: '1px solid rgba(91,34,119,0.25)',
               borderRadius: '10px',
               padding: '0 16px 0 42px',
               fontSize: '13px',
-              color: '#F0F4FF',
+              color: 'var(--color-text-primary)',
               outline: 'none',
             }}
             onFocus={e => e.currentTarget.style.borderColor = 'rgba(91,34,119,0.6)'}
@@ -154,7 +154,7 @@ function WorkersComponent() {
         </div>
 
         {/* Toggle Grid / Tabla — Siempre visible */}
-        <div style={{ display: 'flex', gap: '4px', backgroundColor: '#231455', borderRadius: '10px', padding: '4px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', gap: '4px', backgroundColor: 'var(--color-surface-alt)', borderRadius: '10px', padding: '4px', flexShrink: 0 }}>
           {(['grid', 'table'] as const).map(mode => (
             <button
               key={mode}
@@ -294,10 +294,10 @@ function WorkersComponent() {
         animate="visible"
         className="flex items-center justify-between"
       >
-        <p className="text-sm text-[#8892A4]">
+        <p className="text-sm text-[var(--color-text-secondary)]">
           Mostrando{' '}
-          <span className="text-[#F0F4FF] font-medium">{displayWorkers.length}</span> de{' '}
-          <span className="text-[#F0F4FF] font-medium">{totalWorkers}</span> trabajadores
+          <span className="text-[var(--color-text-primary)] font-medium">{displayWorkers.length}</span> de{' '}
+          <span className="text-[var(--color-text-primary)] font-medium">{totalWorkers}</span> trabajadores
         </p>
       </motion.div>
 
@@ -380,7 +380,7 @@ function WorkersComponent() {
           animate="visible"
           className="flex justify-center pt-4"
         >
-          <p className="text-sm text-[#8892A4]">
+          <p className="text-sm text-[var(--color-text-secondary)]">
             Mostrando todos los resultados filtrados
           </p>
         </motion.div>

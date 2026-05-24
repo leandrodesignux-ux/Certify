@@ -66,7 +66,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             inset: 0,
             borderRadius: '0',
             overflow: 'hidden',
-            backgroundColor: '#1a1040',
+            backgroundColor: 'var(--color-surface)',
           }}>
             {/* Alert badge */}
             {expired && (
@@ -95,7 +95,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                     style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
                 : <div style={{
                     width: '100%', height: '100%',
-                    backgroundColor: '#231455',
+                    backgroundColor: 'var(--color-surface-alt)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '64px', fontWeight: 700, color: '#9b6ab5' }}>{initials}</span>
@@ -137,7 +137,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
               <div style={{ position: 'absolute', bottom: '10px', left: '12px' }}>
                 <p style={{
                   fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: '17px', fontWeight: 700, color: '#F0F4FF',
+                  fontSize: '17px', fontWeight: 700, color: 'var(--color-text-primary)',
                   lineHeight: 1.2, marginBottom: '2px',
                   textShadow: '0 1px 4px rgba(0,0,0,0.8)',
                 }}>
@@ -170,8 +170,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             inset: 0,
             transform: 'rotateY(180deg)',
             borderRadius: '0',
-            backgroundColor: '#130b3a',
-            border: '1px solid rgba(91,34,119,0.3)',
+            backgroundColor: 'var(--color-surface-deep)',
+            border: '1px solid var(--border-brand-hover)',
             padding: '16px',
             overflowY: 'auto',
             display: 'flex',
@@ -185,7 +185,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                 : <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9b6ab5', fontWeight: 700, fontSize: '15px', flexShrink: 0 }}>{initials}</div>
               }
               <div style={{ minWidth: 0 }}>
-                <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1.2 }}>{worker.nombre} {worker.apellidos}</p>
+                <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: 'var(--color-text-primary)', lineHeight: 1.2 }}>{worker.nombre} {worker.apellidos}</p>
                 <p style={{ fontSize: '10px', color: 'var(--color-text-secondary)', fontFamily: '"JetBrains Mono"', marginTop: '2px' }}>{worker.rut}</p>
               </div>
             </div>
@@ -202,7 +202,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                 ].map(item => (
                   <div key={item.label}>
                     <p style={{ fontSize: '9px', color: 'var(--color-text-muted)' }}>{item.label}</p>
-                    <p style={{ fontSize: '11px', color: '#F0F4FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.value}</p>
+                    <p style={{ fontSize: '11px', color: 'var(--color-text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.value}</p>
                   </div>
                 ))}
               </div>
@@ -215,8 +215,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {meshes.slice(0, 3).map(m => (
                     <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <p style={{ fontSize: '10px', color: '#F0F4FF', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.nombre}</p>
-                      <span style={{ fontSize: '9px', backgroundColor: 'rgba(91,34,119,0.2)', color: '#c49fe0', borderRadius: '4px', padding: '1px 5px', fontWeight: 700, flexShrink: 0 }}>
+                      <p style={{ fontSize: '10px', color: 'var(--color-text-primary)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.nombre}</p>
+                      <span style={{ fontSize: '9px', backgroundColor: 'var(--border-brand)', color: '#c49fe0', borderRadius: '4px', padding: '1px 5px', fontWeight: 700, flexShrink: 0 }}>
                         {m.completionRate} de 15
                       </span>
                       <span style={{ fontSize: '10px', color: '#c49fe0', cursor: 'pointer', flexShrink: 0, fontWeight: 600 }}>Ver</span>
@@ -270,7 +270,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
           width: '100%',
           padding: '10px',
           backgroundColor: '#5b2277',
-          color: '#F0F4FF',
+          color: 'var(--color-text-primary)',
           border: 'none',
           borderRadius: '0',
           fontSize: '13px',
