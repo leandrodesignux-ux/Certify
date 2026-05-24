@@ -25,12 +25,6 @@ const sectionVariants = {
 
 type TabType = 'certificaciones' | 'mallas' | 'historial';
 
-const tabs = [
-  { id: 'certificaciones' as TabType, label: 'Certificaciones', icon: Award, color: '#7c4dab' },
-  { id: 'mallas' as TabType, label: 'Mallas', icon: BookOpen, color: '#8a9e52' },
-  { id: 'historial' as TabType, label: 'Historial', icon: Clock, color: '#FFB800' },
-];
-
 // Mock history activities
 const mockHistoryActivities = [
   { id: 'h1', tipo: 'certificacion', titulo: 'Certificación renovada', descripcion: 'Certificación de Altura aprobada', fecha: '2024-05-15T10:30:00', color: '#729362' },
@@ -258,6 +252,35 @@ export function WorkerDetail() {
 
   const workerMeshes = mockMeshes.filter((m) => worker.activeMeshes.includes(m.id));
 
+  const expiredCertCount = worker.certifications.filter(c => c.estado === 'vencido').length;
+
+  const tabs = [
+    {
+      id: 'certificaciones' as TabType,
+      label: 'Certificaciones',
+      icon: Award,
+      color: '#7c4dab',
+      count: worker.certifications.length,
+      alertCount: expiredCertCount,
+    },
+    {
+      id: 'mallas' as TabType,
+      label: 'Mallas',
+      icon: BookOpen,
+      color: '#8a9e52',
+      count: workerMeshes.length,
+      alertCount: 0,
+    },
+    {
+      id: 'historial' as TabType,
+      label: 'Historial',
+      icon: Clock,
+      color: '#FFB800',
+      count: 0,
+      alertCount: 0,
+    },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Back Button */}
@@ -319,6 +342,37 @@ export function WorkerDetail() {
             >
               {tab.label}
             </span>
+            {/* Badge de conteo */}
+            {tab.count > 0 && (
+              <span style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                backgroundColor: activeTab === tab.id ? `${tab.color}25` : 'rgba(91,34,119,0.15)',
+                color: activeTab === tab.id ? tab.color : 'var(--color-text-muted)',
+                borderRadius: 'var(--radius-full)',
+                padding: '1px 7px',
+                marginLeft: '4px',
+                fontFamily: '"JetBrains Mono", monospace',
+              }}>
+                {tab.count}
+              </span>
+            )}
+            {/* Badge de alerta */}
+            {tab.alertCount > 0 && (
+              <span style={{
+                fontSize: '10px',
+                fontWeight: 700,
+                backgroundColor: 'rgba(255,61,87,0.2)',
+                color: '#FF5C71',
+                borderRadius: 'var(--radius-full)',
+                padding: '1px 6px',
+                marginLeft: '2px',
+                border: '1px solid rgba(255,61,87,0.3)',
+                fontFamily: '"JetBrains Mono", monospace',
+              }}>
+                {tab.alertCount}
+              </span>
+            )}
           </button>
         ))}
       </div>
