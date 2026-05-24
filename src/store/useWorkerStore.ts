@@ -7,6 +7,7 @@ interface WorkerFilters {
   cargo: string;
   search: string;
   complianceMin: number;
+  complianceMax?: number;
 }
 
 interface WorkerStore {
@@ -27,6 +28,7 @@ const defaultFilters: WorkerFilters = {
   cargo: '',
   search: '',
   complianceMin: 0,
+  complianceMax: undefined,
 };
 
 export const useWorkerStore = create<WorkerStore>((set, get) => ({
@@ -51,6 +53,7 @@ export const useWorkerStore = create<WorkerStore>((set, get) => ({
       if (filters.area && worker.area !== filters.area) return false;
       if (filters.cargo && worker.cargo !== filters.cargo) return false;
       if (worker.complianceScore < filters.complianceMin) return false;
+      if (filters.complianceMax !== undefined && worker.complianceScore > filters.complianceMax) return false;
       if (filters.search) {
         const searchLower = filters.search.toLowerCase();
         const fullName = `${worker.nombre} ${worker.apellidos}`.toLowerCase();

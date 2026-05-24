@@ -26,11 +26,11 @@ const sectionVariants = {
 function WorkersComponent() {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [showFilters, setShowFilters] = useState(false);
-  const { filteredWorkers, workers, filters, setFilters } = useWorkerStore();
+  const { filteredWorkers, workers, filters, setFilters, clearFilters } = useWorkerStore();
 
   const displayWorkers = filteredWorkers();
   const totalWorkers = workers.length;
-  const activeFiltersCount = [filters.area, filters.search, filters.complianceMin > 0].filter(Boolean).length;
+  const activeFiltersCount = [filters.area, filters.search, filters.complianceMin > 0, filters.complianceMax !== undefined].filter(Boolean).length;
 
   // Stats calculations
   const complianceOkCount = workers.filter(w => w.complianceScore >= 80).length;
@@ -63,7 +63,7 @@ function WorkersComponent() {
         </div>
       </motion.div>
 
-      {/* Stats Bar */}
+      {/* Stats Bar — Clickeables para filtrar */}
       <motion.div
         custom={0.08}
         variants={sectionVariants}
@@ -71,36 +71,52 @@ function WorkersComponent() {
         animate="visible"
         className="flex flex-wrap gap-4"
       >
-        {/* Total Trabajadores */}
-        <div className="flex items-center gap-3 rounded-xl border border-[rgba(91,34,119,0.2)] bg-[#1a1040]/70 px-4 py-3">
+        {/* Total Trabajadores — limpia filtros */}
+        <div
+          onClick={clearFilters}
+          style={{ cursor: 'pointer' }}
+          className="flex items-center gap-3 rounded-xl border border-[rgba(91,34,119,0.2)] bg-[#1a1040]/70 px-4 py-3 hover:border-[rgba(91,34,119,0.5)] transition-all"
+        >
           <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(91,34,119,0.2)]">
             <Users2 className="w-5 h-5 text-[#9b6ab5]" />
           </div>
           <div>
             <p className="font-display text-2xl font-bold text-[#F0F4FF]">{totalWorkers}</p>
-            <p className="text-xs text-[#8892A4]">Total trabajadores</p>
+            <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Total trabajadores</p>
           </div>
         </div>
 
-        {/* Cumplimiento OK */}
-        <div className="flex items-center gap-3 rounded-xl border border-[rgba(91,34,119,0.2)] bg-[#1a1040]/70 px-4 py-3">
+        {/* Cumplimiento OK — filtra score >= 80 */}
+        <div
+          onClick={() => setFilters({ complianceMin: 80 })}
+          style={{ cursor: 'pointer', border: filters.complianceMin === 80 ? '1px solid rgba(114,147,98,0.6)' : '1px solid rgba(114,147,98,0.2)' }}
+          className="flex items-center gap-3 rounded-xl bg-[#1a1040]/70 px-4 py-3 hover:border-[rgba(114,147,98,0.6)] transition-all"
+        >
           <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(114,147,98,0.18)]">
             <ShieldCheck className="w-5 h-5 text-[#729362]" />
           </div>
           <div>
             <p className="font-display text-2xl font-bold text-[#F0F4FF]">{complianceOkCount}</p>
-            <p className="text-xs text-[#8892A4]">Cumplimiento OK</p>
+            <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Cumplimiento OK</p>
           </div>
         </div>
 
-        {/* Requieren acción */}
-        <div className="flex items-center gap-3 rounded-xl border border-[rgba(91,34,119,0.2)] bg-[#1a1040]/70 px-4 py-3">
+        {/* Requieren acción — filtra con vencimientos */}
+        <div
+          onClick={() => setFilters({ complianceMin: 0, complianceMax: 79 })}
+          style={{
+            cursor: 'pointer',
+            border: filters.complianceMax === 79 ? '1px solid rgba(255,61,87,0.6)' : '1px solid rgba(255,61,87,0.2)',
+            backgroundColor: filters.complianceMax === 79 ? 'rgba(255,61,87,0.06)' : 'rgba(26,16,64,0.7)',
+          }}
+          className="flex items-center gap-3 rounded-xl px-4 py-3 hover:border-[rgba(255,61,87,0.6)] transition-all"
+        >
           <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(255,61,87,0.15)]">
             <ShieldAlert className="w-5 h-5 text-[#FF3D57]" />
           </div>
           <div>
             <p className="font-display text-2xl font-bold text-[#F0F4FF]">{requireActionCount}</p>
-            <p className="text-xs text-[#8892A4]">Requieren acción</p>
+            <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Requieren acción</p>
           </div>
         </div>
       </motion.div>
