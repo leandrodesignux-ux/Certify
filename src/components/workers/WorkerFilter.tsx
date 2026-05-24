@@ -1,13 +1,12 @@
-import { Search, X, LayoutGrid, List } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useWorkerStore } from '../../store/useWorkerStore';
 
 interface WorkerFilterProps {
-  viewMode: 'grid' | 'table';
-  onViewModeChange: (mode: 'grid' | 'table') => void;
+  // Solo filtros avanzados — búsqueda y toggle se movieron a Workers.tsx
 }
 
-export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) {
-  const { filters, setFilters, clearFilters, workers } = useWorkerStore();
+export function WorkerFilter({}: WorkerFilterProps) {
+  const { filters, setFilters, clearFilters } = useWorkerStore();
 
   const areas = ['Todas', 'Operaciones', 'Mantención', 'Seguridad', 'Logística', 'RRHH'];
   const complianceLevels = [
@@ -36,40 +35,6 @@ export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) 
       gap: '12px',
       flexWrap: 'wrap',
     }}>
-      {/* Search - prominente */}
-      <div style={{ position: 'relative', flex: 1, minWidth: '240px' }}>
-        <Search style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: '#4A5568' }} />
-        <input
-          type="text"
-          placeholder="Buscar trabajador, RUT, cargo..."
-          value={filters.search}
-          onChange={(e) => setFilters({ search: e.target.value })}
-          style={{
-            flex: 1,
-            width: '100%',
-            minWidth: '240px',
-            height: '40px',
-            backgroundColor: '#231455',
-            border: '1px solid rgba(91,34,119,0.25)',
-            borderRadius: '10px',
-            padding: '0 16px 0 40px',
-            fontSize: '13px',
-            color: '#F0F4FF',
-            outline: 'none',
-          }}
-          onFocus={e => e.currentTarget.style.borderColor = 'rgba(91,34,119,0.6)'}
-          onBlur={e => e.currentTarget.style.borderColor = 'rgba(91,34,119,0.25)'}
-        />
-        {filters.search && (
-          <button
-            onClick={() => setFilters({ search: '' })}
-            style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#4A5568', padding: '4px' }}
-          >
-            <X style={{ width: '16px', height: '16px' }} />
-          </button>
-        )}
-      </div>
-
       {/* Área Select */}
       <select
         value={filters.area || 'Todas'}
@@ -157,33 +122,6 @@ export function WorkerFilter({ viewMode, onViewModeChange }: WorkerFilterProps) 
           Limpiar ({activeFiltersCount})
         </button>
       )}
-
-      {/* Grid/List Toggle */}
-      <div style={{ display: 'flex', gap: '4px', backgroundColor: '#231455', borderRadius: '10px', padding: '4px' }}>
-        {(['grid', 'table'] as const).map(mode => (
-          <button
-            key={mode}
-            onClick={() => onViewModeChange(mode)}
-            style={{
-              width: '36px', height: '32px',
-              borderRadius: '8px',
-              border: 'none',
-              backgroundColor: viewMode === mode ? 'rgba(91,34,119,0.3)' : 'transparent',
-              color: viewMode === mode ? '#9b6ab5' : '#8892A4',
-              cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'all 0.15s',
-            }}
-          >
-            {mode === 'grid' ? <LayoutGrid style={{ width: '16px', height: '16px' }} /> : <List style={{ width: '16px', height: '16px' }} />}
-          </button>
-        ))}
-      </div>
-
-      {/* Results count */}
-      <span style={{ fontSize: '13px', color: '#8892A4', marginLeft: 'auto' }}>
-        {workers.length} trabajador{workers.length !== 1 ? 'es' : ''}
-      </span>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Download, ShieldCheck, ShieldAlert, Users2, Filter } from 'lucide-react';
+import { Users, Download, ShieldCheck, ShieldAlert, Users2, Filter, Search, LayoutGrid, List } from 'lucide-react';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { FlipWorkerCard } from '../components/workers/FlipWorkerCard';
 import { WorkerFilter } from '../components/workers/WorkerFilter';
@@ -26,7 +26,7 @@ const sectionVariants = {
 function WorkersComponent() {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [showFilters, setShowFilters] = useState(false);
-  const { filteredWorkers, workers, filters } = useWorkerStore();
+  const { filteredWorkers, workers, filters, setFilters } = useWorkerStore();
 
   const displayWorkers = filteredWorkers();
   const totalWorkers = workers.length;
@@ -57,25 +57,6 @@ function WorkersComponent() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
-          <button
-            onClick={() => setShowFilters(f => !f)}
-            style={{
-              padding: '8px 20px',
-              backgroundColor: showFilters ? 'rgba(91,34,119,0.2)' : 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(91,34,119,0.35)',
-              borderRadius: '8px',
-              color: '#9b6ab5',
-              fontSize: '13px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}
-          >
-            <Filter style={{ width: '14px', height: '14px' }} />
-            FILTROS {activeFiltersCount > 0 ? `(${activeFiltersCount})` : ''}
-          </button>
           <Button variant="ghost" size="md" icon={Download}>
             Exportar
           </Button>
@@ -124,6 +105,85 @@ function WorkersComponent() {
         </div>
       </motion.div>
 
+      {/* Search Bar + Controls — Siempre visible */}
+      <motion.div
+        custom={0.09}
+        variants={sectionVariants}
+        initial="hidden"
+        animate="visible"
+        style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}
+      >
+        {/* Búsqueda */}
+        <div style={{ position: 'relative', flex: 1, minWidth: '240px' }}>
+          <Search style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: 'var(--color-text-muted)' }} />
+          <input
+            type="text"
+            placeholder="Buscar trabajador, RUT, cargo..."
+            value={filters.search}
+            onChange={(e) => setFilters({ search: e.target.value })}
+            style={{
+              width: '100%',
+              height: '42px',
+              backgroundColor: '#231455',
+              border: '1px solid rgba(91,34,119,0.25)',
+              borderRadius: '10px',
+              padding: '0 16px 0 42px',
+              fontSize: '13px',
+              color: '#F0F4FF',
+              outline: 'none',
+            }}
+            onFocus={e => e.currentTarget.style.borderColor = 'rgba(91,34,119,0.6)'}
+            onBlur={e => e.currentTarget.style.borderColor = 'rgba(91,34,119,0.25)'}
+          />
+        </div>
+
+        {/* Toggle Grid / Tabla — Siempre visible */}
+        <div style={{ display: 'flex', gap: '4px', backgroundColor: '#231455', borderRadius: '10px', padding: '4px', flexShrink: 0 }}>
+          {(['grid', 'table'] as const).map(mode => (
+            <button
+              key={mode}
+              onClick={() => setViewMode(mode)}
+              style={{
+                width: '36px', height: '34px',
+                borderRadius: '8px',
+                border: 'none',
+                backgroundColor: viewMode === mode ? 'rgba(91,34,119,0.3)' : 'transparent',
+                color: viewMode === mode ? '#9b6ab5' : 'var(--color-text-secondary)',
+                cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.15s',
+              }}
+            >
+              {mode === 'grid' ? <LayoutGrid style={{ width: '16px', height: '16px' }} /> : <List style={{ width: '16px', height: '16px' }} />}
+            </button>
+          ))}
+        </div>
+
+        {/* Botón filtros avanzados */}
+        <button
+          onClick={() => setShowFilters(f => !f)}
+          style={{
+            padding: '0 16px',
+            height: '42px',
+            backgroundColor: showFilters ? 'rgba(91,34,119,0.2)' : 'rgba(255,255,255,0.04)',
+            border: `1px solid ${showFilters ? 'rgba(91,34,119,0.5)' : 'rgba(91,34,119,0.25)'}`,
+            borderRadius: '10px',
+            color: showFilters ? '#9b6ab5' : 'var(--color-text-secondary)',
+            fontSize: '13px',
+            fontWeight: 600,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            flexShrink: 0,
+            transition: 'all 0.15s',
+          }}
+        >
+          <Filter style={{ width: '14px', height: '14px' }} />
+          Filtros {activeFiltersCount > 0 ? `(${activeFiltersCount})` : ''}
+        </button>
+      </motion.div>
+
       {/* Filters - Toggleable */}
       {showFilters && (
         <motion.div
@@ -132,7 +192,7 @@ function WorkersComponent() {
           initial="hidden"
           animate="visible"
         >
-          <WorkerFilter viewMode={viewMode} onViewModeChange={setViewMode} />
+          <WorkerFilter />
         </motion.div>
       )}
 
