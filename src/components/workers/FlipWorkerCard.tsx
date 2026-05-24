@@ -20,13 +20,29 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
   const scoreColor = worker.complianceScore >= 80 ? '#729362'
     : worker.complianceScore >= 60 ? '#FFB800' : '#FF3D57';
 
+  const cardBorderColor = worker.complianceScore >= 80
+    ? 'rgba(114,147,98,0.35)'
+    : worker.complianceScore >= 60
+    ? 'rgba(255,184,0,0.35)'
+    : 'rgba(255,61,87,0.45)';
+
+  const criticalOverlay = worker.complianceScore < 60
+    ? 'linear-gradient(to top, rgba(255,61,87,0.07) 0%, transparent 70%)'
+    : 'none';
+
+  const cardBorderLeft = worker.complianceScore >= 80
+    ? '3px solid rgba(114,147,98,0.6)'
+    : worker.complianceScore >= 60
+    ? '3px solid rgba(255,184,0,0.5)'
+    : '3px solid rgba(255,61,87,0.7)';
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04, duration: 0.4, ease: [0.16,1,0.3,1] }}
       className="hover-lift card-clickable"
-      style={{ display: 'flex', flexDirection: 'column', gap: '0px', borderRadius: '12px', overflow: 'hidden' }}
+      style={{ display: 'flex', flexDirection: 'column', gap: '0px', borderRadius: '12px', overflow: 'hidden', border: `1px solid ${cardBorderColor}`, borderLeft: cardBorderLeft }}
     >
       {/* Card flip container — perspective here, NO preserve-3d, NO transform on this level */}
       <div style={{ perspective: '1200px', transformStyle: 'flat', width: '100%' }}>
@@ -51,19 +67,24 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             borderRadius: '0',
             overflow: 'hidden',
             backgroundColor: '#1a1040',
-            border: '1px solid rgba(91,34,119,0.25)',
           }}>
             {/* Alert badge */}
             {expired && (
               <div style={{
-                position: 'absolute', top: '10px', right: '10px', zIndex: 20,
-                width: '28px', height: '28px', borderRadius: '50%',
-                backgroundColor: '#FF3D57',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 0 14px rgba(255,61,87,0.7)',
-                animation: 'pulse 2s infinite',
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                zIndex: 20,
+                backgroundColor: 'rgba(255,61,87,0.9)',
+                borderRadius: '20px',
+                padding: '3px 8px 3px 5px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                boxShadow: '0 0 10px rgba(255,61,87,0.5)',
               }}>
-                <AlertCircle style={{ width: '14px', height: '14px', color: 'white' }} />
+                <AlertCircle style={{ width: '11px', height: '11px', color: 'white' }} />
+                <span style={{ fontSize: '10px', fontWeight: 700, color: 'white', letterSpacing: '0.3px' }}>VENCIDA</span>
               </div>
             )}
 
@@ -85,6 +106,17 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                 position: 'absolute', inset: 0,
                 background: 'linear-gradient(to top, rgba(26,16,64,0.95) 0%, rgba(26,16,64,0.3) 50%, transparent 100%)',
               }} />
+              {/* Critical overlay for low compliance */}
+              {worker.complianceScore < 60 && (
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: criticalOverlay,
+                  pointerEvents: 'none',
+                  zIndex: 1,
+                  borderRadius: 'inherit',
+                }} />
+              )}
               {/* Area badge top-left */}
               <div style={{
                 position: 'absolute', top: '10px', left: '10px',
@@ -98,8 +130,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                 position: 'absolute', bottom: '10px', right: '10px',
                 backgroundColor: 'rgba(19,11,58,0.9)',
                 border: `1px solid ${scoreColor}`,
-                borderRadius: '20px', padding: '3px 10px',
-                fontSize: '11px', fontWeight: 700, color: scoreColor,
+                borderRadius: '20px', padding: '4px 12px',
+                fontSize: '13px', fontWeight: 700, color: scoreColor,
               }}>{worker.complianceScore}%</div>
               {/* Name + cargo overlay bottom-left */}
               <div style={{ position: 'absolute', bottom: '10px', left: '12px' }}>
@@ -124,8 +156,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             }}>
               <ProgressBar value={worker.complianceScore} showLabel={false} />
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '8px', flexShrink: 0 }}>
-                <RotateCcw style={{ width: '11px', height: '11px', color: 'var(--color-text-muted)' }} />
-                <span style={{ fontSize: '10px', color: 'var(--color-text-muted)' }}>girar</span>
+                <RotateCcw style={{ width: '12px', height: '12px', color: 'var(--color-text-muted)' }} />
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', fontWeight: 500 }}>Ver info</span>
               </div>
             </div>
           </div>
