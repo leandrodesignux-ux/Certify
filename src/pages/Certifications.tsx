@@ -9,6 +9,7 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  ChevronsUpDown,
   Award,
   CheckCircle,
   Clock,
@@ -78,6 +79,11 @@ function StatCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
+      whileHover={{ 
+        y: -2, 
+        transition: { duration: 0.15 },
+        boxShadow: `0 8px 25px ${color}20`
+      }}
       style={{
         backgroundColor: 'var(--surface-card)',
         border: '1px solid var(--border-brand)',
@@ -85,18 +91,25 @@ function StatCard({
         padding: '20px',
         position: 'relative',
         overflow: 'hidden',
+        transition: 'box-shadow 0.15s ease',
       }}
     >
       {/* Glow effect at bottom */}
-      <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: '2px',
-        background: `linear-gradient(to right, transparent, ${color}, transparent)`,
-        boxShadow: `0 0 20px ${color}40`,
-      }} />
+      <motion.div 
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '2px',
+          background: `linear-gradient(to right, transparent, ${color}, transparent)`,
+          boxShadow: `0 0 20px ${color}40`,
+        }}
+        whileHover={{
+          boxShadow: `0 0 30px ${color}60`,
+          height: '3px'
+        }}
+      />
       
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', marginBottom: '16px' }}>
         <div style={{
@@ -391,6 +404,13 @@ export function Certifications() {
   const [showFilters, setShowFilters] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
+  // Smooth scroll to top when changing page
+  const scrollToTop = () => {
+    if (window.scrollY > 300) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   // Filter by tab
   const filteredByTab = useMemo(() => {
     switch (activeTab) {
@@ -538,7 +558,7 @@ export function Certifications() {
   };
 
   const SortIcon = ({ field }: { field: SortField }) => {
-    if (sortField !== field) return <span className="w-4" />;
+    if (sortField !== field) return <ChevronsUpDown className="w-4 h-4 opacity-30" />;
     return sortOrder === 'asc' ? (
       <ChevronUp className="w-4 h-4 text-[#9b6ab5]" />
     ) : (
@@ -645,7 +665,7 @@ export function Certifications() {
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => { setActiveTab(tab.id); setCurrentPage(1); }}
+            onClick={() => { setActiveTab(tab.id); setCurrentPage(1); scrollToTop(); }}
             className="relative flex-1 flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium"
             style={{
               borderRadius: '8px',
@@ -862,11 +882,23 @@ export function Certifications() {
                         border: '1px solid', 
                         cursor: 'pointer', 
                         transition: 'all 0.12s', 
-                        borderColor: isActive ? 'rgba(91,34,119,0.6)' : 'rgba(91,34,119,0.2)', 
-                        backgroundColor: isActive ? 'rgba(91,34,119,0.2)' : 'transparent', 
-                        color: isActive ? '#c49fe0' : '#8892A4' 
+                        borderColor: isActive ? 'rgba(155,106,181,0.6)' : 'rgba(91,34,119,0.2)', 
+                        backgroundColor: isActive ? 'rgba(155,106,181,0.15)' : 'transparent', 
+                        color: isActive ? '#9b6ab5' : '#8892A4',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
                       }}
                     >
+                      {isActive && (
+                        <div style={{
+                          width: '4px',
+                          height: '4px',
+                          borderRadius: '50%',
+                          backgroundColor: '#9b6ab5',
+                          flexShrink: 0
+                        }} />
+                      )}
                       {area}
                     </button>
                   );
@@ -890,11 +922,23 @@ export function Certifications() {
                         border: '1px solid', 
                         cursor: 'pointer', 
                         transition: 'all 0.12s', 
-                        borderColor: isActive ? 'rgba(91,34,119,0.6)' : 'rgba(91,34,119,0.2)', 
-                        backgroundColor: isActive ? 'rgba(91,34,119,0.2)' : 'transparent', 
-                        color: isActive ? '#c49fe0' : '#8892A4' 
+                        borderColor: isActive ? 'rgba(138,158,82,0.6)' : 'rgba(91,34,119,0.2)', 
+                        backgroundColor: isActive ? 'rgba(138,158,82,0.15)' : 'transparent', 
+                        color: isActive ? '#8a9e52' : '#8892A4',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
                       }}
                     >
+                      {isActive && (
+                        <div style={{
+                          width: '4px',
+                          height: '4px',
+                          borderRadius: '50%',
+                          backgroundColor: '#8a9e52',
+                          flexShrink: 0
+                        }} />
+                      )}
                       {tipo === 'obligatoria' ? 'Obligatoria' : 
                        tipo === 'complementaria' ? 'Complementaria' : 
                        tipo === 'legal' ? 'Legal' : tipo}
@@ -968,8 +1012,20 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('worker')}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
+                  onMouseEnter={(e) => { 
+                    e.currentTarget.style.color = '#F0F4FF';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.7';
+                    }
+                  }}
+                  onMouseLeave={(e) => { 
+                    e.currentTarget.style.color = '#a89fc4';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.3';
+                    }
+                  }}
                 >
                   <div className="flex items-center gap-1">
                     Trabajador
@@ -979,8 +1035,20 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('cert')}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
+                  onMouseEnter={(e) => { 
+                    e.currentTarget.style.color = '#F0F4FF';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.7';
+                    }
+                  }}
+                  onMouseLeave={(e) => { 
+                    e.currentTarget.style.color = '#a89fc4';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.3';
+                    }
+                  }}
                 >
                   <div className="flex items-center gap-1">
                     Certificación
@@ -990,8 +1058,20 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('tipo')}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
+                  onMouseEnter={(e) => { 
+                    e.currentTarget.style.color = '#F0F4FF';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.7';
+                    }
+                  }}
+                  onMouseLeave={(e) => { 
+                    e.currentTarget.style.color = '#a89fc4';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.3';
+                    }
+                  }}
                 >
                   <div className="flex items-center gap-1">
                     Tipo
@@ -1001,8 +1081,20 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('fechaVen')}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
+                  onMouseEnter={(e) => { 
+                    e.currentTarget.style.color = '#F0F4FF';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.7';
+                    }
+                  }}
+                  onMouseLeave={(e) => { 
+                    e.currentTarget.style.color = '#a89fc4';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.3';
+                    }
+                  }}
                 >
                   <div className="flex items-center gap-1">
                     Vencimiento
@@ -1012,8 +1104,20 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('estado')}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
+                  onMouseEnter={(e) => { 
+                    e.currentTarget.style.color = '#F0F4FF';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.7';
+                    }
+                  }}
+                  onMouseLeave={(e) => { 
+                    e.currentTarget.style.color = '#a89fc4';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.3';
+                    }
+                  }}
                 >
                   <div className="flex items-center justify-center gap-1">
                     Estado
@@ -1023,8 +1127,20 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('fechaObt')}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
+                  onMouseEnter={(e) => { 
+                    e.currentTarget.style.color = '#F0F4FF';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.7';
+                    }
+                  }}
+                  onMouseLeave={(e) => { 
+                    e.currentTarget.style.color = '#a89fc4';
+                    const icon = e.currentTarget.querySelector('svg');
+                    if (icon && icon.classList.contains('opacity-30')) {
+                      icon.style.opacity = '0.3';
+                    }
+                  }}
                 >
                   <div className="flex items-center gap-1">
                     Fecha Obtención
@@ -1061,13 +1177,19 @@ export function Certifications() {
                         style={{
                           backgroundColor: index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)',
                           borderLeft: `3px solid ${borderColor}`,
-                          transition: 'background-color 0.2s ease',
+                          transition: 'background-color 0.2s ease, border-left-width 0.2s ease',
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)';
+                          e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+                          e.currentTarget.style.borderLeftWidth = '4px';
+                          e.currentTarget.style.borderLeftColor = borderColor;
+                          e.currentTarget.style.filter = 'brightness(1.3)';
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)';
+                          e.currentTarget.style.borderLeftWidth = '3px';
+                          e.currentTarget.style.borderLeftColor = borderColor;
+                          e.currentTarget.style.filter = 'brightness(1)';
                         }}
                       >
                         {/* Trabajador */}
@@ -1290,7 +1412,7 @@ export function Certifications() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               {/* First page button */}
               <button
-                onClick={() => setCurrentPage(1)}
+                onClick={() => { setCurrentPage(1); scrollToTop(); }}
                 disabled={currentPage === 1}
                 style={{
                   width: '32px',
@@ -1320,7 +1442,7 @@ export function Certifications() {
 
               {/* Previous button */}
               <button
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
                 disabled={currentPage === 1}
                 style={{
                   width: '32px',
@@ -1364,7 +1486,7 @@ export function Certifications() {
                   pages.push(
                     <button
                       key={1}
-                      onClick={() => setCurrentPage(1)}
+                      onClick={() => { setCurrentPage(1); scrollToTop(); }}
                       style={{
                         width: '32px',
                         height: '32px',
@@ -1408,7 +1530,7 @@ export function Certifications() {
                   pages.push(
                     <button
                       key={i}
-                      onClick={() => setCurrentPage(i)}
+                      onClick={() => { setCurrentPage(i); scrollToTop(); }}
                       style={{
                         width: '32px',
                         height: '32px',
@@ -1454,7 +1576,7 @@ export function Certifications() {
                   pages.push(
                     <button
                       key={totalPages}
-                      onClick={() => setCurrentPage(totalPages)}
+                      onClick={() => { setCurrentPage(totalPages); scrollToTop(); }}
                       style={{
                         width: '32px',
                         height: '32px',
@@ -1486,7 +1608,7 @@ export function Certifications() {
 
               {/* Next button */}
               <button
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
                 disabled={currentPage === totalPages}
                 style={{
                   width: '32px',
@@ -1516,7 +1638,7 @@ export function Certifications() {
 
               {/* Last page button */}
               <button
-                onClick={() => setCurrentPage(totalPages)}
+                onClick={() => { setCurrentPage(totalPages); scrollToTop(); }}
                 disabled={currentPage === totalPages}
                 style={{
                   width: '32px',

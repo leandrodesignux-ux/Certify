@@ -38,6 +38,7 @@ export function Badge({ status, label }: BadgeProps) {
           backgroundColor: 'rgba(255,61,87,0.15)',
           color: '#FF3D57',
           borderColor: 'rgba(255,61,87,0.3)',
+          animation: 'glow-pulse 2s ease-in-out infinite',
         };
       case 'pendiente':
         return {
