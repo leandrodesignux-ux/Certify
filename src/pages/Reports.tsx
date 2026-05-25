@@ -85,10 +85,19 @@ function KPICard({ title, value, subtitle, icon: Icon, color, delay = 0 }: KPICa
 function CustomBarTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#231455] border border-[rgba(91,34,119,0.4)] rounded-lg p-3 shadow-lg">
-        <p className="text-sm font-medium text-[#F0F4FF]">{label}</p>
-        <p className="text-lg font-bold text-[#9b6ab5]">{payload[0].value}%</p>
-        <p className="text-xs text-[#8892A4]">Cumplimiento promedio</p>
+      <div style={{
+        backgroundColor: '#1a1040',
+        border: '1px solid rgba(91,34,119,0.5)',
+        borderRadius: '10px',
+        padding: '12px 16px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+        minWidth: '160px',
+      }}>
+        <p style={{ fontSize: '12px', color: '#8892A4', marginBottom: '6px', fontWeight: 500 }}>{label}</p>
+        <p style={{ fontSize: '22px', fontWeight: 700, color: '#9b6ab5', fontFamily: '"Barlow Condensed"', lineHeight: 1 }}>
+          {payload[0].value}%
+        </p>
+        <p style={{ fontSize: '11px', color: '#4A5568', marginTop: '4px' }}>Cumplimiento promedio</p>
       </div>
     );
   }
@@ -99,13 +108,18 @@ function CustomBarTooltip({ active, payload, label }: { active?: boolean; payloa
 function CustomPieTooltip({ active, payload }: { active?: boolean; payload?: Array<{ name: string; value: number; payload: { color: string } }> }) {
   if (active && payload && payload.length) {
     const data = payload[0];
-    const total = 100; // Simplified
-    const percentage = ((data.value / total) * 100).toFixed(1);
     return (
-      <div className="bg-[#231455] border border-[rgba(91,34,119,0.4)] rounded-lg p-3 shadow-lg">
-        <p className="text-sm font-medium text-[#F0F4FF]">{data.name}</p>
-        <p className="text-lg font-bold" style={{ color: data.payload.color }}>
-          {data.value} ({percentage}%)
+      <div style={{
+        backgroundColor: '#1a1040',
+        border: '1px solid rgba(91,34,119,0.5)',
+        borderRadius: '10px',
+        padding: '12px 16px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+        minWidth: '140px',
+      }}>
+        <p style={{ fontSize: '12px', color: '#8892A4', marginBottom: '6px' }}>{data.name}</p>
+        <p style={{ fontSize: '22px', fontWeight: 700, fontFamily: '"Barlow Condensed"', lineHeight: 1, color: data.payload.color }}>
+          {data.value}
         </p>
       </div>
     );
