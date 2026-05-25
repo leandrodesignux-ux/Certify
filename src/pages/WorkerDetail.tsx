@@ -500,37 +500,81 @@ export function WorkerDetail() {
 
 // Certificaciones Tab Component
 function CertificacionesTab({ worker }: { worker: WorkerType }) {
+  const vigentes = worker.certifications.filter(c => c.estado === 'vigente').length;
+  const vencidas = worker.certifications.filter(c => c.estado === 'vencido').length;
+  const proximas = worker.certifications.filter(c => c.estado === 'proximo_vencer').length;
+  const pendientes = worker.certifications.filter(c => c.estado === 'pendiente').length;
+  const total = worker.certifications.length;
+  const compliance = worker.complianceScore;
+  const complianceColor = compliance >= 80 ? '#8a9e52' : compliance >= 60 ? '#FFB800' : '#FF3D57';
+
   return (
-    <div className="worker-detail-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(200px, 1fr) minmax(0, 2fr)', gap: '24px' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Card variant="glass" padding="lg" style={{ borderRadius: 'var(--radius-sm)' }}>
-          <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase' }}>
-            Resumen
-          </h3>
-          {[
-            { label: 'Vigentes', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'vigente').length, color: '#729362' },
-            { label: 'Vencidas', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'vencido').length, color: '#FF3D57' },
-            { label: 'Próx. vencer', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'proximo_vencer').length, color: '#FFB800' },
-            { label: 'Pendientes', value: worker.certifications.filter((c: { estado: string }) => c.estado === 'pendiente').length, color: '#4A5568' },
-          ].map(item => (
-            <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(91,34,119,0.1)' }}>
-              <span style={{ fontSize: '13px', color: '#8892A4' }}>{item.label}</span>
-              <span style={{ fontSize: '24px', fontWeight: 700, fontFamily: '"Barlow Condensed"', color: item.color }}>{item.value}</span>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      
+      {/* Fila superior: 3 módulos de estado */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+        {[
+          { label: 'Vigentes', value: vigentes, total, color: '#729362', pct: total > 0 ? Math.round((vigentes/total)*100) : 0 },
+          { label: 'Por Vencer', value: proximas, total, color: '#FFB800', pct: total > 0 ? Math.round((proximas/total)*100) : 0 },
+          { label: 'Vencidas', value: vencidas, total, color: '#FF3D57', pct: total > 0 ? Math.round((vencidas/total)*100) : 0 },
+        ].map(stat => (
+          <div key={stat.label} style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: `1px solid ${stat.color}25`, borderRadius: '10px', padding: '16px', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(to right, transparent, ${stat.color}, transparent)` }} />
+            <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '36px', fontWeight: 700, color: stat.color, lineHeight: 1, marginBottom: '2px' }}>{stat.value}</p>
+            <p style={{ fontSize: '11px', color: '#6B7280' }}>{stat.label}</p>
+            <p style={{ fontSize: '10px', color: stat.color, marginTop: '6px', fontFamily: '"JetBrains Mono"' }}>{stat.pct}% del total</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Fila: Score visual + Timeline */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+        
+        {/* Overall Score */}
+        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '20px' }}>
+          <p style={{ fontSize: '12px', fontWeight: 600, color: '#8892A4', marginBottom: '16px' }}>Score Global</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            {/* SVG ring */}
+            <div style={{ position: 'relative', width: '80px', height: '80px', flexShrink: 0 }}>
+              <svg width="80" height="80" style={{ transform: 'rotate(-90deg)' }}>
+                <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(91,34,119,0.15)" strokeWidth="7" />
+                <motion.circle cx="40" cy="40" r="34" fill="none" stroke={complianceColor} strokeWidth="7" strokeLinecap="round"
+                  strokeDasharray={2 * Math.PI * 34}
+                  initial={{ strokeDashoffset: 2 * Math.PI * 34 }}
+                  animate={{ strokeDashoffset: 2 * Math.PI * 34 * (1 - compliance / 100) }}
+                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                />
+              </svg>
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '20px', fontWeight: 700, color: complianceColor }}>{compliance}</span>
+              </div>
             </div>
-          ))}
-        </Card>
+            <div>
+              {compliance >= 80 && <p style={{ fontSize: '12px', color: '#8a9e52', fontWeight: 600, marginBottom: '4px' }}>✓ Cumplimiento OK</p>}
+              {compliance < 80 && compliance >= 60 && <p style={{ fontSize: '12px', color: '#FFB800', fontWeight: 600, marginBottom: '4px' }}>⚠ Requiere atención</p>}
+              {compliance < 60 && <p style={{ fontSize: '12px', color: '#FF3D57', fontWeight: 600, marginBottom: '4px' }}>✕ Acción urgente</p>}
+              <p style={{ fontSize: '11px', color: '#6B7280' }}>{total} certificaciones en total</p>
+              <p style={{ fontSize: '11px', color: '#6B7280', marginTop: '2px' }}>{pendientes} pendientes</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Timeline mini */}
         <MiniComplianceTimeline certifications={worker.certifications} />
       </div>
-      <Card variant="glass" padding="lg" style={{ borderRadius: 'var(--radius-sm)' }}>
-        <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase' }}>
-          Certificaciones
-        </h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '500px', overflowY: 'auto' }}>
-          {worker.certifications.map(cert => (
-            <CertCard key={cert.id} cert={cert} index={0} />
+
+      {/* Lista de certificaciones */}
+      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px' }}>
+        <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '12px' }}>
+          Certificaciones <span style={{ color: '#6B7280', fontWeight: 400, fontSize: '12px' }}>({total})</span>
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {worker.certifications.map((cert, i) => (
+            <CertCard key={cert.id} cert={cert} index={i} />
           ))}
         </div>
-      </Card>
+      </div>
+
     </div>
   );
 }
