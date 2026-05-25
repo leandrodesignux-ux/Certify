@@ -161,45 +161,6 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
   );
 }
 
-// Mesh Card Component
-function MeshCompactCard({ mesh }: { mesh: typeof mockMeshes[number] }) {
-  return (
-    <Card variant="glass" style={{ padding: '16px' }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-        <div
-          style={{
-            width: '40px',
-            height: '40px',
-            borderRadius: '8px',
-            backgroundColor: 'rgba(138,158,82,0.12)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <BookOpen style={{ width: '20px', height: '20px', color: '#8a9e52' }} />
-        </div>
-        <div style={{ flex: 1 }}>
-          <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#F0F4FF', marginBottom: '4px' }}>{mesh.nombre}</h4>
-          <p style={{ fontSize: '12px', color: '#8892A4', marginBottom: '8px' }}>{mesh.cursos.length} cursos</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ flex: 1, height: '6px', backgroundColor: '#231455', borderRadius: '3px', overflow: 'hidden' }}>
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${mesh.completionRate}%` }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                style={{ height: '100%', backgroundColor: mesh.completionRate >= 80 ? '#729362' : mesh.completionRate >= 50 ? '#FFB800' : '#FF3D57', borderRadius: '3px' }}
-              />
-            </div>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: mesh.completionRate >= 80 ? '#729362' : mesh.completionRate >= 50 ? '#FFB800' : '#FF3D57' }}>
-              {mesh.completionRate}%
-            </span>
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
-}
 
 // Worker Side Panel Component (Left Column)
 function WorkerSidePanel({ worker }: { worker: WorkerType }) {
@@ -581,51 +542,93 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
 
 // Mallas Tab Component
 function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes: typeof mockMeshes }) {
+  // Use worker parameter to avoid TypeScript warning
+  const workerName = worker.nombre;
+  
   return (
-    <div className="worker-detail-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(180px, 1fr) minmax(0, 3fr)', gap: '24px' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Card variant="glass" padding="lg" style={{ borderRadius: 'var(--radius-sm)' }}>
-          <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-            Información
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      
+      {/* Header de sección */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>
+            Mallas Curriculares
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {[
-              { label: 'Fecha ingreso', value: new Date(worker.fechaIngreso).toLocaleDateString('es-CL') },
-              { label: 'Departamento', value: worker.departamento },
-              { label: 'Email', value: worker.email },
-              { label: 'Empresa', value: worker.empresa },
-            ].map(item => (
-              <div key={item.label} style={{ borderBottom: '1px solid rgba(91,34,119,0.1)', paddingBottom: '10px' }}>
-                <p style={{ fontSize: '10px', color: '#4A5568', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '3px' }}>{item.label}</p>
-                <p style={{ fontSize: '13px', color: '#F0F4FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.value}</p>
-              </div>
-            ))}
-          </div>
-        </Card>
-        <Card variant="glass" padding="lg" style={{ borderRadius: 'var(--radius-sm)' }}>
-          <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '16px', fontWeight: 700, color: '#F0F4FF', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-            Competencias
-          </h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-            {['Operación Maquinaria', 'Seguridad Industrial', 'Trabajo en Equipo', 'Liderazgo'].map(tag => (
-              <span key={tag} style={{ padding: '4px 10px', backgroundColor: 'rgba(91,34,119,0.12)', color: '#c49fe0', fontSize: '11px', borderRadius: '20px', border: '1px solid rgba(91,34,119,0.25)', fontWeight: 500 }}>
-                {tag}
-              </span>
-            ))}
-          </div>
-        </Card>
-      </div>
-      <div>
-        <h2 style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: '#F0F4FF', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span>Mallas Asignadas</span>
-          <span style={{ fontSize: '12px', color: '#8892A4', fontWeight: 400, fontFamily: 'DM Sans' }}>({workerMeshes.length} mallas)</span>
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-          {workerMeshes.map((mesh) => (
-            <MeshCompactCard key={mesh.id} mesh={mesh} />
-          ))}
+          <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '2px' }}>
+            {workerMeshes.length} mallas asignadas a {workerName}
+          </p>
         </div>
       </div>
+
+      {/* Stats rápidas */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+        {[
+          { label: 'Total mallas', value: workerMeshes.length, color: '#9b6ab5' },
+          { label: 'Completadas', value: workerMeshes.filter(m => m.completionRate === 100).length, color: '#729362' },
+          { label: 'En progreso', value: workerMeshes.filter(m => m.completionRate > 0 && m.completionRate < 100).length, color: '#FFB800' },
+        ].map(s => (
+          <div key={s.label} style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: `1px solid rgba(91,34,119,0.2)`, borderRadius: '10px', padding: '14px 16px' }}>
+            <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '28px', fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.value}</p>
+            <p style={{ fontSize: '11px', color: '#6B7280', marginTop: '2px' }}>{s.label}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Lista de mallas — una por fila con stats internas */}
+      {workerMeshes.length === 0 ? (
+        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '32px', textAlign: 'center' }}>
+          <p style={{ color: '#6B7280', fontSize: '14px' }}>No hay mallas asignadas</p>
+        </div>
+      ) : (
+        workerMeshes.map((mesh, index) => {
+          const completionColor = mesh.completionRate >= 80 ? '#729362' : mesh.completionRate >= 50 ? '#FFB800' : '#FF3D57';
+          const cursosCompletados = Math.round((mesh.completionRate / 100) * mesh.cursos.length);
+          
+          return (
+            <motion.div key={mesh.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.08, duration: 0.4 }}
+              style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px 20px' }}
+            >
+              {/* Nombre + porcentaje */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
+                <div>
+                  <p style={{ fontSize: '14px', fontWeight: 600, color: '#F0F4FF', marginBottom: '2px' }}>{mesh.nombre}</p>
+                  <p style={{ fontSize: '11px', color: '#6B7280' }}>{mesh.cursos.length} cursos · {cursosCompletados} completados</p>
+                </div>
+                <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '22px', fontWeight: 700, color: completionColor, lineHeight: 1 }}>
+                  {mesh.completionRate}%
+                </span>
+              </div>
+
+              {/* Barra de progreso */}
+              <div style={{ height: '6px', backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '3px', overflow: 'hidden', marginBottom: '12px' }}>
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${mesh.completionRate}%` }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
+                  style={{ height: '100%', backgroundColor: completionColor, borderRadius: '3px' }}
+                />
+              </div>
+
+              {/* Mini stats de cursos por estado */}
+              <div style={{ display: 'flex', gap: '16px' }}>
+                {[
+                  { label: 'Completados', value: cursosCompletados, color: '#729362' },
+                  { label: 'En curso', value: Math.max(0, mesh.cursos.length - cursosCompletados - 1), color: '#FFB800' },
+                  { label: 'Pendientes', value: Math.max(0, mesh.cursos.length - cursosCompletados), color: '#4A5568' },
+                ].map(s => (
+                  <div key={s.label} style={{ textAlign: 'center' }}>
+                    <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.value}</p>
+                    <p style={{ fontSize: '10px', color: '#4A5568', marginTop: '1px' }}>{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          );
+        })
+      )}
     </div>
   );
 }
