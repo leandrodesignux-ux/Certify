@@ -23,7 +23,7 @@ import { Badge } from '../components/ui/Badge';
 import { formatDate } from '../utils/dates';
 
 type TabType = 'todas' | 'vigentes' | 'proximas' | 'vencidas';
-type SortField = 'worker' | 'cert' | 'emisor' | 'tipo' | 'fechaObt' | 'fechaVen' | 'estado';
+type SortField = 'worker' | 'cert' | 'tipo' | 'fechaObt' | 'fechaVen' | 'estado';
 type SortOrder = 'asc' | 'desc';
 
 const tabs = [
@@ -395,8 +395,6 @@ export function Certifications() {
         }
         case 'cert':
           return multiplier * a.nombre.localeCompare(b.nombre);
-        case 'emisor':
-          return multiplier * a.emisor.localeCompare(b.emisor);
         case 'tipo':
           return multiplier * a.tipo.localeCompare(b.tipo);
         case 'fechaObt':
@@ -919,7 +917,7 @@ export function Certifications() {
             >
               {/* Gradient fade at bottom */}
               <tr>
-                <th colSpan={8} className="p-0">
+                <th colSpan={7} className="p-0">
                   <div className="h-px bg-gradient-to-r from-transparent via-[rgba(91,34,119,0.3)] to-transparent" />
                 </th>
               </tr>
@@ -927,6 +925,8 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('worker')}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
                 >
                   <div className="flex items-center gap-1">
                     Trabajador
@@ -936,6 +936,8 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('cert')}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
                 >
                   <div className="flex items-center gap-1">
                     Certificación
@@ -944,16 +946,9 @@ export function Certifications() {
                 </th>
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
-                  onClick={() => handleSort('emisor')}
-                >
-                  <div className="flex items-center gap-1">
-                    Emisor
-                    <SortIcon field="emisor" />
-                  </div>
-                </th>
-                <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('tipo')}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
                 >
                   <div className="flex items-center gap-1">
                     Tipo
@@ -962,16 +957,9 @@ export function Certifications() {
                 </th>
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
-                  onClick={() => handleSort('fechaObt')}
-                >
-                  <div className="flex items-center gap-1">
-                    Obtención
-                    <SortIcon field="fechaObt" />
-                  </div>
-                </th>
-                <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('fechaVen')}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
                 >
                   <div className="flex items-center gap-1">
                     Vencimiento
@@ -981,14 +969,27 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('estado')}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
                 >
                   <div className="flex items-center justify-center gap-1">
                     Estado
                     <SortIcon field="estado" />
                   </div>
                 </th>
+                <th
+                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  onClick={() => handleSort('fechaObt')}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F0F4FF'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#a89fc4'; }}
+                >
+                  <div className="flex items-center gap-1">
+                    Fecha Obtención
+                    <SortIcon field="fechaObt" />
+                  </div>
+                </th>
                 <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
-                  Acción
+                  Detalle
                 </th>
               </tr>
             </thead>
@@ -1003,91 +1004,178 @@ export function Certifications() {
                   const borderColor = cert.estado === 'vigente' ? '#729362' : cert.estado === 'proximo_vencer' ? '#FFB800' : cert.estado === 'vencido' ? '#FF3D57' : '#7c4dab';
 
                   return (
-                    <motion.tr
-                      key={cert.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ delay: index * 0.03, duration: 0.3 }}
-                      className="group cursor-pointer"
-                      style={{
-                        backgroundColor: index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)',
-                        borderLeft: `3px solid ${borderColor}`,
-                        transition: 'background-color 0.2s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)';
-                      }}
-                    >
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-3">
-                          {worker?.foto ? (
-                            <img
-                              src={worker.foto}
-                              alt={`${worker.nombre} ${worker.apellidos}`}
-                              className="w-8 h-8 rounded-full object-cover border border-[rgba(91,34,119,0.3)]"
-                            />
-                          ) : (
-                            <div className="w-8 h-8 rounded-full bg-[#231455] border border-[rgba(91,34,119,0.3)] flex items-center justify-center">
-                              <span className="text-xs font-display font-semibold text-[#c49fe0]">
-                                {initials}
+                    <>
+                      <motion.tr
+                        key={cert.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ delay: index * 0.03, duration: 0.3 }}
+                        className="group cursor-pointer"
+                        style={{
+                          backgroundColor: index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)',
+                          borderLeft: `3px solid ${borderColor}`,
+                          transition: 'background-color 0.2s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)';
+                        }}
+                      >
+                        {/* Trabajador */}
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-3">
+                            {worker?.foto ? (
+                              <img
+                                src={worker.foto}
+                                alt={`${worker.nombre} ${worker.apellidos}`}
+                                className="w-8 h-8 rounded-full object-cover border border-[rgba(91,34,119,0.3)]"
+                              />
+                            ) : (
+                              <div className="w-8 h-8 rounded-full bg-[#231455] border border-[rgba(91,34,119,0.3)] flex items-center justify-center">
+                                <span className="text-xs font-display font-semibold text-[#c49fe0]">
+                                  {initials}
+                                </span>
+                              </div>
+                            )}
+                            <div>
+                              <span
+                                className="text-sm text-[#F0F4FF] truncate block"
+                                style={{ maxWidth: '160px' }}
+                                title={`${worker?.nombre} ${worker?.apellidos}`}
+                              >
+                                {worker?.nombre} {worker?.apellidos}
                               </span>
+                              {worker?.cargo && (
+                                <span
+                                  className="text-xs text-[#6B7280] truncate block"
+                                  style={{ maxWidth: '160px' }}
+                                  title={worker.cargo}
+                                >
+                                  {worker.cargo}
+                                </span>
+                              )}
                             </div>
-                          )}
-                          <span
-                            className="text-sm text-[#F0F4FF] truncate max-w-[160px]"
-                            title={`${worker?.nombre} ${worker?.apellidos}`}
-                          >
-                            {worker?.nombre} {worker?.apellidos}
+                          </div>
+                        </td>
+
+                        {/* Certificación */}
+                        <td className="px-4 py-3">
+                          <div>
+                            <p className="text-sm text-[#F0F4FF] truncate mb-1" style={{ maxWidth: '200px' }}>
+                              {cert.nombre}
+                            </p>
+                            <p className="text-xs text-[#6B7280] truncate" style={{ maxWidth: '200px' }}>
+                              {cert.emisor}
+                            </p>
+                          </div>
+                        </td>
+
+                        {/* Tipo */}
+                        <td className="px-4 py-3">
+                          <Badge
+                            status={cert.tipo}
+                            label={
+                              cert.tipo === 'obligatoria'
+                                ? 'Oblig.'
+                                : cert.tipo === 'complementaria'
+                                ? 'Compl.'
+                                : 'Legal'
+                            }
+                          />
+                        </td>
+
+                        {/* Vencimiento */}
+                        <td className="px-4 py-3">
+                          <div>
+                            <span className="text-sm text-[#F0F4FF] block mb-1">
+                              {formatDate(cert.fechaVencimiento)}
+                            </span>
+                            <DaysSparkline diasRestantes={cert.diasRestantes} />
+                          </div>
+                        </td>
+
+                        {/* Estado */}
+                        <td className="px-4 py-3 text-center">
+                          <Badge status={cert.estado} />
+                        </td>
+
+                        {/* Fecha Obtención */}
+                        <td className="px-4 py-3">
+                          <span className="text-sm text-[#F0F4FF]">
+                            {formatDate(cert.fechaObtension)}
                           </span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <p className="text-sm text-[#F0F4FF] truncate max-w-[200px]">
-                          {cert.nombre}
-                        </p>
-                      </td>
-                      <td className="px-4 py-3">
-                        <p className="text-sm text-[#8892A4] truncate max-w-[150px]">
-                          {cert.emisor}
-                        </p>
-                      </td>
-                      <td className="px-4 py-3">
-                        <Badge
-                          status={cert.tipo}
-                          label={
-                            cert.tipo === 'obligatoria'
-                              ? 'Oblig.'
-                              : cert.tipo === 'complementaria'
-                              ? 'Compl.'
-                              : 'Legal'
-                          }
-                        />
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className="text-sm text-[#F0F4FF]">
-                          {formatDate(cert.fechaObtension)}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <DaysSparkline diasRestantes={cert.diasRestantes} />
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <Badge status={cert.estado} />
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <button
-                          onClick={() => setExpandedCert(isExpanded ? null : cert.id)}
-                          className="p-1.5 rounded-md hover:bg-[rgba(91,34,119,0.15)] transition-colors"
-                          title="Ver detalle"
+                        </td>
+
+                        {/* Detalle */}
+                        <td className="px-4 py-3 text-center">
+                          <button
+                            onClick={() => setExpandedCert(isExpanded ? null : cert.id)}
+                            className="p-1.5 rounded-md hover:bg-[rgba(91,34,119,0.15)] transition-colors"
+                            title="Ver detalle"
+                          >
+                            <Eye className="w-4 h-4 text-[#9b6ab5]" />
+                          </button>
+                        </td>
+                      </motion.tr>
+
+                      {/* Expandable Detail Row */}
+                      {isExpanded && (
+                        <motion.tr
+                          key={`${cert.id}-detail`}
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3, ease: 'easeInOut' }}
                         >
-                          <Eye className="w-4 h-4 text-[#9b6ab5]" />
-                        </button>
-                      </td>
-                    </motion.tr>
+                          <td colSpan={7} style={{ padding: 0, background: 'rgba(91,34,119,0.04)' }}>
+                            <motion.div
+                              initial={{ opacity: 0, y: -10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.2, delay: 0.1 }}
+                              style={{ padding: '16px 24px', display: 'flex', gap: '32px' }}
+                            >
+                              <div>
+                                <span style={{ fontSize: '11px', color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '4px' }}>
+                                  Fecha Obtención
+                                </span>
+                                <span style={{ fontSize: '13px', color: '#F0F4FF' }}>
+                                  {formatDate(cert.fechaObtension)}
+                                </span>
+                              </div>
+                              <div>
+                                <span style={{ fontSize: '11px', color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '4px' }}>
+                                  Días Restantes
+                                </span>
+                                <span style={{ fontSize: '13px', color: '#F0F4FF' }}>
+                                  {cert.diasRestantes} días
+                                </span>
+                              </div>
+                              <div>
+                                <span style={{ fontSize: '11px', color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '4px' }}>
+                                  ID Certificación
+                                </span>
+                                <span style={{ fontSize: '13px', color: '#F0F4FF', fontFamily: 'monospace' }}>
+                                  {cert.id.slice(0, 8)}...{cert.id.slice(-4)}
+                                </span>
+                              </div>
+                              <div>
+                                <span style={{ fontSize: '11px', color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '4px' }}>
+                                  Estado Completo
+                                </span>
+                                <span style={{ fontSize: '13px', color: '#F0F4FF' }}>
+                                  {cert.estado === 'vigente' ? 'Vigente' : 
+                                   cert.estado === 'proximo_vencer' ? 'Próximo a vencer' :
+                                   cert.estado === 'vencido' ? 'Vencido' : cert.estado}
+                                </span>
+                              </div>
+                            </motion.div>
+                          </td>
+                        </motion.tr>
+                      )}
+                    </>
                   );
                 })}
               </AnimatePresence>
