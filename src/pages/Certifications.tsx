@@ -23,6 +23,7 @@ import { useWorkerStore } from '../store/useWorkerStore';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { formatDate } from '../utils/dates';
+import { CertTableSkeleton } from '../components/certifications/CertTableSkeleton';
 
 type TabType = 'todas' | 'vigentes' | 'proximas' | 'vencidas';
 type SortField = 'worker' | 'cert' | 'tipo' | 'fechaObt' | 'fechaVen' | 'estado';
@@ -238,7 +239,14 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      style={{ textAlign: 'center', padding: '60px 20px' }}
+      style={{ 
+        textAlign: 'center', 
+        padding: '48px 20px',
+        background: 'rgba(91,34,119,0.04)',
+        borderRadius: 'var(--radius-lg)',
+        border: '1px dashed rgba(91,34,119,0.15)',
+        margin: '20px'
+      }}
     >
       <div style={{ position: 'relative', display: 'inline-block', marginBottom: '24px', width: '80px', height: '80px' }}>
         {/* 3 rotating orbit rings */}
@@ -274,7 +282,7 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
         />
         <Award style={{ width: '64px', height: '64px', color: '#7c4dab', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
       </div>
-      <p style={{ fontSize: '18px', fontWeight: 600, color: '#F0F4FF', marginBottom: '8px' }}>
+      <p style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '24px', fontWeight: 700, color: '#F0F4FF', marginBottom: '8px' }}>
         {title}
       </p>
       <p style={{ fontSize: '14px', color: '#8892A4', marginBottom: '20px' }}>
@@ -282,7 +290,7 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
       </p>
 
       {/* Action buttons */}
-      <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
         {hasSearch && onClearSearch && (
           <button
             onClick={onClearSearch}
@@ -299,9 +307,11 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.2)';
+              e.currentTarget.style.transform = 'translateY(-1px)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.12)';
+              e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
             Limpiar búsqueda
@@ -323,12 +333,43 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = 'rgba(138,158,82,0.18)';
+              e.currentTarget.style.transform = 'translateY(-1px)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = 'rgba(138,158,82,0.1)';
+              e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
             Ver todas las certificaciones
+          </button>
+        )}
+        {hasSearch && hasTabFilter && onClearSearch && onSwitchToAll && (
+          <button
+            onClick={() => {
+              onClearSearch?.();
+              onSwitchToAll?.();
+            }}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: 'rgba(255,61,87,0.1)',
+              border: '1px solid rgba(255,61,87,0.35)',
+              borderRadius: '6px',
+              color: '#ff3d57',
+              fontSize: '13px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255,61,87,0.18)';
+              e.currentTarget.style.transform = 'translateY(-1px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255,61,87,0.1)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            Limpiar todo
           </button>
         )}
       </div>
@@ -996,8 +1037,11 @@ export function Certifications() {
               </tr>
             </thead>
             <tbody>
-              <AnimatePresence mode="wait">
-                {paginatedCerts.map((cert, index) => {
+              {certifications.length === 0 && workers.length === 0 ? (
+                <CertTableSkeleton />
+              ) : (
+                <AnimatePresence mode="wait">
+                  {paginatedCerts.map((cert, index) => {
                   const worker = workers.find((w) => w.id === cert.workerId);
                   const initials = worker
                     ? `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase()
@@ -1180,7 +1224,8 @@ export function Certifications() {
                     </>
                   );
                 })}
-              </AnimatePresence>
+                </AnimatePresence>
+              )}
             </tbody>
           </table>
         </div>
