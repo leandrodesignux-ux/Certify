@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Award, BookOpen, Clock, CheckCircle, AlertTriangle } from 'lucide-react';
 import { useWorkerStore } from '../store/useWorkerStore';
-import { ProfileHeader } from '../components/profile/ProfileHeader';
 import { CertCard } from '../components/certifications/CertCard';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -201,6 +200,15 @@ function MeshCompactCard({ mesh }: { mesh: typeof mockMeshes[number] }) {
   );
 }
 
+// Worker Side Panel Component (Left Column)
+function WorkerSidePanel({ worker }: { worker: WorkerType }) {
+  return (
+    <div style={{ backgroundColor: 'rgba(26,16,64,0.7)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '12px', padding: '24px', minHeight: '400px' }}>
+      <p style={{ color: '#F0F4FF' }}>Panel lateral - {worker.nombre}</p>
+    </div>
+  );
+}
+
 // History Activity Item
 function HistoryItem({ activity, index }: { activity: typeof mockHistoryActivities[0]; index: number }) {
   const icons = {
@@ -322,102 +330,108 @@ export function WorkerDetail() {
         </Button>
       </motion.div>
 
-      {/* Profile Header */}
-      <ProfileHeader worker={worker} />
+      {/* Two Column Layout */}
+      <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: '24px', alignItems: 'start' }}>
+        {/* Left Column - Worker Side Panel (ALWAYS VISIBLE) */}
+        <WorkerSidePanel worker={worker} />
+        
+        {/* Right Column - Tabs + Dynamic Content */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Tabs: Certificaciones / Mallas / Historial */}
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                style={{
+                  flex: 1,
+                  maxWidth: '200px',
+                  padding: '12px 24px',
+                  backgroundColor: activeTab === tab.id ? `${tab.color}15` : 'transparent',
+                  border: `1px solid ${activeTab === tab.id ? tab.color : 'rgba(91,34,119,0.2)'}`,
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== tab.id) {
+                    e.currentTarget.style.borderColor = `${tab.color}50`;
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== tab.id) {
+                    e.currentTarget.style.borderColor = 'rgba(91,34,119,0.2)';
+                  }
+                }}
+              >
+                <tab.icon style={{ width: '16px', height: '16px', color: activeTab === tab.id ? tab.color : '#8892A4' }} />
+                <span
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    color: activeTab === tab.id ? tab.color : '#8892A4',
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    letterSpacing: '0.5px',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {tab.label}
+                </span>
+                {/* Badge de conteo */}
+                {tab.count > 0 && (
+                  <span style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    backgroundColor: activeTab === tab.id ? `${tab.color}25` : 'rgba(91,34,119,0.15)',
+                    color: activeTab === tab.id ? tab.color : 'var(--color-text-muted)',
+                    borderRadius: 'var(--radius-full)',
+                    padding: '1px 7px',
+                    marginLeft: '4px',
+                    fontFamily: '"JetBrains Mono", monospace',
+                  }}>
+                    {tab.count}
+                  </span>
+                )}
+                {/* Badge de alerta */}
+                {tab.alertCount > 0 && (
+                  <span style={{
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    backgroundColor: 'rgba(255,61,87,0.2)',
+                    color: '#FF5C71',
+                    borderRadius: 'var(--radius-full)',
+                    padding: '1px 6px',
+                    marginLeft: '2px',
+                    border: '1px solid rgba(255,61,87,0.3)',
+                    fontFamily: '"JetBrains Mono", monospace',
+                  }}>
+                    {tab.alertCount}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
 
-      {/* Tabs: Certificaciones / Mallas / Historial */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            style={{
-              flex: 1,
-              maxWidth: '200px',
-              padding: '12px 24px',
-              backgroundColor: activeTab === tab.id ? `${tab.color}15` : 'transparent',
-              border: `1px solid ${activeTab === tab.id ? tab.color : 'rgba(91,34,119,0.2)'}`,
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              if (activeTab !== tab.id) {
-                e.currentTarget.style.borderColor = `${tab.color}50`;
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== tab.id) {
-                e.currentTarget.style.borderColor = 'rgba(91,34,119,0.2)';
-              }
-            }}
-          >
-            <tab.icon style={{ width: '16px', height: '16px', color: activeTab === tab.id ? tab.color : '#8892A4' }} />
-            <span
-              style={{
-                fontSize: '13px',
-                fontWeight: 600,
-                color: activeTab === tab.id ? tab.color : '#8892A4',
-                fontFamily: '"Barlow Condensed", sans-serif',
-                letterSpacing: '0.5px',
-                textTransform: 'uppercase',
-              }}
+          {/* Tab Content */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
             >
-              {tab.label}
-            </span>
-            {/* Badge de conteo */}
-            {tab.count > 0 && (
-              <span style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                backgroundColor: activeTab === tab.id ? `${tab.color}25` : 'rgba(91,34,119,0.15)',
-                color: activeTab === tab.id ? tab.color : 'var(--color-text-muted)',
-                borderRadius: 'var(--radius-full)',
-                padding: '1px 7px',
-                marginLeft: '4px',
-                fontFamily: '"JetBrains Mono", monospace',
-              }}>
-                {tab.count}
-              </span>
-            )}
-            {/* Badge de alerta */}
-            {tab.alertCount > 0 && (
-              <span style={{
-                fontSize: '10px',
-                fontWeight: 700,
-                backgroundColor: 'rgba(255,61,87,0.2)',
-                color: '#FF5C71',
-                borderRadius: 'var(--radius-full)',
-                padding: '1px 6px',
-                marginLeft: '2px',
-                border: '1px solid rgba(255,61,87,0.3)',
-                fontFamily: '"JetBrains Mono", monospace',
-              }}>
-                {tab.alertCount}
-              </span>
-            )}
-          </button>
-        ))}
+              {activeTab === 'certificaciones' && <CertificacionesTab worker={worker} />}
+              {activeTab === 'mallas' && <MallasTab worker={worker} workerMeshes={workerMeshes} />}
+              {activeTab === 'historial' && <HistorialTab />}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
-
-      {/* Tab Content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
-        >
-          {activeTab === 'certificaciones' && <CertificacionesTab worker={worker} />}
-          {activeTab === 'mallas' && <MallasTab worker={worker} workerMeshes={workerMeshes} />}
-          {activeTab === 'historial' && <HistorialTab />}
-        </motion.div>
-      </AnimatePresence>
     </div>
   );
 }
