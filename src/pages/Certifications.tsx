@@ -25,6 +25,7 @@ import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { formatDate } from '../utils/dates';
 import { CertTableSkeleton } from '../components/certifications/CertTableSkeleton';
+import { CertDetailDrawer } from '../components/certifications/CertDetailDrawer';
 
 type TabType = 'todas' | 'vigentes' | 'proximas' | 'vencidas';
 type SortField = 'worker' | 'cert' | 'tipo' | 'fechaObt' | 'fechaVen' | 'estado';
@@ -405,7 +406,7 @@ export function Certifications() {
   const [areaFilter, setAreaFilter] = useState('');
   const [tipoFilter, setTipoFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [expandedCert, setExpandedCert] = useState<string | null>(null);
+  const [selectedCert, setSelectedCert] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -415,6 +416,10 @@ export function Certifications() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+
+  // Calculate selected certification data
+  const selectedCertData = certifications.find(c => c.id === selectedCert);
+  const selectedWorker = workers.find(w => w.id === selectedCertData?.workerId);
 
   // Filter by tab
   const filteredByTab = useMemo(() => {
@@ -1198,7 +1203,6 @@ export function Certifications() {
                   const initials = worker
                     ? `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase()
                     : '?';
-                  const isExpanded = expandedCert === cert.id;
                   const borderColor = cert.estado === 'vigente' ? '#729362' : cert.estado === 'proximo_vencer' ? '#FFB800' : cert.estado === 'vencido' ? '#FF3D57' : '#7c4dab';
 
                   return (
@@ -1316,73 +1320,15 @@ export function Certifications() {
                         {/* Detalle */}
                         <td className="px-4 py-3 text-center">
                           <button
-                            onClick={() => setExpandedCert(isExpanded ? null : cert.id)}
+                            onClick={() => setSelectedCert(cert.id)}
                             className="p-1.5 rounded-md hover:bg-[rgba(91,34,119,0.15)] transition-colors"
                             title="Ver detalle"
                             aria-label={`Ver detalle de ${cert.nombre}`}
-                            aria-expanded={isExpanded}
                           >
                             <Eye className="w-4 h-4 text-[#9b6ab5]" />
                           </button>
                         </td>
                       </motion.tr>
-
-                      {/* Expandable Detail Row */}
-                      {isExpanded && (
-                        <motion.tr
-                          key={`${cert.id}-detail`}
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3, ease: 'easeInOut' }}
-                          role="region"
-                          aria-label={`Detalle de ${cert.nombre}`}
-                        >
-                          <td colSpan={7} style={{ padding: 0, background: 'rgba(91,34,119,0.04)' }}>
-                            <motion.div
-                              initial={{ opacity: 0, y: -10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.2, delay: 0.1 }}
-                              style={{ padding: '16px 24px', display: 'flex', gap: '32px' }}
-                            >
-                              <div>
-                                <span style={{ fontSize: '11px', color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '4px' }}>
-                                  Fecha Obtención
-                                </span>
-                                <span style={{ fontSize: '13px', color: '#F0F4FF' }}>
-                                  {formatDate(cert.fechaObtension)}
-                                </span>
-                              </div>
-                              <div>
-                                <span style={{ fontSize: '11px', color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '4px' }}>
-                                  Días Restantes
-                                </span>
-                                <span style={{ fontSize: '13px', color: '#F0F4FF' }}>
-                                  {cert.diasRestantes} días
-                                </span>
-                              </div>
-                              <div>
-                                <span style={{ fontSize: '11px', color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '4px' }}>
-                                  ID Certificación
-                                </span>
-                                <span style={{ fontSize: '13px', color: '#F0F4FF', fontFamily: 'monospace' }}>
-                                  {cert.id.slice(0, 8)}...{cert.id.slice(-4)}
-                                </span>
-                              </div>
-                              <div>
-                                <span style={{ fontSize: '11px', color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '4px' }}>
-                                  Estado Completo
-                                </span>
-                                <span style={{ fontSize: '13px', color: '#F0F4FF' }}>
-                                  {cert.estado === 'vigente' ? 'Vigente' : 
-                                   cert.estado === 'proximo_vencer' ? 'Próximo a vencer' :
-                                   cert.estado === 'vencido' ? 'Vencido' : cert.estado}
-                                </span>
-                              </div>
-                            </motion.div>
-                          </td>
-                        </motion.tr>
-                      )}
                     </>
                   );
                 })}
@@ -1715,6 +1661,16 @@ export function Certifications() {
           </div>
         )}
       </motion.div>
+
+      {/* Certification Detail Drawer */}
+      <AnimatePresence>
+        <CertDetailDrawer
+          cert={selectedCertData || null}
+          worker={selectedWorker}
+          isOpen={selectedCert !== null}
+          onClose={() => setSelectedCert(null)}
+        />
+      </AnimatePresence>
     </div>
   );
 }
