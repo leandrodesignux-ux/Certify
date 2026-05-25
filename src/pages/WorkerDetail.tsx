@@ -174,102 +174,126 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', position: 'sticky', top: '24px' }}>
       
       {/* === CARD 1: Identidad === */}
-      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', overflow: 'hidden' }}>
-        
-        {/* Banner de color según compliance */}
-        <div style={{ height: '72px', background: `linear-gradient(135deg, ${compliance.color}30 0%, ${compliance.color}08 100%)`, position: 'relative' }}>
-          {/* Botón editar */}
-          <button style={{ position: 'absolute', top: '10px', right: '12px', padding: '5px 10px', backgroundColor: 'rgba(26,16,64,0.7)', border: '1px solid rgba(91,34,119,0.3)', borderRadius: '6px', color: '#8892A4', fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
-            ✎ Editar
-          </button>
-        </div>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', overflow: 'hidden' }}>
+          
+          {/* Banner de color según compliance */}
+          <div style={{ height: '72px', background: `linear-gradient(135deg, ${compliance.color}30 0%, ${compliance.color}08 100%)`, position: 'relative' }}>
+            {/* Botón editar */}
+            <button style={{ position: 'absolute', top: '10px', right: '12px', padding: '5px 10px', backgroundColor: 'rgba(26,16,64,0.7)', border: '1px solid rgba(91,34,119,0.3)', borderRadius: '6px', color: '#8892A4', fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
+              ✎ Editar
+            </button>
+          </div>
 
-        {/* Avatar superpuesto al banner */}
-        <div style={{ padding: '0 20px 20px', position: 'relative' }}>
-          <div style={{ marginTop: '-36px', marginBottom: '12px', position: 'relative', display: 'inline-block' }}>
-            <div style={{ width: '72px', height: '72px', borderRadius: '50%', overflow: 'hidden', border: `3px solid ${compliance.color}`, backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {worker.foto
-                ? <img src={worker.foto} alt={`${worker.nombre}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                : <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '24px', fontWeight: 700, color: compliance.color }}>{initials}</span>
-              }
+          {/* Avatar superpuesto al banner */}
+          <div style={{ padding: '0 20px 20px', position: 'relative' }}>
+            <div style={{ marginTop: '-36px', marginBottom: '12px', position: 'relative', display: 'inline-block' }}>
+              <div style={{ width: '72px', height: '72px', borderRadius: '50%', overflow: 'hidden', border: `3px solid ${compliance.color}`, backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {worker.foto
+                  ? <img src={worker.foto} alt={`${worker.nombre}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  : <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '24px', fontWeight: 700, color: compliance.color }}>{initials}</span>
+                }
+              </div>
+            </div>
+
+            {/* Nombre + cargo */}
+            <h2 style={{ fontFamily: '"Barlow Condensed"', fontSize: '22px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1.1, marginBottom: '4px' }}>
+              {worker.nombre} {worker.apellidos}
+            </h2>
+            <p style={{ fontSize: '13px', color: '#c49fe0', marginBottom: '12px' }}>{worker.cargo}</p>
+
+            {/* Badge de rango */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', backgroundColor: `${compliance.color}15`, border: `1px solid ${compliance.color}40`, borderRadius: '20px' }}>
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: compliance.color }} />
+              <span style={{ fontSize: '11px', fontWeight: 700, color: compliance.color, letterSpacing: '0.5px' }}>{compliance.label.toUpperCase()}</span>
             </div>
           </div>
-
-          {/* Nombre + cargo */}
-          <h2 style={{ fontFamily: '"Barlow Condensed"', fontSize: '22px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1.1, marginBottom: '4px' }}>
-            {worker.nombre} {worker.apellidos}
-          </h2>
-          <p style={{ fontSize: '13px', color: '#c49fe0', marginBottom: '12px' }}>{worker.cargo}</p>
-
-          {/* Badge de rango */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', backgroundColor: `${compliance.color}15`, border: `1px solid ${compliance.color}40`, borderRadius: '20px' }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: compliance.color }} />
-            <span style={{ fontSize: '11px', fontWeight: 700, color: compliance.color, letterSpacing: '0.5px' }}>{compliance.label.toUpperCase()}</span>
-          </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* === CARD 2: Métricas === */}
-      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
-        <p style={{ fontSize: '10px', fontWeight: 700, color: '#4A5568', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Métricas</p>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-          {[
-            { label: 'Compliance', value: `${worker.complianceScore}%`, color: worker.complianceScore >= 80 ? '#8a9e52' : worker.complianceScore >= 60 ? '#FFB800' : '#FF3D57' },
-            { label: 'Certificaciones', value: worker.certifications.length, color: '#9b6ab5' },
-            { label: 'Vigentes', value: worker.certifications.filter(c => c.estado === 'vigente').length, color: '#729362' },
-            { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: worker.certifications.filter(c => c.estado === 'vencido').length > 0 ? '#FF3D57' : '#4A5568' },
-          ].map(metric => (
-            <div key={metric.label} style={{ backgroundColor: 'rgba(91,34,119,0.06)', borderRadius: '8px', padding: '10px 12px', border: '1px solid rgba(91,34,119,0.12)' }}>
-              <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '26px', fontWeight: 700, color: metric.color, lineHeight: 1, marginBottom: '2px' }}>
-                {metric.value}
-              </p>
-              <p style={{ fontSize: '10px', color: '#6B7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{metric.label}</p>
-            </div>
-          ))}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
+          <p style={{ fontSize: '10px', fontWeight: 700, color: '#4A5568', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Métricas</p>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            {[
+              { label: 'Compliance', value: `${worker.complianceScore}%`, color: worker.complianceScore >= 80 ? '#8a9e52' : worker.complianceScore >= 60 ? '#FFB800' : '#FF3D57' },
+              { label: 'Certificaciones', value: worker.certifications.length, color: '#9b6ab5' },
+              { label: 'Vigentes', value: worker.certifications.filter(c => c.estado === 'vigente').length, color: '#729362' },
+              { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: worker.certifications.filter(c => c.estado === 'vencido').length > 0 ? '#FF3D57' : '#4A5568' },
+            ].map(metric => (
+              <div key={metric.label} style={{ backgroundColor: 'rgba(91,34,119,0.06)', borderRadius: '8px', padding: '10px 12px', border: '1px solid rgba(91,34,119,0.12)' }}>
+                <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '26px', fontWeight: 700, color: metric.color, lineHeight: 1, marginBottom: '2px' }}>
+                  {metric.value}
+                </p>
+                <p style={{ fontSize: '10px', color: '#6B7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{metric.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* === CARD 3: Datos personales === */}
-      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
-        <p style={{ fontSize: '10px', fontWeight: 700, color: '#4A5568', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Información</p>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
-          {[
-            { label: 'RUT', value: formatRut(worker.rut) },
-            { label: 'Email', value: worker.email },
-            { label: 'Faena', value: worker.departamento },
-            { label: 'Área', value: worker.area },
-            { label: 'Empresa', value: worker.empresa },
-            { label: 'Ingreso', value: new Date(worker.fechaIngreso).toLocaleDateString('es-CL') },
-          ].map((item, i, arr) => (
-            <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(91,34,119,0.1)' : 'none', gap: '8px' }}>
-              <span style={{ fontSize: '11px', color: '#6B7280', flexShrink: 0 }}>{item.label}</span>
-              <span style={{ fontSize: '12px', color: '#F0F4FF', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'right', maxWidth: '160px' }}>{item.value}</span>
-            </div>
-          ))}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.16, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
+          <p style={{ fontSize: '10px', fontWeight: 700, color: '#4A5568', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Información</p>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
+            {[
+              { label: 'RUT', value: formatRut(worker.rut) },
+              { label: 'Email', value: worker.email },
+              { label: 'Faena', value: worker.departamento },
+              { label: 'Área', value: worker.area },
+              { label: 'Empresa', value: worker.empresa },
+              { label: 'Ingreso', value: new Date(worker.fechaIngreso).toLocaleDateString('es-CL') },
+            ].map((item, i, arr) => (
+              <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(91,34,119,0.1)' : 'none', gap: '8px' }}>
+                <span style={{ fontSize: '11px', color: '#6B7280', flexShrink: 0 }}>{item.label}</span>
+                <span style={{ fontSize: '12px', color: '#F0F4FF', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'right', maxWidth: '160px' }}>{item.value}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* === CARD 4: Acciones === */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {[
-          { label: 'Agregar Certificación', color: '#9b6ab5', bg: 'rgba(91,34,119,0.12)', border: 'rgba(91,34,119,0.35)', icon: Plus },
-          { label: 'Exportar Perfil', color: '#729362', bg: 'rgba(114,147,98,0.1)', border: 'rgba(114,147,98,0.3)', icon: Download },
-          { label: 'Enviar Alerta', color: '#FFB800', bg: 'rgba(255,184,0,0.08)', border: 'rgba(255,184,0,0.25)', icon: Bell },
-        ].map(action => (
-          <button key={action.label}
-            style={{ width: '100%', padding: '10px 16px', backgroundColor: action.bg, border: `1px solid ${action.border}`, borderRadius: '8px', color: action.color, fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = '0.8'; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
-          >
-            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <action.icon style={{ width: '16px', height: '16px' }} />
-              {action.label}
-            </span>
-          </button>
-        ))}
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.24, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {[
+            { label: 'Agregar Certificación', color: '#9b6ab5', bg: 'rgba(91,34,119,0.12)', border: 'rgba(91,34,119,0.35)', icon: Plus },
+            { label: 'Exportar Perfil', color: '#729362', bg: 'rgba(114,147,98,0.1)', border: 'rgba(114,147,98,0.3)', icon: Download },
+            { label: 'Enviar Alerta', color: '#FFB800', bg: 'rgba(255,184,0,0.08)', border: 'rgba(255,184,0,0.25)', icon: Bell },
+          ].map(action => (
+            <button key={action.label}
+              style={{ width: '100%', padding: '10px 16px', backgroundColor: action.bg, border: `1px solid ${action.border}`, borderRadius: '8px', color: action.color, fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
+              onMouseEnter={e => { e.currentTarget.style.opacity = '0.8'; }}
+              onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <action.icon style={{ width: '16px', height: '16px' }} />
+                {action.label}
+              </span>
+            </button>
+          ))}
+        </div>
+      </motion.div>
 
     </div>
   );
@@ -470,16 +494,32 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
       </div>
 
       {/* Lista de certificaciones */}
-      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px' }}>
-        <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '12px' }}>
-          Certificaciones <span style={{ color: '#6B7280', fontWeight: 400, fontSize: '12px' }}>({total})</span>
-        </p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {worker.certifications.map((cert, i) => (
-            <CertCard key={cert.id} cert={cert} index={i} />
-          ))}
+      {worker.certifications.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6B7280' }}>
+          <p style={{ fontSize: '14px' }}>No hay certificaciones registradas</p>
         </div>
-      </div>
+      ) : (
+        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px' }}>
+          <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '12px' }}>
+            Certificaciones <span style={{ color: '#6B7280', fontWeight: 400, fontSize: '12px' }}>({total})</span>
+          </p>
+          <div 
+            className="certs-scroll" 
+            style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: '8px',
+              maxHeight: worker.certifications.length > 4 ? '420px' : 'none',
+              overflowY: worker.certifications.length > 4 ? 'auto' : 'visible',
+              scrollbarWidth: 'thin'
+            }}
+          >
+            {worker.certifications.map((cert, i) => (
+              <CertCard key={cert.id} cert={cert} index={i} />
+            ))}
+          </div>
+        </div>
+      )}
 
     </div>
   );
@@ -534,7 +574,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.08, duration: 0.4 }}
-              style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px 20px' }}
+              style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderLeft: `3px solid ${completionColor}`, borderRadius: '10px', padding: '16px 20px' }}
             >
               {/* Nombre + porcentaje */}
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
