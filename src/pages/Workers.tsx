@@ -69,54 +69,155 @@ function WorkersComponent() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        className="flex flex-wrap gap-4"
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}
       >
         {/* Total Trabajadores — limpia filtros */}
         <div
           onClick={clearFilters}
-          style={{ cursor: 'pointer' }}
-          className="flex items-center gap-3 rounded-xl border border-[var(--border-brand)] bg-[var(--color-surface)]/70 px-4 py-3 hover:border-[var(--border-brand-hover)] transition-all"
+          style={{ 
+            cursor: 'pointer',
+            minWidth: 0,
+            padding: '14px 16px',
+            borderRadius: '10px',
+            display: 'flex',
+            gap: '12px',
+            alignItems: 'center',
+            border: '1px solid var(--border-brand)',
+            backgroundColor: 'var(--color-surface)',
+            transition: 'all 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--border-brand-hover)'}
+          onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border-brand)'}
         >
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(91,34,119,0.2)]">
-            <Users2 className="w-5 h-5 text-[#9b6ab5]" />
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            width: '36px', 
+            height: '36px', 
+            borderRadius: '8px', 
+            backgroundColor: 'rgba(91,34,119,0.2)',
+            flexShrink: 0
+          }}>
+            <Users2 style={{ width: '20px', height: '20px', color: '#9b6ab5' }} />
           </div>
-          <div>
-            <p className="font-display text-2xl font-bold text-[var(--color-text-primary)]">{totalWorkers}</p>
-            <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Total trabajadores</p>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <p style={{ 
+              fontSize: '28px', 
+              lineHeight: 1, 
+              fontFamily: '"Barlow Condensed", sans-serif', 
+              fontWeight: 700, 
+              color: 'var(--color-text-primary)',
+              margin: 0
+            }}>{totalWorkers}</p>
+            <p style={{ 
+              fontSize: '11px', 
+              color: 'var(--color-text-secondary)',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              margin: '2px 0 0 0'
+            }}>Total trabajadores</p>
           </div>
         </div>
 
         {/* Cumplimiento OK — filtra score >= 80 */}
         <div
           onClick={() => setFilters({ complianceMin: 80 })}
-          style={{ cursor: 'pointer', border: filters.complianceMin === 80 ? '1px solid rgba(114,147,98,0.6)' : '1px solid rgba(114,147,98,0.2)' }}
-          className="flex items-center gap-3 rounded-xl bg-[var(--color-surface)]/70 px-4 py-3 hover:border-[rgba(114,147,98,0.6)] transition-all"
+          style={{ 
+            cursor: 'pointer',
+            minWidth: 0,
+            padding: '14px 16px',
+            borderRadius: '10px',
+            display: 'flex',
+            gap: '12px',
+            alignItems: 'center',
+            border: filters.complianceMin === 80 ? '1px solid rgba(114,147,98,0.6)' : '1px solid rgba(114,147,98,0.2)',
+            backgroundColor: 'var(--color-surface)',
+            transition: 'all 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(114,147,98,0.6)'}
+          onMouseLeave={e => e.currentTarget.style.borderColor = filters.complianceMin === 80 ? 'rgba(114,147,98,0.6)' : 'rgba(114,147,98,0.2)'}
         >
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(114,147,98,0.18)]">
-            <ShieldCheck className="w-5 h-5 text-[#729362]" />
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            width: '36px', 
+            height: '36px', 
+            borderRadius: '8px', 
+            backgroundColor: 'rgba(114,147,98,0.18)',
+            flexShrink: 0
+          }}>
+            <ShieldCheck style={{ width: '20px', height: '20px', color: '#729362' }} />
           </div>
-          <div>
-            <p className="font-display text-2xl font-bold text-[var(--color-text-primary)]">{complianceOkCount}</p>
-            <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Cumplimiento OK</p>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <p style={{ 
+              fontSize: '28px', 
+              lineHeight: 1, 
+              fontFamily: '"Barlow Condensed", sans-serif', 
+              fontWeight: 700, 
+              color: 'var(--color-text-primary)',
+              margin: 0
+            }}>{complianceOkCount}</p>
+            <p style={{ 
+              fontSize: '11px', 
+              color: 'var(--color-text-secondary)',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              margin: '2px 0 0 0'
+            }}>Cumplimiento OK</p>
           </div>
         </div>
 
         {/* Requieren acción — filtra con vencimientos */}
         <div
           onClick={() => setFilters({ complianceMin: 0, complianceMax: 79 })}
-          style={{
+          style={{ 
             cursor: 'pointer',
+            minWidth: 0,
+            padding: '14px 16px',
+            borderRadius: '10px',
+            display: 'flex',
+            gap: '12px',
+            alignItems: 'center',
             border: filters.complianceMax === 79 ? '1px solid rgba(255,61,87,0.6)' : '1px solid rgba(255,61,87,0.2)',
             backgroundColor: filters.complianceMax === 79 ? 'rgba(255,61,87,0.06)' : 'var(--color-surface)',
+            transition: 'all 0.15s',
           }}
-          className="flex items-center gap-3 rounded-xl px-4 py-3 hover:border-[rgba(255,61,87,0.6)] transition-all"
+          onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(255,61,87,0.6)'}
+          onMouseLeave={e => e.currentTarget.style.borderColor = filters.complianceMax === 79 ? 'rgba(255,61,87,0.6)' : 'rgba(255,61,87,0.2)'}
         >
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(255,61,87,0.15)]">
-            <ShieldAlert className="w-5 h-5 text-[#FF3D57]" />
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            width: '36px', 
+            height: '36px', 
+            borderRadius: '8px', 
+            backgroundColor: 'rgba(255,61,87,0.15)',
+            flexShrink: 0
+          }}>
+            <ShieldAlert style={{ width: '20px', height: '20px', color: '#FF3D57' }} />
           </div>
-          <div>
-            <p className="font-display text-2xl font-bold text-[var(--color-text-primary)]">{requireActionCount}</p>
-            <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Requieren acción</p>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <p style={{ 
+              fontSize: '28px', 
+              lineHeight: 1, 
+              fontFamily: '"Barlow Condensed", sans-serif', 
+              fontWeight: 700, 
+              color: 'var(--color-text-primary)',
+              margin: 0
+            }}>{requireActionCount}</p>
+            <p style={{ 
+              fontSize: '11px', 
+              color: 'var(--color-text-secondary)',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              margin: '2px 0 0 0'
+            }}>Requieren acción</p>
           </div>
         </div>
       </motion.div>
@@ -127,7 +228,7 @@ function WorkersComponent() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}
+        style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', marginTop: '8px' }}
       >
         {/* Búsqueda */}
         <div style={{ position: 'relative', flex: 1, minWidth: '240px' }}>
@@ -285,6 +386,13 @@ function WorkersComponent() {
           <WorkerFilter />
         </motion.div>
       )}
+
+      {/* Visual Separator */}
+      <div style={{ 
+        height: '1px', 
+        background: 'linear-gradient(to right, transparent, rgba(91,34,119,0.3), transparent)', 
+        margin: '4px 0' 
+      }} />
 
       {/* Results Summary */}
       <motion.div
