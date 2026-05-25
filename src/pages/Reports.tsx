@@ -132,6 +132,7 @@ export function Reports() {
   const { workers } = useWorkerStore();
   const { certifications } = useCertStore();
   const [showProTooltip, setShowProTooltip] = useState(false);
+  const [showAllRisk, setShowAllRisk] = useState(false);
 
   // SECTION 1: KPI Calculations
   const kpis = useMemo(() => {
@@ -450,100 +451,46 @@ Generado automáticamente por CertifyX
             </h3>
           </div>
           
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="border-b border-[rgba(91,34,119,0.2)]">
-                <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
-                    Trabajador
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
-                    Área
-                  </th>
-                  <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
-                    Score
-                  </th>
-                  <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
-                    Certs Vencidas
-                  </th>
-                  <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
-                    Certs Por Vencer
-                  </th>
-                  <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
-                    Acción
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {topRiskWorkers.map((worker, index) => (
-                  <tr
-                    key={worker.id}
-                    className="group hover:bg-[rgba(91,34,119,0.08)] transition-colors"
-                    style={{
-                      backgroundColor: index % 2 === 0 ? 'rgba(26,16,64,0.3)' : 'transparent',
-                    }}
-                  >
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        {worker.foto ? (
-                          <img
-                            src={worker.foto}
-                            alt={`${worker.nombre} ${worker.apellidos}`}
-                            className="w-8 h-8 rounded-full object-cover border border-[rgba(91,34,119,0.3)]"
-                          />
-                        ) : (
-                          <div className="w-8 h-8 rounded-full bg-[#231455] border border-[rgba(91,34,119,0.3)] flex items-center justify-center">
-                            <span className="text-xs font-semibold text-[#c49fe0]">
-                              {worker.nombre[0]}{worker.apellidos[0]}
-                            </span>
-                          </div>
-                        )}
-                        <div>
-                          <p className="text-sm text-[#F0F4FF]">
-                            {worker.nombre} {worker.apellidos}
-                          </p>
-                          <p className="text-xs text-[#4A5568]">{worker.cargo}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="text-sm text-[#8892A4]">{worker.area}</span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <span
-                        className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-sm font-medium"
-                        style={{
-                          backgroundColor: `${worker.scoreColor}15`,
-                          color: worker.scoreColor,
-                        }}
-                      >
-                        {worker.complianceScore}%
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <span className={`text-sm ${worker.expiredCount > 0 ? 'text-[#FF3D57] font-medium' : 'text-[#8892A4]'}`}>
-                        {worker.expiredCount}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <span className={`text-sm ${worker.expiringCount > 0 ? 'text-[#FFB800] font-medium' : 'text-[#8892A4]'}`}>
-                        {worker.expiringCount}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => navigate(`/workers/${worker.id}`)}
-                      >
-                        Ver perfil
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {topRiskWorkers.slice(0, showAllRisk ? 10 : 3).map((worker, index) => (
+              <div key={worker.id} style={{
+                display: 'flex', alignItems: 'center', gap: '12px',
+                padding: '12px 16px',
+                backgroundColor: index === 0 ? 'rgba(255,61,87,0.06)' : index === 1 ? 'rgba(255,184,0,0.04)' : 'rgba(26,16,64,0.4)',
+                borderRadius: '10px',
+                border: `1px solid ${index === 0 ? 'rgba(255,61,87,0.2)' : 'rgba(91,34,119,0.15)'}`,
+                transition: 'background 0.15s',
+              }}>
+                {/* Rank */}
+                <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '20px', fontWeight: 700, color: index === 0 ? '#FF3D57' : index === 1 ? '#FFB800' : '#4A5568', width: '24px', flexShrink: 0, textAlign: 'center' }}>
+                  #{index + 1}
+                </span>
+                {/* Avatar */}
+                {worker.foto
+                  ? <img src={worker.foto} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                  : <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 700, color: '#9b6ab5', flexShrink: 0 }}>{worker.nombre[0]}{worker.apellidos[0]}</div>
+                }
+                {/* Info */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: '14px', color: '#F0F4FF', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{worker.nombre} {worker.apellidos}</p>
+                  <p style={{ fontSize: '11px', color: '#8892A4' }}>{worker.area} · {worker.cargo}</p>
+                </div>
+                {/* Score */}
+                <span style={{ padding: '3px 10px', borderRadius: '20px', fontSize: '13px', fontWeight: 700, backgroundColor: worker.scoreColor + '15', color: worker.scoreColor, flexShrink: 0 }}>{worker.complianceScore}%</span>
+                {/* Action */}
+                <button onClick={() => navigate(`/workers/${worker.id}`)} style={{ padding: '5px 12px', borderRadius: '6px', border: '1px solid rgba(91,34,119,0.3)', backgroundColor: 'transparent', color: '#c49fe0', fontSize: '12px', cursor: 'pointer', flexShrink: 0 }}>Ver</button>
+              </div>
+            ))}
           </div>
+
+          {/* Expand/Collapse Button */}
+          {topRiskWorkers.length > 3 && (
+            <button onClick={() => setShowAllRisk(s => !s)} style={{ width: '100%', marginTop: '12px', padding: '10px', borderRadius: '8px', border: '1px dashed rgba(91,34,119,0.3)', backgroundColor: 'transparent', color: '#8892A4', fontSize: '13px', cursor: 'pointer', transition: 'all 0.15s' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(91,34,119,0.5)'; e.currentTarget.style.color = '#c49fe0'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(91,34,119,0.3)'; e.currentTarget.style.color = '#8892A4'; }}>
+              {showAllRisk ? '▲ Mostrar menos' : `▼ Ver ${topRiskWorkers.length - 3} trabajadores más`}
+            </button>
+          )}
         </Card>
       </motion.div>
 
