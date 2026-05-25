@@ -275,62 +275,6 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
   );
 }
 
-// History Activity Item
-function HistoryItem({ activity, index }: { activity: typeof mockHistoryActivities[0]; index: number }) {
-  const icons = {
-    certificacion: CheckCircle,
-    malla: BookOpen,
-    alerta: AlertTriangle,
-    curso: Award,
-  };
-  const Icon = icons[activity.tipo as keyof typeof icons] || Clock;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.4 }}
-      style={{ display: 'flex', gap: '16px', position: 'relative' }}
-    >
-      {/* Timeline line */}
-      {index < mockHistoryActivities.length - 1 && (
-        <div
-          style={{
-            position: 'absolute',
-            left: '15px',
-            top: '32px',
-            width: '2px',
-            height: 'calc(100% + 8px)',
-            backgroundColor: 'rgba(91,34,119,0.2)',
-          }}
-        />
-      )}
-      {/* Dot */}
-      <div
-        style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '50%',
-          backgroundColor: `${activity.color}20`,
-          border: `2px solid ${activity.color}`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-          zIndex: 1,
-        }}
-      >
-        <Icon style={{ width: '14px', height: '14px', color: activity.color }} />
-      </div>
-      {/* Content */}
-      <div style={{ flex: 1, paddingBottom: '20px' }}>
-        <p style={{ fontSize: '14px', fontWeight: 600, color: '#F0F4FF', marginBottom: '2px' }}>{activity.titulo}</p>
-        <p style={{ fontSize: '12px', color: '#8892A4', marginBottom: '4px' }}>{activity.descripcion}</p>
-        <p style={{ fontSize: '11px', color: '#4A5568' }}>{getRelativeTime(activity.fecha)}</p>
-      </div>
-    </motion.div>
-  );
-}
 
 export function WorkerDetail() {
   const { workerId } = useParams<{ workerId: string }>();
@@ -636,16 +580,54 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
 // Historial Tab Component
 function HistorialTab() {
   return (
-    <Card variant="glass" padding="lg" style={{ borderRadius: 'var(--radius-lg)', maxWidth: '800px' }}>
-      <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: '#F0F4FF', marginBottom: '24px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-        Historial de Actividad
-      </h3>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {mockHistoryActivities.map((activity, index) => (
-          <HistoryItem key={activity.id} activity={activity} index={index} />
-        ))}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+      {/* Header */}
+      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>Historial de Actividad</h3>
+          <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '2px' }}>{mockHistoryActivities.length} eventos registrados</p>
+        </div>
+        <span style={{ fontSize: '11px', color: '#6B7280', backgroundColor: 'rgba(91,34,119,0.1)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '20px', padding: '4px 12px' }}>
+          Últimos 30 días
+        </span>
       </div>
-    </Card>
+
+      {/* Lista de eventos */}
+      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '8px 0', overflow: 'hidden' }}>
+        {mockHistoryActivities.map((activity, index) => {
+          const icons = { certificacion: CheckCircle, malla: BookOpen, alerta: AlertTriangle, curso: Award };
+          const Icon = icons[activity.tipo as keyof typeof icons] || Clock;
+          const isLast = index === mockHistoryActivities.length - 1;
+
+          return (
+            <motion.div key={activity.id}
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.07, duration: 0.35 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 20px', borderBottom: isLast ? 'none' : '1px solid rgba(91,34,119,0.08)', transition: 'background 0.12s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(91,34,119,0.05)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
+            >
+              {/* Ícono */}
+              <div style={{ width: '34px', height: '34px', borderRadius: '8px', backgroundColor: `${activity.color}15`, border: `1px solid ${activity.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <Icon style={{ width: '15px', height: '15px', color: activity.color }} />
+              </div>
+              {/* Texto */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '1px' }}>{activity.titulo}</p>
+                <p style={{ fontSize: '12px', color: '#8892A4', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activity.descripcion}</p>
+              </div>
+              {/* Tiempo */}
+              <span style={{ fontSize: '11px', color: '#4A5568', flexShrink: 0, fontFamily: '"JetBrains Mono"' }}>
+                {getRelativeTime(activity.fecha)}
+              </span>
+            </motion.div>
+          );
+        })}
+      </div>
+
+    </div>
   );
 }
 
