@@ -442,83 +442,40 @@ export function WorkerDetail() {
         
         {/* Right Column - Tabs + Dynamic Content */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {/* Tabs: Certificaciones / Mallas / Historial */}
-          <div style={{ display: 'flex', gap: '8px' }}>
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                style={{
-                  flex: 1,
-                  maxWidth: '200px',
-                  padding: '12px 24px',
-                  backgroundColor: activeTab === tab.id ? `${tab.color}15` : 'transparent',
-                  border: `1px solid ${activeTab === tab.id ? tab.color : 'rgba(91,34,119,0.2)'}`,
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                }}
-                onMouseEnter={(e) => {
-                  if (activeTab !== tab.id) {
-                    e.currentTarget.style.borderColor = `${tab.color}50`;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (activeTab !== tab.id) {
-                    e.currentTarget.style.borderColor = 'rgba(91,34,119,0.2)';
-                  }
-                }}
-              >
-                <tab.icon style={{ width: '16px', height: '16px', color: activeTab === tab.id ? tab.color : '#8892A4' }} />
-                <span
+          {/* Tabs navigation */}
+          <div style={{ display: 'flex', backgroundColor: 'rgba(26,16,64,0.7)', borderRadius: '10px', padding: '4px', gap: '2px', border: '1px solid rgba(91,34,119,0.2)', width: 'fit-content' }}>
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                   style={{
-                    fontSize: '13px',
-                    fontWeight: 600,
-                    color: activeTab === tab.id ? tab.color : '#8892A4',
-                    fontFamily: '"Barlow Condensed", sans-serif',
-                    letterSpacing: '0.5px',
-                    textTransform: 'uppercase',
+                    display: 'flex', alignItems: 'center', gap: '7px',
+                    padding: '8px 16px', borderRadius: '7px', border: 'none', cursor: 'pointer',
+                    backgroundColor: isActive ? 'rgba(91,34,119,0.35)' : 'transparent',
+                    color: isActive ? '#c49fe0' : '#6B7280',
+                    fontSize: '13px', fontWeight: isActive ? 600 : 400,
+                    transition: 'all 0.15s', fontFamily: '"DM Sans", sans-serif',
+                    boxShadow: isActive ? '0 1px 6px rgba(91,34,119,0.3)' : 'none',
                   }}
+                  onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = '#a89fc4'; }}
+                  onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = '#6B7280'; }}
                 >
-                  {tab.label}
-                </span>
-                {/* Badge de conteo */}
-                {tab.count > 0 && (
-                  <span style={{
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    backgroundColor: activeTab === tab.id ? `${tab.color}25` : 'rgba(91,34,119,0.15)',
-                    color: activeTab === tab.id ? tab.color : 'var(--color-text-muted)',
-                    borderRadius: 'var(--radius-full)',
-                    padding: '1px 7px',
-                    marginLeft: '4px',
-                    fontFamily: '"JetBrains Mono", monospace',
-                  }}>
-                    {tab.count}
-                  </span>
-                )}
-                {/* Badge de alerta */}
-                {tab.alertCount > 0 && (
-                  <span style={{
-                    fontSize: '10px',
-                    fontWeight: 700,
-                    backgroundColor: 'rgba(255,61,87,0.2)',
-                    color: '#FF5C71',
-                    borderRadius: 'var(--radius-full)',
-                    padding: '1px 6px',
-                    marginLeft: '2px',
-                    border: '1px solid rgba(255,61,87,0.3)',
-                    fontFamily: '"JetBrains Mono", monospace',
-                  }}>
-                    {tab.alertCount}
-                  </span>
-                )}
-              </button>
-            ))}
+                  <Icon style={{ width: '14px', height: '14px', flexShrink: 0 }} />
+                  <span>{tab.label}</span>
+                  {tab.count > 0 && (
+                    <span style={{ fontSize: '11px', fontWeight: 700, backgroundColor: isActive ? 'rgba(91,34,119,0.4)' : 'rgba(91,34,119,0.15)', color: isActive ? '#c49fe0' : '#6B7280', borderRadius: '20px', padding: '0 6px', minWidth: '18px', textAlign: 'center', fontFamily: '"JetBrains Mono"' }}>
+                      {tab.count}
+                    </span>
+                  )}
+                  {tab.alertCount > 0 && (
+                    <span style={{ fontSize: '10px', fontWeight: 700, backgroundColor: 'rgba(255,61,87,0.2)', color: '#FF5C71', borderRadius: '20px', padding: '0 5px', border: '1px solid rgba(255,61,87,0.3)' }}>
+                      {tab.alertCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Tab Content */}
