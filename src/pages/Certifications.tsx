@@ -398,6 +398,28 @@ export function Certifications() {
     vencidas: summary.vencidas,
   }), [summary]);
 
+  // Get unique areas and types for chip filters
+  const uniqueAreas = useMemo(() => {
+    const areas = new Set<string>();
+    certifications.forEach(cert => {
+      const worker = workers.find(w => w.id === cert.workerId);
+      if (worker?.area) {
+        areas.add(worker.area);
+      }
+    });
+    return Array.from(areas).sort();
+  }, [certifications, workers]);
+
+  const uniqueTypes = useMemo(() => {
+    const types = new Set<string>();
+    certifications.forEach(cert => {
+      if (cert.tipo) {
+        types.add(cert.tipo);
+      }
+    });
+    return Array.from(types).sort();
+  }, [certifications]);
+
   // CSV export - all results
   const exportCSV = () => {
     const headers = ['Trabajador', 'Certificación', 'Emisor', 'Tipo', 'Fecha Obtención', 'Vencimiento', 'Estado', 'Días Restantes'];
@@ -656,69 +678,102 @@ export function Certifications() {
           </motion.p>
         )}
 
-        {/* Select Filters Row */}
+        {/* Chip Filters */}
         <div style={{ 
-          paddingBottom: '20px', 
-          borderBottom: '1px solid rgba(91,34,119,0.15)' 
+          padding: '16px', 
+          backgroundColor: 'rgba(26,16,64,0.4)', 
+          borderRadius: '10px', 
+          border: '1px solid rgba(91,34,119,0.15)', 
+          marginBottom: '20px' 
         }}>
-          <div className="flex flex-wrap items-end gap-4">
-          {/* Area Filter */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-[#8892A4] uppercase tracking-wider">Área</label>
-            <div className="relative">
-              <select
-                value={areaFilter}
-                onChange={(e) => setAreaFilter(e.target.value)}
-                className="h-10 w-44 bg-[#231455] border border-[rgba(91,34,119,0.25)] rounded-lg pl-3 pr-10 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(91,34,119,0.5)] cursor-pointer appearance-none"
-              >
-                <option value="">Todas las áreas</option>
-                <option value="Operaciones">Operaciones</option>
-                <option value="Mantención">Mantención</option>
-                <option value="Seguridad">Seguridad</option>
-                <option value="Logística">Logística</option>
-                <option value="RRHH">RRHH</option>
-              </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568] pointer-events-none" />
-            </div>
+          {/* Area Chips */}
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '12px' }}>
+            <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0 }}>Área:</span>
+            {['Todas', ...uniqueAreas].map(area => {
+              const isActive = area === 'Todas' ? !areaFilter : areaFilter === area;
+              return (
+                <button 
+                  key={area} 
+                  onClick={() => setAreaFilter(area === 'Todas' ? '' : area)}
+                  style={{ 
+                    padding: '4px 12px', 
+                    borderRadius: '20px', 
+                    fontSize: '12px', 
+                    fontWeight: 500, 
+                    border: '1px solid', 
+                    cursor: 'pointer', 
+                    transition: 'all 0.12s', 
+                    borderColor: isActive ? 'rgba(91,34,119,0.6)' : 'rgba(91,34,119,0.2)', 
+                    backgroundColor: isActive ? 'rgba(91,34,119,0.2)' : 'transparent', 
+                    color: isActive ? '#c49fe0' : '#8892A4' 
+                  }}
+                >
+                  {area}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Tipo Filter */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-[#8892A4] uppercase tracking-wider">Tipo</label>
-            <div className="relative">
-              <select
-                value={tipoFilter}
-                onChange={(e) => setTipoFilter(e.target.value)}
-                className="h-10 w-40 bg-[#231455] border border-[rgba(91,34,119,0.25)] rounded-lg pl-3 pr-10 text-sm text-[#F0F4FF] focus:outline-none focus:border-[rgba(91,34,119,0.5)] cursor-pointer appearance-none"
-              >
-                <option value="">Todos los tipos</option>
-                <option value="obligatoria">Obligatoria</option>
-                <option value="complementaria">Complementaria</option>
-                <option value="legal">Legal</option>
-              </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568] pointer-events-none" />
-            </div>
+          {/* Tipo Chips */}
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0 }}>Tipo:</span>
+            {['Todos', ...uniqueTypes].map(tipo => {
+              const isActive = tipo === 'Todos' ? !tipoFilter : tipoFilter === tipo;
+              return (
+                <button 
+                  key={tipo} 
+                  onClick={() => setTipoFilter(tipo === 'Todos' ? '' : tipo)}
+                  style={{ 
+                    padding: '4px 12px', 
+                    borderRadius: '20px', 
+                    fontSize: '12px', 
+                    fontWeight: 500, 
+                    border: '1px solid', 
+                    cursor: 'pointer', 
+                    transition: 'all 0.12s', 
+                    borderColor: isActive ? 'rgba(91,34,119,0.6)' : 'rgba(91,34,119,0.2)', 
+                    backgroundColor: isActive ? 'rgba(91,34,119,0.2)' : 'transparent', 
+                    color: isActive ? '#c49fe0' : '#8892A4' 
+                  }}
+                >
+                  {tipo === 'obligatoria' ? 'Obligatoria' : 
+                   tipo === 'complementaria' ? 'Complementaria' : 
+                   tipo === 'legal' ? 'Legal' : tipo}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Clear Filters */}
-          {activeFilters > 0 && (
-            <button
-              onClick={() => {
-                setSearch('');
-                setAreaFilter('');
-                setTipoFilter('');
-              }}
-              className="flex items-center gap-1.5 h-10 px-4 text-sm text-[#FF3D57] hover:bg-[rgba(255,61,87,0.1)] rounded-lg transition-colors border border-[rgba(255,61,87,0.2)]"
-            >
-              <X className="w-4 h-4" />
-              Limpiar filtros
-            </button>
-          )}
-
-          {/* Results Count */}
-          <span className="ml-auto text-sm text-[#8892A4]">
-            {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
-          </span>
+          {/* Clear Filters and Results Count */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px' }}>
+            {activeFilters > 0 && (
+              <button
+                onClick={() => {
+                  setSearch('');
+                  setAreaFilter('');
+                  setTipoFilter('');
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 12px',
+                  fontSize: '12px',
+                  color: '#FF3D57',
+                  backgroundColor: 'rgba(255,61,87,0.1)',
+                  border: '1px solid rgba(255,61,87,0.2)',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s'
+                }}
+              >
+                <X style={{ width: '14px', height: '14px' }} />
+                Limpiar filtros
+              </button>
+            )}
+            <span style={{ fontSize: '13px', color: '#8892A4', marginLeft: activeFilters > 0 ? 'auto' : '0' }}>
+              {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
+            </span>
           </div>
         </div>
       </motion.div>
