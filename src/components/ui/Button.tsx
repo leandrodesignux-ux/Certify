@@ -16,6 +16,7 @@ interface ButtonProps {
   icon?: LucideIcon;
   onClick?: () => void;
   disabled?: boolean;
+  loading?: boolean;
   type?: 'button' | 'submit';
   className?: string;
 }
@@ -27,6 +28,7 @@ export function Button({
   icon: Icon,
   onClick,
   disabled = false,
+  loading = false,
   type = 'button',
   className = '',
 }: ButtonProps) {
@@ -73,6 +75,8 @@ export function Button({
     lg: { padding: '12px 24px', fontSize: '16px' },
   };
 
+  const isDisabled = disabled || loading;
+  
   const style: React.CSSProperties = {
     ...getVariantStyles(),
     ...sizeStyles[size],
@@ -81,12 +85,12 @@ export function Button({
     justifyContent: 'center',
     gap: '8px',
     fontWeight: 600,
-    cursor: disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 0.5 : 1,
+    cursor: isDisabled ? 'not-allowed' : 'pointer',
+    opacity: isDisabled ? 0.5 : 1,
   };
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    if (disabled) return;
+    if (isDisabled) return;
 
     const button = buttonRef.current;
     if (!button) return;
@@ -116,9 +120,9 @@ export function Button({
       ref={buttonRef}
       type={type}
       onClick={handleClick}
-      disabled={disabled}
-      whileHover={disabled ? undefined : { scale: 1.02 }}
-      whileTap={disabled ? undefined : { scale: 0.97 }}
+      disabled={isDisabled}
+      whileHover={isDisabled ? undefined : { scale: 1.02 }}
+      whileTap={isDisabled ? undefined : { scale: 0.97 }}
       transition={{ duration: 0.1 }}
       style={style}
       className={`focus-ring ${className}`}
@@ -147,7 +151,21 @@ export function Button({
           />
         ))}
       </AnimatePresence>
-      {Icon && <Icon style={{ width: '16px', height: '16px', position: 'relative', zIndex: 1 }} />}
+      {loading && (
+        <div
+          style={{
+            width: '16px',
+            height: '16px',
+            border: '2px solid rgba(255,255,255,0.3)',
+            borderTop: '2px solid currentColor',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            position: 'relative',
+            zIndex: 1,
+          }}
+        />
+      )}
+      {!loading && Icon && <Icon style={{ width: '16px', height: '16px', position: 'relative', zIndex: 1 }} />}
       <span style={{ position: 'relative', zIndex: 1 }}>{children}</span>
     </motion.button>
   );

@@ -7,9 +7,12 @@ type CertTab = 'todas' | 'vigentes' | 'proximas' | 'vencidas';
 interface CertStore {
   certifications: Certification[];
   activeTab: CertTab;
+  search: string;
+  lastUpdated: Date;
   
   setCertifications: (certifications: Certification[]) => void;
   setActiveTab: (tab: CertTab) => void;
+  setSearch: (search: string) => void;
   
   filteredCerts: () => Certification[];
   certsByWorker: (workerId: string) => Certification[];
@@ -18,10 +21,17 @@ interface CertStore {
 export const useCertStore = create<CertStore>((set, get) => ({
   certifications: mockCertifications,
   activeTab: 'todas',
+  search: '',
+  lastUpdated: new Date(),
   
-  setCertifications: (certifications) => set({ certifications }),
+  setCertifications: (certifications) => set({ 
+    certifications, 
+    lastUpdated: new Date() 
+  }),
   
   setActiveTab: (tab) => set({ activeTab: tab }),
+  
+  setSearch: (search) => set({ search }),
   
   filteredCerts: () => {
     const { certifications, activeTab } = get();

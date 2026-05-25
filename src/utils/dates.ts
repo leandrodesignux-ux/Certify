@@ -33,3 +33,37 @@ export function formatDate(date: string): string {
   
   return `${dia}/${mes}/${anio}`;
 }
+
+export function formatRelativeDate(date: string): string {
+  const target = new Date(date);
+  const now = new Date();
+  
+  // Reset time to compare dates only
+  target.setHours(0, 0, 0, 0);
+  now.setHours(0, 0, 0, 0);
+  
+  const diffMs = target.getTime() - now.getTime();
+  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  
+  const rtf = new Intl.RelativeTimeFormat('es', { numeric: 'auto' });
+  
+  if (diffDays === 0) return 'hoy';
+  if (diffDays === 1) return 'mañana';
+  if (diffDays === -1) return 'ayer';
+  if (diffDays > 0 && diffDays <= 7) return rtf.format(diffDays, 'day');
+  if (diffDays < 0 && diffDays >= -7) return rtf.format(diffDays, 'day');
+  
+  const diffMonths = Math.round(diffDays / 30);
+  if (Math.abs(diffMonths) < 12) {
+    return rtf.format(diffMonths, 'month');
+  }
+  
+  const diffYears = Math.round(diffDays / 365);
+  return rtf.format(diffYears, 'year');
+}
+
+export function getCertStatusColor(diasRestantes: number): string {
+  if (diasRestantes <= 0) return '#FF3D57';  // Rojo para vencido
+  if (diasRestantes <= 60) return '#FFB800'; // Amarillo para próximo a vencer
+  return '#729362'; // Verde para vigente
+}

@@ -3,18 +3,21 @@ import type { CertStatus } from '../../types';
 interface BadgeProps {
   status: CertStatus | string;
   label?: string;
+  size?: 'sm' | 'md';
+  dot?: boolean;
 }
 
-export function Badge({ status, label }: BadgeProps) {
-  const getStyles = (status: string): React.CSSProperties => {
+export function Badge({ status, label, size = 'sm', dot = false }: BadgeProps) {
+  const getStyles = (status: string, size: 'sm' | 'md'): React.CSSProperties => {
     const base: React.CSSProperties = {
       display: 'inline-flex',
       alignItems: 'center',
-      padding: '2px 8px',
-      fontSize: '12px',
+      padding: size === 'sm' ? '2px 6px' : '4px 10px',
+      fontSize: size === 'sm' ? '11px' : '13px',
       fontWeight: 500,
       border: '1px solid',
       borderRadius: '4px',
+      gap: dot ? '6px' : '0',
     };
 
     switch (status) {
@@ -78,8 +81,40 @@ export function Badge({ status, label }: BadgeProps) {
     }
   };
 
+  const getDotColor = (status: string): string => {
+    switch (status) {
+      case 'vigente':
+        return '#8fb87a';
+      case 'proximo_vencer':
+        return '#FFB800';
+      case 'vencido':
+        return '#FF3D57';
+      case 'pendiente':
+        return '#a89fc4';
+      case 'obligatoria':
+        return '#FF3D57';
+      case 'complementaria':
+        return '#9aaa58';
+      case 'legal':
+        return '#9b6ab5';
+      default:
+        return '#a89fc4';
+    }
+  };
+
   return (
-    <span style={getStyles(status)}>
+    <span style={getStyles(status, size)}>
+      {dot && (
+        <span
+          style={{
+            width: '6px',
+            height: '6px',
+            borderRadius: '50%',
+            backgroundColor: getDotColor(status),
+            flexShrink: 0,
+          }}
+        />
+      )}
       {label || status}
     </span>
   );

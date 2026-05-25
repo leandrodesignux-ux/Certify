@@ -64,6 +64,25 @@
   --shadow-electric: 0 0 20px rgba(91,34,119,0.25);
   --shadow-volt: 0 0 20px rgba(114,147,98,0.25);
   --shadow-danger: 0 0 20px rgba(255,61,87,0.25);
+
+  /* === PURPLE SCALE === */
+  --color-purple-deep: #7c4dab;
+  --color-purple-mid: #9b6ab5;
+  --color-purple-light: #c49fe0;
+
+  /* === GREEN SCALE === */
+  --color-green-dark: #729362;
+  --color-green-light: #8a9e52;
+
+  /* === TRANSITIONS === */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.4s ease;
+
+  /* === Z-INDEX === */
+  --z-drawer: 50;
+  --z-overlay: 40;
+  --z-sticky: 10;
 }
 
 * {
@@ -132,6 +151,11 @@ body {
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-4px); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes borderFlow {
