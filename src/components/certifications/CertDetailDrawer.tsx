@@ -310,3 +310,5 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
     </AnimatePresence>
   );
 }
+
+export default CertDetailDrawer;

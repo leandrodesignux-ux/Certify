@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Download,
@@ -25,7 +25,9 @@ import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { formatDate } from '../utils/dates';
 import { CertTableSkeleton } from '../components/certifications/CertTableSkeleton';
-import { CertDetailDrawer } from '../components/certifications/CertDetailDrawer';
+import { Suspense, lazy } from 'react';
+
+const CertDetailDrawer = lazy(() => import('../components/certifications/CertDetailDrawer'));
 
 type TabType = 'todas' | 'vigentes' | 'proximas' | 'vencidas';
 type SortField = 'worker' | 'cert' | 'tipo' | 'fechaObt' | 'fechaVen' | 'estado';
@@ -57,7 +59,7 @@ function useCountUp(end: number, duration: number = 1.5) {
 }
 
 // Stat Card Component
-function StatCard({ 
+const StatCard = React.memo(function StatCard({ 
   icon: Icon, 
   value, 
   label, 
@@ -162,7 +164,7 @@ function StatCard({
       )}
     </motion.div>
   );
-}
+});
 
 // Sparkline component for days remaining
 function DaysSparkline({ diasRestantes }: { diasRestantes: number }) {
@@ -403,8 +405,20 @@ export function Certifications() {
   const [sortField, setSortField] = useState<SortField>('fechaVen');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [areaFilter, setAreaFilter] = useState('');
   const [tipoFilter, setTipoFilter] = useState('');
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => setSearch(searchInput), 250);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, areaFilter, tipoFilter, activeTab]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCert, setSelectedCert] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
@@ -532,7 +546,7 @@ export function Certifications() {
   }, [certifications]);
 
   // CSV export - all results
-  const exportCSV = () => {
+  const exportCSV = useCallback(() => {
     const headers = ['Trabajador', 'Certificación', 'Emisor', 'Tipo', 'Fecha Obtención', 'Vencimiento', 'Estado', 'Días Restantes'];
     const rows = sorted.map((cert) => {
       const worker = workers.find((w) => w.id === cert.workerId);
@@ -556,16 +570,16 @@ export function Certifications() {
     a.download = `certificaciones_${activeTab}_${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-  };
+  }, [sorted, workers, activeTab]);
 
-  const handleSort = (field: SortField) => {
+  const handleSort = useCallback((field: SortField) => {
     if (sortField === field) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
       setSortField(field);
       setSortOrder('asc');
     }
-  };
+  }, [sortField, sortOrder]);
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <ChevronsUpDown className="w-4 h-4 opacity-30" />;
@@ -753,18 +767,18 @@ export function Certifications() {
             <input
               type="text"
               placeholder="Buscar certificación, trabajador, emisor..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
               aria-label="Buscar certificaciones"
               aria-describedby="search-results-count"
               style={{
                 width: '100%',
                 height: '40px',
                 backgroundColor: '#231455',
-                border: `1px solid ${search ? (sorted.length === 0 ? 'rgba(255,61,87,0.4)' : 'rgba(91,34,119,0.5)') : 'rgba(91,34,119,0.25)'}`,
+                border: `1px solid ${searchInput ? (sorted.length === 0 ? 'rgba(255,61,87,0.4)' : 'rgba(91,34,119,0.5)') : 'rgba(91,34,119,0.25)'}`,
                 borderRadius: '8px',
                 paddingLeft: '48px',
-                paddingRight: search ? '48px' : '100px',
+                paddingRight: searchInput ? '48px' : '100px',
                 fontSize: '14px',
                 color: '#F0F4FF',
                 outline: 'none',
@@ -1017,7 +1031,22 @@ export function Certifications() {
       {/* Visual Separator */}
       <div style={{ height: '16px' }} />
 
-      {/* Table */}
+      {/* Virtualization Warning */}
+        {sorted.length > 100 && (
+          <div style={{ 
+            padding: '8px 16px', 
+            background: 'rgba(255,184,0,0.08)', 
+            border: '1px solid rgba(255,184,0,0.2)', 
+            borderRadius: '6px', 
+            fontSize: '13px', 
+            color: '#FFB800', 
+            marginBottom: '12px' 
+          }}>
+            Mostrando los primeros {itemsPerPage} de {sorted.length} resultados. Usa los filtros para refinar.
+          </div>
+        )}
+
+        {/* Table */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -1339,7 +1368,7 @@ export function Certifications() {
           <EmptyState
             search={search}
             activeTab={activeTab}
-            onClearSearch={() => setSearch('')}
+            onClearSearch={() => { setSearchInput(''); setSearch(''); }}
             onSwitchToAll={() => setActiveTab('todas')}
           />
         )}
@@ -1661,12 +1690,14 @@ export function Certifications() {
 
       {/* Certification Detail Drawer */}
       <AnimatePresence>
-        <CertDetailDrawer
-          cert={selectedCertData || null}
-          worker={selectedWorker}
-          isOpen={selectedCert !== null}
-          onClose={() => setSelectedCert(null)}
-        />
+        <Suspense fallback={null}>
+          <CertDetailDrawer
+            cert={selectedCertData || null}
+            worker={selectedWorker}
+            isOpen={selectedCert !== null}
+            onClose={() => setSelectedCert(null)}
+          />
+        </Suspense>
       </AnimatePresence>
     </div>
   );
