@@ -325,7 +325,7 @@ export function Sidebar() {
               width: '32px',
               height: '32px',
               borderRadius: '4px',
-              background: 'linear-gradient(135deg, rgba(91,34,119,0.3) 0%, rgba(114,147,98,0.25) 100%)',
+              background: 'rgba(91,34,119,0.25)',
               border: '1px solid rgba(91,34,119,0.3)',
               display: 'flex',
               alignItems: 'center',

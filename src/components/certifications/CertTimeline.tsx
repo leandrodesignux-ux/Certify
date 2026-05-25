@@ -27,7 +27,7 @@ export function CertTimeline({ certs }: CertTimelineProps) {
         <div
           className="absolute top-6 left-0 right-0 h-0.5"
           style={{
-            background: 'linear-gradient(90deg, #729362 0%, #FFB800 50%, #FF3D57 100%)',
+            background: 'linear-gradient(90deg, #9b6ab5 0%, #c49fe0 100%)',
             opacity: 0.3,
           }}
         />

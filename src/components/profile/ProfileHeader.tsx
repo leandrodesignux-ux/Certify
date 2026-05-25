@@ -18,12 +18,12 @@ function getComplianceColorAndLabel(score: number): { color: string; label: stri
 // Get banner gradient based on compliance score
 function getBannerGradient(score: number): string {
   if (score > 80) {
-    return 'linear-gradient(135deg, rgba(114,147,98,0.3) 0%, rgba(91,130,80,0.15) 50%, rgba(114,147,98,0.05) 100%)';
+    return 'linear-gradient(135deg, rgba(114,147,98,0.3) 0%, rgba(114,147,98,0.05) 100%)';
   }
   if (score > 60) {
-    return 'linear-gradient(135deg, rgba(255,184,0,0.3) 0%, rgba(200,150,0,0.15) 50%, rgba(255,184,0,0.05) 100%)';
+    return 'linear-gradient(135deg, rgba(255,184,0,0.3) 0%, rgba(255,184,0,0.05) 100%)';
   }
-  return 'linear-gradient(135deg, rgba(255,61,87,0.3) 0%, rgba(200,40,60,0.15) 50%, rgba(255,61,87,0.05) 100%)';
+  return 'linear-gradient(135deg, rgba(255,61,87,0.3) 0%, rgba(255,61,87,0.05) 100%)';
 }
 
 // SVG Circle Progress Component
