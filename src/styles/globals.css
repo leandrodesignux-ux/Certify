@@ -290,3 +290,14 @@ textarea:focus-visible {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* WorkerDetail responsive layout variables */
+:root {
+  --worker-detail-cols: 280px 1fr;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --worker-detail-cols: 1fr;
+  }
+}

@@ -334,6 +334,7 @@ export function WorkerDetail() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
+        style={{ marginBottom: '8px' }}
       >
         <Button variant="ghost" size="sm" icon={ArrowLeft} onClick={() => navigate('/workers')}>
           Volver
@@ -341,7 +342,7 @@ export function WorkerDetail() {
       </motion.div>
 
       {/* Two Column Layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: '24px', alignItems: 'start' }}>
+      <div className="grid gap-6" style={{ gridTemplateColumns: 'var(--worker-detail-cols, 280px 1fr)', alignItems: 'start' }}>
         {/* Left Column - Worker Side Panel (ALWAYS VISIBLE) */}
         <WorkerSidePanel worker={worker} />
         
