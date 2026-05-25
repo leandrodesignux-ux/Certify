@@ -202,9 +202,51 @@ function MeshCompactCard({ mesh }: { mesh: typeof mockMeshes[number] }) {
 
 // Worker Side Panel Component (Left Column)
 function WorkerSidePanel({ worker }: { worker: WorkerType }) {
+  const initials = `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase();
+  const compliance = worker.complianceScore >= 90 ? { color: '#9b6ab5', label: 'Excelente' }
+    : worker.complianceScore >= 70 ? { color: '#8a9e52', label: 'Bueno' }
+    : worker.complianceScore >= 50 ? { color: '#FFB800', label: 'Regular' }
+    : { color: '#FF3D57', label: 'Crítico' };
+
   return (
-    <div style={{ backgroundColor: 'rgba(26,16,64,0.7)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '12px', padding: '24px', minHeight: '400px' }}>
-      <p style={{ color: '#F0F4FF' }}>Panel lateral - {worker.nombre}</p>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', position: 'sticky', top: '24px' }}>
+      
+      {/* === CARD 1: Identidad === */}
+      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', overflow: 'hidden' }}>
+        
+        {/* Banner de color según compliance */}
+        <div style={{ height: '72px', background: `linear-gradient(135deg, ${compliance.color}30 0%, ${compliance.color}08 100%)`, position: 'relative' }}>
+          {/* Botón editar */}
+          <button style={{ position: 'absolute', top: '10px', right: '12px', padding: '5px 10px', backgroundColor: 'rgba(26,16,64,0.7)', border: '1px solid rgba(91,34,119,0.3)', borderRadius: '6px', color: '#8892A4', fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
+            ✎ Editar
+          </button>
+        </div>
+
+        {/* Avatar superpuesto al banner */}
+        <div style={{ padding: '0 20px 20px', position: 'relative' }}>
+          <div style={{ marginTop: '-36px', marginBottom: '12px', position: 'relative', display: 'inline-block' }}>
+            <div style={{ width: '72px', height: '72px', borderRadius: '50%', overflow: 'hidden', border: `3px solid ${compliance.color}`, backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {worker.foto
+                ? <img src={worker.foto} alt={`${worker.nombre}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                : <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '24px', fontWeight: 700, color: compliance.color }}>{initials}</span>
+              }
+            </div>
+          </div>
+
+          {/* Nombre + cargo */}
+          <h2 style={{ fontFamily: '"Barlow Condensed"', fontSize: '22px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1.1, marginBottom: '4px' }}>
+            {worker.nombre} {worker.apellidos}
+          </h2>
+          <p style={{ fontSize: '13px', color: '#c49fe0', marginBottom: '12px' }}>{worker.cargo}</p>
+
+          {/* Badge de rango */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', backgroundColor: `${compliance.color}15`, border: `1px solid ${compliance.color}40`, borderRadius: '20px' }}>
+            <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: compliance.color }} />
+            <span style={{ fontSize: '11px', fontWeight: 700, color: compliance.color, letterSpacing: '0.5px' }}>{compliance.label.toUpperCase()}</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
