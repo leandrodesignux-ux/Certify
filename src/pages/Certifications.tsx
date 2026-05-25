@@ -589,7 +589,7 @@ export function Certifications() {
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="font-display text-3xl font-bold text-gradient tracking-tight">
+            <h1 className="font-display text-2xl md:text-3xl font-bold text-gradient tracking-tight">
               Certificaciones
             </h1>
             <p className="text-[#8892A4] mt-1">
@@ -608,9 +608,8 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
-        className="grid gap-4"
+        className="grid grid-cols-2 md:grid-cols-5 gap-4"
         style={{ 
-          gridTemplateColumns: 'repeat(5, 1fr)', 
           marginBottom: '28px' 
         }}
       >
@@ -664,6 +663,7 @@ export function Certifications() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
         role="tablist"
+        className="overflow-x-auto -webkit-overflow-scrolling touch"
         onKeyDown={(e) => {
           if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
             e.preventDefault();
@@ -696,7 +696,7 @@ export function Certifications() {
             aria-controls={`panel-${tab.id}`}
             tabIndex={activeTab === tab.id ? 0 : -1}
             onClick={() => { setActiveTab(tab.id); setCurrentPage(1); scrollToTop(); }}
-            className="relative flex-1 flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium"
+            className="relative flex-1 flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium flex-shrink-0"
             style={{
               borderRadius: '8px',
               backgroundColor: activeTab === tab.id ? `${tab.color}15` : 'transparent',
@@ -746,13 +746,9 @@ export function Certifications() {
         transition={{ delay: 0.25, duration: 0.4 }}
       >
         {/* ROW 1 - Search + Controls */}
-        <div style={{ 
-          display: 'flex', 
-          gap: '12px', 
-          alignItems: 'center' 
-        }}>
+        <div className="flex flex-col md:flex-row gap-3 md:gap-3 md:items-center">
           {/* Search Input */}
-          <div className="relative" style={{ flex: 1 }}>
+          <div className="relative w-full md:flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#4A5568]" />
             <input
               type="text"
@@ -1165,7 +1161,7 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none hidden md:table-cell"
                   onClick={() => handleSort('fechaObt')}
                   aria-sort={sortField === 'fechaObt' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { 
@@ -1311,7 +1307,7 @@ export function Certifications() {
                         </td>
 
                         {/* Fecha Obtención */}
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-3 hidden md:table-cell">
                           <span className="text-sm text-[#F0F4FF]">
                             {formatDate(cert.fechaObtension)}
                           </span>
@@ -1521,6 +1517,7 @@ export function Certifications() {
                       onClick={() => { setCurrentPage(i); scrollToTop(); }}
                       aria-label={`Página ${i}`}
                       aria-current={i === currentPage ? 'page' : undefined}
+                      className="hidden sm:flex"
                       style={{
                         width: '32px',
                         height: '32px',

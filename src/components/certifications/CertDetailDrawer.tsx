@@ -61,8 +61,9 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
             animate={{ x: 0 }}
             exit={{ x: 420 }}
             transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
-            className="fixed right-0 top-0 bottom-0 w-[420px] z-50"
+            className="fixed right-0 top-0 bottom-0 z-50"
             style={{
+              width: 'min(420px, 100vw)',
               background: 'rgba(26,16,64,0.95)',
               backdropFilter: 'blur(20px)',
               borderLeft: '1px solid var(--border-brand)',
