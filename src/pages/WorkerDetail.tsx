@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Award, BookOpen, Clock, CheckCircle, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Award, BookOpen, Clock, CheckCircle, AlertTriangle, Plus, Download, Bell } from 'lucide-react';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { CertCard } from '../components/certifications/CertCard';
 import { Card } from '../components/ui/Card';
@@ -288,6 +288,26 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* === CARD 4: Acciones === */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {[
+          { label: 'Agregar Certificación', color: '#9b6ab5', bg: 'rgba(91,34,119,0.12)', border: 'rgba(91,34,119,0.35)', icon: Plus },
+          { label: 'Exportar Perfil', color: '#729362', bg: 'rgba(114,147,98,0.1)', border: 'rgba(114,147,98,0.3)', icon: Download },
+          { label: 'Enviar Alerta', color: '#FFB800', bg: 'rgba(255,184,0,0.08)', border: 'rgba(255,184,0,0.25)', icon: Bell },
+        ].map(action => (
+          <button key={action.label}
+            style={{ width: '100%', padding: '10px 16px', backgroundColor: action.bg, border: `1px solid ${action.border}`, borderRadius: '8px', color: action.color, fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
+            onMouseEnter={e => { e.currentTarget.style.opacity = '0.8'; }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <action.icon style={{ width: '16px', height: '16px' }} />
+              {action.label}
+            </span>
+          </button>
+        ))}
       </div>
 
     </div>
