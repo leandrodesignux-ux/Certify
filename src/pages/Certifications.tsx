@@ -14,6 +14,7 @@ import {
   X,
   Eye,
   TrendingUp,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { useCertStore } from '../store/useCertStore';
 import { useWorkerStore } from '../store/useWorkerStore';
@@ -173,6 +174,33 @@ function DaysSparkline({ diasRestantes }: { diasRestantes: number }) {
   );
 }
 
+// Notification Badge Component
+function NotificationBadge({ count, color }: { count: number; color: string }) {
+  if (count === 0) return null;
+  return (
+    <span
+      style={{
+        position: 'absolute',
+        top: '-4px',
+        right: '-4px',
+        width: '16px',
+        height: '16px',
+        borderRadius: '50%',
+        backgroundColor: color,
+        color: '#fff',
+        fontSize: '10px',
+        fontWeight: 600,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        border: '2px solid #130b3a',
+      }}
+    >
+      {count > 9 ? '9+' : count}
+    </span>
+  );
+}
+
 // Empty state with animated SVG illustration (3 rotating orbit rings)
 interface EmptyStateProps {
   search?: string;
@@ -317,6 +345,7 @@ export function Certifications() {
   const [tipoFilter, setTipoFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedCert, setExpandedCert] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
   const ITEMS_PER_PAGE = 10;
 
   // Filter by tab
@@ -619,95 +648,135 @@ export function Certifications() {
         ))}
       </motion.div>
 
-      {/* Filters - Two Row Layout */}
+      {/* Filters - Toolbar Layout */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.4 }}
-        className="space-y-3"
       >
-        {/* Search - Full Width */}
-        <div className="relative w-full">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#4A5568]" />
-          <input
-            type="text"
-            placeholder="Buscar certificación, trabajador, emisor..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+        {/* ROW 1 - Search + Controls */}
+        <div style={{ 
+          display: 'flex', 
+          gap: '12px', 
+          alignItems: 'center' 
+        }}>
+          {/* Search Input */}
+          <div className="relative" style={{ flex: 1 }}>
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#4A5568]" />
+            <input
+              type="text"
+              placeholder="Buscar certificación, trabajador, emisor..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              style={{
+                width: '100%',
+                height: '40px',
+                backgroundColor: '#231455',
+                border: `1px solid ${search ? (sorted.length === 0 ? 'rgba(255,61,87,0.4)' : 'rgba(91,34,119,0.5)') : 'rgba(91,34,119,0.25)'}`,
+                borderRadius: '8px',
+                paddingLeft: '48px',
+                paddingRight: search ? '48px' : '100px',
+                fontSize: '14px',
+                color: '#F0F4FF',
+                outline: 'none',
+                transition: 'border-color 0.2s',
+              }}
+            />
+            {/* Results count badge */}
+            {!search && (
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '16px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  fontSize: '12px',
+                  color: '#4A5568',
+                }}
+              >
+                {filtered.length} resultados
+              </span>
+            )}
+            {/* Search active badge */}
+            {search && sorted.length > 0 && (
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '48px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  fontSize: '11px',
+                  color: '#9b6ab5',
+                  backgroundColor: 'rgba(91,34,119,0.12)',
+                  padding: '2px 8px',
+                  borderRadius: '12px',
+                }}
+              >
+                {sorted.length} resultados
+              </span>
+            )}
+            {/* No results warning */}
+            {search && sorted.length === 0 && (
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '48px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  fontSize: '11px',
+                  color: '#FF3D57',
+                  backgroundColor: 'rgba(255,61,87,0.1)',
+                  padding: '2px 8px',
+                  borderRadius: '12px',
+                }}
+              >
+                Sin resultados
+              </span>
+            )}
+            {search && (
+              <button
+                onClick={() => setSearch('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#4A5568] hover:text-[#F0F4FF] transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
+
+          {/* Filters Button */}
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="relative"
             style={{
-              width: '100%',
-              height: '48px',
-              backgroundColor: '#231455',
-              border: `1px solid ${search ? (sorted.length === 0 ? 'rgba(255,61,87,0.4)' : 'rgba(91,34,119,0.5)') : 'rgba(91,34,119,0.25)'}`,
+              height: '40px',
+              padding: '0 16px',
+              backgroundColor: 'rgba(91,34,119,0.1)',
+              border: '1px solid var(--border-brand)',
               borderRadius: '8px',
-              paddingLeft: '48px',
-              paddingRight: search ? '48px' : '100px',
+              color: '#9b6ab5',
               fontSize: '14px',
-              color: '#F0F4FF',
-              outline: 'none',
-              transition: 'border-color 0.2s',
+              fontWeight: 500,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'all 0.15s',
             }}
-          />
-          {/* Results count badge */}
-          {!search && (
-            <span
-              style={{
-                position: 'absolute',
-                right: '16px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                fontSize: '12px',
-                color: '#4A5568',
-              }}
-            >
-              {filtered.length} resultados
-            </span>
-          )}
-          {/* Search active badge */}
-          {search && sorted.length > 0 && (
-            <span
-              style={{
-                position: 'absolute',
-                right: '48px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                fontSize: '11px',
-                color: '#9b6ab5',
-                backgroundColor: 'rgba(91,34,119,0.12)',
-                padding: '2px 8px',
-                borderRadius: '12px',
-              }}
-            >
-              {sorted.length} resultados
-            </span>
-          )}
-          {/* No results warning */}
-          {search && sorted.length === 0 && (
-            <span
-              style={{
-                position: 'absolute',
-                right: '48px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                fontSize: '11px',
-                color: '#FF3D57',
-                backgroundColor: 'rgba(255,61,87,0.1)',
-                padding: '2px 8px',
-                borderRadius: '12px',
-              }}
-            >
-              Sin resultados
-            </span>
-          )}
-          {search && (
-            <button
-              onClick={() => setSearch('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#4A5568] hover:text-[#F0F4FF] transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          )}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+            }}
+          >
+            <SlidersHorizontal style={{ width: '16px', height: '16px' }} />
+            Filtros
+            {activeFilters > 0 && (
+              <NotificationBadge count={activeFilters} color="#FF3D57" />
+            )}
+          </button>
         </div>
+
         {/* No results message below input */}
         {search && sorted.length === 0 && (
           <motion.p
@@ -719,104 +788,114 @@ export function Certifications() {
           </motion.p>
         )}
 
-        {/* Chip Filters */}
-        <div style={{ 
-          padding: '16px', 
-          backgroundColor: 'rgba(26,16,64,0.4)', 
-          borderRadius: '10px', 
-          border: '1px solid rgba(91,34,119,0.15)', 
-          marginBottom: '20px' 
-        }}>
-          {/* Area Chips */}
-          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '12px' }}>
-            <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0 }}>Área:</span>
-            {['Todas', ...uniqueAreas].map(area => {
-              const isActive = area === 'Todas' ? !areaFilter : areaFilter === area;
-              return (
-                <button 
-                  key={area} 
-                  onClick={() => setAreaFilter(area === 'Todas' ? '' : area)}
-                  style={{ 
-                    padding: '4px 12px', 
-                    borderRadius: '20px', 
-                    fontSize: '12px', 
-                    fontWeight: 500, 
-                    border: '1px solid', 
-                    cursor: 'pointer', 
-                    transition: 'all 0.12s', 
-                    borderColor: isActive ? 'rgba(91,34,119,0.6)' : 'rgba(91,34,119,0.2)', 
-                    backgroundColor: isActive ? 'rgba(91,34,119,0.2)' : 'transparent', 
-                    color: isActive ? '#c49fe0' : '#8892A4' 
-                  }}
-                >
-                  {area}
-                </button>
-              );
-            })}
-          </div>
+        {/* ROW 2 - Chip Filters Panel */}
+        <AnimatePresence>
+          {showFilters && (
+            <motion.div
+              initial={{ opacity: 0, height: 0, marginTop: 0 }}
+              animate={{ opacity: 1, height: 'auto', marginTop: 12 }}
+              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+              transition={{ duration: 0.2, ease: 'easeInOut' }}
+              style={{ 
+                padding: '16px', 
+                backgroundColor: 'rgba(26,16,64,0.4)', 
+                borderRadius: '10px', 
+                border: '1px solid rgba(91,34,119,0.15)', 
+                overflow: 'hidden'
+              }}
+            >
+              {/* Area Chips */}
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '12px' }}>
+                <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0 }}>Área:</span>
+                {['Todas', ...uniqueAreas].map(area => {
+                  const isActive = area === 'Todas' ? !areaFilter : areaFilter === area;
+                  return (
+                    <button 
+                      key={area} 
+                      onClick={() => setAreaFilter(area === 'Todas' ? '' : area)}
+                      style={{ 
+                        padding: '4px 12px', 
+                        borderRadius: '20px', 
+                        fontSize: '12px', 
+                        fontWeight: 500, 
+                        border: '1px solid', 
+                        cursor: 'pointer', 
+                        transition: 'all 0.12s', 
+                        borderColor: isActive ? 'rgba(91,34,119,0.6)' : 'rgba(91,34,119,0.2)', 
+                        backgroundColor: isActive ? 'rgba(91,34,119,0.2)' : 'transparent', 
+                        color: isActive ? '#c49fe0' : '#8892A4' 
+                      }}
+                    >
+                      {area}
+                    </button>
+                  );
+                })}
+              </div>
 
-          {/* Tipo Chips */}
-          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0 }}>Tipo:</span>
-            {['Todos', ...uniqueTypes].map(tipo => {
-              const isActive = tipo === 'Todos' ? !tipoFilter : tipoFilter === tipo;
-              return (
-                <button 
-                  key={tipo} 
-                  onClick={() => setTipoFilter(tipo === 'Todos' ? '' : tipo)}
-                  style={{ 
-                    padding: '4px 12px', 
-                    borderRadius: '20px', 
-                    fontSize: '12px', 
-                    fontWeight: 500, 
-                    border: '1px solid', 
-                    cursor: 'pointer', 
-                    transition: 'all 0.12s', 
-                    borderColor: isActive ? 'rgba(91,34,119,0.6)' : 'rgba(91,34,119,0.2)', 
-                    backgroundColor: isActive ? 'rgba(91,34,119,0.2)' : 'transparent', 
-                    color: isActive ? '#c49fe0' : '#8892A4' 
-                  }}
-                >
-                  {tipo === 'obligatoria' ? 'Obligatoria' : 
-                   tipo === 'complementaria' ? 'Complementaria' : 
-                   tipo === 'legal' ? 'Legal' : tipo}
-                </button>
-              );
-            })}
-          </div>
+              {/* Tipo Chips */}
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0 }}>Tipo:</span>
+                {['Todos', ...uniqueTypes].map(tipo => {
+                  const isActive = tipo === 'Todos' ? !tipoFilter : tipoFilter === tipo;
+                  return (
+                    <button 
+                      key={tipo} 
+                      onClick={() => setTipoFilter(tipo === 'Todos' ? '' : tipo)}
+                      style={{ 
+                        padding: '4px 12px', 
+                        borderRadius: '20px', 
+                        fontSize: '12px', 
+                        fontWeight: 500, 
+                        border: '1px solid', 
+                        cursor: 'pointer', 
+                        transition: 'all 0.12s', 
+                        borderColor: isActive ? 'rgba(91,34,119,0.6)' : 'rgba(91,34,119,0.2)', 
+                        backgroundColor: isActive ? 'rgba(91,34,119,0.2)' : 'transparent', 
+                        color: isActive ? '#c49fe0' : '#8892A4' 
+                      }}
+                    >
+                      {tipo === 'obligatoria' ? 'Obligatoria' : 
+                       tipo === 'complementaria' ? 'Complementaria' : 
+                       tipo === 'legal' ? 'Legal' : tipo}
+                    </button>
+                  );
+                })}
+              </div>
 
-          {/* Clear Filters and Results Count */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px' }}>
-            {activeFilters > 0 && (
-              <button
-                onClick={() => {
-                  setSearch('');
-                  setAreaFilter('');
-                  setTipoFilter('');
-                }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '6px 12px',
-                  fontSize: '12px',
-                  color: '#FF3D57',
-                  backgroundColor: 'rgba(255,61,87,0.1)',
-                  border: '1px solid rgba(255,61,87,0.2)',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s'
-                }}
-              >
-                <X style={{ width: '14px', height: '14px' }} />
-                Limpiar filtros
-              </button>
-            )}
-            <span style={{ fontSize: '13px', color: '#8892A4', marginLeft: activeFilters > 0 ? 'auto' : '0' }}>
-              {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
-            </span>
-          </div>
-        </div>
+              {/* Clear Filters and Results Count */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px' }}>
+                {activeFilters > 0 && (
+                  <button
+                    onClick={() => {
+                      setSearch('');
+                      setAreaFilter('');
+                      setTipoFilter('');
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 12px',
+                      fontSize: '12px',
+                      color: '#FF3D57',
+                      backgroundColor: 'rgba(255,61,87,0.1)',
+                      border: '1px solid rgba(255,61,87,0.2)',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s'
+                    }}
+                  >
+                    <X style={{ width: '14px', height: '14px' }} />
+                    Limpiar filtros
+                  </button>
+                )}
+                <span style={{ fontSize: '13px', color: '#8892A4', marginLeft: activeFilters > 0 ? 'auto' : '0' }}>
+                  {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
+                </span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
       {/* Visual Separator */}
