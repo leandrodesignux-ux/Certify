@@ -13,6 +13,7 @@ import {
   AlertCircle,
   X,
   Eye,
+  TrendingUp,
 } from 'lucide-react';
 import { useCertStore } from '../store/useCertStore';
 import { useWorkerStore } from '../store/useWorkerStore';
@@ -55,16 +56,18 @@ function StatCard({
   value, 
   label, 
   color, 
-  total 
+  total,
+  isPercentage = false 
 }: { 
   icon: React.ElementType; 
-  value: number; 
+  value: number | string; 
   label: string; 
   color: string; 
   total: number;
+  isPercentage?: boolean;
 }) {
-  const animatedValue = useCountUp(value);
-  const percentage = total > 0 ? (value / total) * 100 : 0;
+  const animatedValue = isPercentage ? value : useCountUp(value as number);
+  const percentage = total > 0 && !isPercentage ? (value as number / total) * 100 : 0;
   
   return (
     <motion.div
@@ -72,9 +75,9 @@ function StatCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       style={{
-        backgroundColor: 'rgba(26,16,64,0.7)',
-        border: '1px solid rgba(91,34,119,0.2)',
-        borderRadius: '12px',
+        backgroundColor: 'var(--surface-card)',
+        border: '1px solid var(--border-brand)',
+        borderRadius: 'var(--radius-md)',
         padding: '20px',
         position: 'relative',
         overflow: 'hidden',
@@ -91,7 +94,7 @@ function StatCard({
         boxShadow: `0 0 20px ${color}40`,
       }} />
       
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', marginBottom: '16px' }}>
         <div style={{
           width: '48px',
           height: '48px',
@@ -100,37 +103,42 @@ function StatCard({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          flexShrink: 0,
         }}>
           <Icon style={{ width: '24px', height: '24px', color }} />
         </div>
-        <div>
+        <div style={{ flex: 1 }}>
           <motion.p
             style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
+              fontFamily: 'var(--font-display)',
               fontSize: '36px',
               fontWeight: 700,
               color,
               lineHeight: 1,
             }}
           >
-            {animatedValue}
+            {animatedValue}{isPercentage ? '%' : ''}
           </motion.p>
           <p style={{ fontSize: '13px', color: '#8892A4', marginTop: '4px' }}>{label}</p>
         </div>
       </div>
       
       {/* Progress bar */}
-      <div style={{ height: '4px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '2px', overflow: 'hidden' }}>
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${percentage}%` }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
-          style={{ height: '100%', backgroundColor: color, borderRadius: '2px' }}
-        />
-      </div>
-      <p style={{ fontSize: '11px', color: '#4A5568', marginTop: '8px', textAlign: 'right' }}>
-        {percentage.toFixed(1)}% del total
-      </p>
+      {!isPercentage && (
+        <>
+          <div style={{ height: '3px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '2px', overflow: 'hidden' }}>
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${percentage}%` }}
+              transition={{ duration: 1.5, ease: 'easeOut' }}
+              style={{ height: '100%', backgroundColor: color, borderRadius: '2px' }}
+            />
+          </div>
+          <p style={{ fontSize: '11px', color: '#4A5568', marginTop: '8px', textAlign: 'right' }}>
+            {percentage.toFixed(1)}% del total
+          </p>
+        </>
+      )}
     </motion.div>
   );
 }
@@ -381,12 +389,15 @@ export function Certifications() {
   // Summary counts
   const summary = useMemo(() => {
     const total = certifications.length;
+    const vigentes = certifications.filter((c) => c.diasRestantes > 60).length;
+    const compliance = total > 0 ? ((vigentes / total) * 100).toFixed(1) : '0.0';
     return {
       total,
-      vigentes: certifications.filter((c) => c.diasRestantes > 60).length,
+      vigentes,
       porvencer: certifications.filter((c) => c.diasRestantes > 0 && c.diasRestantes <= 60).length,
       vencidas: certifications.filter((c) => c.diasRestantes <= 0).length,
       pendientes: certifications.filter((c) => c.estado === 'pendiente').length,
+      compliance: compliance as string,
     };
   }, [certifications]);
 
@@ -497,36 +508,53 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-4"
-        style={{ marginBottom: '28px' }}
+        className="grid gap-4"
+        style={{ 
+          gridTemplateColumns: 'repeat(5, 1fr)', 
+          marginBottom: '28px' 
+        }}
       >
         <StatCard
           icon={CheckCircle}
           value={summary.vigentes}
           label="Vigentes"
-          color="#729362"
+          color="var(--color-success)"
           total={summary.total}
         />
         <StatCard
           icon={Clock}
           value={summary.porvencer}
           label="Por vencer"
-          color="#FFB800"
+          color="var(--color-warning)"
           total={summary.total}
         />
         <StatCard
           icon={AlertCircle}
           value={summary.vencidas}
           label="Vencidas"
-          color="#FF3D57"
+          color="var(--color-danger)"
           total={summary.total}
         />
         <StatCard
           icon={Award}
           value={summary.pendientes}
           label="Pendientes"
-          color="#7c4dab"
+          color="var(--color-electric)"
           total={summary.total}
+        />
+        <StatCard
+          icon={TrendingUp}
+          value={summary.compliance}
+          label="Compliance total"
+          color={
+            parseFloat(summary.compliance) >= 80 
+              ? 'var(--color-success)' 
+              : parseFloat(summary.compliance) >= 60 
+                ? 'var(--color-warning)' 
+                : 'var(--color-danger)'
+          }
+          total={summary.total}
+          isPercentage={true}
         />
       </motion.div>
 
