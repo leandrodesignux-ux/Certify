@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Layers, BookOpen, Search, X, GraduationCap, TrendingUp, Star, Users, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus, Layers, BookOpen, Search, X, GraduationCap, Star, Users, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 import { mockMeshes } from '../data/mockData';
 import { MeshGrid } from '../components/curriculum/MeshGrid';
 import { Button } from '../components/ui/Button';
@@ -523,13 +523,25 @@ export function Curriculum() {
         <div className="flex items-center gap-3">
           {/* Search input — relocated to header right */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568]" />
             <input
               type="text"
               placeholder="Buscar mallas..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-10 w-56 bg-[#231455] border border-[rgba(91,34,119,0.25)] rounded-lg pl-9 pr-8 text-sm text-[#F0F4FF] placeholder-[#4A5568] focus:outline-none focus:border-[rgba(91,34,119,0.5)] transition-colors"
+              style={{
+                height: '40px',
+                width: '224px',
+                backgroundColor: '#231455',
+                border: '1px solid rgba(91,34,119,0.25)',
+                borderRadius: '8px',
+                paddingLeft: '40px',
+                paddingRight: '32px',
+                fontSize: '14px',
+                color: '#F0F4FF',
+                outline: 'none'
+              }}
+              className="placeholder-[#4A5568] focus:border-[rgba(91,34,119,0.5)] transition-colors"
             />
             {searchQuery && (
               <button
@@ -611,35 +623,23 @@ export function Curriculum() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        className="flex flex-wrap gap-3"
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}
       >
-        <div className="flex items-center gap-3 px-4 py-3 bg-[#1a1040]/70 border border-[rgba(91,34,119,0.2)] rounded-lg">
-          <div className="p-2 bg-[rgba(91,34,119,0.15)] rounded-md">
-            <Layers className="w-4 h-4 text-[#9b6ab5]" />
+        {[
+          { label: 'Mallas totales', value: stats.totalMeshes, icon: Layers, color: '#9b6ab5' },
+          { label: 'Total recursos', value: stats.totalCourses, icon: BookOpen, color: '#729362' },
+          { label: 'Completadas', value: Math.round(mockMeshes.filter(m => m.completionRate === 100).length), icon: GraduationCap, color: '#FFB800' },
+        ].map(stat => (
+          <div key={stat.label} style={{ backgroundColor: 'rgba(26,16,64,0.7)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '10px', backgroundColor: stat.color + '15', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <stat.icon style={{ width: '20px', height: '20px', color: stat.color }} />
+            </div>
+            <div style={{ minWidth: 0 }}>
+              <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '26px', fontWeight: 700, color: stat.color, lineHeight: 1, margin: 0 }}>{stat.value}</p>
+              <p style={{ fontSize: '11px', color: '#8892A4', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: '2px 0 0 0' }}>{stat.label}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-lg font-display font-bold text-[#F0F4FF]">{stats.totalMeshes}</p>
-            <p className="text-xs text-[#8892A4]">Total Mallas</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 px-4 py-3 bg-[#1a1040]/70 border border-[rgba(91,34,119,0.2)] rounded-lg">
-          <div className="p-2 bg-[rgba(138,158,82,0.15)] rounded-md">
-            <GraduationCap className="w-4 h-4 text-[#8a9e52]" />
-          </div>
-          <div>
-            <p className="text-lg font-display font-bold text-[#F0F4FF]">{stats.totalCourses}</p>
-            <p className="text-xs text-[#8892A4]">Total Cursos</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 px-4 py-3 bg-[#1a1040]/70 border border-[rgba(91,34,119,0.2)] rounded-lg">
-          <div className="p-2 bg-[rgba(114,147,98,0.15)] rounded-md">
-            <TrendingUp className="w-4 h-4 text-[#729362]" />
-          </div>
-          <div>
-            <p className="text-lg font-display font-bold text-[#F0F4FF]">{stats.avgCompletion}%</p>
-            <p className="text-xs text-[#8892A4]">Completitud Promedio</p>
-          </div>
-        </div>
+        ))}
       </motion.div>
 
 
