@@ -247,6 +247,27 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         </div>
       </div>
 
+      {/* === CARD 2: Métricas === */}
+      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
+        <p style={{ fontSize: '10px', fontWeight: 700, color: '#4A5568', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Métricas</p>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+          {[
+            { label: 'Compliance', value: `${worker.complianceScore}%`, color: worker.complianceScore >= 80 ? '#8a9e52' : worker.complianceScore >= 60 ? '#FFB800' : '#FF3D57' },
+            { label: 'Certificaciones', value: worker.certifications.length, color: '#9b6ab5' },
+            { label: 'Vigentes', value: worker.certifications.filter(c => c.estado === 'vigente').length, color: '#729362' },
+            { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: worker.certifications.filter(c => c.estado === 'vencido').length > 0 ? '#FF3D57' : '#4A5568' },
+          ].map(metric => (
+            <div key={metric.label} style={{ backgroundColor: 'rgba(91,34,119,0.06)', borderRadius: '8px', padding: '10px 12px', border: '1px solid rgba(91,34,119,0.12)' }}>
+              <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '26px', fontWeight: 700, color: metric.color, lineHeight: 1, marginBottom: '2px' }}>
+                {metric.value}
+              </p>
+              <p style={{ fontSize: '10px', color: '#6B7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{metric.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 }
