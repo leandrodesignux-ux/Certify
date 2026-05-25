@@ -126,6 +126,9 @@ function StatCard({
         </div>
         <div style={{ flex: 1 }}>
           <motion.p
+            role="status"
+            aria-live="polite"
+            aria-label={`${animatedValue}${isPercentage ? '%' : ''} ${label}`}
             style={{
               fontFamily: 'var(--font-display)',
               fontSize: '36px',
@@ -252,6 +255,8 @@ function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptySt
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
+      role="alert"
+      aria-live="assertive"
       style={{ 
         textAlign: 'center', 
         padding: '48px 20px',
@@ -653,6 +658,22 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
+        role="tablist"
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
+            let newIndex;
+            if (e.key === 'ArrowRight') {
+              newIndex = (currentIndex + 1) % tabs.length;
+            } else {
+              newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+            }
+            setActiveTab(tabs[newIndex].id);
+            setCurrentPage(1);
+            scrollToTop();
+          }
+        }}
         style={{
           display: 'flex',
           gap: '4px',
@@ -665,6 +686,10 @@ export function Certifications() {
         {tabs.map((tab) => (
           <button
             key={tab.id}
+            role="tab"
+            aria-selected={activeTab === tab.id}
+            aria-controls={`panel-${tab.id}`}
+            tabIndex={activeTab === tab.id ? 0 : -1}
             onClick={() => { setActiveTab(tab.id); setCurrentPage(1); scrollToTop(); }}
             className="relative flex-1 flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium"
             style={{
@@ -729,6 +754,8 @@ export function Certifications() {
               placeholder="Buscar certificación, trabajador, emisor..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              aria-label="Buscar certificaciones"
+              aria-describedby="search-results-count"
               style={{
                 width: '100%',
                 height: '40px',
@@ -743,6 +770,9 @@ export function Certifications() {
                 transition: 'border-color 0.2s',
               }}
             />
+            <span id="search-results-count" className="sr-only">
+              {sorted.length} certificaciones encontradas
+            </span>
             {/* Results count badge */}
             {!search && (
               <span
@@ -994,7 +1024,7 @@ export function Certifications() {
         className="bg-[#1a1040]/90 backdrop-blur-[12px] border border-[rgba(91,34,119,0.2)] rounded-lg overflow-hidden"
       >
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full" role="grid">
             <thead 
               className="sticky top-0 z-10"
               style={{
@@ -1012,6 +1042,7 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('worker')}
+                  aria-sort={sortField === 'worker' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { 
                     e.currentTarget.style.color = '#F0F4FF';
                     const icon = e.currentTarget.querySelector('svg');
@@ -1035,6 +1066,7 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('cert')}
+                  aria-sort={sortField === 'cert' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { 
                     e.currentTarget.style.color = '#F0F4FF';
                     const icon = e.currentTarget.querySelector('svg');
@@ -1058,6 +1090,7 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('tipo')}
+                  aria-sort={sortField === 'tipo' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { 
                     e.currentTarget.style.color = '#F0F4FF';
                     const icon = e.currentTarget.querySelector('svg');
@@ -1081,6 +1114,7 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('fechaVen')}
+                  aria-sort={sortField === 'fechaVen' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { 
                     e.currentTarget.style.color = '#F0F4FF';
                     const icon = e.currentTarget.querySelector('svg');
@@ -1104,6 +1138,7 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('estado')}
+                  aria-sort={sortField === 'estado' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { 
                     e.currentTarget.style.color = '#F0F4FF';
                     const icon = e.currentTarget.querySelector('svg');
@@ -1127,6 +1162,7 @@ export function Certifications() {
                 <th
                   className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
                   onClick={() => handleSort('fechaObt')}
+                  aria-sort={sortField === 'fechaObt' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { 
                     e.currentTarget.style.color = '#F0F4FF';
                     const icon = e.currentTarget.querySelector('svg');
@@ -1283,6 +1319,8 @@ export function Certifications() {
                             onClick={() => setExpandedCert(isExpanded ? null : cert.id)}
                             className="p-1.5 rounded-md hover:bg-[rgba(91,34,119,0.15)] transition-colors"
                             title="Ver detalle"
+                            aria-label={`Ver detalle de ${cert.nombre}`}
+                            aria-expanded={isExpanded}
                           >
                             <Eye className="w-4 h-4 text-[#9b6ab5]" />
                           </button>
@@ -1297,6 +1335,8 @@ export function Certifications() {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3, ease: 'easeInOut' }}
+                          role="region"
+                          aria-label={`Detalle de ${cert.nombre}`}
                         >
                           <td colSpan={7} style={{ padding: 0, background: 'rgba(91,34,119,0.04)' }}>
                             <motion.div
@@ -1414,6 +1454,7 @@ export function Certifications() {
               <button
                 onClick={() => { setCurrentPage(1); scrollToTop(); }}
                 disabled={currentPage === 1}
+                aria-label="Primera página"
                 style={{
                   width: '32px',
                   height: '32px',
@@ -1444,6 +1485,7 @@ export function Certifications() {
               <button
                 onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
                 disabled={currentPage === 1}
+                aria-label="Página anterior"
                 style={{
                   width: '32px',
                   height: '32px',
@@ -1531,6 +1573,8 @@ export function Certifications() {
                     <button
                       key={i}
                       onClick={() => { setCurrentPage(i); scrollToTop(); }}
+                      aria-label={`Página ${i}`}
+                      aria-current={i === currentPage ? 'page' : undefined}
                       style={{
                         width: '32px',
                         height: '32px',
@@ -1610,6 +1654,7 @@ export function Certifications() {
               <button
                 onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
                 disabled={currentPage === totalPages}
+                aria-label="Página siguiente"
                 style={{
                   width: '32px',
                   height: '32px',
@@ -1640,6 +1685,7 @@ export function Certifications() {
               <button
                 onClick={() => { setCurrentPage(totalPages); scrollToTop(); }}
                 disabled={currentPage === totalPages}
+                aria-label="Última página"
                 style={{
                   width: '32px',
                   height: '32px',
