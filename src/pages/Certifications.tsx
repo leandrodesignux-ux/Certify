@@ -558,29 +558,40 @@ export function Certifications() {
         />
       </motion.div>
 
-      {/* Tabs with Sliding Indicator */}
+      {/* Tabs with Pill Design */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
-        className="bg-[#130b3a] rounded-lg p-1 flex gap-1"
+        style={{
+          display: 'flex',
+          gap: '4px',
+          padding: '6px',
+          backgroundColor: 'rgba(19,11,58,0.8)',
+          borderRadius: 'var(--radius-md)',
+          border: '1px solid var(--border-brand)',
+        }}
       >
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => { setActiveTab(tab.id); setCurrentPage(1); }}
-            className="relative flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-md text-sm font-medium transition-all duration-200"
+            className="relative flex-1 flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium"
             style={{
+              borderRadius: '8px',
+              backgroundColor: activeTab === tab.id ? `${tab.color}15` : 'transparent',
               color: activeTab === tab.id ? tab.color : '#8892A4',
+              transition: 'all 0.2s ease',
             }}
           >
             {activeTab === tab.id && (
               <motion.div
                 layoutId="activeTab"
-                className="absolute inset-0 rounded-md"
+                className="absolute inset-0"
                 style={{
+                  borderRadius: '8px',
                   backgroundColor: `${tab.color}15`,
-                  boxShadow: `0 0 12px ${tab.color}33`,
+                  boxShadow: `0 0 16px ${tab.color}25`,
                 }}
                 transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
               />
@@ -594,9 +605,10 @@ export function Certifications() {
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="ml-1 px-1.5 py-0.5 text-xs rounded-full"
+                className="px-2 py-0.5 rounded-full font-mono"
                 style={{
-                  backgroundColor: activeTab === tab.id ? `${tab.color}30` : 'rgba(136,146,164,0.2)',
+                  fontSize: '11px',
+                  backgroundColor: activeTab === tab.id ? `${tab.color}25` : 'rgba(136,146,164,0.15)',
                   color: activeTab === tab.id ? tab.color : '#8892A4',
                 }}
               >
