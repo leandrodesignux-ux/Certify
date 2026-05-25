@@ -22,7 +22,6 @@ import {
   Cell,
 } from 'recharts';
 import { Card } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { useCertStore } from '../store/useCertStore';
 import { useNavigate } from 'react-router-dom';
@@ -510,57 +509,38 @@ Generado automáticamente por CertifyX
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button
-              variant="ghost"
-              size="lg"
-              icon={Download}
-              onClick={exportSummaryCSV}
-              className="justify-center h-auto py-4 flex-col items-center gap-3"
-            >
-              <span className="font-medium">Exportar Resumen CSV</span>
-              <span className="text-xs text-[#4A5568] font-normal">
-                Datos de trabajadores y certificaciones
-              </span>
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="lg"
-              icon={FileText}
-              onClick={exportSENCE}
-              className="justify-center h-auto py-4 flex-col items-center gap-3"
-            >
-              <span className="font-medium">Reporte SENCE (simulado)</span>
-              <span className="text-xs text-[#4A5568] font-normal">
-                Formato texto para SENCE
-              </span>
-            </Button>
-
-            <div className="relative">
-              <Button
-                variant="ghost"
-                size="lg"
-                icon={ImageIcon}
-                onClick={() => setShowProTooltip(!showProTooltip)}
-                className="justify-center h-auto py-4 flex-col items-center gap-3 w-full opacity-70"
+            {[
+              { icon: Download, label: 'Exportar Resumen CSV', description: 'Datos de trabajadores y certificaciones', onClick: exportSummaryCSV, disabled: false, color: '#9b6ab5' },
+              { icon: FileText, label: 'Reporte SENCE', description: 'Formato texto simulado para SENCE', onClick: exportSENCE, disabled: false, color: '#729362' },
+              { icon: ImageIcon, label: 'Exportar Gráficos PNG', description: 'Disponible en versión Pro', onClick: () => setShowProTooltip(!showProTooltip), disabled: true, color: '#FFB800' },
+            ].map((item) => (
+              <button key={item.label} onClick={item.onClick}
+                style={{
+                  position: 'relative',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                  gap: '10px', padding: '24px 16px',
+                  backgroundColor: 'rgba(26,16,64,0.6)',
+                  border: `1px solid ${item.disabled ? 'rgba(91,34,119,0.15)' : 'rgba(91,34,119,0.25)'}`,
+                  borderRadius: '12px', cursor: item.disabled ? 'not-allowed' : 'pointer',
+                  opacity: item.disabled ? 0.6 : 1, transition: 'all 0.15s', width: '100%',
+                }}
+                onMouseEnter={e => { if (!item.disabled) { e.currentTarget.style.borderColor = item.color + '60'; e.currentTarget.style.backgroundColor = item.color + '08'; }}}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = item.disabled ? 'rgba(91,34,119,0.15)' : 'rgba(91,34,119,0.25)'; e.currentTarget.style.backgroundColor = 'rgba(26,16,64,0.6)'; }}
               >
-                <span className="font-medium">Exportar Gráficos PNG</span>
-                <span className="text-xs text-[#4A5568] font-normal">
-                  Disponible en versión Pro
-                </span>
-              </Button>
-              
-              {showProTooltip && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-[#231455] border border-[rgba(91,34,119,0.35)] rounded-lg text-xs text-[#8892A4] whitespace-nowrap z-10"
-                >
-                  Actualiza a CertifyX Pro para desbloquear
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[rgba(91,34,119,0.35)]" />
-                </motion.div>
-              )}
-            </div>
+                <div style={{ width: '48px', height: '48px', borderRadius: '12px', backgroundColor: item.color + '15', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <item.icon style={{ width: '22px', height: '22px', color: item.color }} />
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <p style={{ fontSize: '14px', fontWeight: 600, color: '#F0F4FF', marginBottom: '4px' }}>{item.label}</p>
+                  <p style={{ fontSize: '12px', color: '#4A5568' }}>{item.description}</p>
+                </div>
+                {item.disabled && showProTooltip && (
+                  <div style={{ position: 'absolute', bottom: 'calc(100% + 8px)', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#1a1040', border: '1px solid rgba(91,34,119,0.4)', borderRadius: '8px', padding: '8px 12px', fontSize: '12px', color: '#8892A4', whiteSpace: 'nowrap', zIndex: 10, boxShadow: '0 4px 16px rgba(0,0,0,0.4)' }}>
+                    Actualiza a CertifyX Pro para desbloquear
+                  </div>
+                )}
+              </button>
+            ))}
           </div>
         </Card>
       </motion.div>
