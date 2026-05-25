@@ -298,7 +298,7 @@ Generado automáticamente por CertifyX
       </motion.div>
 
       {/* SECTION 1: KPI Header Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" style={{ marginBottom: '32px' }}>
         <KPICard
           title="Índice de Cumplimiento Global"
           value={`${kpis.avgCompliance}%`}
