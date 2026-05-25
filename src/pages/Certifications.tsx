@@ -7,6 +7,8 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
   Award,
   CheckCircle,
   Clock,
@@ -346,7 +348,7 @@ export function Certifications() {
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedCert, setExpandedCert] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-  const ITEMS_PER_PAGE = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // Filter by tab
   const filteredByTab = useMemo(() => {
@@ -410,8 +412,8 @@ export function Certifications() {
   }, [filtered, sortField, sortOrder, workers]);
 
   // Pagination
-  const totalPages = Math.ceil(sorted.length / ITEMS_PER_PAGE);
-  const paginatedCerts = sorted.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(sorted.length / itemsPerPage);
+  const paginatedCerts = sorted.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   // Summary counts
   const summary = useMemo(() => {
@@ -1195,26 +1197,306 @@ export function Certifications() {
 
         {/* Pagination */}
         {sorted.length > 0 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-[rgba(91,34,119,0.2)]">
-            <span className="text-sm text-[#8892A4]">
-              Página {currentPage} de {totalPages}
-            </span>
-            <div className="flex items-center gap-2">
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            padding: '12px 16px',
+            borderTop: '1px solid rgba(91,34,119,0.2)'
+          }}>
+            {/* Left side - Items per page selector and info */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              {/* Items per page selector */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <select
+                  value={itemsPerPage}
+                  onChange={(e) => {
+                    setItemsPerPage(Number(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  style={{
+                    height: '32px',
+                    backgroundColor: 'var(--surface-alt)', // #231455
+                    border: '1px solid var(--border-brand)',
+                    borderRadius: '6px',
+                    color: '#F0F4FF',
+                    fontSize: '13px',
+                    padding: '0 8px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </select>
+                <span style={{ fontSize: '13px', color: '#6B7280' }}>
+                  registros por página
+                </span>
+              </div>
+
+              {/* Showing info */}
+              <span style={{ fontSize: '13px', color: '#8892A4' }}>
+                Mostrando {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, sorted.length)} de {sorted.length} certificaciones
+              </span>
+            </div>
+
+            {/* Right side - Navigation controls */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              {/* First page button */}
+              <button
+                onClick={() => setCurrentPage(1)}
+                disabled={currentPage === 1}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '6px',
+                  border: '1px solid var(--border-brand)',
+                  backgroundColor: 'rgba(19,11,58,0.6)',
+                  color: '#F0F4FF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: currentPage === 1 ? 0.4 : 1,
+                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.15s'
+                }}
+                onMouseEnter={(e) => {
+                  if (currentPage !== 1) {
+                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.3)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(19,11,58,0.6)';
+                }}
+              >
+                <ChevronsLeft className="w-4 h-4" />
+              </button>
+
+              {/* Previous button */}
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#F0F4FF] bg-[#231455] border border-[rgba(91,34,119,0.25)] rounded-md hover:border-[rgba(91,34,119,0.5)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '6px',
+                  border: '1px solid var(--border-brand)',
+                  backgroundColor: 'rgba(19,11,58,0.6)',
+                  color: '#F0F4FF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: currentPage === 1 ? 0.4 : 1,
+                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.15s'
+                }}
+                onMouseEnter={(e) => {
+                  if (currentPage !== 1) {
+                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.3)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(19,11,58,0.6)';
+                }}
               >
                 <ChevronLeft className="w-4 h-4" />
-                Anterior
               </button>
+
+              {/* Page number pills */}
+              {(() => {
+                const pages = [];
+                const maxVisible = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+                let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+                
+                if (endPage - startPage + 1 < maxVisible) {
+                  startPage = Math.max(1, endPage - maxVisible + 1);
+                }
+
+                // Add first page and ellipsis if needed
+                if (startPage > 1) {
+                  pages.push(
+                    <button
+                      key={1}
+                      onClick={() => setCurrentPage(1)}
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '6px',
+                        border: '1px solid var(--border-brand)',
+                        backgroundColor: 'transparent',
+                        color: '#8892A4',
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.15s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      1
+                    </button>
+                  );
+                  
+                  if (startPage > 2) {
+                    pages.push(
+                      <span key="start-ellipsis" style={{ 
+                        padding: '0 8px', 
+                        color: '#6B7280', 
+                        fontSize: '13px' 
+                      }}>
+                        ...
+                      </span>
+                    );
+                  }
+                }
+
+                // Add visible pages
+                for (let i = startPage; i <= endPage; i++) {
+                  pages.push(
+                    <button
+                      key={i}
+                      onClick={() => setCurrentPage(i)}
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '6px',
+                        border: `1px solid ${i === currentPage ? 'rgba(91,34,119,0.5)' : 'var(--border-brand)'}`,
+                        backgroundColor: i === currentPage ? 'rgba(91,34,119,0.25)' : 'transparent',
+                        color: i === currentPage ? '#c49fe0' : '#8892A4',
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.15s'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (i !== currentPage) {
+                          e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = i === currentPage ? 'rgba(91,34,119,0.25)' : 'transparent';
+                      }}
+                    >
+                      {i}
+                    </button>
+                  );
+                }
+
+                // Add ellipsis and last page if needed
+                if (endPage < totalPages) {
+                  if (endPage < totalPages - 1) {
+                    pages.push(
+                      <span key="end-ellipsis" style={{ 
+                        padding: '0 8px', 
+                        color: '#6B7280', 
+                        fontSize: '13px' 
+                      }}>
+                        ...
+                      </span>
+                    );
+                  }
+                  
+                  pages.push(
+                    <button
+                      key={totalPages}
+                      onClick={() => setCurrentPage(totalPages)}
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '6px',
+                        border: '1px solid var(--border-brand)',
+                        backgroundColor: 'transparent',
+                        color: '#8892A4',
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.15s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      {totalPages}
+                    </button>
+                  );
+                }
+
+                return pages;
+              })()}
+
+              {/* Next button */}
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm text-[#F0F4FF] bg-[#231455] border border-[rgba(91,34,119,0.25)] rounded-md hover:border-[rgba(91,34,119,0.5)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '6px',
+                  border: '1px solid var(--border-brand)',
+                  backgroundColor: 'rgba(19,11,58,0.6)',
+                  color: '#F0F4FF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: currentPage === totalPages ? 0.4 : 1,
+                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.15s'
+                }}
+                onMouseEnter={(e) => {
+                  if (currentPage !== totalPages) {
+                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.3)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(19,11,58,0.6)';
+                }}
               >
-                Siguiente
                 <ChevronRight className="w-4 h-4" />
+              </button>
+
+              {/* Last page button */}
+              <button
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={currentPage === totalPages}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '6px',
+                  border: '1px solid var(--border-brand)',
+                  backgroundColor: 'rgba(19,11,58,0.6)',
+                  color: '#F0F4FF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: currentPage === totalPages ? 0.4 : 1,
+                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.15s'
+                }}
+                onMouseEnter={(e) => {
+                  if (currentPage !== totalPages) {
+                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.3)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(19,11,58,0.6)';
+                }}
+              >
+                <ChevronsRight className="w-4 h-4" />
               </button>
             </div>
           </div>
