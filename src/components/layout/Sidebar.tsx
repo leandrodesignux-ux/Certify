@@ -64,44 +64,38 @@ function NotificationBadge({ count, color }: { count: number; color: string }) {
 // Tooltip Component for collapsed sidebar
 function NavTooltip({ label, visible }: { label: string; visible: boolean }) {
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.span
-          initial={{ opacity: 0, x: -8 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -8 }}
-          transition={{ duration: 0.15 }}
-          style={{
-            position: 'absolute',
-            left: '56px',
-            backgroundColor: '#231455',
-            color: '#F0F4FF',
-            padding: '6px 12px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            fontWeight: 500,
-            whiteSpace: 'nowrap',
-            border: '1px solid rgba(91,34,119,0.4)',
-            zIndex: 100,
-            pointerEvents: 'none',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          }}
-        >
-          {label}
-          <span
-            style={{
-              position: 'absolute',
-              left: '-5px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              borderWidth: '5px 5px 5px 0',
-              borderStyle: 'solid',
-              borderColor: 'transparent rgba(91,34,119,0.4) transparent transparent',
-            }}
-          />
-        </motion.span>
-      )}
-    </AnimatePresence>
+    <span
+      style={{
+        position: 'absolute',
+        left: '56px',
+        backgroundColor: '#231455',
+        color: '#F0F4FF',
+        padding: '6px 12px',
+        borderRadius: '4px',
+        fontSize: '12px',
+        fontWeight: 500,
+        whiteSpace: 'nowrap',
+        border: '1px solid rgba(91,34,119,0.4)',
+        zIndex: 100,
+        pointerEvents: visible ? 'auto' : 'none',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.12s',
+      }}
+    >
+      {label}
+      <span
+        style={{
+          position: 'absolute',
+          left: '-5px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          borderWidth: '5px 5px 5px 0',
+          borderStyle: 'solid',
+          borderColor: 'transparent rgba(91,34,119,0.4) transparent transparent',
+        }}
+      />
+    </span>
   );
 }
 
@@ -163,19 +157,23 @@ export function Sidebar() {
       {/* Logo */}
       <div className="h-16 flex items-center px-4 border-b border-[rgba(91,34,119,0.2)]">
         <Zap className="w-7 h-7 text-[#9b6ab5] flex-shrink-0" />
-        <AnimatePresence mode="wait">
-          {!sidebarCollapsed && (
-            <motion.span
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.15 }}
-              className="ml-3 font-display text-xl font-bold text-[#c49fe0] tracking-wide"
-            >
-              CertifyX
-            </motion.span>
-          )}
-        </AnimatePresence>
+        <span
+          style={{
+            marginLeft: '12px',
+            fontSize: '20px',
+            fontWeight: 'bold',
+            color: '#c49fe0',
+            fontFamily: '"Barlow Condensed", sans-serif',
+            letterSpacing: '0.05em',
+            opacity: sidebarCollapsed ? 0 : 1,
+            width: sidebarCollapsed ? 0 : 'auto',
+            overflow: 'hidden',
+            transition: 'opacity 0.15s, width 0.15s',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          CertifyX
+        </span>
         {isMobile && (
           <button
             onClick={() => setMobileSidebarOpen(false)}
@@ -254,19 +252,20 @@ export function Sidebar() {
                       <NotificationBadge count={badgeCount} color={badgeColor} />
                     )}
                   </span>
-                  <AnimatePresence mode="wait">
-                    {!sidebarCollapsed && (
-                      <motion.span
-                        initial={{ opacity: 0, x: -8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -8 }}
-                        transition={{ duration: 0.15, delay: 0.05 }}
-                        style={{ marginLeft: '12px', fontSize: '14px', fontWeight: 500, whiteSpace: 'nowrap' }}
-                      >
-                        {item.label}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                  <span
+                    style={{
+                      marginLeft: '12px',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      whiteSpace: 'nowrap',
+                      opacity: sidebarCollapsed ? 0 : 1,
+                      width: sidebarCollapsed ? 0 : 'auto',
+                      overflow: 'hidden',
+                      transition: 'opacity 0.15s, width 0.15s',
+                    }}
+                  >
+                    {item.label}
+                  </span>
                   {/* Tooltip for collapsed sidebar */}
                   {sidebarCollapsed && !isMobile && (
                     <NavTooltip label={item.label} visible={isHovered} />
@@ -336,20 +335,18 @@ export function Sidebar() {
           >
             <User style={{ width: '16px', height: '16px', color: '#9b6ab5' }} />
           </div>
-          <AnimatePresence mode="wait">
-            {!sidebarCollapsed && (
-              <motion.div
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -8 }}
-                transition={{ duration: 0.15 }}
-                style={{ marginLeft: '12px' }}
-              >
-                <p style={{ fontSize: '14px', fontWeight: 500, color: '#F0F4FF' }}>Administrador</p>
-                <p style={{ fontSize: '12px', color: '#8892A4' }}>Admin</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div
+            style={{
+              marginLeft: '12px',
+              opacity: sidebarCollapsed ? 0 : 1,
+              width: sidebarCollapsed ? 0 : 'auto',
+              overflow: 'hidden',
+              transition: 'opacity 0.15s, width 0.15s',
+            }}
+          >
+            <p style={{ fontSize: '14px', fontWeight: 500, color: '#F0F4FF' }}>Administrador</p>
+            <p style={{ fontSize: '12px', color: '#8892A4' }}>Admin</p>
+          </div>
           {!sidebarCollapsed && (
             <button
               style={{
