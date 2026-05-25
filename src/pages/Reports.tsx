@@ -348,7 +348,7 @@ Generado automáticamente por CertifyX
       </div>
 
       {/* SECTION 2 & 3: Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" style={{ marginBottom: '32px' }}>
         {/* Compliance por Área - Bar Chart */}
         <motion.div
           custom={0.5}
@@ -441,6 +441,7 @@ Generado automáticamente por CertifyX
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
+        style={{ marginBottom: '32px' }}
       >
         <Card variant="glass" padding="lg">
           <div className="flex items-center gap-3 mb-6">

@@ -511,6 +511,7 @@ export function Curriculum() {
         initial="hidden"
         animate="visible"
         className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+        style={{ marginBottom: '24px' }}
       >
         <div>
           <h1 className="font-display text-3xl font-bold text-gradient tracking-tight">

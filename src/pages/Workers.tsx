@@ -391,7 +391,7 @@ function WorkersComponent() {
       <div style={{ 
         height: '1px', 
         background: 'linear-gradient(to right, transparent, rgba(91,34,119,0.3), transparent)', 
-        margin: '4px 0' 
+        margin: '16px 0' 
       }} />
 
       {/* Results Summary */}
@@ -401,6 +401,7 @@ function WorkersComponent() {
         initial="hidden"
         animate="visible"
         className="flex items-center justify-between"
+        style={{ marginBottom: '20px' }}
       >
         <p className="text-sm text-[var(--color-text-secondary)]">
           Mostrando{' '}
