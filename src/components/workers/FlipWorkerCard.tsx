@@ -44,8 +44,8 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
       className="hover-lift card-clickable"
       style={{ display: 'flex', flexDirection: 'column', gap: '0px', borderRadius: '12px', overflow: 'hidden', border: `1px solid ${cardBorderColor}`, borderLeft: cardBorderLeft }}
     >
-      {/* Card flip container — perspective here, NO preserve-3d, NO transform on this level */}
-      <div style={{ perspective: '1200px', transformStyle: 'flat', width: '100%' }}>
+      {/* Card flip container — perspective and preserve-3d for proper 3D rendering */}
+      <div style={{ perspective: '1200px', transformStyle: 'preserve-3d', width: '100%', height: '300px', overflow: 'visible' }}>
         <motion.div
           animate={{ rotateY: flipped ? 180 : 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
