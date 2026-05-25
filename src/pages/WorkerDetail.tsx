@@ -7,6 +7,7 @@ import { CertCard } from '../components/certifications/CertCard';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { mockMeshes } from '../data/mockData';
+import { formatRut } from '../utils/format';
 import type { Worker as WorkerType } from '../types';
 
 const sectionVariants = {
@@ -263,6 +264,27 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
                 {metric.value}
               </p>
               <p style={{ fontSize: '10px', color: '#6B7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{metric.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* === CARD 3: Datos personales === */}
+      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
+        <p style={{ fontSize: '10px', fontWeight: 700, color: '#4A5568', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Información</p>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
+          {[
+            { label: 'RUT', value: formatRut(worker.rut) },
+            { label: 'Email', value: worker.email },
+            { label: 'Faena', value: worker.departamento },
+            { label: 'Área', value: worker.area },
+            { label: 'Empresa', value: worker.empresa },
+            { label: 'Ingreso', value: new Date(worker.fechaIngreso).toLocaleDateString('es-CL') },
+          ].map((item, i, arr) => (
+            <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(91,34,119,0.1)' : 'none', gap: '8px' }}>
+              <span style={{ fontSize: '11px', color: '#6B7280', flexShrink: 0 }}>{item.label}</span>
+              <span style={{ fontSize: '12px', color: '#F0F4FF', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'right', maxWidth: '160px' }}>{item.value}</span>
             </div>
           ))}
         </div>
