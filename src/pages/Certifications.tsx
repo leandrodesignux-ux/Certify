@@ -309,7 +309,7 @@ export function Certifications() {
   const [tipoFilter, setTipoFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedCert, setExpandedCert] = useState<string | null>(null);
-  const ITEMS_PER_PAGE = 15;
+  const ITEMS_PER_PAGE = 10;
 
   // Filter by tab
   const filteredByTab = useMemo(() => {
@@ -475,6 +475,7 @@ export function Certifications() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
         className="grid grid-cols-2 md:grid-cols-4 gap-4"
+        style={{ marginBottom: '28px' }}
       >
         <StatCard
           icon={CheckCircle}
@@ -656,7 +657,11 @@ export function Certifications() {
         )}
 
         {/* Select Filters Row */}
-        <div className="flex flex-wrap items-end gap-4">
+        <div style={{ 
+          paddingBottom: '20px', 
+          borderBottom: '1px solid rgba(91,34,119,0.15)' 
+        }}>
+          <div className="flex flex-wrap items-end gap-4">
           {/* Area Filter */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-[#8892A4] uppercase tracking-wider">Área</label>
@@ -714,8 +719,12 @@ export function Certifications() {
           <span className="ml-auto text-sm text-[#8892A4]">
             {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
           </span>
+          </div>
         </div>
       </motion.div>
+
+      {/* Visual Separator */}
+      <div style={{ height: '16px' }} />
 
       {/* Table */}
       <motion.div
