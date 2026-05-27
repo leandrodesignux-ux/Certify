@@ -20,6 +20,17 @@
   --color-success: #729362;
   --color-info: #9b6ab5;
 
+  /* Reports — KPI trend indicators */
+  --kpi-trend-up:   #8fb87a;
+  --kpi-trend-down: #FF5C71;
+  --kpi-trend-neutral: var(--color-text-muted);
+
+  /* Reports — Donut chart status (alineado con tokens existentes) */
+  --chart-vigente:       #729362;
+  --chart-proximo:       #FFB800;
+  --chart-vencido:       #FF3D57;
+  --chart-pendiente:     #9b6ab5;
+
   /* === TEXT === */
   --color-text-primary: #F0F4FF;
   --color-text-secondary: #A8B3C5;
@@ -69,6 +80,10 @@
   --space-lg: 24px;
   --space-xl: 32px;
   --space-2xl: 48px;
+
+  /* === REPORTS LAYOUT === */
+  --reports-grid-cols: repeat(4, 1fr);
+  --reports-grid-cols-md: repeat(2, 1fr);
 
   /* === TAB MINIMUM WIDTH === */
   --tab-min-width: 140px;
