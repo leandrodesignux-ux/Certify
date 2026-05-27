@@ -427,59 +427,184 @@ Generado automáticamente por CertifyX
       </div>
 
       {/* SECTION 4: Top Trabajadores en Riesgo */}
-      <motion.div
-        custom={0.7}
-        variants={sectionVariants}
-        initial="hidden"
-        animate="visible"
-        style={{ marginBottom: '32px' }}
-      >
+      <motion.div custom={0.7} variants={sectionVariants} initial="hidden" animate="visible">
         <Card variant="glass" padding="lg">
-          <div className="flex items-center gap-3 mb-6">
-            <AlertCircle className="w-6 h-6 text-[#FF3D57]" />
-            <h3 className="font-display text-lg font-bold text-[#F0F4FF]">
-              Top 10 Trabajadores en Riesgo
-            </h3>
-          </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {topRiskWorkers.slice(0, showAllRisk ? 10 : 3).map((worker, index) => (
-              <div key={worker.id} style={{
-                display: 'flex', alignItems: 'center', gap: '12px',
-                padding: '12px 16px',
-                backgroundColor: index === 0 ? 'rgba(255,61,87,0.06)' : index === 1 ? 'rgba(255,184,0,0.04)' : 'rgba(26,16,64,0.4)',
-                borderRadius: '10px',
-                border: `1px solid ${index === 0 ? 'rgba(255,61,87,0.2)' : 'rgba(91,34,119,0.15)'}`,
-                transition: 'background 0.15s',
-              }}>
-                {/* Rank */}
-                <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '20px', fontWeight: 700, color: index === 0 ? '#FF3D57' : index === 1 ? '#FFB800' : '#4A5568', width: '24px', flexShrink: 0, textAlign: 'center' }}>
-                  #{index + 1}
-                </span>
-                {/* Avatar */}
-                {worker.foto
-                  ? <img src={worker.foto} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
-                  : <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 700, color: '#9b6ab5', flexShrink: 0 }}>{worker.nombre[0]}{worker.apellidos[0]}</div>
-                }
-                {/* Info */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: '14px', color: '#F0F4FF', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{worker.nombre} {worker.apellidos}</p>
-                  <p style={{ fontSize: '11px', color: '#8892A4' }}>{worker.area} · {worker.cargo}</p>
-                </div>
-                {/* Score */}
-                <span style={{ padding: '3px 10px', borderRadius: '20px', fontSize: '13px', fontWeight: 700, backgroundColor: worker.scoreColor + '15', color: worker.scoreColor, flexShrink: 0 }}>{worker.complianceScore}%</span>
-                {/* Action */}
-                <button onClick={() => navigate(`/workers/${worker.id}`)} style={{ padding: '5px 12px', borderRadius: '6px', border: '1px solid rgba(91,34,119,0.3)', backgroundColor: 'transparent', color: '#c49fe0', fontSize: '12px', cursor: 'pointer', flexShrink: 0 }}>Ver</button>
-              </div>
-            ))}
+          {/* Header de sección */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-lg)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+              <AlertCircle style={{ width: '20px', height: '20px', color: 'var(--color-danger)', flexShrink: 0 }} aria-hidden="true" />
+              <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
+                Trabajadores en Riesgo
+              </h3>
+            </div>
+            <span style={{
+              fontSize: 'var(--text-micro)',
+              color: 'var(--color-text-muted)',
+              backgroundColor: 'var(--color-surface-alt)',
+              padding: '3px 10px',
+              borderRadius: 'var(--radius-full)',
+              border: '1px solid var(--border-brand)',
+            }}>
+              Top {topRiskWorkers.length}
+            </span>
           </div>
 
-          {/* Expand/Collapse Button */}
-          {topRiskWorkers.length > 3 && (
-            <button onClick={() => setShowAllRisk(s => !s)} style={{ width: '100%', marginTop: '12px', padding: '10px', borderRadius: '8px', border: '1px dashed rgba(91,34,119,0.3)', backgroundColor: 'transparent', color: '#8892A4', fontSize: '13px', cursor: 'pointer', transition: 'all 0.15s' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(91,34,119,0.5)'; e.currentTarget.style.color = '#c49fe0'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(91,34,119,0.3)'; e.currentTarget.style.color = '#8892A4'; }}>
-              {showAllRisk ? '▲ Mostrar menos' : `▼ Ver ${topRiskWorkers.length - 3} trabajadores más`}
+          {/* Tabla */}
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }} role="table" aria-label="Trabajadores con menor cumplimiento">
+              <colgroup>
+                <col style={{ width: '40px' }} />   {/* Rank */}
+                <col style={{ width: '44px' }} />   {/* Avatar */}
+                <col />                              {/* Nombre / Área */}
+                <col style={{ width: '100px' }} />  {/* Score */}
+                <col style={{ width: '80px' }} />   {/* Vencidas */}
+                <col style={{ width: '80px' }} />   {/* Próximas */}
+                <col style={{ width: '72px' }} />   {/* Acción */}
+              </colgroup>
+              <thead>
+                <tr>
+                  {['#', '', 'Trabajador', 'Score', 'Vencidas', 'Próximas', ''].map((h, i) => (
+                    <th key={i} style={{
+                      padding: '6px 10px',
+                      fontSize: 'var(--text-micro)',
+                      fontWeight: 'var(--font-weight-medium)',
+                      color: 'var(--color-text-muted)',
+                      textAlign: i >= 3 ? 'center' : 'left',
+                      borderBottom: '1px solid var(--border-brand)',
+                      whiteSpace: 'nowrap',
+                    }}>
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {topRiskWorkers.slice(0, showAllRisk ? 10 : 5).map((worker, index) => (
+                  <motion.tr
+                    key={worker.id}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.02, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ borderBottom: '1px solid var(--border-brand)', cursor: 'default' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'rgba(124,77,171,0.06)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'transparent'; }}
+                  >
+                    {/* Rank */}
+                    <td style={{ padding: '10px', textAlign: 'center' }}>
+                      <span className="font-display font-bold" style={{
+                        fontSize: '16px',
+                        color: index === 0 ? 'var(--color-danger)' : index === 1 ? 'var(--color-warning)' : 'var(--color-text-muted)',
+                      }}>
+                        {index + 1}
+                      </span>
+                    </td>
+                    {/* Avatar */}
+                    <td style={{ padding: '10px 6px' }}>
+                      {worker.foto
+                        ? <img src={worker.foto} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} />
+                        : (
+                          <div style={{
+                            width: '36px', height: '36px', borderRadius: '50%',
+                            backgroundColor: 'var(--color-surface-alt)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontSize: 'var(--text-micro)', fontWeight: 'var(--font-weight-bold)',
+                            color: 'var(--color-purple-mid)',
+                          }}>
+                            {worker.nombre[0]}{worker.apellidos[0]}
+                          </div>
+                        )
+                      }
+                    </td>
+                    {/* Nombre / Área */}
+                    <td style={{ padding: '10px 8px', minWidth: 0 }}>
+                      <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-medium)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {worker.nombre} {worker.apellidos}
+                      </p>
+                      <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                        {worker.area} · {worker.cargo}
+                      </p>
+                    </td>
+                    {/* Score */}
+                    <td style={{ padding: '10px', textAlign: 'center' }}>
+                      <span style={{
+                        display: 'inline-block',
+                        padding: '3px 12px',
+                        borderRadius: 'var(--radius-full)',
+                        fontSize: 'var(--text-small)',
+                        fontWeight: 'var(--font-weight-bold)',
+                        backgroundColor: worker.scoreColor + '18',
+                        color: worker.scoreColor,
+                        border: `1px solid ${worker.scoreColor}30`,
+                      }}>
+                        {worker.complianceScore}%
+                      </span>
+                    </td>
+                    {/* Vencidas */}
+                    <td style={{ padding: '10px', textAlign: 'center' }}>
+                      {worker.expiredCount > 0
+                        ? <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-danger)' }}>{worker.expiredCount}</span>
+                        : <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-muted)' }}>—</span>
+                      }
+                    </td>
+                    {/* Próximas */}
+                    <td style={{ padding: '10px', textAlign: 'center' }}>
+                      {worker.expiringCount > 0
+                        ? <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-warning)' }}>{worker.expiringCount}</span>
+                        : <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-muted)' }}>—</span>
+                      }
+                    </td>
+                    {/* Acción */}
+                    <td style={{ padding: '10px', textAlign: 'center' }}>
+                      <button
+                        onClick={() => navigate(`/workers/${worker.id}`)}
+                        aria-label={`Ver perfil de ${worker.nombre} ${worker.apellidos}`}
+                        style={{
+                          padding: '6px 14px',
+                          minHeight: '32px',
+                          borderRadius: 'var(--radius-sm)',
+                          border: '1px solid var(--border-brand)',
+                          backgroundColor: 'transparent',
+                          color: 'var(--color-purple-light)',
+                          fontSize: 'var(--text-micro)',
+                          fontWeight: 'var(--font-weight-medium)',
+                          cursor: 'pointer',
+                          transition: 'var(--transition-base)',
+                          whiteSpace: 'nowrap',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-brand-hover)'; e.currentTarget.style.backgroundColor = 'rgba(124,77,171,0.08)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-brand)'; e.currentTarget.style.backgroundColor = 'transparent'; }}
+                      >
+                        Ver
+                      </button>
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Expandir/colapsar */}
+          {topRiskWorkers.length > 5 && (
+            <button
+              onClick={() => setShowAllRisk(s => !s)}
+              style={{
+                width: '100%',
+                marginTop: 'var(--space-md)',
+                padding: 'var(--space-sm) var(--space-md)',
+                minHeight: '40px',
+                borderRadius: 'var(--radius-sm)',
+                border: '1px dashed var(--border-brand)',
+                backgroundColor: 'transparent',
+                color: 'var(--color-text-muted)',
+                fontSize: 'var(--text-small)',
+                cursor: 'pointer',
+                transition: 'var(--transition-base)',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-brand-hover)'; e.currentTarget.style.color = 'var(--color-purple-light)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-brand)'; e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+              aria-expanded={showAllRisk}
+            >
+              {showAllRisk ? '▲ Mostrar menos' : `▼ Ver ${topRiskWorkers.length - 5} trabajadores más`}
             </button>
           )}
         </Card>
