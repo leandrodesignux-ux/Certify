@@ -96,6 +96,7 @@ export function Certifications() {
   const [showFilters, setShowFilters] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
   // Smooth scroll to top when changing page
   const scrollToTop = () => {
@@ -219,30 +220,37 @@ export function Certifications() {
   }, [certifications]);
 
   // CSV export - all results
-  const exportCSV = useCallback(() => {
-    const headers = ['Trabajador', 'Certificación', 'Emisor', 'Tipo', 'Fecha Obtención', 'Vencimiento', 'Estado', 'Días Restantes'];
-    const rows = sorted.map((cert) => {
-      const worker = workers.find((w) => w.id === cert.workerId);
-      return [
-        `${worker?.nombre} ${worker?.apellidos}`,
-        cert.nombre,
-        cert.emisor,
-        cert.tipo,
-        cert.fechaObtension,
-        cert.fechaVencimiento,
-        cert.estado,
-        cert.diasRestantes,
-      ];
-    });
+  const exportCSV = useCallback(async () => {
+    setExporting(true);
+    try {
+      const headers = ['Trabajador', 'Certificación', 'Emisor', 'Tipo', 'Fecha Obtención', 'Vencimiento', 'Estado', 'Días Restantes'];
+      const rows = sorted.map((cert) => {
+        const worker = workers.find((w) => w.id === cert.workerId);
+        return [
+          `${worker?.nombre} ${worker?.apellidos}`,
+          cert.nombre,
+          cert.emisor,
+          cert.tipo,
+          cert.fechaObtension,
+          cert.fechaVencimiento,
+          cert.estado,
+          cert.diasRestantes,
+        ];
+      });
 
-    const csv = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `certificaciones_${activeTab}_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+      const csv = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `certificaciones_${activeTab}_${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      // Small delay to show loading state
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } finally {
+      setExporting(false);
+    }
   }, [sorted, workers, activeTab]);
 
   const handleSort = useCallback((field: SortField) => {
@@ -272,20 +280,39 @@ export function Certifications() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        style={{ marginBottom: '24px' }}
+        style={{ marginBottom: '20px' }}
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="font-display text-2xl md:text-3xl font-bold text-gradient tracking-tight">
+            <h1 
+              className="font-display font-bold text-gradient"
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(24px, 3vw, 32px)',
+                letterSpacing: '-0.02em',
+              }}
+            >
               Certificaciones
             </h1>
-            <p className="text-[#8892A4] mt-1">
-              {filtered.length} certificaciones en vista{' '}
-              {activeTab !== 'todas' && `(${tabs.find((t) => t.id === activeTab)?.label.toLowerCase()})`}
+            <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginTop: '4px' }}>
+              {(() => {
+                const hasFilters = activeTab !== 'todas' || search || areaFilter || tipoFilter;
+                if (hasFilters) {
+                  return `${filtered.length} de ${certifications.length} certificaciones`;
+                }
+                return `${certifications.length} certificaciones en total`;
+              })()}
             </p>
           </div>
-          <Button variant="ghost" size="md" icon={Download} onClick={exportCSV}>
-            Exportar CSV
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            icon={exporting ? undefined : Download}
+            onClick={exportCSV}
+            disabled={exporting}
+            loading={exporting}
+          >
+            {exporting ? 'Exportando...' : 'Exportar CSV'}
           </Button>
         </div>
       </motion.div>
