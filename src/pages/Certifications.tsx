@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Download,
@@ -25,6 +25,9 @@ import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { formatDate } from '../utils/dates';
 import { CertTableSkeleton } from '../components/certifications/CertTableSkeleton';
+import { CertStatCard } from '../components/certifications/CertStatCard';
+import { DaysSparkline } from '../components/certifications/DaysSparkline';
+import { CertEmptyState } from '../components/certifications/CertEmptyState';
 import { Suspense, lazy } from 'react';
 
 const CertDetailDrawer = lazy(() => import('../components/certifications/CertDetailDrawer'));
@@ -40,174 +43,7 @@ const tabs = [
   { id: 'vencidas' as TabType, label: 'Vencidas', color: '#FF3D57', countKey: 'vencidas' as const },
 ];
 
-// Animated counter hook
-function useCountUp(end: number, duration: number = 1.5) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    let startTime: number;
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
-      setCount(Math.floor(progress * end));
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-    requestAnimationFrame(animate);
-  }, [end, duration]);
-  return count;
-}
-
-// Stat Card Component
-const StatCard = React.memo(function StatCard({ 
-  icon: Icon, 
-  value, 
-  label, 
-  color, 
-  total,
-  isPercentage = false 
-}: { 
-  icon: React.ElementType; 
-  value: number | string; 
-  label: string; 
-  color: string; 
-  total: number;
-  isPercentage?: boolean;
-}) {
-  const animatedValue = isPercentage ? value : useCountUp(value as number);
-  const percentage = total > 0 && !isPercentage ? (value as number / total) * 100 : 0;
-  
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ 
-        y: -2, 
-        transition: { duration: 0.15 },
-        boxShadow: `0 8px 25px ${color}20`
-      }}
-      style={{
-        backgroundColor: 'var(--surface-card)',
-        border: '1px solid var(--border-brand)',
-        borderRadius: 'var(--radius-md)',
-        padding: '16px',
-        position: 'relative',
-        overflow: 'hidden',
-        transition: 'box-shadow 0.15s ease',
-      }}
-    >
-      {/* Top color bar - "eyebrow" indicator */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '4px',
-          backgroundColor: color,
-          borderRadius: '4px 4px 0 0',
-        }}
-      />
-      
-      {/* Progress bar fill */}
-      {!isPercentage && (
-        <div 
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            height: '4px',
-            width: `${percentage}%`,
-            backgroundColor: color,
-            opacity: 0.7,
-            borderRadius: '4px 0 0 0',
-          }}
-        />
-      )}
-      
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '8px' }}>
-        <div style={{
-          width: '40px',
-          height: '40px',
-          borderRadius: '10px',
-          backgroundColor: `${color}15`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-        }}>
-          <Icon style={{ width: '20px', height: '20px', color }} />
-        </div>
-        <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-          <motion.p
-            role="status"
-            aria-live="polite"
-            aria-label={`${animatedValue}${isPercentage ? '%' : ''} ${label}`}
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '32px',
-              fontWeight: 700,
-              color,
-              lineHeight: 1,
-            }}
-          >
-            {animatedValue}{isPercentage ? '%' : ''}
-          </motion.p>
-          {!isPercentage && total > 0 && (
-            <span style={{ fontSize: '11px', color: '#4A5568', alignSelf: 'flex-end', marginBottom: '3px' }}>
-              /{total}
-            </span>
-          )}
-        </div>
-      </div>
-      
-      <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '8px' }}>{label}</p>
-    </motion.div>
-  );
-});
-
-// Sparkline component for days remaining
-function DaysSparkline({ 
-  diasRestantes, 
-  barWidth = 60, 
-  barHeight = 6, 
-  textSize = '12px' 
-}: { 
-  diasRestantes: number;
-  barWidth?: number;
-  barHeight?: number;
-  textSize?: string;
-}) {
-  const maxDays = 365;
-  const percentage = Math.min(Math.max((diasRestantes / maxDays) * 100, 0), 100);
-  const color = diasRestantes <= 0 ? '#FF3D57' : diasRestantes <= 60 ? '#FFB800' : '#729362';
-  
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <div style={{ 
-        width: `${barWidth}px`, 
-        height: `${barHeight}px`, 
-        backgroundColor: 'rgba(255,255,255,0.1)', 
-        borderRadius: `${barHeight / 2}px`,
-        overflow: 'hidden'
-      }}>
-        <div style={{
-          width: `${percentage}%`,
-          height: '100%',
-          backgroundColor: color,
-          borderRadius: `${barHeight / 2}px`,
-          transition: 'width 0.3s ease',
-        }} />
-      </div>
-      <span style={{ fontSize: textSize, color, fontWeight: 600 }}>
-        {diasRestantes}d
-      </span>
-    </div>
-  );
-}
-
-// Notification Badge Component
+// Notification Badge Component (kept local as it's small and used only here)
 function NotificationBadge({ count, color }: { count: number; color: string }) {
   if (count === 0) return null;
   return (
@@ -231,181 +67,6 @@ function NotificationBadge({ count, color }: { count: number; color: string }) {
     >
       {count > 9 ? '9+' : count}
     </span>
-  );
-}
-
-// Empty state with animated SVG illustration (3 rotating orbit rings)
-interface EmptyStateProps {
-  search?: string;
-  activeTab?: TabType;
-  onClearSearch?: () => void;
-  onSwitchToAll?: () => void;
-}
-
-function EmptyState({ search, activeTab, onClearSearch, onSwitchToAll }: EmptyStateProps) {
-  const hasSearch = search && search.trim().length > 0;
-  const hasTabFilter = activeTab && activeTab !== 'todas';
-
-  // Determine message based on filters
-  let title = 'Sin certificaciones';
-  let subtitle = 'No hay certificaciones para mostrar en este momento';
-
-  if (hasSearch) {
-    title = `No hay resultados para "${search}"`;
-    subtitle = 'Intenta con otros términos de búsqueda';
-  } else if (hasTabFilter) {
-    const tabLabels: Record<TabType, string> = {
-      todas: 'Todas',
-      vigentes: 'Vigentes',
-      proximas: 'Próximas a vencer',
-      vencidas: 'Vencidas',
-    };
-    title = `Sin certificaciones ${tabLabels[activeTab].toLowerCase()}`;
-    subtitle = `No hay certificaciones en estado "${tabLabels[activeTab]}"`;
-  }
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
-      role="alert"
-      aria-live="assertive"
-      style={{ 
-        textAlign: 'center', 
-        padding: '48px 20px',
-        background: 'rgba(91,34,119,0.04)',
-        borderRadius: 'var(--radius-lg)',
-        border: '1px dashed rgba(91,34,119,0.15)',
-        margin: '20px'
-      }}
-    >
-      <div style={{ position: 'relative', display: 'inline-block', marginBottom: '24px', width: '80px', height: '80px' }}>
-        {/* 3 rotating orbit rings */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-          style={{
-            position: 'absolute',
-            inset: '-10px',
-            borderRadius: '50%',
-            border: '2px dashed rgba(91,34,119,0.4)',
-          }}
-        />
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-          style={{
-            position: 'absolute',
-            inset: '-25px',
-            borderRadius: '50%',
-            border: '2px dashed rgba(138,158,82,0.25)',
-          }}
-        />
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
-          style={{
-            position: 'absolute',
-            inset: '-40px',
-            borderRadius: '50%',
-            border: '2px dashed rgba(255,184,0,0.15)',
-          }}
-        />
-        <Award style={{ width: '64px', height: '64px', color: '#7c4dab', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
-      </div>
-      <p style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '24px', fontWeight: 700, color: '#F0F4FF', marginBottom: '8px' }}>
-        {title}
-      </p>
-      <p style={{ fontSize: '14px', color: '#8892A4', marginBottom: '20px' }}>
-        {subtitle}
-      </p>
-
-      {/* Action buttons */}
-      <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-        {hasSearch && onClearSearch && (
-          <button
-            onClick={onClearSearch}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: 'rgba(91,34,119,0.12)',
-              border: '1px solid rgba(91,34,119,0.35)',
-              borderRadius: '6px',
-              color: '#9b6ab5',
-              fontSize: '13px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all 0.15s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.2)';
-              e.currentTarget.style.transform = 'translateY(-1px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.12)';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
-            Limpiar búsqueda
-          </button>
-        )}
-        {hasTabFilter && onSwitchToAll && (
-          <button
-            onClick={onSwitchToAll}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: 'rgba(138,158,82,0.1)',
-              border: '1px solid rgba(138,158,82,0.35)',
-              borderRadius: '6px',
-              color: '#8a9e52',
-              fontSize: '13px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all 0.15s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(138,158,82,0.18)';
-              e.currentTarget.style.transform = 'translateY(-1px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(138,158,82,0.1)';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
-            Ver todas las certificaciones
-          </button>
-        )}
-        {hasSearch && hasTabFilter && onClearSearch && onSwitchToAll && (
-          <button
-            onClick={() => {
-              onClearSearch?.();
-              onSwitchToAll?.();
-            }}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: 'rgba(255,61,87,0.1)',
-              border: '1px solid rgba(255,61,87,0.35)',
-              borderRadius: '6px',
-              color: '#ff3d57',
-              fontSize: '13px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all 0.15s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255,61,87,0.18)';
-              e.currentTarget.style.transform = 'translateY(-1px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255,61,87,0.1)';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
-            Limpiar todo
-          </button>
-        )}
-      </div>
-    </motion.div>
   );
 }
 
@@ -639,35 +300,35 @@ export function Certifications() {
           marginBottom: '28px' 
         }}
       >
-        <StatCard
+        <CertStatCard
           icon={CheckCircle}
           value={summary.vigentes}
           label="Vigentes"
           color="var(--color-success)"
           total={summary.total}
         />
-        <StatCard
+        <CertStatCard
           icon={Clock}
           value={summary.porvencer}
           label="Por vencer"
           color="var(--color-warning)"
           total={summary.total}
         />
-        <StatCard
+        <CertStatCard
           icon={AlertCircle}
           value={summary.vencidas}
           label="Vencidas"
           color="var(--color-danger)"
           total={summary.total}
         />
-        <StatCard
+        <CertStatCard
           icon={Award}
           value={summary.pendientes}
           label="Pendientes"
           color="var(--color-electric)"
           total={summary.total}
         />
-        <StatCard
+        <CertStatCard
           icon={TrendingUp}
           value={summary.compliance}
           label="Compliance total"
@@ -1417,7 +1078,7 @@ export function Certifications() {
 
         {/* Empty State */}
         {sorted.length === 0 && (
-          <EmptyState
+          <CertEmptyState
             search={search}
             activeTab={activeTab}
             onClearSearch={() => { setSearchInput(''); setSearch(''); }}
