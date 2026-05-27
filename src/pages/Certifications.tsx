@@ -549,16 +549,65 @@ export function Certifications() {
               exit={{ opacity: 0, height: 0, marginTop: 0 }}
               transition={{ duration: 0.2, ease: 'easeInOut' }}
               style={{ 
-                padding: '16px', 
-                backgroundColor: 'rgba(26,16,64,0.4)', 
-                borderRadius: '10px', 
-                border: '1px solid rgba(91,34,119,0.15)', 
+                position: 'relative',
+                padding: '20px', 
+                backgroundColor: 'rgba(13,9,32,0.6)', 
+                borderRadius: 'var(--radius-md)', 
+                border: '1px solid rgba(91,34,119,0.2)', 
+                backdropFilter: 'blur(8px)',
                 overflow: 'hidden'
               }}
             >
+              {/* Clear Filters Button - Top Right */}
+              {activeFilters > 0 && (
+                <button
+                  onClick={() => {
+                    setSearch('');
+                    setAreaFilter('');
+                    setTipoFilter('');
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '16px',
+                    right: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '6px 12px',
+                    fontSize: '12px',
+                    color: '#FF5C71',
+                    backgroundColor: 'rgba(255,61,87,0.1)',
+                    border: '1px solid rgba(255,61,87,0.2)',
+                    borderRadius: 'var(--radius-md)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                    zIndex: 1,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255,61,87,0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255,61,87,0.1)';
+                  }}
+                >
+                  <X style={{ width: '14px', height: '14px' }} />
+                  Limpiar filtros
+                </button>
+              )}
+
               {/* Area Chips */}
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '12px' }}>
-                <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0 }}>Área:</span>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <span style={{ 
+                  fontSize: '10px', 
+                  fontWeight: 700, 
+                  letterSpacing: '0.12em', 
+                  color: '#6B7280', 
+                  textTransform: 'uppercase',
+                  width: '48px',
+                  flexShrink: 0 
+                }}>
+                  Área:
+                </span>
                 {['Todas', ...uniqueAreas].map(area => {
                   const isActive = area === 'Todas' ? !areaFilter : areaFilter === area;
                   return (
@@ -566,70 +615,111 @@ export function Certifications() {
                       key={area} 
                       onClick={() => setAreaFilter(area === 'Todas' ? '' : area)}
                       style={{ 
-                        padding: '4px 12px', 
-                        borderRadius: '20px', 
+                        padding: '5px 14px', 
+                        borderRadius: 'var(--radius-full)', 
                         fontSize: '12px', 
                         fontWeight: 500, 
                         border: '1px solid', 
                         cursor: 'pointer', 
-                        transition: 'all 0.12s', 
-                        borderColor: isActive ? 'rgba(155,106,181,0.6)' : 'rgba(91,34,119,0.2)', 
-                        backgroundColor: isActive ? 'rgba(155,106,181,0.15)' : 'transparent', 
-                        color: isActive ? '#9b6ab5' : '#8892A4',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px'
+                        transition: 'all 0.15s ease', 
+                        borderColor: isActive ? 'rgba(124,77,171,0.4)' : 'rgba(255,255,255,0.08)', 
+                        backgroundColor: isActive ? 'rgba(124,77,171,0.15)' : 'transparent', 
+                        color: isActive ? '#c49fe0' : '#6B7280',
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                        }
                       }}
                     >
-                      {isActive && (
-                        <div style={{
-                          width: '4px',
-                          height: '4px',
-                          borderRadius: '50%',
-                          backgroundColor: '#9b6ab5',
-                          flexShrink: 0
-                        }} />
-                      )}
                       {area}
                     </button>
                   );
                 })}
               </div>
 
+              {/* Separator */}
+              <hr style={{ border: 'none', borderTop: '1px solid rgba(91,34,119,0.1)', margin: '12px 0' }} />
+
               {/* Tipo Chips */}
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0 }}>Tipo:</span>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <span style={{ 
+                  fontSize: '10px', 
+                  fontWeight: 700, 
+                  letterSpacing: '0.12em', 
+                  color: '#6B7280', 
+                  textTransform: 'uppercase',
+                  width: '48px',
+                  flexShrink: 0 
+                }}>
+                  Tipo:
+                </span>
                 {['Todos', ...uniqueTypes].map(tipo => {
                   const isActive = tipo === 'Todos' ? !tipoFilter : tipoFilter === tipo;
+                  const getTipoStyles = (type: string, active: boolean) => {
+                    if (!active) return {
+                      borderColor: 'rgba(255,255,255,0.08)',
+                      backgroundColor: 'transparent',
+                      color: '#6B7280'
+                    };
+                    switch (type) {
+                      case 'obligatoria':
+                        return {
+                          borderColor: 'rgba(255,61,87,0.4)',
+                          backgroundColor: 'rgba(255,61,87,0.15)',
+                          color: '#FF5C71'
+                        };
+                      case 'complementaria':
+                        return {
+                          borderColor: 'rgba(138,158,82,0.4)',
+                          backgroundColor: 'rgba(138,158,82,0.15)',
+                          color: '#9aaa58'
+                        };
+                      case 'legal':
+                        return {
+                          borderColor: 'rgba(155,106,181,0.4)',
+                          backgroundColor: 'rgba(155,106,181,0.15)',
+                          color: '#9b6ab5'
+                        };
+                      default:
+                        return {
+                          borderColor: 'rgba(255,255,255,0.08)',
+                          backgroundColor: 'transparent',
+                          color: '#6B7280'
+                        };
+                    }
+                  };
+                  const styles = getTipoStyles(tipo, isActive);
                   return (
                     <button 
                       key={tipo} 
                       onClick={() => setTipoFilter(tipo === 'Todos' ? '' : tipo)}
                       style={{ 
-                        padding: '4px 12px', 
-                        borderRadius: '20px', 
+                        padding: '5px 14px', 
+                        borderRadius: 'var(--radius-full)', 
                         fontSize: '12px', 
                         fontWeight: 500, 
                         border: '1px solid', 
                         cursor: 'pointer', 
-                        transition: 'all 0.12s', 
-                        borderColor: isActive ? 'rgba(138,158,82,0.6)' : 'rgba(91,34,119,0.2)', 
-                        backgroundColor: isActive ? 'rgba(138,158,82,0.15)' : 'transparent', 
-                        color: isActive ? '#8a9e52' : '#8892A4',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px'
+                        transition: 'all 0.15s ease',
+                        ...styles
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                        }
                       }}
                     >
-                      {isActive && (
-                        <div style={{
-                          width: '4px',
-                          height: '4px',
-                          borderRadius: '50%',
-                          backgroundColor: '#8a9e52',
-                          flexShrink: 0
-                        }} />
-                      )}
                       {tipo === 'obligatoria' ? 'Obligatoria' : 
                        tipo === 'complementaria' ? 'Complementaria' : 
                        tipo === 'legal' ? 'Legal' : tipo}
@@ -638,34 +728,9 @@ export function Certifications() {
                 })}
               </div>
 
-              {/* Clear Filters and Results Count */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px' }}>
-                {activeFilters > 0 && (
-                  <button
-                    onClick={() => {
-                      setSearch('');
-                      setAreaFilter('');
-                      setTipoFilter('');
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      padding: '6px 12px',
-                      fontSize: '12px',
-                      color: '#FF3D57',
-                      backgroundColor: 'rgba(255,61,87,0.1)',
-                      border: '1px solid rgba(255,61,87,0.2)',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s'
-                    }}
-                  >
-                    <X style={{ width: '14px', height: '14px' }} />
-                    Limpiar filtros
-                  </button>
-                )}
-                <span style={{ fontSize: '13px', color: '#8892A4', marginLeft: activeFilters > 0 ? 'auto' : '0' }}>
+              {/* Results Count */}
+              <div style={{ marginTop: '16px', textAlign: 'right' }}>
+                <span style={{ fontSize: '13px', color: '#8892A4' }}>
                   {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
                 </span>
               </div>
