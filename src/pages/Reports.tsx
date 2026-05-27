@@ -26,6 +26,7 @@ import { useWorkerStore } from '../store/useWorkerStore';
 import { useCertStore } from '../store/useCertStore';
 import { useNavigate } from 'react-router-dom';
 import { KPICard } from '../components/reports/KPICard';
+import { CustomBarTooltip, CustomPieTooltip } from '../components/reports/ChartTooltips';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -39,52 +40,6 @@ const sectionVariants = {
     },
   }),
 };
-
-// Custom Tooltip for Bar Chart
-function CustomBarTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
-  if (active && payload && payload.length) {
-    return (
-      <div style={{
-        backgroundColor: '#1a1040',
-        border: '1px solid rgba(91,34,119,0.5)',
-        borderRadius: '10px',
-        padding: '12px 16px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
-        minWidth: '160px',
-      }}>
-        <p style={{ fontSize: '12px', color: '#8892A4', marginBottom: '6px', fontWeight: 500 }}>{label}</p>
-        <p style={{ fontSize: '22px', fontWeight: 700, color: '#9b6ab5', fontFamily: '"Barlow Condensed"', lineHeight: 1 }}>
-          {payload[0].value}%
-        </p>
-        <p style={{ fontSize: '11px', color: '#4A5568', marginTop: '4px' }}>Cumplimiento promedio</p>
-      </div>
-    );
-  }
-  return null;
-}
-
-// Custom Tooltip for Pie Chart
-function CustomPieTooltip({ active, payload }: { active?: boolean; payload?: Array<{ name: string; value: number; payload: { color: string } }> }) {
-  if (active && payload && payload.length) {
-    const data = payload[0];
-    return (
-      <div style={{
-        backgroundColor: '#1a1040',
-        border: '1px solid rgba(91,34,119,0.5)',
-        borderRadius: '10px',
-        padding: '12px 16px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
-        minWidth: '140px',
-      }}>
-        <p style={{ fontSize: '12px', color: '#8892A4', marginBottom: '6px' }}>{data.name}</p>
-        <p style={{ fontSize: '22px', fontWeight: 700, fontFamily: '"Barlow Condensed"', lineHeight: 1, color: data.payload.color }}>
-          {data.value}
-        </p>
-      </div>
-    );
-  }
-  return null;
-}
 
 export function Reports() {
   const navigate = useNavigate();
@@ -370,25 +325,35 @@ Generado automáticamente por CertifyX
           initial="hidden"
           animate="visible"
         >
-          <Card variant="glass" padding="lg" className="h-[400px]">
-            <h3 className="font-display text-lg font-bold text-[#F0F4FF] mb-6">
-              Cumplimiento por Área
-            </h3>
-            <ResponsiveContainer width="100%" height="85%">
-              <BarChart data={complianceByArea} layout="vertical" margin={{ left: 80, right: 20, top: 10, bottom: 10 }}>
+          <Card variant="glass" padding="lg" className="h-[420px]">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
+                Cumplimiento por Área
+              </h3>
+              <span style={{
+                fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)',
+                backgroundColor: 'var(--color-surface-alt)',
+                padding: '3px 10px', borderRadius: 'var(--radius-full)',
+                border: '1px solid var(--border-brand)',
+              }}>
+                {complianceByArea.length} áreas
+              </span>
+            </div>
+            <ResponsiveContainer width="100%" height="88%">
+              <BarChart data={complianceByArea} layout="vertical" margin={{ left: 90, right: 28, top: 4, bottom: 4 }}>
                 <XAxis type="number" domain={[0, 100]} hide />
                 <YAxis
                   type="category"
                   dataKey="area"
-                  tick={{ fill: '#8892A4', fontSize: 12 }}
-                  width={70}
+                  tick={{ fill: 'var(--color-text-muted)', fontSize: 12, fontFamily: 'var(--font-body)' }}
+                  width={80}
                   axisLine={false}
                   tickLine={false}
                 />
-                <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(91,34,119,0.08)' }} />
-                <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={24}>
+                <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(91,34,119,0.07)' }} />
+                <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={20}>
                   {complianceByArea.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                    <Cell key={`bar-${index}`} fill={entry.fill} />
                   ))}
                 </Bar>
               </BarChart>
@@ -403,43 +368,55 @@ Generado automáticamente por CertifyX
           initial="hidden"
           animate="visible"
         >
-          <Card variant="glass" padding="lg" className="h-[400px]">
-            <h3 className="font-display text-lg font-bold text-[#F0F4FF] mb-4">
-              Estado de Certificaciones
-            </h3>
-            <div className="flex items-center h-[calc(100%-40px)]">
-              <ResponsiveContainer width="60%" height="100%">
+          <Card variant="glass" padding="lg" className="h-[420px]">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
+                Estado de Certificaciones
+              </h3>
+              <span style={{
+                fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)',
+                backgroundColor: 'var(--color-surface-alt)',
+                padding: '3px 10px', borderRadius: 'var(--radius-full)',
+                border: '1px solid var(--border-brand)',
+              }}>
+                {certifications.length} total
+              </span>
+            </div>
+            <div className="flex items-center h-[calc(100%-52px)]">
+              <ResponsiveContainer width="55%" height="100%">
                 <PieChart>
                   <Pie
                     data={certStatusData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={60}
-                    outerRadius={90}
-                    paddingAngle={4}
+                    innerRadius={64}
+                    outerRadius={96}
+                    paddingAngle={3}
                     dataKey="value"
+                    strokeWidth={0}
                   >
                     {certStatusData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} stroke="transparent" />
+                      <Cell key={`pie-${index}`} fill={entry.color} stroke="transparent" />
                     ))}
                   </Pie>
                   <Tooltip content={<CustomPieTooltip />} />
                 </PieChart>
               </ResponsiveContainer>
-              {/* Legend */}
-              <div className="flex-1 space-y-3">
+              {/* Leyenda */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
                 {certStatusData.map((item) => (
-                  <div key={item.name} className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: item.color }}
-                      />
-                      <span className="text-sm text-[#8892A4]">{item.name}</span>
+                  <div key={item.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-sm)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
+                      <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-secondary)' }}>{item.name}</span>
                     </div>
-                    <div className="text-right">
-                      <span className="text-sm font-medium text-[#F0F4FF]">{item.value}</span>
-                      <span className="text-xs text-[#4A5568] ml-1">({item.percentage}%)</span>
+                    <div style={{ textAlign: 'right' }}>
+                      <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-text-primary)' }}>
+                        {item.value}
+                      </span>
+                      <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginLeft: '4px' }}>
+                        ({item.percentage}%)
+                      </span>
                     </div>
                   </div>
                 ))}
