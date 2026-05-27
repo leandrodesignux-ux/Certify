@@ -25,6 +25,7 @@ import { Card } from '../components/ui/Card';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { useCertStore } from '../store/useCertStore';
 import { useNavigate } from 'react-router-dom';
+import { KPICard } from '../components/reports/KPICard';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -38,47 +39,6 @@ const sectionVariants = {
     },
   }),
 };
-
-// KPI Card Component
-interface KPICardProps {
-  title: string;
-  value: string | number;
-  subtitle?: string;
-  icon: React.ElementType;
-  color: string;
-  trend?: 'up' | 'down' | 'neutral';
-  delay?: number;
-}
-
-function KPICard({ title, value, subtitle, icon: Icon, color, delay = 0 }: KPICardProps) {
-  return (
-    <motion.div
-      custom={delay}
-      variants={sectionVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      <Card variant="glass" padding="lg" className="h-full">
-        <div className="flex items-start justify-between mb-3">
-          <div
-            className="p-3 rounded-lg"
-            style={{ backgroundColor: `${color}15` }}
-          >
-            <Icon className="w-6 h-6" style={{ color }} />
-          </div>
-        </div>
-        <p className="text-sm text-[#8892A4] mb-1">{title}</p>
-        <p
-          className="text-3xl font-display font-bold"
-          style={{ color }}
-        >
-          {value}
-        </p>
-        {subtitle && <p className="text-xs text-[#4A5568] mt-2">{subtitle}</p>}
-      </Card>
-    </motion.div>
-  );
-}
 
 // Custom Tooltip for Bar Chart
 function CustomBarTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
@@ -171,9 +131,9 @@ export function Reports() {
         : 0;
       
       // Color coding
-      let color = '#FF3D57';
-      if (avgScore > 80) color = '#729362';
-      else if (avgScore > 60) color = '#FFB800';
+      let color = 'var(--color-danger)';
+      if (avgScore > 80) color = 'var(--color-success)';
+      else if (avgScore > 60) color = 'var(--color-warning)';
 
       return {
         area,
@@ -192,10 +152,10 @@ export function Reports() {
     const total = certifications.length || 1;
 
     return [
-      { name: 'Vigentes', value: vigentes, color: '#729362', percentage: ((vigentes / total) * 100).toFixed(1) },
-      { name: 'Próx. vencer', value: proximas, color: '#FFB800', percentage: ((proximas / total) * 100).toFixed(1) },
-      { name: 'Vencidas', value: vencidas, color: '#FF3D57', percentage: ((vencidas / total) * 100).toFixed(1) },
-      { name: 'Pendientes', value: pendientes, color: '#8892A4', percentage: ((pendientes / total) * 100).toFixed(1) },
+      { name: 'Vigentes', value: vigentes, color: 'var(--chart-vigente)', percentage: ((vigentes / total) * 100).toFixed(1) },
+      { name: 'Próx. vencer', value: proximas, color: 'var(--chart-proximo)', percentage: ((proximas / total) * 100).toFixed(1) },
+      { name: 'Vencidas', value: vencidas, color: 'var(--chart-vencido)', percentage: ((vencidas / total) * 100).toFixed(1) },
+      { name: 'Pendientes', value: pendientes, color: 'var(--chart-pendiente)', percentage: ((pendientes / total) * 100).toFixed(1) },
     ];
   }, [certifications]);
 
@@ -208,9 +168,9 @@ export function Reports() {
         const expiredCount = worker.certifications.filter(c => c.estado === 'vencido').length;
         const expiringCount = worker.certifications.filter(c => c.estado === 'proximo_vencer').length;
         
-        let scoreColor = '#FF3D57';
-        if (worker.complianceScore >= 80) scoreColor = '#729362';
-        else if (worker.complianceScore >= 60) scoreColor = '#FFB800';
+        let scoreColor = 'var(--color-danger)';
+        if (worker.complianceScore >= 80) scoreColor = 'var(--color-success)';
+        else if (worker.complianceScore >= 60) scoreColor = 'var(--color-warning)';
 
         return {
           ...worker,
@@ -279,9 +239,9 @@ Generado automáticamente por CertifyX
   };
 
   const getComplianceColor = (score: number) => {
-    if (score >= 80) return '#729362';
-    if (score >= 60) return '#FFB800';
-    return '#FF3D57';
+    if (score >= 80) return 'var(--color-success)';
+    if (score >= 60) return 'var(--color-warning)';
+    return 'var(--color-danger)';
   };
 
   const getComplianceLabel = (score: number) => {
@@ -356,12 +316,15 @@ Generado automáticamente por CertifyX
         </div>
       </motion.div>
 
-      {/* SECTION 1: KPI Header Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" style={{ marginBottom: '32px' }}>
+      {/* SECTION 1: KPIs */}
+      <div className="grid gap-4 kpi-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}
+        role="region" aria-label="Indicadores clave de cumplimiento">
         <KPICard
           title="Índice de Cumplimiento Global"
           value={`${kpis.avgCompliance}%`}
-          subtitle={getComplianceLabel(kpis.avgCompliance)}
+          subtitle={`de ${workers.length} trabajadores`}
+          trendLabel={getComplianceLabel(kpis.avgCompliance)}
+          trend={kpis.avgCompliance >= 80 ? 'up' : kpis.avgCompliance >= 60 ? 'neutral' : 'down'}
           icon={TrendingUp}
           color={getComplianceColor(kpis.avgCompliance)}
           delay={0.1}
@@ -370,25 +333,31 @@ Generado automáticamente por CertifyX
           title="Certificaciones Activas"
           value={kpis.activeCerts}
           subtitle={`de ${certifications.length} totales`}
+          trendLabel={`${Math.round((kpis.activeCerts / (certifications.length || 1)) * 100)}% del total`}
+          trend="up"
           icon={Award}
-          color="#729362"
-          delay={0.2}
+          color="var(--color-success)"
+          delay={0.15}
         />
         <KPICard
-          title="Vencimientos Próximos 30 días"
+          title="Vencimientos en 30 días"
           value={kpis.expiringSoon}
-          subtitle="Requieren atención inmediata"
+          subtitle="Requieren atención"
+          trendLabel={kpis.expiringSoon > 5 ? 'Nivel alto' : 'Nivel normal'}
+          trend={kpis.expiringSoon > 5 ? 'down' : 'neutral'}
           icon={Clock}
-          color="#FFB800"
-          delay={0.3}
+          color="var(--color-warning)"
+          delay={0.2}
         />
         <KPICard
           title="Trabajadores en Riesgo"
           value={kpis.workersAtRisk}
           subtitle={`de ${workers.length} totales`}
+          trendLabel={kpis.workersAtRisk > 3 ? 'Crítico' : 'Controlado'}
+          trend={kpis.workersAtRisk > 3 ? 'down' : 'neutral'}
           icon={AlertTriangle}
-          color="#FF3D57"
-          delay={0.4}
+          color="var(--color-danger)"
+          delay={0.25}
         />
       </div>
 
