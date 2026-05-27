@@ -671,7 +671,7 @@ export function Certifications() {
         />
       </motion.div>
 
-      {/* Tabs with Pill Design */}
+      {/* Tabs with Guaranteed Min-Width Design */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -695,63 +695,74 @@ export function Certifications() {
         }}
         style={{
           display: 'flex',
-          gap: '4px',
-          padding: '6px',
+          gap: '8px',
+          padding: '8px',
+          marginBottom: '20px',
           backgroundColor: 'rgba(19,11,58,0.8)',
           borderRadius: 'var(--radius-md)',
           border: '1px solid var(--border-brand)',
         }}
       >
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            role="tab"
-            aria-selected={activeTab === tab.id}
-            aria-controls={`panel-${tab.id}`}
-            tabIndex={activeTab === tab.id ? 0 : -1}
-            onClick={() => { setActiveTab(tab.id); setCurrentPage(1); scrollToTop(); }}
-            className="relative flex-1 flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium flex-shrink-0"
-            style={{
-              borderRadius: '8px',
-              backgroundColor: activeTab === tab.id ? `${tab.color}15` : 'transparent',
-              color: activeTab === tab.id ? tab.color : '#8892A4',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            {activeTab === tab.id && (
-              <motion.div
-                layoutId="activeTab"
-                className="absolute inset-0"
-                style={{
-                  borderRadius: '8px',
-                  backgroundColor: `${tab.color}15`,
-                  boxShadow: `0 0 16px ${tab.color}25`,
-                }}
-                transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-              />
-            )}
-            <span className="relative z-10 flex items-center gap-2">
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab.id;
+          const count = tabCounts[tab.countKey];
+          return (
+            <button
+              key={tab.id}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls={`panel-${tab.id}`}
+              aria-label={`Ver certificaciones ${tab.label} - ${count} certificaciones`}
+              tabIndex={isActive ? 0 : -1}
+              onClick={() => { setActiveTab(tab.id); setCurrentPage(1); scrollToTop(); }}
+              style={{
+                minWidth: 'var(--tab-min-width)',
+                padding: '10px 20px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: isActive ? `${tab.color}1F` : 'transparent',
+                border: isActive ? `1px solid ${tab.color}66` : '1px solid transparent',
+                color: isActive ? tab.color : 'var(--color-text-muted)',
+                fontWeight: isActive ? 600 : 500,
+                fontSize: '14px',
+                transition: 'all 0.2s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                flexShrink: 0,
+                cursor: 'pointer',
+              }}
+            >
               <span
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: tab.color }}
-              />
-              {tab.label}
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="px-2 py-0.5 rounded-full font-mono"
                 style={{
-                  fontSize: '11px',
-                  backgroundColor: activeTab === tab.id ? `${tab.color}25` : 'rgba(136,146,164,0.15)',
-                  color: activeTab === tab.id ? tab.color : '#8892A4',
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  backgroundColor: tab.color,
+                  flexShrink: 0,
+                }}
+              />
+              <span>{tab.label}</span>
+              <span
+                style={{
+                  padding: '2px 8px',
+                  borderRadius: 'var(--radius-full)',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  backgroundColor: isActive ? `${tab.color}33` : 'rgba(255,255,255,0.06)',
+                  color: isActive ? tab.color : 'var(--color-text-muted)',
+                  flexShrink: 0,
                 }}
               >
-                {tabCounts[tab.countKey]}
-              </motion.span>
-            </span>
-          </button>
-        ))}
+                {count}
+              </span>
+            </button>
+          );
+        })}
       </motion.div>
+
+      {/* Visual Separator */}
+      <div style={{ height: '20px' }} />
 
       {/* Filters - Toolbar Layout */}
       <motion.div
