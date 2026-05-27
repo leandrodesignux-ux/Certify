@@ -375,3 +375,9 @@ textarea:focus-visible {
 :focus:not(:focus-visible) {
   outline: none;
 }
+
+/* Scrollbar customization */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(91,34,119,0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(91,34,119,0.5); }

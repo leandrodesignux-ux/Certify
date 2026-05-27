@@ -62,7 +62,7 @@ function NotificationBadge({ count, color }: { count: number; color: string }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        border: '2px solid #130b3a',
+        border: '2px solid var(--color-navy-deep)',
       }}
     >
       {count > 9 ? '9+' : count}
@@ -515,7 +515,7 @@ export function Certifications() {
                 paddingLeft: '52px',
                 paddingRight: search ? '48px' : '16px',
                 fontSize: '14px',
-                color: '#F0F4FF',
+                color: 'var(--color-text-primary)',
                 outline: 'none',
                 transition: 'border-color 0.2s',
               }}
@@ -566,7 +566,7 @@ export function Certifications() {
         </div>
 
         {/* Results Count - Below Input */}
-        <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '6px', marginLeft: '4px' }}>
+        <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '6px', marginLeft: '4px' }}>
           {filtered.length} certificaciones encontradas
         </p>
 
@@ -580,7 +580,7 @@ export function Certifications() {
             >
               No se encontraron certificaciones para "{search}". Intenta con otros términos.
             </motion.p>
-            <p style={{fontSize: '12px', color: '#6B7280', marginTop: '4px', marginLeft: '4px'}}>
+            <p style={{fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '4px', marginLeft: '4px'}}>
               Prueba buscar por nombre completo, nombre de certificación o empresa emisora.
             </p>
           </>
@@ -647,7 +647,7 @@ export function Certifications() {
                   fontSize: '10px', 
                   fontWeight: 700, 
                   letterSpacing: '0.12em', 
-                  color: '#6B7280', 
+                  color: 'var(--color-text-muted)', 
                   textTransform: 'uppercase',
                   width: '48px',
                   flexShrink: 0 
@@ -670,7 +670,7 @@ export function Certifications() {
                         transition: 'all 0.15s ease', 
                         borderColor: isActive ? 'rgba(124,77,171,0.4)' : 'rgba(255,255,255,0.08)', 
                         backgroundColor: isActive ? 'rgba(124,77,171,0.15)' : 'transparent', 
-                        color: isActive ? '#c49fe0' : '#6B7280',
+                        color: isActive ? '#c49fe0' : 'var(--color-text-muted)',
                       }}
                       onMouseEnter={(e) => {
                         if (!isActive) {
@@ -698,7 +698,7 @@ export function Certifications() {
                   fontSize: '10px', 
                   fontWeight: 700, 
                   letterSpacing: '0.12em', 
-                  color: '#6B7280', 
+                  color: 'var(--color-text-muted)', 
                   textTransform: 'uppercase',
                   width: '48px',
                   flexShrink: 0 
@@ -711,7 +711,7 @@ export function Certifications() {
                     if (!active) return {
                       borderColor: 'rgba(255,255,255,0.08)',
                       backgroundColor: 'transparent',
-                      color: '#6B7280'
+                      color: 'var(--color-text-muted)'
                     };
                     switch (type) {
                       case 'obligatoria':
@@ -736,7 +736,7 @@ export function Certifications() {
                         return {
                           borderColor: 'rgba(255,255,255,0.08)',
                           backgroundColor: 'transparent',
-                          color: '#6B7280'
+                          color: 'var(--color-text-muted)'
                         };
                     }
                   };
@@ -776,7 +776,7 @@ export function Certifications() {
 
               {/* Results Count */}
               <div style={{ marginTop: '16px', textAlign: 'right' }}>
-                <span style={{ fontSize: '13px', color: '#8892A4' }}>
+                <span style={{ fontSize: '13px', color: 'var(--color-text-secondary)' }}>
                   {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
                 </span>
               </div>
@@ -790,7 +790,7 @@ export function Certifications() {
 
       {/* Virtualization Info */}
         {sorted.length > 100 && (
-          <p style={{fontSize: '12px', color: '#6B7280', marginBottom: '8px', marginLeft: '4px'}}>
+          <p style={{fontSize: '12px', color: 'var(--color-text-muted)', marginBottom: '8px', marginLeft: '4px'}}>
             Mostrando primeras {itemsPerPage} de {sorted.length}. Usa filtros para refinar.
           </p>
         )}
@@ -800,7 +800,7 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
-        className="bg-[#1a1040]/90 backdrop-blur-[12px] border border-[rgba(91,34,119,0.2)] rounded-lg overflow-hidden"
+        style={{ backgroundColor: 'rgba(26,16,64,0.9)', backdropFilter: 'blur(12px)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '8px', overflow: 'hidden' }}
       >
         <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(91,34,119,0.3) transparent' }}>
           <table className="w-full" role="grid">
@@ -817,7 +817,7 @@ export function Certifications() {
             <thead 
               className="sticky top-0 z-10"
               style={{
-                backgroundColor: '#0d0920',
+                backgroundColor: 'var(--color-obsidian)',
                 borderTop: '1px solid rgba(91,34,119,0.15)',
               }}
             >
@@ -832,7 +832,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: '#6B7280',
+                    color: 'var(--color-text-muted)',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -841,7 +841,7 @@ export function Certifications() {
                   onClick={() => handleSort('worker')}
                   aria-sort={sortField === 'worker' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center gap-1">
                     Trabajador
@@ -858,7 +858,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: '#6B7280',
+                    color: 'var(--color-text-muted)',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -867,7 +867,7 @@ export function Certifications() {
                   onClick={() => handleSort('cert')}
                   aria-sort={sortField === 'cert' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center gap-1">
                     Certificación
@@ -884,7 +884,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: '#6B7280',
+                    color: 'var(--color-text-muted)',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -893,7 +893,7 @@ export function Certifications() {
                   onClick={() => handleSort('tipo')}
                   aria-sort={sortField === 'tipo' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center gap-1">
                     Tipo
@@ -910,7 +910,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: '#6B7280',
+                    color: 'var(--color-text-muted)',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -919,7 +919,7 @@ export function Certifications() {
                   onClick={() => handleSort('fechaVen')}
                   aria-sort={sortField === 'fechaVen' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center gap-1">
                     Vencimiento
@@ -936,7 +936,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: '#6B7280',
+                    color: 'var(--color-text-muted)',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -945,7 +945,7 @@ export function Certifications() {
                   onClick={() => handleSort('estado')}
                   aria-sort={sortField === 'estado' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center justify-center gap-1">
                     Estado
@@ -963,7 +963,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: '#6B7280',
+                    color: 'var(--color-text-muted)',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -972,7 +972,7 @@ export function Certifications() {
                   onClick={() => handleSort('fechaObt')}
                   aria-sort={sortField === 'fechaObt' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                   onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center gap-1">
                     Fecha Obtención
@@ -989,7 +989,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: '#6B7280',
+                    color: 'var(--color-text-muted)',
                     textTransform: 'uppercase',
                     userSelect: 'none',
                   }}
@@ -1071,7 +1071,7 @@ export function Certifications() {
                                 style={{
                                   fontSize: '14px',
                                   fontWeight: 600,
-                                  color: '#F0F4FF',
+                                  color: 'var(--color-text-primary)',
                                   display: 'block',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
@@ -1086,7 +1086,7 @@ export function Certifications() {
                                 <span
                                   style={{
                                     fontSize: '12px',
-                                    color: '#6B7280',
+                                    color: 'var(--color-text-muted)',
                                     display: 'block',
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
@@ -1105,10 +1105,10 @@ export function Certifications() {
                         {/* Certificación */}
                         <td style={{ padding: '12px 20px' }}>
                           <div style={{ width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            <p style={{ fontSize: '14px', fontWeight: 500, color: '#F0F4FF', lineHeight: 1.3, margin: 0 }}>
+                            <p style={{ fontSize: '14px', fontWeight: 500, color: 'var(--color-text-primary)', lineHeight: 1.3, margin: 0 }}>
                               {cert.nombre}
                             </p>
-                            <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '3px', margin: 0 }}>
+                            <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '3px', margin: 0 }}>
                               {cert.emisor}
                             </p>
                           </div>
@@ -1228,7 +1228,7 @@ export function Certifications() {
                     backgroundColor: itemsPerPage === count 
                       ? 'rgba(91,34,119,0.2)' 
                       : 'transparent',
-                    color: itemsPerPage === count ? '#c49fe0' : '#6B7280',
+                    color: itemsPerPage === count ? '#c49fe0' : 'var(--color-text-muted)',
                   }}
                   onMouseEnter={(e) => {
                     if (itemsPerPage !== count) {
@@ -1247,7 +1247,7 @@ export function Certifications() {
             </div>
 
             {/* Center - Showing info */}
-            <span style={{ fontSize: '12px', color: '#8892A4' }}>
+            <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
               Mostrando {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, sorted.length)} de {sorted.length} certificaciones
             </span>
 
@@ -1264,7 +1264,7 @@ export function Certifications() {
                   borderRadius: '6px',
                   border: '1px solid var(--border-brand)',
                   backgroundColor: 'rgba(19,11,58,0.6)',
-                  color: '#F0F4FF',
+                  color: 'var(--color-text-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -1295,7 +1295,7 @@ export function Certifications() {
                   borderRadius: '6px',
                   border: '1px solid var(--border-brand)',
                   backgroundColor: 'rgba(19,11,58,0.6)',
-                  color: '#F0F4FF',
+                  color: 'var(--color-text-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -1338,7 +1338,7 @@ export function Certifications() {
                         borderRadius: '6px',
                         border: '1px solid var(--border-brand)',
                         backgroundColor: 'transparent',
-                        color: '#8892A4',
+                        color: 'var(--color-text-secondary)',
                         fontSize: '13px',
                         cursor: 'pointer',
                         display: 'flex',
@@ -1361,7 +1361,7 @@ export function Certifications() {
                     pages.push(
                       <span key="start-ellipsis" style={{ 
                         padding: '0 8px', 
-                        color: '#6B7280', 
+                        color: 'var(--color-text-muted)', 
                         fontSize: '13px' 
                       }}>
                         ...
@@ -1386,7 +1386,7 @@ export function Certifications() {
                         borderRadius: '6px',
                         border: `1px solid ${isActive ? 'rgba(124,77,171,0.5)' : 'var(--border-brand)'}`,
                         backgroundColor: isActive ? 'rgba(124,77,171,0.25)' : 'transparent',
-                        color: isActive ? '#c49fe0' : '#8892A4',
+                        color: isActive ? '#c49fe0' : 'var(--color-text-secondary)',
                         fontSize: '13px',
                         fontWeight: isActive ? 600 : 400,
                         cursor: 'pointer',
@@ -1415,7 +1415,7 @@ export function Certifications() {
                     pages.push(
                       <span key="end-ellipsis" style={{ 
                         padding: '0 8px', 
-                        color: '#6B7280', 
+                        color: 'var(--color-text-muted)', 
                         fontSize: '13px' 
                       }}>
                         ...
@@ -1433,7 +1433,7 @@ export function Certifications() {
                         borderRadius: '6px',
                         border: '1px solid var(--border-brand)',
                         backgroundColor: 'transparent',
-                        color: '#8892A4',
+                        color: 'var(--color-text-secondary)',
                         fontSize: '13px',
                         cursor: 'pointer',
                         display: 'flex',
@@ -1467,7 +1467,7 @@ export function Certifications() {
                   borderRadius: '6px',
                   border: '1px solid var(--border-brand)',
                   backgroundColor: 'rgba(19,11,58,0.6)',
-                  color: '#F0F4FF',
+                  color: 'var(--color-text-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -1498,7 +1498,7 @@ export function Certifications() {
                   borderRadius: '6px',
                   border: '1px solid var(--border-brand)',
                   backgroundColor: 'rgba(19,11,58,0.6)',
-                  color: '#F0F4FF',
+                  color: 'var(--color-text-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
