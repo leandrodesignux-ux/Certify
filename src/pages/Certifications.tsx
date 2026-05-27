@@ -423,6 +423,7 @@ export function Certifications() {
   const [selectedCert, setSelectedCert] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchFocused, setSearchFocused] = useState(false);
 
   // Smooth scroll to top when changing page
   const scrollToTop = () => {
@@ -764,95 +765,52 @@ export function Certifications() {
       {/* Visual Separator */}
       <div style={{ height: '20px' }} />
 
-      {/* Filters - Toolbar Layout */}
+      {/* Search & Filters Container */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.4 }}
+        style={{
+          padding: '16px',
+          backgroundColor: 'rgba(19,11,58,0.4)',
+          borderRadius: 'var(--radius-md)',
+          border: '1px solid var(--border-brand)',
+        }}
       >
         {/* ROW 1 - Search + Controls */}
         <div className="flex flex-col md:flex-row gap-3 md:gap-3 md:items-center">
           {/* Search Input */}
           <div className="relative w-full md:flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#4A5568]" />
+            <Search 
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" 
+              style={{ color: searchFocused ? '#9b6ab5' : '#4A5568' }} 
+            />
             <input
               type="text"
               placeholder="Buscar certificación, trabajador, emisor..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
               aria-label="Buscar certificaciones"
               aria-describedby="search-results-count"
               style={{
                 width: '100%',
-                height: '40px',
-                backgroundColor: '#231455',
-                border: `1px solid ${searchInput ? (sorted.length === 0 ? 'rgba(255,61,87,0.4)' : 'rgba(91,34,119,0.5)') : 'rgba(91,34,119,0.25)'}`,
-                borderRadius: '8px',
-                paddingLeft: '48px',
-                paddingRight: searchInput ? '48px' : '100px',
+                height: '44px',
+                backgroundColor: 'var(--color-surface-alt)',
+                border: `1px solid ${searchFocused ? 'var(--border-brand-hover)' : (searchInput ? 'rgba(91,34,119,0.4)' : 'var(--border-brand)')}`,
+                borderRadius: 'var(--radius-md)',
+                paddingLeft: '52px',
+                paddingRight: search ? '48px' : '16px',
                 fontSize: '14px',
                 color: '#F0F4FF',
                 outline: 'none',
                 transition: 'border-color 0.2s',
               }}
             />
-            <span id="search-results-count" className="sr-only">
-              {sorted.length} certificaciones encontradas
-            </span>
-            {/* Results count badge */}
-            {!search && (
-              <span
-                style={{
-                  position: 'absolute',
-                  right: '16px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  fontSize: '12px',
-                  color: '#4A5568',
-                }}
-              >
-                {filtered.length} resultados
-              </span>
-            )}
-            {/* Search active badge */}
-            {search && sorted.length > 0 && (
-              <span
-                style={{
-                  position: 'absolute',
-                  right: '48px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  fontSize: '11px',
-                  color: '#9b6ab5',
-                  backgroundColor: 'rgba(91,34,119,0.12)',
-                  padding: '2px 8px',
-                  borderRadius: '12px',
-                }}
-              >
-                {sorted.length} resultados
-              </span>
-            )}
-            {/* No results warning */}
-            {search && sorted.length === 0 && (
-              <span
-                style={{
-                  position: 'absolute',
-                  right: '48px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  fontSize: '11px',
-                  color: '#FF3D57',
-                  backgroundColor: 'rgba(255,61,87,0.1)',
-                  padding: '2px 8px',
-                  borderRadius: '12px',
-                }}
-              >
-                Sin resultados
-              </span>
-            )}
             {search && (
               <button
-                onClick={() => setSearch('')}
+                onClick={() => { setSearchInput(''); setSearch(''); }}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-[#4A5568] hover:text-[#F0F4FF] transition-colors"
               >
                 <X className="w-5 h-5" />
@@ -865,12 +823,12 @@ export function Certifications() {
             onClick={() => setShowFilters(!showFilters)}
             className="relative"
             style={{
-              height: '40px',
+              height: '44px',
               padding: '0 16px',
-              backgroundColor: 'rgba(91,34,119,0.1)',
+              backgroundColor: activeFilters > 0 ? 'rgba(255,61,87,0.1)' : 'rgba(91,34,119,0.1)',
               border: '1px solid var(--border-brand)',
-              borderRadius: '8px',
-              color: '#9b6ab5',
+              borderRadius: 'var(--radius-md)',
+              color: activeFilters > 0 ? '#FF5C71' : '#9b6ab5',
               fontSize: '14px',
               fontWeight: 500,
               cursor: 'pointer',
@@ -880,10 +838,10 @@ export function Certifications() {
               transition: 'all 0.15s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
+              e.currentTarget.style.backgroundColor = activeFilters > 0 ? 'rgba(255,61,87,0.15)' : 'rgba(91,34,119,0.15)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+              e.currentTarget.style.backgroundColor = activeFilters > 0 ? 'rgba(255,61,87,0.1)' : 'rgba(91,34,119,0.1)';
             }}
           >
             <SlidersHorizontal style={{ width: '16px', height: '16px' }} />
@@ -893,6 +851,11 @@ export function Certifications() {
             )}
           </button>
         </div>
+
+        {/* Results Count - Below Input */}
+        <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '6px', marginLeft: '4px' }}>
+          {filtered.length} certificaciones encontradas
+        </p>
 
         {/* No results message below input */}
         {search && sorted.length === 0 && (
