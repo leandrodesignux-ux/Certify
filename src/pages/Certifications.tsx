@@ -167,7 +167,17 @@ const StatCard = React.memo(function StatCard({
 });
 
 // Sparkline component for days remaining
-function DaysSparkline({ diasRestantes }: { diasRestantes: number }) {
+function DaysSparkline({ 
+  diasRestantes, 
+  barWidth = 60, 
+  barHeight = 6, 
+  textSize = '12px' 
+}: { 
+  diasRestantes: number;
+  barWidth?: number;
+  barHeight?: number;
+  textSize?: string;
+}) {
   const maxDays = 365;
   const percentage = Math.min(Math.max((diasRestantes / maxDays) * 100, 0), 100);
   const color = diasRestantes <= 0 ? '#FF3D57' : diasRestantes <= 60 ? '#FFB800' : '#729362';
@@ -175,21 +185,21 @@ function DaysSparkline({ diasRestantes }: { diasRestantes: number }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <div style={{ 
-        width: '60px', 
-        height: '6px', 
+        width: `${barWidth}px`, 
+        height: `${barHeight}px`, 
         backgroundColor: 'rgba(255,255,255,0.1)', 
-        borderRadius: '3px',
+        borderRadius: `${barHeight / 2}px`,
         overflow: 'hidden'
       }}>
         <div style={{
           width: `${percentage}%`,
           height: '100%',
           backgroundColor: color,
-          borderRadius: '3px',
+          borderRadius: `${barHeight / 2}px`,
           transition: 'width 0.3s ease',
         }} />
       </div>
-      <span style={{ fontSize: '12px', color, fontWeight: 600 }}>
+      <span style={{ fontSize: textSize, color, fontWeight: 600 }}>
         {diasRestantes}d
       </span>
     </div>
@@ -1245,49 +1255,79 @@ export function Certifications() {
                         transition={{ delay: index * 0.03, duration: 0.3 }}
                         className="group cursor-pointer"
                         style={{
-                          backgroundColor: index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)',
+                          backgroundColor: 'transparent',
                           borderLeft: '3px solid transparent',
                           transition: 'background-color 0.2s ease, border-left-color 0.2s ease',
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+                          e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.06)';
                           e.currentTarget.style.borderLeftColor = borderColor;
-                          e.currentTarget.style.filter = 'brightness(1.3)';
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)';
+                          e.currentTarget.style.backgroundColor = 'transparent';
                           e.currentTarget.style.borderLeftColor = 'transparent';
-                          e.currentTarget.style.filter = 'brightness(1)';
                         }}
                       >
                         {/* Trabajador */}
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-3">
+                        <td style={{ padding: '12px 20px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                             {worker?.foto ? (
                               <img
                                 src={worker.foto}
                                 alt={`${worker.nombre} ${worker.apellidos}`}
-                                className="w-8 h-8 rounded-full object-cover border border-[rgba(91,34,119,0.3)]"
+                                style={{
+                                  width: '36px',
+                                  height: '36px',
+                                  borderRadius: '50%',
+                                  objectFit: 'cover',
+                                  border: '1px solid rgba(91,34,119,0.3)',
+                                }}
                               />
                             ) : (
-                              <div className="w-8 h-8 rounded-full bg-[#231455] border border-[rgba(91,34,119,0.3)] flex items-center justify-center">
-                                <span className="text-xs font-display font-semibold text-[#c49fe0]">
+                              <div
+                                style={{
+                                  width: '36px',
+                                  height: '36px',
+                                  borderRadius: '50%',
+                                  backgroundColor: 'rgba(124,77,171,0.15)',
+                                  border: '1px solid rgba(91,34,119,0.3)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                <span style={{ fontSize: '13px', fontWeight: 600, color: '#c49fe0' }}>
                                   {initials}
                                 </span>
                               </div>
                             )}
                             <div>
                               <span
-                                className="text-sm text-[#F0F4FF] truncate block"
-                                style={{ maxWidth: '160px' }}
+                                style={{
+                                  fontSize: '14px',
+                                  fontWeight: 600,
+                                  color: '#F0F4FF',
+                                  display: 'block',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                  maxWidth: '160px',
+                                }}
                                 title={`${worker?.nombre} ${worker?.apellidos}`}
                               >
                                 {worker?.nombre} {worker?.apellidos}
                               </span>
                               {worker?.cargo && (
                                 <span
-                                  className="text-xs text-[#6B7280] truncate block"
-                                  style={{ maxWidth: '160px' }}
+                                  style={{
+                                    fontSize: '12px',
+                                    color: '#6B7280',
+                                    display: 'block',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    maxWidth: '160px',
+                                  }}
                                   title={worker.cargo}
                                 >
                                   {worker.cargo}
@@ -1298,62 +1338,70 @@ export function Certifications() {
                         </td>
 
                         {/* Certificación */}
-                        <td className="px-4 py-3">
-                          <div>
-                            <p className="text-sm text-[#F0F4FF] truncate mb-1" style={{ maxWidth: '200px' }}>
+                        <td style={{ padding: '12px 20px' }}>
+                          <div style={{ width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            <p style={{ fontSize: '14px', fontWeight: 500, color: '#F0F4FF', lineHeight: 1.3, margin: 0 }}>
                               {cert.nombre}
                             </p>
-                            <p className="text-xs text-[#6B7280] truncate" style={{ maxWidth: '200px' }}>
+                            <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '3px', margin: 0 }}>
                               {cert.emisor}
                             </p>
                           </div>
                         </td>
 
                         {/* Tipo */}
-                        <td className="px-4 py-3">
-                          <Badge
-                            status={cert.tipo}
-                            label={
-                              cert.tipo === 'obligatoria'
-                                ? 'Oblig.'
-                                : cert.tipo === 'complementaria'
-                                ? 'Compl.'
-                                : 'Legal'
-                            }
-                          />
+                        <td style={{ padding: '12px 20px', textAlign: 'center' }}>
+                          <Badge status={cert.tipo} />
                         </td>
 
                         {/* Vencimiento */}
-                        <td className="px-4 py-3">
+                        <td style={{ padding: '12px 20px' }}>
                           <div>
-                            <span className="text-sm text-[#F0F4FF] block mb-1">
+                            <span style={{ fontSize: '13px', fontWeight: 500, color: '#A8B3C5', display: 'block', marginBottom: '4px' }}>
                               {formatDate(cert.fechaVencimiento)}
                             </span>
-                            <DaysSparkline diasRestantes={cert.diasRestantes} />
+                            <DaysSparkline diasRestantes={cert.diasRestantes} barWidth={72} barHeight={5} textSize="11px" />
                           </div>
                         </td>
 
                         {/* Estado */}
-                        <td className="px-4 py-3 text-center">
-                          <Badge status={cert.estado} />
+                        <td style={{ padding: '12px 20px', textAlign: 'center' }}>
+                          <Badge status={cert.estado} size="md" />
                         </td>
 
                         {/* Fecha Obtención */}
-                        <td className="px-4 py-3 hidden md:table-cell">
-                          <span className="text-sm text-[#F0F4FF]">
+                        <td className="hidden md:table-cell" style={{ padding: '12px 20px' }}>
+                          <span style={{ fontSize: '13px', color: '#A8B3C5' }}>
                             {formatDate(cert.fechaObtension)}
                           </span>
                         </td>
 
                         {/* Detalle */}
-                        <td className="px-4 py-3 text-center">
+                        <td style={{ padding: '12px 20px', textAlign: 'center' }}>
                           <button
                             onClick={() => setSelectedCert(cert.id)}
-                            className="p-1.5 rounded-md hover:bg-[rgba(91,34,119,0.15)] transition-colors"
+                            style={{
+                              padding: '8px',
+                              borderRadius: '6px',
+                              backgroundColor: 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s',
+                            }}
                             title="Ver detalle"
                             aria-label={`Ver detalle de ${cert.nombre}`}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
+                              const icon = e.currentTarget.querySelector('svg');
+                              if (icon) icon.style.color = '#c49fe0';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = 'transparent';
+                              const icon = e.currentTarget.querySelector('svg');
+                              if (icon) icon.style.color = '#9b6ab5';
+                            }}
                           >
-                            <Eye className="w-4 h-4 text-[#9b6ab5]" />
+                            <Eye style={{ width: '16px', height: '16px', color: '#9b6ab5', transition: 'color 0.15s' }} />
                           </button>
                         </td>
                       </motion.tr>
