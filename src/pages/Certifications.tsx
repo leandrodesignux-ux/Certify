@@ -105,6 +105,18 @@ export function Certifications() {
     }
   };
 
+  // Keyboard shortcut: "/" to focus search input
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
+        e.preventDefault();
+        document.querySelector<HTMLInputElement>('input[type="text"]')?.focus();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
+
   // Calculate selected certification data
   const selectedCertData = certifications.find(c => c.id === selectedCert);
   const selectedWorker = workers.find(w => w.id === selectedCertData?.workerId);
@@ -421,6 +433,7 @@ export function Certifications() {
                 borderRadius: 'var(--radius-md)',
                 backgroundColor: isActive ? `${tab.color}1F` : 'transparent',
                 border: isActive ? `1px solid ${tab.color}66` : '1px solid transparent',
+                borderBottom: isActive ? `2px solid ${tab.color}` : '2px solid transparent',
                 color: isActive ? tab.color : 'var(--color-text-muted)',
                 fontWeight: isActive ? 600 : 500,
                 fontSize: '14px',
@@ -486,7 +499,7 @@ export function Certifications() {
             />
             <input
               type="text"
-              placeholder="Buscar certificación, trabajador, emisor..."
+              placeholder="Buscar... (presiona / para enfocar)"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onFocus={() => setSearchFocused(true)}
@@ -511,6 +524,7 @@ export function Certifications() {
               <button
                 onClick={() => { setSearchInput(''); setSearch(''); }}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-[#4A5568] hover:text-[#F0F4FF] transition-colors"
+                aria-label="Limpiar búsqueda"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -558,13 +572,18 @@ export function Certifications() {
 
         {/* No results message below input */}
         {search && sorted.length === 0 && (
-          <motion.p
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            style={{ fontSize: '12px', color: '#FF3D57', marginTop: '8px', marginLeft: '4px' }}
-          >
-            No se encontraron certificaciones para "{search}". Intenta con otros términos.
-          </motion.p>
+          <>
+            <motion.p
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{ fontSize: '12px', color: '#FF3D57', marginTop: '8px', marginLeft: '4px' }}
+            >
+              No se encontraron certificaciones para "{search}". Intenta con otros términos.
+            </motion.p>
+            <p style={{fontSize: '12px', color: '#6B7280', marginTop: '4px', marginLeft: '4px'}}>
+              Prueba buscar por nombre completo, nombre de certificación o empresa emisora.
+            </p>
+          </>
         )}
 
         {/* ROW 2 - Chip Filters Panel */}
@@ -769,19 +788,11 @@ export function Certifications() {
       {/* Visual Separator */}
       <div style={{ height: '16px' }} />
 
-      {/* Virtualization Warning */}
+      {/* Virtualization Info */}
         {sorted.length > 100 && (
-          <div style={{ 
-            padding: '8px 16px', 
-            background: 'rgba(255,184,0,0.08)', 
-            border: '1px solid rgba(255,184,0,0.2)', 
-            borderRadius: '6px', 
-            fontSize: '13px', 
-            color: '#FFB800', 
-            marginBottom: '12px' 
-          }}>
-            Mostrando los primeros {itemsPerPage} de {sorted.length} resultados. Usa los filtros para refinar.
-          </div>
+          <p style={{fontSize: '12px', color: '#6B7280', marginBottom: '8px', marginLeft: '4px'}}>
+            Mostrando primeras {itemsPerPage} de {sorted.length}. Usa filtros para refinar.
+          </p>
         )}
 
         {/* Table */}
@@ -1120,7 +1131,12 @@ export function Certifications() {
 
                         {/* Estado */}
                         <td style={{ padding: '12px 20px', textAlign: 'center' }}>
-                          <Badge status={cert.estado} size="md" />
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                            {cert.estado === 'vencido' && (
+                              <AlertCircle style={{ width: '14px', height: '14px', color: '#FF3D57', flexShrink: 0 }} />
+                            )}
+                            <Badge status={cert.estado} size="md" />
+                          </div>
                         </td>
 
                         {/* Fecha Obtención */}
