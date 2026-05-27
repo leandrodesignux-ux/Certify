@@ -25,9 +25,19 @@
   --color-text-secondary: #A8B3C5;
   --color-text-muted: #6B7280;
 
+  /* === TYPOGRAPHY HIERARCHY === */
+  --text-h1: 28px;
+  --text-h2: 22px;
+  --text-body: 14px;
+  --text-small: 12px;
+  --text-micro: 11px;
+  --font-weight-bold: 700;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+
   /* === BRAND GLOW === */
   --color-electric: #7c4dab;
-  --color-volt: #8a9e52;
+  --color-volt: var(--color-green-light);
   --color-neutral: #3d3060;
 
   /* === TYPOGRAPHY === */
@@ -52,6 +62,17 @@
   --radius-lg: 16px;
   --radius-full: 9999px;
 
+  /* === SPACING SYSTEM === */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* === TAB MINIMUM WIDTH === */
+  --tab-min-width: 140px;
+
   /* ===== SURFACES (centralizar) ===== */
   --surface-card: rgba(26,16,64,0.85);
   --surface-deep: #130b3a;
@@ -61,8 +82,8 @@
 
   /* === SHADOWS === */
   --shadow-brand: 0 0 20px rgba(91,34,119,0.35);
-  --shadow-electric: 0 0 20px rgba(91,34,119,0.25);
-  --shadow-volt: 0 0 20px rgba(114,147,98,0.25);
+  --shadow-electric: var(--shadow-brand);
+  --shadow-volt: var(--shadow-brand);
   --shadow-danger: 0 0 20px rgba(255,61,87,0.25);
 
   /* === PURPLE SCALE === */
