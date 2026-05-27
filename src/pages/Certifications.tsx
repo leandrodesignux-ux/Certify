@@ -802,7 +802,7 @@ export function Certifications() {
         transition={{ delay: 0.3, duration: 0.4 }}
         className="bg-[#1a1040]/90 backdrop-blur-[12px] border border-[rgba(91,34,119,0.2)] rounded-lg overflow-hidden"
       >
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(91,34,119,0.3) transparent' }}>
           <table className="w-full" role="grid">
             {/* Column widths definition */}
             <colgroup>
@@ -1017,7 +1017,7 @@ export function Certifications() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        transition={{ delay: index * 0.03, duration: 0.3 }}
+                        transition={{ delay: index * 0.02, duration: 0.3 }}
                         className="group cursor-pointer"
                         style={{
                           backgroundColor: 'transparent',
@@ -1025,7 +1025,7 @@ export function Certifications() {
                           transition: 'background-color 0.2s ease, border-left-color 0.2s ease',
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.06)';
+                          e.currentTarget.style.backgroundColor = 'rgba(124,77,171,0.06)';
                           e.currentTarget.style.borderLeftColor = borderColor;
                         }}
                         onMouseLeave={(e) => {

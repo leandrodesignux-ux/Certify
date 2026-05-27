@@ -3,8 +3,8 @@ import { Skeleton } from '../ui/Skeleton';
 export function CertTableSkeleton() {
   return (
     <tbody>
-      {[...Array(5)].map((_, index) => (
-        <tr key={index} style={{ backgroundColor: index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)' }}>
+      {[...Array(8)].map((_, index) => (
+        <tr key={index} style={{ backgroundColor: 'transparent' }}>
           {/* Trabajador column */}
           <td className="px-4 py-3">
             <div className="flex items-center gap-3">

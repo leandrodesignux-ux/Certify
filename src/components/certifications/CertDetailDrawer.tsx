@@ -57,6 +57,9 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
 
           {/* Panel */}
           <motion.div
+            role="dialog"
+            aria-label="Detalle de certificación"
+            aria-modal="true"
             initial={{ x: 420 }}
             animate={{ x: 0 }}
             exit={{ x: 420 }}
