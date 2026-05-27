@@ -1029,38 +1029,44 @@ export function Certifications() {
       >
         <div className="overflow-x-auto">
           <table className="w-full" role="grid">
+            {/* Column widths definition */}
+            <colgroup>
+              <col style={{width: '22%'}} />  {/* Trabajador */}
+              <col style={{width: '28%'}} />  {/* Certificación — la más importante */}
+              <col style={{width: '10%'}} />  {/* Tipo */}
+              <col style={{width: '15%'}} />  {/* Vencimiento */}
+              <col style={{width: '12%'}} />  {/* Estado */}
+              <col style={{width: '10%'}} />  {/* Fecha Obtención - hidden md */}
+              <col style={{width: '3%'}} />   {/* Detalle */}
+            </colgroup>
             <thead 
               className="sticky top-0 z-10"
               style={{
-                backgroundColor: 'rgba(19,11,58,0.9)',
-                backdropFilter: 'blur(8px)',
+                backgroundColor: '#0d0920',
+                borderTop: '1px solid rgba(91,34,119,0.15)',
               }}
             >
-              {/* Gradient fade at bottom */}
               <tr>
-                <th colSpan={7} className="p-0">
-                  <div className="h-px bg-gradient-to-r from-transparent via-[rgba(91,34,119,0.3)] to-transparent" />
-                </th>
-              </tr>
-              <tr className="border-b border-[rgba(91,34,119,0.2)]">
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  style={{ 
+                    paddingTop: '14px', 
+                    paddingBottom: '14px', 
+                    paddingLeft: '20px', 
+                    paddingRight: '20px',
+                    textAlign: 'left',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    color: '#6B7280',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    transition: 'color 0.15s',
+                  }}
                   onClick={() => handleSort('worker')}
                   aria-sort={sortField === 'worker' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { 
-                    e.currentTarget.style.color = '#F0F4FF';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.7';
-                    }
-                  }}
-                  onMouseLeave={(e) => { 
-                    e.currentTarget.style.color = '#a89fc4';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.3';
-                    }
-                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
                 >
                   <div className="flex items-center gap-1">
                     Trabajador
@@ -1068,23 +1074,25 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  style={{ 
+                    paddingTop: '14px', 
+                    paddingBottom: '14px', 
+                    paddingLeft: '20px', 
+                    paddingRight: '20px',
+                    textAlign: 'left',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    color: '#6B7280',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    transition: 'color 0.15s',
+                  }}
                   onClick={() => handleSort('cert')}
                   aria-sort={sortField === 'cert' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { 
-                    e.currentTarget.style.color = '#F0F4FF';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.7';
-                    }
-                  }}
-                  onMouseLeave={(e) => { 
-                    e.currentTarget.style.color = '#a89fc4';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.3';
-                    }
-                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
                 >
                   <div className="flex items-center gap-1">
                     Certificación
@@ -1092,23 +1100,25 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  style={{ 
+                    paddingTop: '14px', 
+                    paddingBottom: '14px', 
+                    paddingLeft: '20px', 
+                    paddingRight: '20px',
+                    textAlign: 'left',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    color: '#6B7280',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    transition: 'color 0.15s',
+                  }}
                   onClick={() => handleSort('tipo')}
                   aria-sort={sortField === 'tipo' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { 
-                    e.currentTarget.style.color = '#F0F4FF';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.7';
-                    }
-                  }}
-                  onMouseLeave={(e) => { 
-                    e.currentTarget.style.color = '#a89fc4';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.3';
-                    }
-                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
                 >
                   <div className="flex items-center gap-1">
                     Tipo
@@ -1116,23 +1126,25 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  style={{ 
+                    paddingTop: '14px', 
+                    paddingBottom: '14px', 
+                    paddingLeft: '20px', 
+                    paddingRight: '20px',
+                    textAlign: 'left',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    color: '#6B7280',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    transition: 'color 0.15s',
+                  }}
                   onClick={() => handleSort('fechaVen')}
                   aria-sort={sortField === 'fechaVen' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { 
-                    e.currentTarget.style.color = '#F0F4FF';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.7';
-                    }
-                  }}
-                  onMouseLeave={(e) => { 
-                    e.currentTarget.style.color = '#a89fc4';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.3';
-                    }
-                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
                 >
                   <div className="flex items-center gap-1">
                     Vencimiento
@@ -1140,23 +1152,25 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none"
+                  style={{ 
+                    paddingTop: '14px', 
+                    paddingBottom: '14px', 
+                    paddingLeft: '20px', 
+                    paddingRight: '20px',
+                    textAlign: 'center',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    color: '#6B7280',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    transition: 'color 0.15s',
+                  }}
                   onClick={() => handleSort('estado')}
                   aria-sort={sortField === 'estado' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { 
-                    e.currentTarget.style.color = '#F0F4FF';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.7';
-                    }
-                  }}
-                  onMouseLeave={(e) => { 
-                    e.currentTarget.style.color = '#a89fc4';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.3';
-                    }
-                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
                 >
                   <div className="flex items-center justify-center gap-1">
                     Estado
@@ -1164,30 +1178,47 @@ export function Certifications() {
                   </div>
                 </th>
                 <th
-                  className="px-4 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider cursor-pointer hover:text-[#F0F4FF] transition-colors select-none hidden md:table-cell"
+                  className="hidden md:table-cell"
+                  style={{ 
+                    paddingTop: '14px', 
+                    paddingBottom: '14px', 
+                    paddingLeft: '20px', 
+                    paddingRight: '20px',
+                    textAlign: 'left',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    color: '#6B7280',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    transition: 'color 0.15s',
+                  }}
                   onClick={() => handleSort('fechaObt')}
                   aria-sort={sortField === 'fechaObt' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { 
-                    e.currentTarget.style.color = '#F0F4FF';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.7';
-                    }
-                  }}
-                  onMouseLeave={(e) => { 
-                    e.currentTarget.style.color = '#a89fc4';
-                    const icon = e.currentTarget.querySelector('svg');
-                    if (icon && icon.classList.contains('opacity-30')) {
-                      icon.style.opacity = '0.3';
-                    }
-                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; }}
                 >
                   <div className="flex items-center gap-1">
                     Fecha Obtención
                     <SortIcon field="fechaObt" />
                   </div>
                 </th>
-                <th className="px-4 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
+                <th
+                  style={{ 
+                    paddingTop: '14px', 
+                    paddingBottom: '14px', 
+                    paddingLeft: '20px', 
+                    paddingRight: '20px',
+                    textAlign: 'center',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    color: '#6B7280',
+                    textTransform: 'uppercase',
+                    userSelect: 'none',
+                  }}
+                >
                   Detalle
                 </th>
               </tr>
@@ -1215,19 +1246,17 @@ export function Certifications() {
                         className="group cursor-pointer"
                         style={{
                           backgroundColor: index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)',
-                          borderLeft: `3px solid ${borderColor}`,
-                          transition: 'background-color 0.2s ease, border-left-width 0.2s ease',
+                          borderLeft: '3px solid transparent',
+                          transition: 'background-color 0.2s ease, border-left-color 0.2s ease',
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
-                          e.currentTarget.style.borderLeftWidth = '4px';
                           e.currentTarget.style.borderLeftColor = borderColor;
                           e.currentTarget.style.filter = 'brightness(1.3)';
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(26,16,64,0.5)' : 'rgba(19,11,58,0.4)';
-                          e.currentTarget.style.borderLeftWidth = '3px';
-                          e.currentTarget.style.borderLeftColor = borderColor;
+                          e.currentTarget.style.borderLeftColor = 'transparent';
                           e.currentTarget.style.filter = 'brightness(1)';
                         }}
                       >
