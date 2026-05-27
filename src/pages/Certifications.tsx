@@ -91,50 +91,62 @@ const StatCard = React.memo(function StatCard({
         backgroundColor: 'var(--surface-card)',
         border: '1px solid var(--border-brand)',
         borderRadius: 'var(--radius-md)',
-        padding: '20px',
+        padding: '16px',
         position: 'relative',
         overflow: 'hidden',
         transition: 'box-shadow 0.15s ease',
       }}
     >
-      {/* Glow effect at bottom */}
-      <motion.div 
+      {/* Top color bar - "eyebrow" indicator */}
+      <div 
         style={{
           position: 'absolute',
-          bottom: 0,
+          top: 0,
           left: 0,
           right: 0,
-          height: '2px',
-          background: `linear-gradient(to right, transparent, ${color}, transparent)`,
-          boxShadow: `0 0 20px ${color}40`,
-        }}
-        whileHover={{
-          boxShadow: `0 0 30px ${color}60`,
-          height: '3px'
+          height: '4px',
+          backgroundColor: color,
+          borderRadius: '4px 4px 0 0',
         }}
       />
       
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', marginBottom: '16px' }}>
+      {/* Progress bar fill */}
+      {!isPercentage && (
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            height: '4px',
+            width: `${percentage}%`,
+            backgroundColor: color,
+            opacity: 0.7,
+            borderRadius: '4px 0 0 0',
+          }}
+        />
+      )}
+      
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '8px' }}>
         <div style={{
-          width: '48px',
-          height: '48px',
-          borderRadius: '12px',
+          width: '40px',
+          height: '40px',
+          borderRadius: '10px',
           backgroundColor: `${color}15`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexShrink: 0,
         }}>
-          <Icon style={{ width: '24px', height: '24px', color }} />
+          <Icon style={{ width: '20px', height: '20px', color }} />
         </div>
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: '4px' }}>
           <motion.p
             role="status"
             aria-live="polite"
             aria-label={`${animatedValue}${isPercentage ? '%' : ''} ${label}`}
             style={{
               fontFamily: 'var(--font-display)',
-              fontSize: '36px',
+              fontSize: '32px',
               fontWeight: 700,
               color,
               lineHeight: 1,
@@ -142,26 +154,15 @@ const StatCard = React.memo(function StatCard({
           >
             {animatedValue}{isPercentage ? '%' : ''}
           </motion.p>
-          <p style={{ fontSize: '13px', color: '#8892A4', marginTop: '4px' }}>{label}</p>
+          {!isPercentage && total > 0 && (
+            <span style={{ fontSize: '11px', color: '#4A5568', alignSelf: 'flex-end', marginBottom: '3px' }}>
+              /{total}
+            </span>
+          )}
         </div>
       </div>
       
-      {/* Progress bar */}
-      {!isPercentage && (
-        <>
-          <div style={{ height: '3px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '2px', overflow: 'hidden' }}>
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${percentage}%` }}
-              transition={{ duration: 1.5, ease: 'easeOut' }}
-              style={{ height: '100%', backgroundColor: color, borderRadius: '2px' }}
-            />
-          </div>
-          <p style={{ fontSize: '11px', color: '#4A5568', marginTop: '8px', textAlign: 'right' }}>
-            {percentage.toFixed(1)}% del total
-          </p>
-        </>
-      )}
+      <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '8px' }}>{label}</p>
     </motion.div>
   );
 });
@@ -633,7 +634,7 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
-        className="grid grid-cols-2 md:grid-cols-5 gap-4"
+        className="grid grid-cols-2 lg:grid-cols-5 gap-3"
         style={{ 
           marginBottom: '28px' 
         }}
