@@ -610,53 +610,126 @@ Generado automáticamente por CertifyX
         </Card>
       </motion.div>
 
-      {/* SECTION 5: Export Panel */}
-      <motion.div
-        custom={0.8}
-        variants={sectionVariants}
-        initial="hidden"
-        animate="visible"
-      >
+      {/* SECTION 5: Exportar Reportes */}
+      <motion.div custom={0.8} variants={sectionVariants} initial="hidden" animate="visible">
         <Card variant="glass" padding="lg">
-          <div className="flex items-center gap-3 mb-6">
-            <Download className="w-6 h-6 text-[#9b6ab5]" />
-            <h3 className="font-display text-lg font-bold text-[#F0F4FF]">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)' }}>
+            <Download style={{ width: '20px', height: '20px', color: 'var(--color-purple-mid)' }} aria-hidden="true" />
+            <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
               Exportar Reportes
             </h3>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { icon: Download, label: 'Exportar Resumen CSV', description: 'Datos de trabajadores y certificaciones', onClick: exportSummaryCSV, disabled: false, color: '#9b6ab5' },
-              { icon: FileText, label: 'Reporte SENCE', description: 'Formato texto simulado para SENCE', onClick: exportSENCE, disabled: false, color: '#729362' },
-              { icon: ImageIcon, label: 'Exportar Gráficos PNG', description: 'Disponible en versión Pro', onClick: () => setShowProTooltip(!showProTooltip), disabled: true, color: '#FFB800' },
+              {
+                icon: Download,
+                label: 'Resumen CSV',
+                description: 'Datos completos de trabajadores y certificaciones en formato CSV',
+                onClick: exportSummaryCSV,
+                disabled: false,
+                color: 'var(--color-purple-mid)',
+                colorHex: '#9b6ab5',
+              },
+              {
+                icon: FileText,
+                label: 'Reporte SENCE',
+                description: 'Formato texto para organismos reguladores y auditorías',
+                onClick: exportSENCE,
+                disabled: false,
+                color: 'var(--color-success)',
+                colorHex: '#729362',
+              },
+              {
+                icon: ImageIcon,
+                label: 'Exportar PNG',
+                description: 'Gráficos e informes visuales — disponible en versión Pro',
+                onClick: () => setShowProTooltip(p => !p),
+                disabled: true,
+                color: 'var(--color-warning)',
+                colorHex: '#FFB800',
+              },
             ].map((item) => (
-              <button key={item.label} onClick={item.onClick}
-                style={{
-                  position: 'relative',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  gap: '10px', padding: '24px 16px',
-                  backgroundColor: 'rgba(26,16,64,0.6)',
-                  border: `1px solid ${item.disabled ? 'rgba(91,34,119,0.15)' : 'rgba(91,34,119,0.25)'}`,
-                  borderRadius: '12px', cursor: item.disabled ? 'not-allowed' : 'pointer',
-                  opacity: item.disabled ? 0.6 : 1, transition: 'all 0.15s', width: '100%',
-                }}
-                onMouseEnter={e => { if (!item.disabled) { e.currentTarget.style.borderColor = item.color + '60'; e.currentTarget.style.backgroundColor = item.color + '08'; }}}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = item.disabled ? 'rgba(91,34,119,0.15)' : 'rgba(91,34,119,0.25)'; e.currentTarget.style.backgroundColor = 'rgba(26,16,64,0.6)'; }}
-              >
-                <div style={{ width: '48px', height: '48px', borderRadius: '12px', backgroundColor: item.color + '15', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <item.icon style={{ width: '22px', height: '22px', color: item.color }} />
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <p style={{ fontSize: '14px', fontWeight: 600, color: '#F0F4FF', marginBottom: '4px' }}>{item.label}</p>
-                  <p style={{ fontSize: '12px', color: '#4A5568' }}>{item.description}</p>
-                </div>
-                {item.disabled && showProTooltip && (
-                  <div style={{ position: 'absolute', bottom: 'calc(100% + 8px)', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#1a1040', border: '1px solid rgba(91,34,119,0.4)', borderRadius: '8px', padding: '8px 12px', fontSize: '12px', color: '#8892A4', whiteSpace: 'nowrap', zIndex: 10, boxShadow: '0 4px 16px rgba(0,0,0,0.4)' }}>
-                    Actualiza a CertifyX Pro para desbloquear
+              <div key={item.label} style={{ position: 'relative' }}>
+                <button
+                  onClick={item.onClick}
+                  disabled={item.disabled}
+                  aria-label={item.label}
+                  aria-disabled={item.disabled}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 'var(--space-md)',
+                    padding: 'var(--space-lg) var(--space-md)',
+                    minHeight: '140px',
+                    backgroundColor: 'var(--color-surface)',
+                    border: `1px solid var(--border-brand)`,
+                    borderRadius: 'var(--radius-md)',
+                    cursor: item.disabled ? 'not-allowed' : 'pointer',
+                    opacity: item.disabled ? 0.55 : 1,
+                    transition: 'var(--transition-base)',
+                    textAlign: 'center',
+                  }}
+                  onMouseEnter={e => {
+                    if (!item.disabled) {
+                      e.currentTarget.style.borderColor = item.colorHex + '70';
+                      e.currentTarget.style.backgroundColor = item.colorHex + '0a';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    if (!item.disabled) {
+                      e.currentTarget.style.borderColor = 'var(--border-brand)';
+                      e.currentTarget.style.backgroundColor = 'var(--color-surface)';
+                    }
+                  }}
+                >
+                  <div style={{
+                    width: '52px', height: '52px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: item.colorHex + '18',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <item.icon style={{ width: '24px', height: '24px', color: item.color }} />
                   </div>
+                  <div>
+                    <p style={{ fontSize: 'var(--text-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-xs)' }}>
+                      {item.label}
+                    </p>
+                    <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', lineHeight: 1.4, maxWidth: '180px', margin: '0 auto' }}>
+                      {item.description}
+                    </p>
+                  </div>
+                </button>
+
+                {/* Tooltip Pro */}
+                {item.disabled && showProTooltip && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    style={{
+                      position: 'absolute',
+                      bottom: 'calc(100% + 8px)',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      backgroundColor: 'var(--color-surface)',
+                      border: '1px solid var(--border-brand-hover)',
+                      borderRadius: 'var(--radius-sm)',
+                      padding: 'var(--space-sm) var(--space-md)',
+                      fontSize: 'var(--text-small)',
+                      color: 'var(--color-text-secondary)',
+                      whiteSpace: 'nowrap',
+                      zIndex: 10,
+                      boxShadow: 'var(--shadow-brand)',
+                    }}
+                    role="tooltip"
+                  >
+                    ✦ Actualiza a <strong style={{ color: 'var(--color-purple-light)' }}>CertifyX Pro</strong> para desbloquear
+                  </motion.div>
                 )}
-              </button>
+              </div>
             ))}
           </div>
         </Card>
