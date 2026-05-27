@@ -1157,45 +1157,56 @@ export function Certifications() {
             display: 'flex', 
             justifyContent: 'space-between', 
             alignItems: 'center', 
-            padding: '12px 16px',
-            borderTop: '1px solid rgba(91,34,119,0.2)'
+            padding: '16px 20px',
+            backgroundColor: 'rgba(13,9,32,0.4)',
+            borderTop: '1px solid rgba(91,34,119,0.15)'
           }}>
-            {/* Left side - Items per page selector and info */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              {/* Items per page selector */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <select
-                  value={itemsPerPage}
-                  onChange={(e) => {
-                    setItemsPerPage(Number(e.target.value));
+            {/* Left side - Items per page segmented control */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }} title="Registros por página">
+              {[10, 25, 50].map(count => (
+                <button
+                  key={count}
+                  onClick={() => {
+                    setItemsPerPage(count);
                     setCurrentPage(1);
                   }}
                   style={{
+                    width: '40px',
                     height: '32px',
-                    backgroundColor: 'var(--surface-alt)', // #231455
-                    border: '1px solid var(--border-brand)',
+                    fontSize: '12px',
+                    fontWeight: 500,
                     borderRadius: '6px',
-                    color: '#F0F4FF',
-                    fontSize: '13px',
-                    padding: '0 8px',
-                    cursor: 'pointer'
+                    border: '1px solid',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                    borderColor: itemsPerPage === count 
+                      ? 'rgba(91,34,119,0.4)' 
+                      : 'rgba(91,34,119,0.15)',
+                    backgroundColor: itemsPerPage === count 
+                      ? 'rgba(91,34,119,0.2)' 
+                      : 'transparent',
+                    color: itemsPerPage === count ? '#c49fe0' : '#6B7280',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (itemsPerPage !== count) {
+                      e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (itemsPerPage !== count) {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }
                   }}
                 >
-                  <option value={10}>10</option>
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
-                <span style={{ fontSize: '13px', color: '#6B7280' }}>
-                  registros por página
-                </span>
-              </div>
-
-              {/* Showing info */}
-              <span style={{ fontSize: '13px', color: '#8892A4' }}>
-                Mostrando {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, sorted.length)} de {sorted.length} certificaciones
-              </span>
+                  {count}
+                </button>
+              ))}
             </div>
+
+            {/* Center - Showing info */}
+            <span style={{ fontSize: '12px', color: '#8892A4' }}>
+              Mostrando {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, sorted.length)} de {sorted.length} certificaciones
+            </span>
 
             {/* Right side - Navigation controls */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -1220,7 +1231,7 @@ export function Certifications() {
                 }}
                 onMouseEnter={(e) => {
                   if (currentPage !== 1) {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.3)';
+                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -1251,7 +1262,7 @@ export function Certifications() {
                 }}
                 onMouseEnter={(e) => {
                   if (currentPage !== 1) {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.3)';
+                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -1318,21 +1329,23 @@ export function Certifications() {
 
                 // Add visible pages
                 for (let i = startPage; i <= endPage; i++) {
+                  const isActive = i === currentPage;
                   pages.push(
                     <button
                       key={i}
                       onClick={() => { setCurrentPage(i); scrollToTop(); }}
                       aria-label={`Página ${i}`}
-                      aria-current={i === currentPage ? 'page' : undefined}
+                      aria-current={isActive ? 'page' : undefined}
                       className="hidden sm:flex"
                       style={{
                         width: '32px',
                         height: '32px',
                         borderRadius: '6px',
-                        border: `1px solid ${i === currentPage ? 'rgba(91,34,119,0.5)' : 'var(--border-brand)'}`,
-                        backgroundColor: i === currentPage ? 'rgba(91,34,119,0.25)' : 'transparent',
-                        color: i === currentPage ? '#c49fe0' : '#8892A4',
+                        border: `1px solid ${isActive ? 'rgba(124,77,171,0.5)' : 'var(--border-brand)'}`,
+                        backgroundColor: isActive ? 'rgba(124,77,171,0.25)' : 'transparent',
+                        color: isActive ? '#c49fe0' : '#8892A4',
                         fontSize: '13px',
+                        fontWeight: isActive ? 600 : 400,
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -1340,12 +1353,12 @@ export function Certifications() {
                         transition: 'all 0.15s'
                       }}
                       onMouseEnter={(e) => {
-                        if (i !== currentPage) {
+                        if (!isActive) {
                           e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
                         }
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = i === currentPage ? 'rgba(91,34,119,0.25)' : 'transparent';
+                        e.currentTarget.style.backgroundColor = isActive ? 'rgba(124,77,171,0.25)' : 'transparent';
                       }}
                     >
                       {i}
@@ -1421,7 +1434,7 @@ export function Certifications() {
                 }}
                 onMouseEnter={(e) => {
                   if (currentPage !== totalPages) {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.3)';
+                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -1452,7 +1465,7 @@ export function Certifications() {
                 }}
                 onMouseEnter={(e) => {
                   if (currentPage !== totalPages) {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.3)';
+                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
                   }
                 }}
                 onMouseLeave={(e) => {
