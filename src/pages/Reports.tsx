@@ -193,7 +193,7 @@ Generado automáticamente por CertifyX
     URL.revokeObjectURL(url);
   };
 
-  const getComplianceColor = (score: number) => {
+  const getScoreColor = (score: number) => {
     if (score >= 80) return 'var(--color-success)';
     if (score >= 60) return 'var(--color-warning)';
     return 'var(--color-danger)';
@@ -206,7 +206,7 @@ Generado automáticamente por CertifyX
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8" role="main" aria-label="Vista de reportes">
       {/* Header */}
       <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible">
         <div className="flex flex-col gap-4">
@@ -281,7 +281,7 @@ Generado automáticamente por CertifyX
           trendLabel={getComplianceLabel(kpis.avgCompliance)}
           trend={kpis.avgCompliance >= 80 ? 'up' : kpis.avgCompliance >= 60 ? 'neutral' : 'down'}
           icon={TrendingUp}
-          color={getComplianceColor(kpis.avgCompliance)}
+          color={getScoreColor(kpis.avgCompliance)}
           delay={0.1}
         />
         <KPICard
@@ -317,7 +317,7 @@ Generado automáticamente por CertifyX
       </div>
 
       {/* SECTION 2 & 3: Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" style={{ marginBottom: '32px' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Compliance por Área - Bar Chart */}
         <motion.div
           custom={0.5}
