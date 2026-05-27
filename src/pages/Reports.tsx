@@ -293,20 +293,65 @@ Generado automáticamente por CertifyX
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        custom={0}
-        variants={sectionVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="font-display text-3xl font-bold text-gradient tracking-tight">
-              Reportes y Análisis
-            </h1>
-            <p className="text-[#8892A4] mt-1">
-              Dashboard de compliance y exportación de datos
-            </p>
+      <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible">
+        <div className="flex flex-col gap-4">
+          {/* Top row: título + acciones */}
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+            <div>
+              <h1 className="font-display font-bold text-gradient tracking-tight" style={{ fontSize: 'var(--text-h1)' }}>
+                Reportes y Análisis
+              </h1>
+              <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-secondary)', marginTop: 'var(--space-xs)' }}>
+                Compliance y exportación · Período:{' '}
+                <span style={{ color: 'var(--color-purple-light)', fontWeight: 'var(--font-weight-medium)' }}>
+                  {new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}
+                </span>
+              </p>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <button
+                onClick={exportSummaryCSV}
+                aria-label="Exportar resumen como CSV"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 'var(--space-xs)',
+                  padding: '8px 14px',
+                  backgroundColor: 'var(--color-surface-alt)',
+                  border: '1px solid var(--border-brand)',
+                  borderRadius: 'var(--radius-sm)',
+                  color: 'var(--color-purple-light)',
+                  fontSize: 'var(--text-small)',
+                  fontWeight: 'var(--font-weight-medium)',
+                  cursor: 'pointer',
+                  transition: 'var(--transition-base)',
+                  minHeight: '36px',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-brand-hover)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-brand)'; }}
+              >
+                <Download className="w-4 h-4" />
+                CSV
+              </button>
+              <button
+                onClick={exportSENCE}
+                aria-label="Exportar reporte SENCE"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 'var(--space-xs)',
+                  padding: '8px 14px',
+                  backgroundColor: 'var(--color-electric)',
+                  border: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                  color: 'var(--color-text-primary)',
+                  fontSize: 'var(--text-small)',
+                  fontWeight: 'var(--font-weight-medium)',
+                  cursor: 'pointer',
+                  transition: 'var(--transition-base)',
+                  minHeight: '36px',
+                }}
+              >
+                <FileText className="w-4 h-4" />
+                SENCE
+              </button>
+            </div>
           </div>
         </div>
       </motion.div>
