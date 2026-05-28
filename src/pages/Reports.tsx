@@ -332,6 +332,47 @@ Generado automáticamente por CertifyX
         </div>
       </motion.div>
 
+      {/* Context Banner */}
+      <motion.div custom={0.08} variants={sectionVariants} initial="hidden" animate="visible">
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: 'var(--space-md) var(--space-lg)',
+          backgroundColor: 'rgba(19,11,58,0.4)',
+          border: '1px solid var(--border-brand)',
+          borderRadius: 'var(--radius-md)',
+          flexWrap: 'wrap',
+          gap: 'var(--space-sm)',
+          marginBottom: 'var(--space-lg)',
+        }}>
+          {/* Período activo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+            <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--color-success)', boxShadow: '0 0 6px rgba(114,147,98,0.8)' }} />
+            <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-secondary)' }}>
+              Período activo:
+            </span>
+            <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-purple-light)' }}>
+              {new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}
+            </span>
+          </div>
+
+          {/* Stats rápidos inline */}
+          <div style={{ display: 'flex', gap: 'var(--space-lg)', flexWrap: 'wrap' }}>
+            {[
+              { label: 'Trabajadores', value: workers.length, color: 'var(--color-text-primary)' },
+              { label: 'Certificaciones totales', value: certifications.length, color: 'var(--color-text-primary)' },
+              { label: 'Áreas monitoreadas', value: new Set(workers.map(w => w.area)).size, color: 'var(--color-purple-light)' },
+            ].map(stat => (
+              <div key={stat.label} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)' }}>{stat.label}:</span>
+                <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--font-weight-medium)', color: stat.color }}>{stat.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
       {/* SECTION 1: KPIs */}
       <motion.div custom={0.1} variants={sectionVariants} initial="hidden" animate="visible">
         <div
