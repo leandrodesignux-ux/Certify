@@ -538,16 +538,21 @@ Generado automáticamente por CertifyX
                 Trabajadores en Riesgo
               </h3>
             </div>
-            <span style={{
-              fontSize: 'var(--text-micro)',
-              color: 'var(--color-text-muted)',
-              backgroundColor: 'var(--color-surface-alt)',
-              padding: '3px 10px',
-              borderRadius: 'var(--radius-full)',
-              border: '1px solid var(--border-brand)',
-            }}>
-              Top {topRiskWorkers.length}
-            </span>
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <div style={{ textAlign: 'right' }}>
+                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)' }}>Con cert. vencida</p>
+                <p style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--color-danger)' }}>
+                  {topRiskWorkers.filter(w => w.expiredCount > 0).length}
+                </p>
+              </div>
+              <div style={{ width: '1px', height: '28px', backgroundColor: 'var(--border-brand)' }} />
+              <div style={{ textAlign: 'right' }}>
+                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)' }}>Por vencer</p>
+                <p style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--color-warning)' }}>
+                  {topRiskWorkers.filter(w => w.expiringCount > 0).length}
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Tabla */}
@@ -557,14 +562,13 @@ Generado automáticamente por CertifyX
                 <col style={{ width: '40px' }} />   {/* Rank */}
                 <col style={{ width: '44px' }} />   {/* Avatar */}
                 <col />                              {/* Nombre / Área */}
-                <col style={{ width: '100px' }} />  {/* Score */}
                 <col style={{ width: '80px' }} />   {/* Vencidas */}
                 <col style={{ width: '80px' }} />   {/* Próximas */}
                 <col style={{ width: '72px' }} />   {/* Acción */}
               </colgroup>
               <thead>
                 <tr>
-                  {['#', '', 'Trabajador', 'Score', 'Vencidas', 'Próximas', ''].map((h, i) => (
+                  {['#', '', 'Trabajador', 'Vencidas', 'Próximas', ''].map((h, i) => (
                     <th key={i} style={{
                       padding: '6px 10px',
                       fontSize: 'var(--text-micro)',
@@ -591,16 +595,23 @@ Generado automáticamente por CertifyX
                     onMouseLeave={e => { (e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'transparent'; }}
                   >
                     {/* Rank */}
-                    <td style={{ padding: '10px', textAlign: 'center' }}>
-                      <span className="font-display font-bold" style={{
-                        fontSize: '16px',
-                        color: index === 0 ? 'var(--color-danger)' : index === 1 ? 'var(--color-warning)' : 'var(--color-text-muted)',
+                    <td style={{ padding: '12px 10px', textAlign: 'center' }}>
+                      <div style={{
+                        width: '24px', height: '24px', borderRadius: '50%',
+                        backgroundColor: index === 0 ? 'rgba(255,61,87,0.1)' : index === 1 ? 'rgba(255,184,0,0.08)' : 'transparent',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        margin: '0 auto',
                       }}>
-                        {index + 1}
-                      </span>
+                        <span className="font-display font-bold" style={{
+                          fontSize: '14px',
+                          color: index === 0 ? 'var(--color-danger)' : index === 1 ? 'var(--color-warning)' : 'var(--color-text-muted)',
+                        }}>
+                          {index + 1}
+                        </span>
+                      </div>
                     </td>
                     {/* Avatar */}
-                    <td style={{ padding: '10px 6px' }}>
+                    <td style={{ padding: '12px 6px' }}>
                       {worker.foto
                         ? <img src={worker.foto} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} />
                         : (
@@ -617,45 +628,48 @@ Generado automáticamente por CertifyX
                       }
                     </td>
                     {/* Nombre / Área */}
-                    <td style={{ padding: '10px 8px', minWidth: 0 }}>
+                    <td style={{ padding: '12px 8px', minWidth: 0 }}>
                       <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-medium)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {worker.nombre} {worker.apellidos}
                       </p>
                       <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
                         {worker.area} · {worker.cargo}
                       </p>
-                    </td>
-                    {/* Score */}
-                    <td style={{ padding: '10px', textAlign: 'center' }}>
-                      <span style={{
-                        display: 'inline-block',
-                        padding: '3px 12px',
-                        borderRadius: 'var(--radius-full)',
-                        fontSize: 'var(--text-small)',
-                        fontWeight: 'var(--font-weight-bold)',
-                        backgroundColor: worker.scoreColor + '18',
-                        color: worker.scoreColor,
-                        border: `1px solid ${worker.scoreColor}30`,
-                      }}>
-                        {worker.complianceScore}%
-                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px' }}>
+                        <div style={{ width: '60px', height: '3px', backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '2px' }}>
+                          <div style={{
+                            height: '3px',
+                            width: `${worker.complianceScore}%`,
+                            backgroundColor: worker.scoreColor,
+                            borderRadius: '2px',
+                            transition: 'width 0.6s ease',
+                          }} />
+                        </div>
+                        <span style={{ fontSize: '10px', color: 'var(--color-text-muted)' }}>{worker.complianceScore}%</span>
+                      </div>
                     </td>
                     {/* Vencidas */}
-                    <td style={{ padding: '10px', textAlign: 'center' }}>
+                    <td style={{ padding: '12px 10px', textAlign: 'center' }}>
                       {worker.expiredCount > 0
-                        ? <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-danger)' }}>{worker.expiredCount}</span>
-                        : <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-muted)' }}>—</span>
+                        ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: 'var(--text-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-danger)' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-danger)', flexShrink: 0 }} />
+                            {worker.expiredCount}
+                          </span>
+                        : <span style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)' }}>—</span>
                       }
                     </td>
                     {/* Próximas */}
-                    <td style={{ padding: '10px', textAlign: 'center' }}>
+                    <td style={{ padding: '12px 10px', textAlign: 'center' }}>
                       {worker.expiringCount > 0
-                        ? <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-warning)' }}>{worker.expiringCount}</span>
-                        : <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-muted)' }}>—</span>
+                        ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: 'var(--text-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-warning)' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-warning)', flexShrink: 0 }} />
+                            {worker.expiringCount}
+                          </span>
+                        : <span style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)' }}>—</span>
                       }
                     </td>
                     {/* Acción */}
-                    <td style={{ padding: '10px', textAlign: 'center' }}>
+                    <td style={{ padding: '12px 10px', textAlign: 'center' }}>
                       <button
                         onClick={() => navigate(`/workers/${worker.id}`)}
                         aria-label={`Ver perfil de ${worker.nombre} ${worker.apellidos}`}
