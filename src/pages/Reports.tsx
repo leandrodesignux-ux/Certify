@@ -9,6 +9,8 @@ import {
   AlertTriangle,
   AlertCircle,
   Clock,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import {
   BarChart,
@@ -300,7 +302,9 @@ Generado automáticamente por CertifyX
                 <motion.button
                   key={tab.id}
                   role="tab"
+                  id={`tab-${tab.id}`}
                   aria-selected={isActive}
+                  aria-controls={`panel-${tab.id}`}
                   aria-label={tab.label}
                   onClick={() => { setActiveReport(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   style={{
@@ -426,7 +430,7 @@ Generado automáticamente por CertifyX
       <AnimatePresence mode="wait">
       {/* SECTION 2 & 3: Charts Row */}
       {(activeReport === 'general' || activeReport === 'cumplimiento') && (
-      <motion.div key="charts-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <motion.div key="charts-section" role="tabpanel" id={`panel-${activeReport}`} aria-labelledby={`tab-${activeReport}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
         {/* Compliance por Área - Bar Chart */}
         <motion.div
@@ -574,7 +578,7 @@ Generado automáticamente por CertifyX
 
       {/* SECTION 4: Top Trabajadores en Riesgo */}
       {(activeReport === 'general' || activeReport === 'riesgo') && (
-      <motion.div key="risk-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <motion.div key="risk-section" role="tabpanel" id={`panel-${activeReport}`} aria-labelledby={`tab-${activeReport}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <motion.div custom={0.7} variants={sectionVariants} initial="hidden" animate="visible">
         <Card variant="glass" padding="lg">
           {/* Header de sección */}
@@ -603,7 +607,7 @@ Generado automáticamente por CertifyX
           </div>
 
           {/* Tabla */}
-          <div style={{ overflowX: 'auto' }}>
+          <div style={{ overflowX: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(91,34,119,0.3) transparent' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }} role="table" aria-label="Trabajadores con menor cumplimiento">
               <colgroup>
                 <col style={{ width: '40px' }} />   {/* Rank */}
@@ -637,7 +641,7 @@ Generado automáticamente por CertifyX
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.02, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ borderBottom: '1px solid var(--border-brand)', cursor: 'default' }}
+                    style={{ borderBottom: index < (showAllRisk ? topRiskWorkers.length : Math.min(5, topRiskWorkers.length)) - 1 ? '1px solid var(--border-brand)' : 'none', cursor: 'default' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'rgba(124,77,171,0.06)'; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'transparent'; }}
                   >
@@ -766,7 +770,10 @@ Generado automáticamente por CertifyX
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-brand)'; e.currentTarget.style.color = 'var(--color-text-muted)'; }}
               aria-expanded={showAllRisk}
             >
-              {showAllRisk ? '▲ Mostrar menos' : `▼ Ver ${topRiskWorkers.length - 5} trabajadores más`}
+              {showAllRisk
+                ? <><ChevronUp className="w-3 h-3 inline mr-1" />Mostrar menos</>
+                : <><ChevronDown className="w-3 h-3 inline mr-1" />Ver {topRiskWorkers.length - 5} trabajadores más</>
+              }
             </button>
           )}
         </Card>
@@ -776,7 +783,7 @@ Generado automáticamente por CertifyX
 
       {/* SECTION 5: Exportar Reportes */}
       {(activeReport === 'general' || activeReport === 'exportar') && (
-      <motion.div key="export-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <motion.div key="export-section" role="tabpanel" id={`panel-${activeReport}`} aria-labelledby={`tab-${activeReport}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <motion.div custom={0.8} variants={sectionVariants} initial="hidden" animate="visible">
         <Card variant="glass" padding="lg">
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)' }}>

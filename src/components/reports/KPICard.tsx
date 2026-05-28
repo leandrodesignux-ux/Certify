@@ -32,7 +32,7 @@ export function KPICard({ title, value, subtitle, icon: Icon, color, trend = 'ne
 
   return (
     <motion.div custom={delay} variants={sectionVariants} initial="hidden" animate="visible" className="h-full">
-      <Card variant="glass" padding="lg" className="h-full flex flex-col justify-between" style={{ borderTop: `3px solid ${color}`, minHeight: '148px' }}>
+      <Card variant="glass" padding="lg" hover={false} className="h-full flex flex-col justify-between" style={{ borderTop: `3px solid ${color}`, minHeight: '148px' }}>
         <div className="flex items-start justify-between">
           <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)', lineHeight: 1.3 }}>
             {title}
