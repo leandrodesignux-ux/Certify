@@ -20,6 +20,7 @@ import {
   PieChart,
   Pie,
   Cell,
+  LabelList,
 } from 'recharts';
 import { Card } from '../components/ui/Card';
 import { useWorkerStore } from '../store/useWorkerStore';
@@ -382,7 +383,7 @@ Generado automáticamente por CertifyX
       </motion.div>
 
       {/* SECTION 2 & 3: Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
         {/* Compliance por Área - Bar Chart */}
         <motion.div
           custom={0.5}
@@ -390,11 +391,16 @@ Generado automáticamente por CertifyX
           initial="hidden"
           animate="visible"
         >
-          <Card variant="glass" padding="lg" className="h-[420px]">
+          <Card variant="glass" padding="lg" style={{ height: `${Math.max(360, complianceByArea.length * 58 + 80)}px` }}>
             <div className="flex items-center justify-between mb-5">
-              <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
-                Cumplimiento por Área
-              </h3>
+              <div>
+                <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
+                  Cumplimiento por Área
+                </h3>
+                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                  Promedio de compliance por área operativa
+                </p>
+              </div>
               <span style={{
                 fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)',
                 backgroundColor: 'var(--color-surface-alt)',
@@ -405,21 +411,28 @@ Generado automáticamente por CertifyX
               </span>
             </div>
             <ResponsiveContainer width="100%" height="88%">
-              <BarChart data={complianceByArea} layout="vertical" margin={{ left: 90, right: 28, top: 4, bottom: 4 }}>
+              <BarChart data={complianceByArea} layout="vertical" margin={{ left: 90, right: 44, top: 4, bottom: 4 }}>
                 <XAxis type="number" domain={[0, 100]} hide />
                 <YAxis
                   type="category"
                   dataKey="area"
-                  tick={{ fill: 'var(--color-text-muted)', fontSize: 12, fontFamily: 'var(--font-body)' }}
-                  width={80}
+                  tick={{ fill: 'var(--chart-axis-text)', fontSize: 11, fontFamily: 'var(--font-body)' }}
+                  width={90}
                   axisLine={false}
                   tickLine={false}
                 />
                 <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(91,34,119,0.07)' }} />
-                <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={20}>
+                <Bar dataKey={() => 100} radius={[0, 6, 6, 0]} barSize={18} fill="rgba(255,255,255,0.03)" isAnimationActive={false} />
+                <Bar dataKey="score" radius={[0, 6, 6, 0]} barSize={18}>
                   {complianceByArea.map((entry, index) => (
                     <Cell key={`bar-${index}`} fill={entry.fill} />
                   ))}
+                  <LabelList
+                    dataKey="score"
+                    position="right"
+                    style={{ fill: 'var(--color-text-secondary)', fontSize: '11px', fontFamily: 'var(--font-body)' }}
+                    formatter={(v) => `${v}%`}
+                  />
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
