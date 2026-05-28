@@ -21,6 +21,7 @@ import {
   Pie,
   Cell,
   LabelList,
+  Label,
 } from 'recharts';
 import { Card } from '../components/ui/Card';
 import { useWorkerStore } from '../store/useWorkerStore';
@@ -448,9 +449,14 @@ Generado automáticamente por CertifyX
         >
           <Card variant="glass" padding="lg" className="h-[420px]">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
-                Estado de Certificaciones
-              </h3>
+              <div>
+                <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
+                  Estado de Certificaciones
+                </h3>
+                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                  Distribución por estado actual
+                </p>
+              </div>
               <span style={{
                 fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)',
                 backgroundColor: 'var(--color-surface-alt)',
@@ -460,15 +466,15 @@ Generado automáticamente por CertifyX
                 {certifications.length} total
               </span>
             </div>
-            <div className="flex items-center h-[calc(100%-52px)]">
-              <ResponsiveContainer width="55%" height="100%">
+            <div className="flex items-center h-[calc(100%-60px)]">
+              <ResponsiveContainer width="52%" height="100%">
                 <PieChart>
                   <Pie
                     data={certStatusData}
                     cx="50%"
                     cy="50%"
                     innerRadius={64}
-                    outerRadius={96}
+                    outerRadius={100}
                     paddingAngle={3}
                     dataKey="value"
                     strokeWidth={0}
@@ -476,27 +482,44 @@ Generado automáticamente por CertifyX
                     {certStatusData.map((entry, index) => (
                       <Cell key={`pie-${index}`} fill={entry.color} stroke="transparent" />
                     ))}
+                    <Label
+                      content={() => (
+                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle">
+                          <tspan x="50%" dy="-8" style={{ fill: 'var(--color-text-primary)', fontSize: '22px', fontWeight: 700, fontFamily: 'var(--font-display)' }}>
+                            {certifications.length}
+                          </tspan>
+                          <tspan x="50%" dy="18" style={{ fill: 'var(--color-text-muted)', fontSize: '10px', fontFamily: 'var(--font-body)' }}>
+                            total
+                          </tspan>
+                        </text>
+                      )}
+                    />
                   </Pie>
                   <Tooltip content={<CustomPieTooltip />} />
                 </PieChart>
               </ResponsiveContainer>
               {/* Leyenda */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
-                {certStatusData.map((item) => (
-                  <div key={item.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-sm)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
-                      <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-secondary)' }}>{item.name}</span>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                {certStatusData.map((item, idx) => (
+                  <>
+                    {idx === 1 && (
+                      <div key={`sep-${idx}`} style={{ height: '1px', backgroundColor: 'var(--border-brand)', marginTop: '8px', marginBottom: '8px' }} />
+                    )}
+                    <div key={item.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', padding: '2px 0' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
+                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-secondary)', marginLeft: '8px' }}>{item.name}</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
+                        <span style={{ fontSize: 'var(--text-small)', fontWeight: 600, color: item.color }}>
+                          {item.value}
+                        </span>
+                        <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginLeft: '4px' }}>
+                          {item.percentage}%
+                        </span>
+                      </div>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-text-primary)' }}>
-                        {item.value}
-                      </span>
-                      <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginLeft: '4px' }}>
-                        ({item.percentage}%)
-                      </span>
-                    </div>
-                  </div>
+                  </>
                 ))}
               </div>
             </div>
