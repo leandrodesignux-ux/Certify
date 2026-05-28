@@ -332,49 +332,54 @@ Generado automáticamente por CertifyX
       </motion.div>
 
       {/* SECTION 1: KPIs */}
-      <div className="grid gap-4 kpi-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}
-        role="region" aria-label="Indicadores clave de cumplimiento">
-        <KPICard
-          title="Índice de Cumplimiento Global"
-          value={`${kpis.avgCompliance}%`}
-          subtitle={`de ${workers.length} trabajadores`}
-          trendLabel={getComplianceLabel(kpis.avgCompliance)}
-          trend={kpis.avgCompliance >= 80 ? 'up' : kpis.avgCompliance >= 60 ? 'neutral' : 'down'}
-          icon={TrendingUp}
-          color={getScoreColor(kpis.avgCompliance)}
-          delay={0.1}
-        />
-        <KPICard
-          title="Certificaciones Activas"
-          value={kpis.activeCerts}
-          subtitle={`de ${certifications.length} totales`}
-          trendLabel={`${Math.round((kpis.activeCerts / (certifications.length || 1)) * 100)}% del total`}
-          trend="up"
-          icon={Award}
-          color="var(--color-success)"
-          delay={0.15}
-        />
-        <KPICard
-          title="Vencimientos en 30 días"
-          value={kpis.expiringSoon}
-          subtitle="Requieren atención"
-          trendLabel={kpis.expiringSoon > 5 ? 'Nivel alto' : 'Nivel normal'}
-          trend={kpis.expiringSoon > 5 ? 'down' : 'neutral'}
-          icon={Clock}
-          color="var(--color-warning)"
-          delay={0.2}
-        />
-        <KPICard
-          title="Trabajadores en Riesgo"
-          value={kpis.workersAtRisk}
-          subtitle={`de ${workers.length} totales`}
-          trendLabel={kpis.workersAtRisk > 3 ? 'Crítico' : 'Controlado'}
-          trend={kpis.workersAtRisk > 3 ? 'down' : 'neutral'}
-          icon={AlertTriangle}
-          color="var(--color-danger)"
-          delay={0.25}
-        />
-      </div>
+      <motion.div custom={0.1} variants={sectionVariants} initial="hidden" animate="visible">
+        <div
+          className="grid gap-4 grid-cols-2 lg:grid-cols-4"
+          role="region"
+          aria-label="Indicadores clave de cumplimiento"
+        >
+          <KPICard
+            title="Índice de Cumplimiento Global"
+            value={`${kpis.avgCompliance}%`}
+            subtitle={`de ${workers.length} trabajadores`}
+            trendLabel={getComplianceLabel(kpis.avgCompliance)}
+            trend={kpis.avgCompliance >= 80 ? 'up' : kpis.avgCompliance >= 60 ? 'neutral' : 'down'}
+            icon={TrendingUp}
+            color={getScoreColor(kpis.avgCompliance)}
+            delay={0.1}
+          />
+          <KPICard
+            title="Certificaciones Activas"
+            value={kpis.activeCerts}
+            subtitle={`de ${certifications.length} totales`}
+            trendLabel={`${Math.round((kpis.activeCerts / (certifications.length || 1)) * 100)}% del total`}
+            trend="up"
+            icon={Award}
+            color="var(--color-success)"
+            delay={0.15}
+          />
+          <KPICard
+            title="Vencimientos en 30 días"
+            value={kpis.expiringSoon}
+            subtitle="Requieren atención"
+            trendLabel={kpis.expiringSoon > 5 ? 'Nivel alto' : 'Nivel normal'}
+            trend={kpis.expiringSoon > 5 ? 'down' : 'neutral'}
+            icon={Clock}
+            color="var(--color-warning)"
+            delay={0.2}
+          />
+          <KPICard
+            title="Trabajadores en Riesgo"
+            value={kpis.workersAtRisk}
+            subtitle={`de ${workers.length} totales`}
+            trendLabel={kpis.workersAtRisk > 3 ? 'Crítico' : 'Controlado'}
+            trend={kpis.workersAtRisk > 3 ? 'down' : 'neutral'}
+            icon={AlertTriangle}
+            color="var(--color-danger)"
+            delay={0.25}
+          />
+        </div>
+      </motion.div>
 
       {/* SECTION 2 & 3: Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
