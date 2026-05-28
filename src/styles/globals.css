@@ -84,6 +84,26 @@
   /* === REPORTS LAYOUT === */
   --reports-grid-cols: repeat(4, 1fr);
   --reports-grid-cols-md: repeat(2, 1fr);
+  --reports-grid-cols-lg: repeat(2, 1fr);
+
+  /* Reports — tabs de tipo de reporte */
+  --report-tab-active-bg: rgba(124,77,171,0.12);
+  --report-tab-active-border: rgba(124,77,171,0.4);
+
+  /* Reports — superficies de chart */
+  --chart-grid-line: rgba(91,34,119,0.08);
+  --chart-axis-text: #6B7280;
+
+  /* Reports — score badges */
+  --score-optimal-bg:    rgba(114,147,98,0.12);
+  --score-optimal-text:  #8fb87a;
+  --score-regular-bg:    rgba(255,184,0,0.12);
+  --score-regular-text:  #FFB800;
+  --score-critical-bg:   rgba(255,61,87,0.12);
+  --score-critical-text: #FF5C71;
+
+  /* Reports — export cards */
+  --export-card-min-h: 120px;
 
   /* === TAB MINIMUM WIDTH === */
   --tab-min-width: 140px;
