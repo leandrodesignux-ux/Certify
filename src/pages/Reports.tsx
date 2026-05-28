@@ -47,6 +47,14 @@ export function Reports() {
   const { certifications } = useCertStore();
   const [showProTooltip, setShowProTooltip] = useState(false);
   const [showAllRisk, setShowAllRisk] = useState(false);
+  const [activeReport, setActiveReport] = useState<'general' | 'cumplimiento' | 'riesgo' | 'exportar'>('general');
+
+  const reportTabs = [
+    { id: 'general',      label: 'Resumen General',    color: '#9b6ab5' },
+    { id: 'cumplimiento', label: 'Cumplimiento',        color: '#729362' },
+    { id: 'riesgo',       label: 'Trabajadores Riesgo', color: '#FF3D57' },
+    { id: 'exportar',     label: 'Exportar',            color: '#FFB800' },
+  ] as const;
 
   // SECTION 1: KPI Calculations
   const kpis = useMemo(() => {
@@ -208,7 +216,7 @@ Generado automáticamente por CertifyX
   return (
     <div className="space-y-8" role="main" aria-label="Vista de reportes">
       {/* Header */}
-      <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible">
+      <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible" style={{ marginBottom: 'var(--space-xl)' }}>
         <div className="flex flex-col gap-4">
           {/* Top row: título + acciones */}
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
@@ -267,6 +275,58 @@ Generado automáticamente por CertifyX
                 SENCE
               </button>
             </div>
+          </div>
+
+          {/* Bottom row: tabs de tipo de reporte */}
+          <div
+            role="tablist"
+            aria-label="Tipo de reporte"
+            style={{
+              display: 'flex',
+              gap: '8px',
+              padding: '8px',
+              backgroundColor: 'rgba(19,11,58,0.5)',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--border-brand)',
+              overflowX: 'auto',
+              width: 'fit-content',
+              marginTop: 'var(--space-md)',
+            }}
+          >
+            {reportTabs.map((tab) => {
+              const isActive = activeReport === tab.id;
+              return (
+                <motion.button
+                  key={tab.id}
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-label={tab.label}
+                  onClick={() => setActiveReport(tab.id)}
+                  style={{
+                    position: 'relative',
+                    minWidth: 'var(--tab-min-width)',
+                    padding: '10px 20px',
+                    borderRadius: 'var(--radius-md)',
+                    cursor: 'pointer',
+                    border: isActive ? '1px solid var(--report-tab-active-border)' : '1px solid transparent',
+                    borderBottom: isActive ? `2px solid ${tab.color}` : '1px solid transparent',
+                    backgroundColor: isActive ? 'var(--report-tab-active-bg)' : 'transparent',
+                    color: isActive ? tab.color : 'var(--color-text-muted)',
+                    fontSize: 'var(--text-small)',
+                    fontWeight: isActive ? 600 : 500,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    transition: 'color 0.15s, background-color 0.15s',
+                  }}
+                  whileHover={!isActive ? { color: 'var(--color-text-secondary)' } : {}}
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                >
+                  {tab.label}
+                </motion.button>
+              );
+            })}
           </div>
         </div>
       </motion.div>
