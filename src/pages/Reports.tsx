@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   FileText,
   Download,
@@ -302,7 +302,7 @@ Generado automáticamente por CertifyX
                   role="tab"
                   aria-selected={isActive}
                   aria-label={tab.label}
-                  onClick={() => setActiveReport(tab.id)}
+                  onClick={() => { setActiveReport(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   style={{
                     position: 'relative',
                     minWidth: 'var(--tab-min-width)',
@@ -423,7 +423,10 @@ Generado automáticamente por CertifyX
         </div>
       </motion.div>
 
+      <AnimatePresence mode="wait">
       {/* SECTION 2 & 3: Charts Row */}
+      {(activeReport === 'general' || activeReport === 'cumplimiento') && (
+      <motion.div key="charts-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
         {/* Compliance por Área - Bar Chart */}
         <motion.div
@@ -566,8 +569,12 @@ Generado automáticamente por CertifyX
           </Card>
         </motion.div>
       </div>
+      </motion.div>
+      )}
 
       {/* SECTION 4: Top Trabajadores en Riesgo */}
+      {(activeReport === 'general' || activeReport === 'riesgo') && (
+      <motion.div key="risk-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <motion.div custom={0.7} variants={sectionVariants} initial="hidden" animate="visible">
         <Card variant="glass" padding="lg">
           {/* Header de sección */}
@@ -764,8 +771,12 @@ Generado automáticamente por CertifyX
           )}
         </Card>
       </motion.div>
+      </motion.div>
+      )}
 
       {/* SECTION 5: Exportar Reportes */}
+      {(activeReport === 'general' || activeReport === 'exportar') && (
+      <motion.div key="export-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <motion.div custom={0.8} variants={sectionVariants} initial="hidden" animate="visible">
         <Card variant="glass" padding="lg">
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)' }}>
@@ -889,6 +900,9 @@ Generado automáticamente por CertifyX
           </div>
         </Card>
       </motion.div>
+      </motion.div>
+      )}
+      </AnimatePresence>
     </div>
   );
 }
