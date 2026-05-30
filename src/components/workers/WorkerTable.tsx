@@ -22,35 +22,44 @@ export function WorkerTable({ workers }: WorkerTableProps) {
   };
 
   return (
-    <div className="bg-[#1a1040]/90 backdrop-blur-[12px] border border-[rgba(91,34,119,0.2)] rounded-sm overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="w-full">
+    <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--border-brand)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%' }}>
+          <colgroup>
+            <col style={{ width: '220px' }} />  {/* Trabajador */}
+            <col style={{ width: '120px' }} />  {/* Área */}
+            <col />                              {/* Cargo */}
+            <col style={{ width: '80px' }} />   {/* Score */}
+            <col style={{ width: '100px' }} />  {/* Certs */}
+            <col style={{ width: '80px' }} />   {/* Estado */}
+            <col style={{ width: '90px' }} />   {/* Acción */}
+          </colgroup>
           <thead>
-            <tr className="border-b border-[rgba(91,34,119,0.2)]">
-              <th className="px-5 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
+            <tr style={{ borderBottom: '1px solid var(--border-brand)' }}>
+              <th style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Trabajador
               </th>
-              <th className="px-5 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
+              <th style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Área
               </th>
-              <th className="px-5 py-3 text-left text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
+              <th style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Cargo
               </th>
-              <th className="px-5 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
+              <th style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Score
               </th>
-              <th className="px-5 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
+              <th style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Certs Vigentes
               </th>
-              <th className="px-5 py-3 text-center text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
+              <th style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Estado
               </th>
-              <th className="px-5 py-3 text-right text-xs font-medium text-[#a89fc4] uppercase tracking-wider">
+              <th style={{ padding: '12px 20px', textAlign: 'right', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Acción
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[rgba(91,34,119,0.1)]">
+          <tbody>
             {workers.map((worker, index) => {
               const status = getWorkerStatus(worker);
               const scoreColor = getComplianceColor(worker.complianceScore);
@@ -65,54 +74,56 @@ export function WorkerTable({ workers }: WorkerTableProps) {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.03, duration: 0.3 }}
-                  className="hover:bg-[rgba(91,34,119,0.08)] transition-colors duration-150"
+                  style={{ borderBottom: index < workers.length - 1 ? '1px solid var(--border-brand)' : 'none', cursor: 'pointer' }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(124,77,171,0.06)')}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                 >
-                  <td className="px-5 py-4">
-                    <div className="flex items-center gap-3">
+                  <td style={{ padding: '16px 20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       {worker.foto ? (
                         <img
                           src={worker.foto}
                           alt={`${worker.nombre} ${worker.apellidos}`}
-                          className="w-10 h-10 rounded-full object-cover border border-[rgba(91,34,119,0.3)]"
+                          style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(91,34,119,0.3)' }}
                         />
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-[#231455] border border-[rgba(91,34,119,0.3)] flex items-center justify-center">
-                          <span className="font-display text-sm font-semibold text-[#c49fe0]">
+                        <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--color-surface-alt)', border: '1px solid rgba(91,34,119,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <span style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 600, color: 'var(--color-purple-light)' }}>
                             {initials}
                           </span>
                         </div>
                       )}
                       <div>
-                        <p className="font-medium text-[#F0F4FF]">
+                        <p style={{ fontWeight: 500, color: 'var(--color-text-primary)' }}>
                           {worker.nombre} {worker.apellidos}
                         </p>
-                        <p className="text-xs text-[#8892A4]">{worker.empresa}</p>
+                        <p style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>{worker.empresa}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-5 py-4">
-                    <span className="text-sm text-[#F0F4FF]">{worker.area}</span>
+                  <td style={{ padding: '16px 20px' }}>
+                    <span style={{ fontSize: '14px', color: 'var(--color-text-primary)' }}>{worker.area}</span>
                   </td>
-                  <td className="px-5 py-4">
-                    <span className="text-sm text-[#F0F4FF]">{worker.cargo}</span>
+                  <td style={{ padding: '16px 20px' }}>
+                    <span style={{ fontSize: '14px', color: 'var(--color-text-primary)' }}>{worker.cargo}</span>
                   </td>
-                  <td className="px-5 py-4 text-center">
+                  <td style={{ padding: '16px 20px', textAlign: 'center' }}>
                     <span className={`font-display text-xl font-bold ${scoreColor}`}>
                       {worker.complianceScore}
                     </span>
                   </td>
-                  <td className="px-5 py-4 text-center">
-                    <span className="font-mono text-sm text-[#8fb87a]">{activeCerts}</span>
-                    <span className="text-[#4A5568] text-sm">
+                  <td style={{ padding: '16px 20px', textAlign: 'center' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--color-success)' }}>{activeCerts}</span>
+                    <span style={{ color: 'var(--color-text-muted)', fontSize: '14px' }}>
                       /{worker.certifications.length}
                     </span>
                   </td>
-                  <td className="px-5 py-4">
-                    <div className="flex justify-center">
+                  <td style={{ padding: '16px 20px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <StatusIndicator status={status} pulse={status === 'vencido'} />
                     </div>
                   </td>
-                  <td className="px-5 py-4 text-right">
+                  <td style={{ padding: '16px 20px', textAlign: 'right' }}>
                     <Button
                       variant="ghost"
                       size="sm"

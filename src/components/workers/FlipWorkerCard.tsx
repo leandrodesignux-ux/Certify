@@ -20,21 +20,13 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
   const scoreColor = worker.complianceScore >= 80 ? '#729362'
     : worker.complianceScore >= 60 ? '#FFB800' : '#FF3D57';
 
-  const cardBorderColor = worker.complianceScore >= 80
-    ? 'rgba(114,147,98,0.35)'
-    : worker.complianceScore >= 60
-    ? 'rgba(255,184,0,0.35)'
-    : 'rgba(255,61,87,0.45)';
+  const cardBorderColor = 'var(--border-brand)';
 
   const criticalOverlay = worker.complianceScore < 60
     ? 'linear-gradient(to top, rgba(255,61,87,0.07) 0%, transparent 70%)'
     : 'none';
 
-  const cardBorderLeft = worker.complianceScore >= 80
-    ? '3px solid rgba(114,147,98,0.6)'
-    : worker.complianceScore >= 60
-    ? '3px solid rgba(255,184,0,0.5)'
-    : '3px solid rgba(255,61,87,0.7)';
+  const cardBorderLeft = '3px solid var(--border-brand)';
 
   return (
     <motion.div
@@ -120,10 +112,10 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
               {/* Area badge top-left */}
               <div style={{
                 position: 'absolute', top: '10px', left: '10px',
-                backgroundColor: 'rgba(91,34,119,0.2)',
-                border: '1px solid rgba(91,34,119,0.4)',
+                backgroundColor: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.15)',
                 borderRadius: '20px', padding: '3px 10px',
-                fontSize: '10px', fontWeight: 700, color: '#c49fe0',
+                fontSize: '10px', fontWeight: 700, color: 'var(--color-text-secondary)',
               }}>{worker.area}</div>
               {/* Score badge bottom-right */}
               <div style={{
@@ -216,7 +208,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
                   {meshes.slice(0, 3).map(m => (
                     <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <p style={{ fontSize: '10px', color: 'var(--color-text-primary)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.nombre}</p>
-                      <span style={{ fontSize: '9px', backgroundColor: 'var(--border-brand)', color: '#c49fe0', borderRadius: '4px', padding: '1px 5px', fontWeight: 700, flexShrink: 0 }}>
+                      <span style={{ fontSize: '9px', backgroundColor: 'var(--color-surface-alt)', color: 'var(--color-purple-light)', borderRadius: 'var(--radius-sm)', padding: '1px 5px', fontWeight: 700, flexShrink: 0 }}>
                         {m.completionRate} de 15
                       </span>
                       <span style={{ fontSize: '10px', color: '#c49fe0', cursor: 'pointer', flexShrink: 0, fontWeight: 600 }}>Ver</span>
@@ -269,7 +261,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
         style={{
           width: '100%',
           padding: '10px',
-          backgroundColor: '#5b2277',
+          backgroundColor: 'var(--color-electric)',
           color: 'var(--color-text-primary)',
           border: 'none',
           borderRadius: '0',
@@ -277,15 +269,15 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
           fontWeight: 700,
           cursor: 'pointer',
           letterSpacing: '0.5px',
-          fontFamily: '"Barlow Condensed", sans-serif',
+          fontFamily: 'var(--font-display)',
           transition: 'background-color 0.15s',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '6px',
         }}
-        onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#7c4dab')}
-        onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#5b2277')}
+        onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'var(--color-purple-deep)')}
+        onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'var(--color-electric)')}
       >
         <Eye style={{ width: '14px', height: '14px' }} />
         VER MÁS DETALLES
