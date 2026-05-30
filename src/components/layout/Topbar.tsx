@@ -142,7 +142,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
         }}
       >
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5c5480]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-text-muted)]" />
           <input
             id="global-search"
             type="text"
@@ -152,9 +152,9 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
             style={{
               width: '100%',
               height: '40px',
-              backgroundColor: '#231455',
-              border: '1px solid rgba(91,34,119,0.2)',
-              borderRadius: '4px',
+              backgroundColor: 'var(--color-surface-alt)',
+              border: '1px solid var(--border-brand)',
+              borderRadius: 'var(--radius-sm)',
               paddingLeft: '40px',
               paddingRight: searchFocused ? '16px' : '60px',
               fontSize: '14px',
@@ -176,7 +176,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                 backgroundColor: 'rgba(28,16,80,0.8)',
                 borderRadius: '4px',
                 fontSize: '10px',
-                color: '#5c5480',
+                color: 'var(--color-text-muted)',
                 fontFamily: 'monospace',
                 border: '1px solid rgba(91,34,119,0.2)',
               }}
@@ -225,9 +225,9 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                   top: 'calc(100% + 8px)',
                   right: 0,
                   width: '320px',
-                  backgroundColor: '#231455',
+                  backgroundColor: 'var(--color-surface-alt)',
                   border: '1px solid rgba(91,34,119,0.35)',
-                  borderRadius: '8px',
+                  borderRadius: 'var(--radius-md)',
                   boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
                   zIndex: 50,
                   overflow: 'hidden',
@@ -295,7 +295,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                   style={{
                     padding: '10px 16px',
                     borderTop: '1px solid rgba(91,34,119,0.15)',
-                    backgroundColor: 'rgba(91,34,119,0.06)',
+                    backgroundColor: 'var(--color-surface)',
                   }}
                 >
                   <p className="text-xs text-center text-[#4A5568]">
@@ -311,7 +311,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
 
         {/* Avatar */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-sm bg-gradient-to-br from-[#5b2277]/25 to-[#729362]/25 border border-[rgba(91,34,119,0.35)] flex items-center justify-center">
+          <div className="w-9 h-9 bg-gradient-to-br from-[#5b2277]/25 to-[#729362]/25 border border-[rgba(91,34,119,0.35)] flex items-center justify-center" style={{ borderRadius: 'var(--radius-sm)' }}>
             <span className="text-sm font-medium text-[#c49fe0]">AD</span>
           </div>
           <div className="hidden md:block">
