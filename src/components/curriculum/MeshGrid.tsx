@@ -28,10 +28,10 @@ function SequentialCourseCard({ course, index }: { course: Course; index: number
       transition={{ delay: index * 0.1, duration: 0.3 }}
       className="relative"
     >
-      <div className="bg-[#1a1040] border border-[rgba(91,34,119,0.2)] rounded-lg p-4 hover:border-[rgba(91,34,119,0.4)] transition-colors">
+      <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--border-brand)', borderRadius: 'var(--radius-md)', padding: '16px' }} className="hover:border-[rgba(91,34,119,0.4)] transition-colors">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
-            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[rgba(91,34,119,0.15)] text-[#9b6ab5] text-xs font-bold">
+            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--color-surface-alt)', color: 'var(--color-purple-mid)', fontSize: '12px', fontWeight: 700 }}>
               {index + 1}
             </span>
             <h4 className="font-display text-sm font-semibold text-[#F0F4FF] max-w-[200px] truncate">
@@ -62,7 +62,7 @@ function ArrowConnector() {
   return (
     <div className="flex justify-center py-2">
       <div className="flex flex-col items-center gap-1">
-        <div className="w-px h-4 border-l-2 border-dashed border-[rgba(91,34,119,0.4)]" />
+        <div style={{ width: '1px', height: '16px', borderLeft: '2px dashed var(--border-brand-hover)' }} />
         <ArrowDown className="w-4 h-4 text-[rgba(91,34,119,0.5)]" />
       </div>
     </div>
@@ -96,8 +96,8 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.3 }}
-      className="bg-[#1a1040] rounded-lg max-w-4xl w-full mx-auto overflow-hidden shadow-2xl"
-      style={{ maxHeight: '85vh' }}
+      style={{ backgroundColor: 'var(--color-surface)', borderRadius: 'var(--radius-md)', maxWidth: '56rem', width: '100%', margin: '0 auto', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', maxHeight: '85vh' }}
+      className="max-w-4xl w-full mx-auto overflow-hidden"
     >
       {/* Header with Close Button */}
       <div className="relative p-6 border-b border-[rgba(91,34,119,0.2)]">
@@ -114,13 +114,13 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
 
         <div className="pr-12">
           <h2 className="font-display text-2xl font-bold text-[#F0F4FF] mb-2">{mesh.nombre}</h2>
-          <p className="text-sm text-[#8892A4] mb-4">{mesh.descripcion}</p>
+          <p style={{ color: 'var(--color-text-secondary)', fontSize: '14px', marginBottom: '16px' }}>{mesh.descripcion}</p>
 
           {/* Stats Row */}
           <div className="flex items-center gap-6 flex-wrap">
             {/* Completion Rate */}
             <div className="flex items-center gap-3">
-              <span className="text-sm text-[#8892A4]">Progreso Global</span>
+              <span style={{ color: 'var(--color-text-secondary)', fontSize: '14px' }}>Progreso Global</span>
               <div className="w-32">
                 <ProgressBar value={mesh.completionRate} showLabel={false} />
               </div>
@@ -132,7 +132,7 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
             {/* Courses Count */}
             <div className="flex items-center gap-2 px-3 py-1.5 bg-[#231455] rounded-lg">
               <span className="text-sm text-[#F0F4FF]">{mesh.cursos.length}</span>
-              <span className="text-xs text-[#8892A4]">cursos</span>
+              <span style={{ color: 'var(--color-text-secondary)', fontSize: '12px' }}>cursos</span>
             </div>
           </div>
         </div>
@@ -145,7 +145,7 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
       >
         {/* Sequential Course Flow */}
         <div className="max-w-2xl mx-auto">
-          <h3 className="text-sm font-medium text-[#8892A4] uppercase tracking-wider mb-4">
+          <h3 style={{ color: 'var(--color-text-secondary)', fontSize: '14px', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px' }}>
             Ruta de Aprendizaje
           </h3>
 
@@ -192,7 +192,7 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
           </h3>
           
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-4 py-3 bg-[#231455] rounded-lg">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', backgroundColor: 'var(--color-surface-alt)', borderRadius: '8px' }}>
               <div className="flex -space-x-2">
                 {Array.from({ length: Math.min(workersCount, 4) }).map((_, i) => (
                   <div
@@ -213,7 +213,7 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
               </span>
             </div>
             
-            <button className="px-4 py-2 text-sm text-[#9b6ab5] bg-[rgba(91,34,119,0.12)] hover:bg-[rgba(91,34,119,0.2)] rounded-lg transition-colors border border-[rgba(91,34,119,0.25)]">
+            <button style={{ padding: '8px 16px', fontSize: '14px', color: 'var(--color-purple-mid)', backgroundColor: 'var(--color-surface-alt)', borderRadius: '8px', border: '1px solid rgba(91,34,119,0.25)' }} className="hover:bg-[rgba(91,34,119,0.2)] transition-colors">
               Ver todos
             </button>
           </div>
