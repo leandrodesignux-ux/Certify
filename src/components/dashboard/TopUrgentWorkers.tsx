@@ -17,8 +17,8 @@ export function TopUrgentWorkers() {
     <div style={{
       backgroundColor: 'rgba(26,16,64,0.8)',
       backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(255,61,87,0.15)',
-      borderRadius: '6px',
+      border: '1px solid var(--border-brand)',
+      borderRadius: 'var(--radius-sm)',
       display: 'flex',
       flexDirection: 'column',
       height: '400px',
@@ -27,7 +27,7 @@ export function TopUrgentWorkers() {
         <h2 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>
           Requieren Acción
         </h2>
-        <span style={{ backgroundColor: 'rgba(255,61,87,0.15)', color: '#FF3D57', fontSize: '11px', fontWeight: 700, borderRadius: '8px', padding: '3px 8px' }}>
+        <span style={{ backgroundColor: 'var(--status-danger-bg)', color: 'var(--color-danger)', fontSize: '11px', fontWeight: 700, borderRadius: 'var(--radius-sm)', padding: '3px 8px' }}>
           {urgent.length}
         </span>
       </div>
@@ -49,7 +49,7 @@ export function TopUrgentWorkers() {
             >
               {worker.foto
                 ? <img src={worker.foto} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
-                : <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c49fe0', fontWeight: 700, fontSize: '13px', flexShrink: 0 }}>{initials}</div>
+                : <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: 'var(--color-surface-alt)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-purple-light)', fontWeight: 700, fontSize: '13px', flexShrink: 0 }}>{initials}</div>
               }
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -57,12 +57,12 @@ export function TopUrgentWorkers() {
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <ProgressBar value={worker.complianceScore} showLabel={false} />
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: hasExpired ? '#FF3D57' : '#FFB800', flexShrink: 0 }}>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: hasExpired ? 'var(--color-danger)' : 'var(--color-warning)', flexShrink: 0 }}>
                     {worker.complianceScore}%
                   </span>
                 </div>
                 {hasExpired && (
-                  <p style={{ fontSize: '10px', color: '#FF3D57', marginTop: '2px' }}>Cert. vencida</p>
+                  <p style={{ fontSize: '10px', color: 'var(--color-danger)', marginTop: '2px' }}>Cert. vencida</p>
                 )}
               </div>
               <ArrowRight
@@ -83,7 +83,7 @@ export function TopUrgentWorkers() {
       <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(91,34,119,0.15)' }}>
         <button
           onClick={() => navigate('/workers')}
-          style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid rgba(91,34,119,0.3)', borderRadius: '8px', padding: '8px', fontSize: '12px', color: '#9b6ab5', cursor: 'pointer', fontWeight: 600 }}
+          style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid rgba(91,34,119,0.3)', borderRadius: 'var(--radius-sm)', padding: '8px', fontSize: '12px', color: '#9b6ab5', cursor: 'pointer', fontWeight: 600 }}
         >
           Ver todos los trabajadores →
         </button>

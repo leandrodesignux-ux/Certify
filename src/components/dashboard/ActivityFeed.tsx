@@ -70,13 +70,13 @@ const activities: Activity[] = [
 ];
 
 const activityConfig = {
-  cert: { icon: Award, color: '#729362', borderColor: 'border-[#729362]/30' },
-  course: { icon: BookOpen, color: '#9b6ab5', borderColor: 'border-[#9b6ab5]/30' },
-  compliance: { icon: CheckCircle, color: '#8a9e52', borderColor: 'border-[#8a9e52]/30' },
-  alert: { icon: AlertCircle, color: '#FF3D57', borderColor: 'border-[#FF3D57]/30' },
-  user: { icon: UserPlus, color: '#9b6ab5', borderColor: 'border-[#9b6ab5]/30' },
-  system: { icon: FileText, color: '#8892A4', borderColor: 'border-[#8892A4]/30' },
-  renewal: { icon: RefreshCw, color: '#FFB800', borderColor: 'border-[#FFB800]/30' },
+  cert: { icon: Award, color: 'var(--color-success)' },
+  course: { icon: BookOpen, color: 'var(--color-purple-mid)' },
+  compliance: { icon: CheckCircle, color: 'var(--color-volt)' },
+  alert: { icon: AlertCircle, color: 'var(--color-danger)' },
+  user: { icon: UserPlus, color: 'var(--color-purple-mid)' },
+  system: { icon: FileText, color: 'var(--color-text-secondary)' },
+  renewal: { icon: RefreshCw, color: 'var(--color-warning)' },
 };
 
 export function ActivityFeed() {
@@ -84,8 +84,8 @@ export function ActivityFeed() {
     <div style={{
       backgroundColor: 'rgba(26,16,64,0.8)',
       backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(91,34,119,0.2)',
-      borderRadius: '6px',
+      border: '1px solid var(--border-brand)',
+      borderRadius: 'var(--radius-sm)',
       display: 'flex',
       flexDirection: 'column',
       height: '400px',
@@ -127,7 +127,7 @@ export function ActivityFeed() {
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ fontSize: '13px', color: '#F0F4FF', marginBottom: '2px', lineHeight: 1.4 }}>{activity.message}</p>
-                <p style={{ fontSize: '11px', color: '#5c5480' }}>
+                <p style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
                   {formatDistanceToNow(new Date(activity.timestamp), {
                     addSuffix: true,
                     locale: es,
