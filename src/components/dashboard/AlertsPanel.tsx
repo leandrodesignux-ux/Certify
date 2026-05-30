@@ -65,7 +65,7 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
         {/* Dot indicator */}
         <div style={{
           width: '8px', height: '8px', borderRadius: '50%', flexShrink: 0, marginTop: '4px',
-          backgroundColor: status === 'vencido' ? '#FF3D57' : status === 'proximo_vencer' ? '#FFB800' : '#8892A4',
+          backgroundColor: status === 'vencido' ? 'var(--color-danger)' : status === 'proximo_vencer' ? 'var(--color-warning)' : 'var(--color-text-secondary)',
           boxShadow: status === 'vencido' ? '0 0 6px rgba(255,61,87,0.6)' : 'none',
         }} />
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -96,19 +96,19 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
             transition={{ duration: 0.2 }}
             style={{ overflow: 'hidden', marginTop: '12px', marginLeft: '20px' }}
           >
-            <div style={{ padding: '12px', backgroundColor: 'rgba(91,34,119,0.06)', borderRadius: '8px', border: '1px solid rgba(91,34,119,0.18)' }}>
+            <div style={{ padding: '12px', backgroundColor: 'var(--color-surface-alt)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(91,34,119,0.18)' }}>
               <div style={{ marginBottom: '8px' }}>
-                <span style={{ fontSize: '11px', color: '#4A5568', textTransform: 'uppercase' }}>Certificación</span>
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Certificación</span>
                 <p style={{ fontSize: '12px', color: '#F0F4FF', marginTop: '2px' }}>{certName}</p>
               </div>
               <div style={{ marginBottom: '8px' }}>
-                <span style={{ fontSize: '11px', color: '#4A5568', textTransform: 'uppercase' }}>Días restantes</span>
-                <p style={{ fontSize: '12px', color: status === 'vencido' ? '#FF3D57' : status === 'proximo_vencer' ? '#FFB800' : '#729362', marginTop: '2px', fontWeight: 600 }}>
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Días restantes</span>
+                <p style={{ fontSize: '12px', color: status === 'vencido' ? 'var(--color-danger)' : status === 'proximo_vencer' ? 'var(--color-warning)' : 'var(--color-success)', marginTop: '2px', fontWeight: 600 }}>
                   {alert.diasRestantes && alert.diasRestantes < 0 ? `${Math.abs(alert.diasRestantes)} días vencida` : `${alert.diasRestantes} días`}
                 </p>
               </div>
               <div style={{ marginBottom: '12px' }}>
-                <span style={{ fontSize: '11px', color: '#4A5568', textTransform: 'uppercase' }}>Acción recomendada</span>
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Acción recomendada</span>
                 <p style={{ fontSize: '12px', color: '#8892A4', marginTop: '2px' }}>{getRecommendedAction()}</p>
               </div>
               <button
@@ -164,8 +164,8 @@ export function AlertsPanel() {
     <div style={{
       backgroundColor: 'rgba(26,16,64,0.8)',
       backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(91,34,119,0.2)',
-      borderRadius: '6px',
+      border: '1px solid var(--border-brand)',
+      borderRadius: 'var(--radius-sm)',
       display: 'flex',
       flexDirection: 'column',
       height: '400px',
@@ -177,7 +177,7 @@ export function AlertsPanel() {
           <h2 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>Alertas</h2>
         </div>
         {criticalCount > 0 && (
-          <span style={{ padding: '2px 8px', backgroundColor: '#FF3D57', color: '#fff', fontSize: '12px', fontWeight: 500, borderRadius: '4px' }}>
+          <span style={{ padding: '2px 8px', backgroundColor: '#FF3D57', color: '#fff', fontSize: '12px', fontWeight: 500, borderRadius: 'var(--radius-sm)' }}>
             {criticalCount}
           </span>
         )}
@@ -206,7 +206,7 @@ export function AlertsPanel() {
             width: '100%',
             backgroundColor: 'transparent',
             border: '1px solid rgba(91,34,119,0.3)',
-            borderRadius: '8px',
+            borderRadius: 'var(--radius-sm)',
             padding: '8px',
             fontSize: '12px',
             color: '#9b6ab5',
