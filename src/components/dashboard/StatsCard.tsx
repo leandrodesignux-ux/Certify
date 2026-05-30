@@ -33,32 +33,22 @@ function useCountUp(target: number, duration = 1200) {
 
 const colorMap = {
   electric: {
-    bg: 'bg-[rgba(124,77,171,0.1)]',
-    text: 'text-[#7c4dab]',
     color: '#7c4dab',
     glow: 'shadow-[0_0_12px_rgba(124,77,171,0.3)]',
   },
   volt: {
-    bg: 'bg-[rgba(138,158,82,0.1)]',
-    text: 'text-[#8a9e52]',
     color: '#8a9e52',
     glow: 'shadow-[0_0_12px_rgba(138,158,82,0.3)]',
   },
   warning: {
-    bg: 'bg-[rgba(255,184,0,0.1)]',
-    text: 'text-[#FFB800]',
     color: '#FFB800',
     glow: 'shadow-[0_0_12px_rgba(255,184,0,0.3)]',
   },
   danger: {
-    bg: 'bg-[rgba(255,61,87,0.1)]',
-    text: 'text-[#FF3D57]',
     color: '#FF3D57',
     glow: 'shadow-[0_0_12px_rgba(255,61,87,0.3)]',
   },
   success: {
-    bg: 'bg-[rgba(114,147,98,0.1)]',
-    text: 'text-[#729362]',
     color: '#729362',
     glow: 'shadow-[0_0_12px_rgba(114,147,98,0.3)]',
   },
@@ -86,9 +76,9 @@ export function StatsCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] as const }}
       style={{
-        backgroundColor: '#1a1040',
+        backgroundColor: 'var(--color-surface)',
         border: `1px solid ${colors.color}22`,
-        borderRadius: '6px',
+        borderRadius: 'var(--radius-sm)',
         padding: '20px',
         height: '150px',
         display: 'flex',
@@ -117,8 +107,8 @@ export function StatsCard({
         {trend && (
           <span style={{
             fontSize: '11px', fontWeight: 600,
-            color: trend.direction === 'up' ? '#8fb87a' : '#FF3D57',
-            backgroundColor: trend.direction === 'up' ? 'rgba(114,147,98,0.12)' : 'rgba(255,61,87,0.1)',
+            color: trend.direction === 'up' ? 'var(--kpi-trend-up)' : 'var(--kpi-trend-down)',
+            backgroundColor: trend.direction === 'up' ? 'var(--status-ok-bg)' : 'var(--status-danger-bg)',
             borderRadius: '12px', padding: '3px 8px',
           }}>
             {trend.direction === 'up' ? '↑' : '↓'} {trend.value}
@@ -135,7 +125,7 @@ export function StatsCard({
         }}>
           {typeof value === 'string' && value.includes('%') ? `${displayValue}%` : displayValue}
         </p>
-        <p style={{ fontSize: '12px', color: '#8892A4', fontWeight: 500 }}>{subtitle}</p>
+        <p style={{ fontSize: '12px', color: 'var(--color-text-secondary)', fontWeight: 500 }}>{subtitle}</p>
       </div>
 
       {/* Bottom accent line */}
