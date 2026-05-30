@@ -146,6 +146,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
           <input
             id="global-search"
             type="text"
+            aria-label="Buscar trabajador o certificación"
             placeholder="Buscar trabajador, certificación..."
             onFocus={() => setSearchFocused(true)}
             onBlur={() => setSearchFocused(false)}
@@ -192,6 +193,8 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
         {/* Notifications */}
         <div className="relative" ref={notificationsRef}>
           <button
+            aria-label="Ver notificaciones"
+            aria-expanded={notificationsOpen}
             onClick={() => setNotificationsOpen(!notificationsOpen)}
             className="relative p-2 text-[#8892A4] hover:text-[#F0F4FF] transition-colors duration-150 rounded-md hover:bg-[rgba(91,34,119,0.15)]"
           >

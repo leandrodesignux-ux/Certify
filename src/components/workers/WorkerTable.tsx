@@ -24,7 +24,7 @@ export function WorkerTable({ workers }: WorkerTableProps) {
   return (
     <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--border-brand)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
       <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%' }}>
+        <table role="table" aria-label="Lista de trabajadores" style={{ width: '100%' }}>
           <colgroup>
             <col style={{ width: '220px' }} />  {/* Trabajador */}
             <col style={{ width: '120px' }} />  {/* Área */}
@@ -36,25 +36,25 @@ export function WorkerTable({ workers }: WorkerTableProps) {
           </colgroup>
           <thead>
             <tr style={{ borderBottom: '1px solid var(--border-brand)' }}>
-              <th style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <th scope="col" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Trabajador
               </th>
-              <th style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <th scope="col" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Área
               </th>
-              <th style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <th scope="col" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Cargo
               </th>
-              <th style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <th scope="col" style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Score
               </th>
-              <th style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <th scope="col" style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Certs Vigentes
               </th>
-              <th style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <th scope="col" style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Estado
               </th>
-              <th style={{ padding: '12px 20px', textAlign: 'right', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <th scope="col" style={{ padding: '12px 20px', textAlign: 'right', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Acción
               </th>
             </tr>

@@ -44,6 +44,9 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
 
   return (
     <motion.div
+      role="button"
+      tabIndex={0}
+      aria-expanded={isExpanded}
       layout
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, x: -100 }}
@@ -56,6 +59,7 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
       }}
       onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)')}
       onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+      onKeyDown={(e) => { if (e.key === 'Enter') setIsExpanded(v => !v); }}
     >
       {/* Main alert row */}
       <div

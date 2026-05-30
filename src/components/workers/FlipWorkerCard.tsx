@@ -39,6 +39,9 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
       {/* Card flip container — perspective and preserve-3d for proper 3D rendering */}
       <div style={{ perspective: '1200px', transformStyle: 'preserve-3d', width: '100%', height: '300px', overflow: 'visible' }}>
         <motion.div
+          role="button"
+          tabIndex={0}
+          aria-label={`Voltear card de ${worker.nombre} ${worker.apellidos}`}
           animate={{ rotateY: flipped ? 180 : 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
           style={{
@@ -49,6 +52,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
             cursor: 'pointer',
           }}
           onClick={() => setFlipped(f => !f)}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlipped(f => !f); } }}
         >
           {/* ===== FRONT ===== */}
           <div style={{
@@ -257,6 +261,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
       {/* VER PERFIL button — debajo de la card, como la imagen de referencia */}
       <button
         className="focus-ring"
+        aria-label={`Ver perfil completo de ${worker.nombre} ${worker.apellidos}`}
         onClick={(e) => { e.stopPropagation(); navigate(`/workers/${worker.id}`); }}
         style={{
           width: '100%',
