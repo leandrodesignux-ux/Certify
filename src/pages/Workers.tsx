@@ -264,8 +264,8 @@ function WorkersComponent() {
                 width: '36px', height: '34px',
                 borderRadius: '8px',
                 border: 'none',
-                backgroundColor: viewMode === mode ? 'rgba(91,34,119,0.3)' : 'transparent',
-                color: viewMode === mode ? '#9b6ab5' : 'var(--color-text-secondary)',
+                backgroundColor: viewMode === mode ? 'rgba(124,77,171,0.3)' : 'transparent',
+                color: viewMode === mode ? 'var(--color-purple-mid)' : 'var(--color-text-secondary)',
                 cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'all 0.15s',
@@ -282,7 +282,7 @@ function WorkersComponent() {
           style={{
             padding: '0 16px',
             height: '42px',
-            backgroundColor: showFilters ? 'rgba(91,34,119,0.2)' : 'rgba(255,255,255,0.04)',
+            backgroundColor: showFilters ? 'var(--color-surface-alt)' : 'rgba(255,255,255,0.04)',
             border: `1px solid ${showFilters ? 'rgba(91,34,119,0.5)' : 'rgba(91,34,119,0.25)'}`,
             borderRadius: '10px',
             color: showFilters ? '#9b6ab5' : 'var(--color-text-secondary)',
@@ -313,8 +313,9 @@ function WorkersComponent() {
           {filters.search && (
             <span
               style={{
-                display: 'flex', alignItems: 'center', gap: '5px',
+                display: 'inline-flex', alignItems: 'center', gap: '5px',
                 padding: '3px 10px 3px 10px',
+                minHeight: '28px',
                 backgroundColor: 'rgba(91,34,119,0.15)',
                 border: '1px solid rgba(91,34,119,0.35)',
                 borderRadius: 'var(--radius-full)',
@@ -329,8 +330,9 @@ function WorkersComponent() {
           {filters.area && (
             <span
               style={{
-                display: 'flex', alignItems: 'center', gap: '5px',
+                display: 'inline-flex', alignItems: 'center', gap: '5px',
                 padding: '3px 10px',
+                minHeight: '28px',
                 backgroundColor: 'rgba(91,34,119,0.15)',
                 border: '1px solid rgba(91,34,119,0.35)',
                 borderRadius: 'var(--radius-full)',
@@ -345,8 +347,9 @@ function WorkersComponent() {
           {filters.complianceMin > 0 && (
             <span
               style={{
-                display: 'flex', alignItems: 'center', gap: '5px',
+                display: 'inline-flex', alignItems: 'center', gap: '5px',
                 padding: '3px 10px',
+                minHeight: '28px',
                 backgroundColor: 'rgba(91,34,119,0.15)',
                 border: '1px solid rgba(91,34,119,0.35)',
                 borderRadius: 'var(--radius-full)',
@@ -391,7 +394,7 @@ function WorkersComponent() {
       <div style={{ 
         height: '1px', 
         background: 'linear-gradient(to right, transparent, rgba(91,34,119,0.3), transparent)', 
-        margin: '16px 0' 
+        margin: '8px 0' 
       }} />
 
       {/* Results Summary */}
@@ -454,10 +457,10 @@ function WorkersComponent() {
                   <Users style={{ width: '32px', height: '32px', color: '#9b6ab5' }} />
                 </div>
               </div>
-              <h3 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '22px', fontWeight: 600, color: '#F0F4FF', marginBottom: '8px' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: '8px' }}>
                 Sin trabajadores
               </h3>
-              <p style={{ fontSize: '14px', color: '#8892A4', marginBottom: '24px', maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
+              <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', marginBottom: '24px', maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
                 No se encontraron trabajadores con los filtros aplicados. Intenta ajustar tu búsqueda o limpiar los filtros.
               </p>
               <Button variant="ghost" size="md" onClick={() => window.location.reload()}>
