@@ -249,7 +249,7 @@ Generado automáticamente por CertifyX
                   fontWeight: 'var(--font-weight-medium)',
                   cursor: 'pointer',
                   transition: 'var(--transition-base)',
-                  minHeight: '36px',
+                  minHeight: '40px',
                 }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-brand-hover)'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-brand)'; }}
@@ -271,7 +271,7 @@ Generado automáticamente por CertifyX
                   fontWeight: 'var(--font-weight-medium)',
                   cursor: 'pointer',
                   transition: 'var(--transition-base)',
-                  minHeight: '36px',
+                  minHeight: '40px',
                 }}
               >
                 <FileText className="w-4 h-4" />
@@ -288,7 +288,7 @@ Generado automáticamente por CertifyX
               display: 'flex',
               gap: '8px',
               padding: '8px',
-              backgroundColor: 'rgba(19,11,58,0.5)',
+              backgroundColor: 'var(--color-surface-deep)',
               borderRadius: 'var(--radius-md)',
               border: '1px solid var(--border-brand)',
               overflowX: 'auto',
@@ -343,7 +343,7 @@ Generado automáticamente por CertifyX
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: 'var(--space-md) var(--space-lg)',
-          backgroundColor: 'rgba(19,11,58,0.4)',
+          backgroundColor: 'var(--color-surface-deep)',
           border: '1px solid var(--border-brand)',
           borderRadius: 'var(--radius-md)',
           flexWrap: 'wrap',
@@ -649,7 +649,7 @@ Generado automáticamente por CertifyX
                     <td style={{ padding: '12px 10px', textAlign: 'center' }}>
                       <div style={{
                         width: '24px', height: '24px', borderRadius: '50%',
-                        backgroundColor: index === 0 ? 'rgba(255,61,87,0.1)' : index === 1 ? 'rgba(255,184,0,0.08)' : 'transparent',
+                        backgroundColor: index === 0 ? 'var(--status-danger-bg)' : index === 1 ? 'var(--status-warn-bg)' : 'transparent',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         margin: '0 auto',
                       }}>

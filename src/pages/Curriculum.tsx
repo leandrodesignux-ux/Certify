@@ -21,12 +21,12 @@ const sectionVariants = {
 
 // Category config
 const CATEGORY_CONFIG: Record<string, { color: string; bg: string; icon: typeof Layers }> = {
-  'Seguridad':    { color: '#8a9e52', bg: 'rgba(138,158,82,0.12)',  icon: Layers },
-  'Operaciones':  { color: '#9b6ab5', bg: 'rgba(91,34,119,0.12)',   icon: Layers },
-  'Inducción':    { color: '#FFB800', bg: 'rgba(255,184,0,0.12)',   icon: Layers },
-  'Liderazgo':    { color: '#FFB800', bg: 'rgba(255,184,0,0.12)',   icon: Layers },
-  'Emergencias':  { color: '#FF3D57', bg: 'rgba(255,61,87,0.12)',   icon: Layers },
-  'Capacitación': { color: '#729362', bg: 'rgba(114,147,98,0.12)',  icon: Layers },
+  'Seguridad':    { color: 'var(--color-volt)', bg: 'rgba(138,158,82,0.10)',  icon: Layers },
+  'Operaciones':  { color: 'var(--color-purple-mid)', bg: 'rgba(91,34,119,0.10)',   icon: Layers },
+  'Inducción':    { color: 'var(--color-warning)', bg: 'rgba(255,184,0,0.10)',   icon: Layers },
+  'Liderazgo':    { color: 'var(--color-warning)', bg: 'rgba(255,184,0,0.10)',   icon: Layers },
+  'Emergencias':  { color: 'var(--color-danger)', bg: 'rgba(255,61,87,0.10)',   icon: Layers },
+  'Capacitación': { color: 'var(--color-success)', bg: 'rgba(114,147,98,0.10)',  icon: Layers },
 };
 
 // Derive category from mesh name
@@ -82,7 +82,7 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
       animate="visible"
       className="transition-all duration-200"
       style={{
-        backgroundColor: '#1a1040',
+        backgroundColor: 'var(--color-surface)',
         borderRadius: '12px',
         border: `1px solid ${hovered ? cfg.color + '40' : 'rgba(91,34,119,0.2)'}`,
         overflow: 'hidden',
@@ -177,13 +177,13 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
           {/* Rating badge */}
           <div style={{
             display: 'flex', alignItems: 'center', gap: '3px',
-            backgroundColor: 'rgba(255,184,0,0.12)',
-            border: '1px solid rgba(255,184,0,0.25)',
+            backgroundColor: 'var(--status-warn-bg)',
+            border: '1px solid var(--status-warn-border)',
             borderRadius: '20px',
             padding: '3px 8px',
           }}>
-            <Star style={{ width: '10px', height: '10px', color: '#FFB800', fill: '#FFB800' }} />
-            <span style={{ fontSize: '11px', fontWeight: 700, color: '#FFB800', fontFamily: '"JetBrains Mono", monospace' }}>
+            <Star style={{ width: '10px', height: '10px', color: 'var(--color-warning)', fill: 'var(--color-warning)' }} />
+            <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-warning)', fontFamily: '"JetBrains Mono", monospace' }}>
               {mock.rating}
             </span>
           </div>
@@ -217,17 +217,17 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {/* Start date */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <Calendar style={{ width: '12px', height: '12px', color: '#4A5568' }} />
+              <Calendar style={{ width: '12px', height: '12px', color: 'var(--color-text-muted)' }} />
               <span style={{ fontSize: '11px', color: '#8892A4' }}>Inicio: {mock.startDate}</span>
             </div>
             {/* Workers count */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <Users style={{ width: '12px', height: '12px', color: '#4A5568' }} />
+              <Users style={{ width: '12px', height: '12px', color: 'var(--color-text-muted)' }} />
               <span style={{ fontSize: '11px', color: '#8892A4' }}>{workersCount}</span>
             </div>
             {/* Courses count */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <BookOpen style={{ width: '12px', height: '12px', color: '#4A5568' }} />
+              <BookOpen style={{ width: '12px', height: '12px', color: 'var(--color-text-muted)' }} />
               <span style={{ fontSize: '11px', color: '#8892A4' }}>{coursesCount} cursos</span>
             </div>
           </div>
@@ -239,9 +239,9 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
             className="transition-colors duration-200"
             style={{
               padding: '8px 16px',
-              backgroundColor: hovered ? '#7c4dab' : '#5b2277',
+              backgroundColor: hovered ? 'var(--color-purple-deep)' : 'var(--color-electric)',
               border: 'none',
-              borderRadius: '9999px',
+              borderRadius: 'var(--radius-full)',
               color: '#F0F4FF',
               fontSize: '14px', fontWeight: 600,
               cursor: 'pointer',
@@ -322,9 +322,9 @@ function SidePanel() {
     <div style={{
       width: '320px',
       flexShrink: 0,
-      backgroundColor: '#1a1040',
-      borderLeft: '1px solid rgba(91,34,119,0.2)',
-      borderRadius: '12px',
+      backgroundColor: 'var(--color-surface)',
+      borderLeft: '1px solid var(--border-brand)',
+      borderRadius: 'var(--radius-md)',
       display: 'flex',
       flexDirection: 'column',
       gap: '0',
@@ -340,21 +340,21 @@ function SidePanel() {
           <button
             type="button"
             onClick={prevMonth}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#8892A4', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#F0F4FF')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#8892A4')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-text-primary)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-secondary)')}
           >
             <ChevronLeft style={{ width: '16px', height: '16px' }} />
           </button>
-          <span style={{ fontSize: '14px', fontWeight: 700, color: '#F0F4FF', fontFamily: '"Barlow Condensed", sans-serif', letterSpacing: '0.5px' }}>
+          <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--color-text-primary)', fontFamily: 'var(--font-display)', letterSpacing: '0.5px' }}>
             {MONTH_NAMES[viewMonth]} {viewYear}
           </span>
           <button
             type="button"
             onClick={nextMonth}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#8892A4', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#F0F4FF')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#8892A4')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-text-primary)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-secondary)')}
           >
             <ChevronRight style={{ width: '16px', height: '16px' }} />
           </button>
@@ -363,7 +363,7 @@ function SidePanel() {
         {/* Day headers */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: '6px' }}>
           {DAY_LABELS.map(d => (
-            <div key={d} style={{ textAlign: 'center', fontSize: '10px', fontWeight: 600, color: '#4A5568', padding: '4px 0' }}>{d}</div>
+            <div key={d} style={{ textAlign: 'center', fontSize: '10px', fontWeight: 600, color: 'var(--color-text-muted)', padding: '4px 0' }}>{d}</div>
           ))}
         </div>
 
@@ -381,8 +381,8 @@ function SidePanel() {
                 fontWeight: isToday(day) ? 700 : 400,
                 color: day === null ? 'transparent'
                   : isToday(day) ? '#0A0E1A'
-                  : '#8892A4',
-                backgroundColor: isToday(day) ? '#7c4dab' : 'transparent',
+                  : 'var(--color-text-secondary)',
+                backgroundColor: isToday(day) ? 'var(--color-electric)' : 'transparent',
                 borderRadius: '50%',
                 width: '28px',
                 margin: '0 auto',
@@ -400,7 +400,7 @@ function SidePanel() {
 
       {/* ── Próximas Actividades ── */}
       <div style={{ padding: '16px 20px 20px', flex: 1, overflowY: 'auto' }}>
-        <p style={{ fontSize: '11px', fontWeight: 700, color: '#4A5568', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '12px' }}>
+        <p style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '12px' }}>
           Próximas Actividades
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -412,13 +412,13 @@ function SidePanel() {
                 alignItems: 'center',
                 gap: '12px',
                 padding: '10px 12px',
-                backgroundColor: 'rgba(91,34,119,0.05)',
-                border: '1px solid rgba(91,34,119,0.12)',
-                borderRadius: '8px',
+                backgroundColor: 'var(--color-surface-alt)',
+                border: '1px solid var(--border-brand)',
+                borderRadius: 'var(--radius-sm)',
                 transition: 'border-color 0.15s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(91,34,119,0.3)')}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(91,34,119,0.12)')}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--border-brand-hover)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border-brand)')}
             >
               {/* Day number */}
               <div style={{ width: '32px', flexShrink: 0, textAlign: 'center' }}>
@@ -427,7 +427,7 @@ function SidePanel() {
                   fontSize: '22px',
                   fontWeight: 700,
                   lineHeight: 1,
-                  color: '#8892A4',
+                  color: 'var(--color-text-muted)',
                 }}>
                   {SCHEDULE_DAYS[i]}
                 </span>
@@ -437,12 +437,12 @@ function SidePanel() {
                 <p style={{ fontSize: '12px', fontWeight: 600, color: '#F0F4FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {item.nombre}
                 </p>
-                <p style={{ fontSize: '11px', color: '#4A5568', marginTop: '2px' }}>
+                <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
                   {item.completados} de {item.total} capítulos
                 </p>
               </div>
               {/* Time */}
-              <span style={{ fontSize: '10px', color: '#4A5568', flexShrink: 0, fontFamily: '"JetBrains Mono", monospace' }}>
+              <span style={{ fontSize: '10px', color: 'var(--color-text-muted)', flexShrink: 0, fontFamily: '"JetBrains Mono", monospace' }}>
                 {SCHEDULE_TIMES[i]}
               </span>
             </div>
@@ -587,10 +587,10 @@ export function Curriculum() {
                 padding: '10px 18px',
                 fontSize: '14px',
                 fontWeight: isActive ? 700 : 500,
-                color: isActive ? '#9b6ab5' : '#8892A4',
+                color: isActive ? 'var(--color-purple-mid)' : 'var(--color-text-secondary)',
                 background: 'none',
                 border: 'none',
-                borderBottom: isActive ? '2px solid #9b6ab5' : '2px solid transparent',
+                borderBottom: isActive ? '2px solid var(--color-purple-mid)' : '2px solid transparent',
                 marginBottom: '-1px',
                 cursor: 'pointer',
                 transition: 'color 0.15s, border-color 0.15s',
@@ -606,7 +606,7 @@ export function Curriculum() {
                 <span style={{
                   width: '7px', height: '7px',
                   borderRadius: '50%',
-                  backgroundColor: isActive ? '#9b6ab5' : '#8892A4',
+                  backgroundColor: isActive ? 'var(--color-purple-mid)' : 'var(--color-text-muted)',
                   flexShrink: 0,
                   display: 'inline-block',
                   transition: 'background-color 0.15s',
@@ -631,7 +631,7 @@ export function Curriculum() {
           { label: 'Total recursos', value: stats.totalCourses, icon: BookOpen, color: '#729362' },
           { label: 'Completadas', value: Math.round(mockMeshes.filter(m => m.completionRate === 100).length), icon: GraduationCap, color: '#FFB800' },
         ].map(stat => (
-          <div key={stat.label} style={{ backgroundColor: 'rgba(26,16,64,0.7)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div key={stat.label} style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--border-brand)', borderRadius: 'var(--radius-md)', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ width: '40px', height: '40px', borderRadius: '10px', backgroundColor: stat.color + '15', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <stat.icon style={{ width: '20px', height: '20px', color: stat.color }} />
             </div>
