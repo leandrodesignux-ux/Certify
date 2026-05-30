@@ -37,7 +37,7 @@ export function Button({
 
   const getVariantStyles = (): React.CSSProperties => {
     const base: React.CSSProperties = {
-      borderRadius: '8px',
+      borderRadius: 'var(--radius-sm)',
       transition: 'all 0.15s ease',
       position: 'relative',
       overflow: 'hidden',
@@ -47,14 +47,14 @@ export function Button({
       case 'primary':
         return {
           ...base,
-          backgroundColor: '#5b2277',
+          backgroundColor: 'var(--color-electric)',
           color: '#F0F4FF',
         };
       case 'ghost':
         return {
           ...base,
           backgroundColor: 'transparent',
-          border: '1px solid rgba(91,34,119,0.4)',
+          border: '1px solid var(--border-brand-hover)',
           color: '#c49fe0',
         };
       case 'danger':

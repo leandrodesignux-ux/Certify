@@ -34,12 +34,12 @@ export function Card({
 
   const baseStyles: React.CSSProperties = variant === 'glass' ? {
     backgroundColor: 'rgba(26,16,64,0.92)',
-    border: '1px solid rgba(91,34,119,0.2)',
-    borderRadius: '6px',
+    border: '1px solid var(--border-brand)',
+    borderRadius: 'var(--radius-sm)',
   } : {
     backgroundColor: '#1a1040',
-    border: '1px solid rgba(91,34,119,0.2)',
-    borderRadius: '6px',
+    border: '1px solid var(--border-brand)',
+    borderRadius: 'var(--radius-sm)',
   };
 
   return (
