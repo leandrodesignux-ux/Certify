@@ -72,7 +72,7 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
           >
             {Math.round(clampedScore)}%
           </motion.span>
-          <span className="text-xs text-[#8892A4] mt-1">Cumplimiento</span>
+          <span className="text-xs mt-1" style={{ color: 'var(--color-text-secondary)' }}>Cumplimiento</span>
         </div>
       </div>
     </div>

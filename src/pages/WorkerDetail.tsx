@@ -195,13 +195,13 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
               <div style={{ width: '72px', height: '72px', borderRadius: '50%', overflow: 'hidden', border: `3px solid ${compliance.color}`, backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {worker.foto
                   ? <img src={worker.foto} alt={`${worker.nombre}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  : <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '24px', fontWeight: 700, color: compliance.color }}>{initials}</span>
+                  : <span style={{ fontFamily: 'var(--font-display)', fontSize: '24px', fontWeight: 700, color: compliance.color }}>{initials}</span>
                 }
               </div>
             </div>
 
             {/* Nombre + cargo */}
-            <h2 style={{ fontFamily: '"Barlow Condensed"', fontSize: '22px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1.1, marginBottom: '4px' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1.1, marginBottom: '4px' }}>
               {worker.nombre} {worker.apellidos}
             </h2>
             <p style={{ fontSize: '13px', color: '#c49fe0', marginBottom: '12px' }}>{worker.cargo}</p>
@@ -229,13 +229,13 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
               { label: 'Compliance', value: `${worker.complianceScore}%`, color: worker.complianceScore >= 80 ? '#8a9e52' : worker.complianceScore >= 60 ? '#FFB800' : '#FF3D57' },
               { label: 'Certificaciones', value: worker.certifications.length, color: '#9b6ab5' },
               { label: 'Vigentes', value: worker.certifications.filter(c => c.estado === 'vigente').length, color: '#729362' },
-              { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: worker.certifications.filter(c => c.estado === 'vencido').length > 0 ? '#FF3D57' : '#4A5568' },
+              { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: worker.certifications.filter(c => c.estado === 'vencido').length > 0 ? '#FF3D57' : 'var(--color-text-muted)' },
             ].map(metric => (
               <div key={metric.label} style={{ backgroundColor: 'var(--color-surface-alt)', borderRadius: '8px', padding: '10px 12px', border: '1px solid var(--border-brand)' }}>
-                <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '26px', fontWeight: 700, color: metric.color, lineHeight: 1, marginBottom: '2px' }}>
+                <p style={{ fontFamily: 'var(--font-display)', fontSize: '26px', fontWeight: 700, color: metric.color, lineHeight: 1, marginBottom: '2px' }}>
                   {metric.value}
                 </p>
-                <p style={{ fontSize: '10px', color: '#6B7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{metric.label}</p>
+                <p style={{ fontSize: '10px', color: 'var(--color-text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{metric.label}</p>
               </div>
             ))}
           </div>
@@ -450,8 +450,8 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
         ].map(stat => (
           <div key={stat.label} style={{ backgroundColor: 'var(--color-surface)', border: `1px solid ${stat.color}25`, borderRadius: '10px', padding: '16px', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(to right, transparent, ${stat.color}, transparent)` }} />
-            <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '36px', fontWeight: 700, color: stat.color, lineHeight: 1, marginBottom: '2px' }}>{stat.value}</p>
-            <p style={{ fontSize: '11px', color: '#6B7280' }}>{stat.label}</p>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: '36px', fontWeight: 700, color: stat.color, lineHeight: 1, marginBottom: '2px' }}>{stat.value}</p>
+            <p style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{stat.label}</p>
             <p style={{ fontSize: '10px', color: stat.color, marginTop: '6px', fontFamily: '"JetBrains Mono"' }}>{stat.pct}% del total</p>
           </div>
         ))}
@@ -476,15 +476,15 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
                 />
               </svg>
               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '20px', fontWeight: 700, color: complianceColor }}>{compliance}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: complianceColor }}>{compliance}</span>
               </div>
             </div>
             <div>
               {compliance >= 80 && <p style={{ fontSize: '12px', color: '#8a9e52', fontWeight: 600, marginBottom: '4px' }}>✓ Cumplimiento OK</p>}
               {compliance < 80 && compliance >= 60 && <p style={{ fontSize: '12px', color: '#FFB800', fontWeight: 600, marginBottom: '4px' }}>⚠ Requiere atención</p>}
               {compliance < 60 && <p style={{ fontSize: '12px', color: '#FF3D57', fontWeight: 600, marginBottom: '4px' }}>✕ Acción urgente</p>}
-              <p style={{ fontSize: '11px', color: '#6B7280' }}>{total} certificaciones en total</p>
-              <p style={{ fontSize: '11px', color: '#6B7280', marginTop: '2px' }}>{pendientes} pendientes</p>
+              <p style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{total} certificaciones en total</p>
+              <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>{pendientes} pendientes</p>
             </div>
           </div>
         </div>
@@ -495,13 +495,13 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
 
       {/* Lista de certificaciones */}
       {worker.certifications.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6B7280' }}>
+        <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--color-text-muted)' }}>
           <p style={{ fontSize: '14px' }}>No hay certificaciones registradas</p>
         </div>
       ) : (
         <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px' }}>
           <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '12px' }}>
-            Certificaciones <span style={{ color: '#6B7280', fontWeight: 400, fontSize: '12px' }}>({total})</span>
+            Certificaciones <span style={{ color: 'var(--color-text-muted)', fontWeight: 400, fontSize: '12px' }}>({total})</span>
           </p>
           <div 
             className="certs-scroll" 
@@ -536,10 +536,10 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
       {/* Header de sección */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>
             Mallas Curriculares
           </h3>
-          <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '2px' }}>
+          <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
             {workerMeshes.length} mallas asignadas a {workerName}
           </p>
         </div>
@@ -553,8 +553,8 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
           { label: 'En progreso', value: workerMeshes.filter(m => m.completionRate > 0 && m.completionRate < 100).length, color: '#FFB800' },
         ].map(s => (
           <div key={s.label} style={{ backgroundColor: 'var(--color-surface)', border: `1px solid rgba(91,34,119,0.2)`, borderRadius: '10px', padding: '14px 16px' }}>
-            <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '28px', fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.value}</p>
-            <p style={{ fontSize: '11px', color: '#6B7280', marginTop: '2px' }}>{s.label}</p>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: '28px', fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.value}</p>
+            <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>{s.label}</p>
           </div>
         ))}
       </div>
@@ -562,7 +562,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
       {/* Lista de mallas — una por fila con stats internas */}
       {workerMeshes.length === 0 ? (
         <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '32px', textAlign: 'center' }}>
-          <p style={{ color: '#6B7280', fontSize: '14px' }}>No hay mallas asignadas</p>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '14px' }}>No hay mallas asignadas</p>
         </div>
       ) : (
         workerMeshes.map((mesh, index) => {
@@ -580,9 +580,9 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
                 <div>
                   <p style={{ fontSize: '14px', fontWeight: 600, color: '#F0F4FF', marginBottom: '2px' }}>{mesh.nombre}</p>
-                  <p style={{ fontSize: '11px', color: '#6B7280' }}>{mesh.cursos.length} cursos · {cursosCompletados} completados</p>
+                  <p style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{mesh.cursos.length} cursos · {cursosCompletados} completados</p>
                 </div>
-                <span style={{ fontFamily: '"Barlow Condensed"', fontSize: '22px', fontWeight: 700, color: completionColor, lineHeight: 1 }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 700, color: completionColor, lineHeight: 1 }}>
                   {mesh.completionRate}%
                 </span>
               </div>
@@ -602,11 +602,11 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
                 {[
                   { label: 'Completados', value: cursosCompletados, color: '#729362' },
                   { label: 'En curso', value: Math.max(0, mesh.cursos.length - cursosCompletados - 1), color: '#FFB800' },
-                  { label: 'Pendientes', value: Math.max(0, mesh.cursos.length - cursosCompletados), color: '#4A5568' },
+                  { label: 'Pendientes', value: Math.max(0, mesh.cursos.length - cursosCompletados), color: 'var(--color-text-muted)' },
                 ].map(s => (
                   <div key={s.label} style={{ textAlign: 'center' }}>
-                    <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.value}</p>
-                    <p style={{ fontSize: '10px', color: '#4A5568', marginTop: '1px' }}>{s.label}</p>
+                    <p style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.value}</p>
+                    <p style={{ fontSize: '10px', color: 'var(--color-text-muted)', marginTop: '1px' }}>{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -626,10 +626,10 @@ function HistorialTab() {
       {/* Header */}
       <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>Historial de Actividad</h3>
-          <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '2px' }}>{mockHistoryActivities.length} eventos registrados</p>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>Historial de Actividad</h3>
+          <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '2px' }}>{mockHistoryActivities.length} eventos registrados</p>
         </div>
-        <span style={{ fontSize: '11px', color: '#6B7280', backgroundColor: 'rgba(91,34,119,0.1)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '20px', padding: '4px 12px' }}>
+        <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', backgroundColor: 'rgba(91,34,119,0.1)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '20px', padding: '4px 12px' }}>
           Últimos 30 días
         </span>
       </div>
@@ -660,7 +660,7 @@ function HistorialTab() {
                 <p style={{ fontSize: '12px', color: '#8892A4', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activity.descripcion}</p>
               </div>
               {/* Tiempo */}
-              <span style={{ fontSize: '11px', color: '#4A5568', flexShrink: 0, fontFamily: '"JetBrains Mono"' }}>
+              <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', flexShrink: 0, fontFamily: '"JetBrains Mono"' }}>
                 {getRelativeTime(activity.fecha)}
               </span>
             </motion.div>
