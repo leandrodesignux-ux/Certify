@@ -53,7 +53,7 @@ function NotificationBadge({ count, color }: { count: number; color: string }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        border: '2px solid #130b3a',
+        border: '2px solid var(--color-surface-deep)',
       }}
     >
       {count > 9 ? '9+' : count}
@@ -71,7 +71,7 @@ function NavTooltip({ label, visible }: { label: string; visible: boolean }) {
         backgroundColor: '#231455',
         color: '#F0F4FF',
         padding: '6px 12px',
-        borderRadius: '4px',
+        borderRadius: 'var(--radius-sm)',
         fontSize: '12px',
         fontWeight: 500,
         whiteSpace: 'nowrap',
@@ -189,7 +189,7 @@ export function Sidebar() {
         <button
           onClick={toggleSidebar}
           className="w-6 h-6 bg-[#1a1040] border border-[rgba(91,34,119,0.3)] rounded-sm flex items-center justify-center text-[#a89fc4] hover:text-[#9b6ab5] hover:border-[#5b2277]/50 transition-all duration-150"
-          style={{ position: 'absolute', right: '-12px', top: '80px', zIndex: 60 }}
+          style={{ position: 'absolute', right: '-12px', top: '80px', zIndex: 60, borderRadius: 'var(--radius-sm)' }}
         >
           {sidebarCollapsed ? (
             <ChevronRight className="w-4 h-4" />
@@ -223,14 +223,14 @@ export function Sidebar() {
                     display: 'flex',
                     alignItems: 'center',
                     padding: '10px 12px',
-                    borderRadius: '4px',
+                    borderRadius: 'var(--radius-sm)',
                     transition: 'all 0.15s ease',
                     backgroundColor: isActive
                       ? 'rgba(91,34,119,0.25)'
                       : isHovered
                         ? 'rgba(91,34,119,0.12)'
                         : 'transparent',
-                    color: isActive ? '#c49fe0' : isHovered ? '#F0F4FF' : '#a89fc4',
+                    color: isActive ? '#c49fe0' : isHovered ? '#F0F4FF' : 'var(--color-text-muted)',
                     borderLeft: isActive
                       ? '2px solid #9b6ab5'
                       : isHovered
@@ -245,7 +245,7 @@ export function Sidebar() {
                         width: '20px',
                         height: '20px',
                         flexShrink: 0,
-                        color: isActive ? '#c49fe0' : isHovered ? '#F0F4FF' : '#a89fc4',
+                        color: isActive ? '#c49fe0' : isHovered ? '#F0F4FF' : 'var(--color-text-muted)',
                       }}
                     />
                     {badgeCount > 0 && badgeColor && (
@@ -297,7 +297,7 @@ export function Sidebar() {
                 backgroundColor: 'rgba(28,16,80,0.5)',
                 borderRadius: '4px',
                 fontSize: '10px',
-                color: '#a89fc4',
+                color: 'var(--color-text-muted)',
                 fontFamily: 'monospace',
                 border: '1px solid rgba(91,34,119,0.2)',
               }}
@@ -315,7 +315,7 @@ export function Sidebar() {
             display: 'flex',
             alignItems: 'center',
             padding: '10px 12px',
-            borderRadius: '4px',
+            borderRadius: 'var(--radius-sm)',
             backgroundColor: 'rgba(28,35,51,0.3)',
             justifyContent: sidebarCollapsed && !isMobile ? 'center' : 'flex-start',
           }}
@@ -324,7 +324,7 @@ export function Sidebar() {
             style={{
               width: '32px',
               height: '32px',
-              borderRadius: '4px',
+              borderRadius: 'var(--radius-sm)',
               background: 'rgba(91,34,119,0.25)',
               border: '1px solid rgba(91,34,119,0.3)',
               display: 'flex',
