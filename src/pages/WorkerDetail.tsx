@@ -149,7 +149,7 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
           <div key={index} style={{ flex: 1, textAlign: 'center' }}>
             <span style={{
               fontSize: '11px',
-              color: index === currentMonth ? '#9b6ab5' : 'var(--color-text-muted)',
+              color: index === currentMonth ? 'var(--color-purple-mid)' : 'var(--color-text-muted)',
               fontWeight: index === currentMonth ? 700 : 400,
             }}>
               {month}
@@ -179,7 +179,7 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', overflow: 'hidden' }}>
+        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', overflow: 'hidden' }}>
           
           {/* Banner de color según compliance */}
           <div style={{ height: '72px', background: `linear-gradient(135deg, ${compliance.color}30 0%, ${compliance.color}08 100%)`, position: 'relative' }}>
@@ -221,8 +221,8 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
-          <p style={{ fontSize: '10px', fontWeight: 700, color: '#4A5568', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Métricas</p>
+        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
+          <p style={{ fontSize: '10px', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Métricas</p>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
             {[
@@ -231,7 +231,7 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
               { label: 'Vigentes', value: worker.certifications.filter(c => c.estado === 'vigente').length, color: '#729362' },
               { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: worker.certifications.filter(c => c.estado === 'vencido').length > 0 ? '#FF3D57' : '#4A5568' },
             ].map(metric => (
-              <div key={metric.label} style={{ backgroundColor: 'rgba(91,34,119,0.06)', borderRadius: '8px', padding: '10px 12px', border: '1px solid rgba(91,34,119,0.12)' }}>
+              <div key={metric.label} style={{ backgroundColor: 'var(--color-surface-alt)', borderRadius: '8px', padding: '10px 12px', border: '1px solid var(--border-brand)' }}>
                 <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '26px', fontWeight: 700, color: metric.color, lineHeight: 1, marginBottom: '2px' }}>
                   {metric.value}
                 </p>
@@ -248,8 +248,8 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.16, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
-          <p style={{ fontSize: '10px', fontWeight: 700, color: '#4A5568', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Información</p>
+        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
+          <p style={{ fontSize: '10px', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Información</p>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
             {[
@@ -260,8 +260,8 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
               { label: 'Empresa', value: worker.empresa },
               { label: 'Ingreso', value: new Date(worker.fechaIngreso).toLocaleDateString('es-CL') },
             ].map((item, i, arr) => (
-              <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(91,34,119,0.1)' : 'none', gap: '8px' }}>
-                <span style={{ fontSize: '11px', color: '#6B7280', flexShrink: 0 }}>{item.label}</span>
+              <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: i < arr.length - 1 ? '1px solid var(--border-brand)' : 'none', gap: '8px' }}>
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', flexShrink: 0 }}>{item.label}</span>
                 <span style={{ fontSize: '12px', color: '#F0F4FF', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'right', maxWidth: '160px' }}>{item.value}</span>
               </div>
             ))}
@@ -282,7 +282,7 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
             { label: 'Enviar Alerta', color: '#FFB800', bg: 'rgba(255,184,0,0.08)', border: 'rgba(255,184,0,0.25)', icon: Bell },
           ].map(action => (
             <button key={action.label}
-              style={{ width: '100%', padding: '10px 16px', backgroundColor: action.bg, border: `1px solid ${action.border}`, borderRadius: '8px', color: action.color, fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
+              style={{ width: '100%', padding: '10px 16px', backgroundColor: action.bg, border: `1px solid ${action.border}`, borderRadius: 'var(--radius-sm)', color: action.color, fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
               onMouseEnter={e => { e.currentTarget.style.opacity = '0.8'; }}
               onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
             >
@@ -373,7 +373,7 @@ export function WorkerDetail() {
         {/* Right Column - Tabs + Dynamic Content */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Tabs navigation */}
-          <div style={{ display: 'flex', backgroundColor: 'rgba(26,16,64,0.7)', borderRadius: '10px', padding: '4px', gap: '2px', border: '1px solid rgba(91,34,119,0.2)', width: 'fit-content' }}>
+          <div style={{ display: 'flex', backgroundColor: 'var(--color-surface)', borderRadius: 'var(--radius-md)', padding: '4px', gap: '2px', border: '1px solid rgba(91,34,119,0.2)', width: 'fit-content' }}>
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -382,7 +382,7 @@ export function WorkerDetail() {
                   style={{
                     display: 'flex', alignItems: 'center', gap: '7px',
                     padding: '8px 16px', borderRadius: '7px', border: 'none', cursor: 'pointer',
-                    backgroundColor: isActive ? 'rgba(91,34,119,0.35)' : 'transparent',
+                    backgroundColor: isActive ? 'var(--color-surface-alt)' : 'transparent',
                     color: isActive ? '#c49fe0' : '#6B7280',
                     fontSize: '13px', fontWeight: isActive ? 600 : 400,
                     transition: 'all 0.15s', fontFamily: '"DM Sans", sans-serif',
@@ -448,7 +448,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
           { label: 'Por Vencer', value: proximas, total, color: '#FFB800', pct: total > 0 ? Math.round((proximas/total)*100) : 0 },
           { label: 'Vencidas', value: vencidas, total, color: '#FF3D57', pct: total > 0 ? Math.round((vencidas/total)*100) : 0 },
         ].map(stat => (
-          <div key={stat.label} style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: `1px solid ${stat.color}25`, borderRadius: '10px', padding: '16px', position: 'relative', overflow: 'hidden' }}>
+          <div key={stat.label} style={{ backgroundColor: 'var(--color-surface)', border: `1px solid ${stat.color}25`, borderRadius: '10px', padding: '16px', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(to right, transparent, ${stat.color}, transparent)` }} />
             <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '36px', fontWeight: 700, color: stat.color, lineHeight: 1, marginBottom: '2px' }}>{stat.value}</p>
             <p style={{ fontSize: '11px', color: '#6B7280' }}>{stat.label}</p>
@@ -461,7 +461,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
         
         {/* Overall Score */}
-        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '20px' }}>
+        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '20px' }}>
           <p style={{ fontSize: '12px', fontWeight: 600, color: '#8892A4', marginBottom: '16px' }}>Score Global</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             {/* SVG ring */}
@@ -499,7 +499,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
           <p style={{ fontSize: '14px' }}>No hay certificaciones registradas</p>
         </div>
       ) : (
-        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px' }}>
+        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px' }}>
           <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '12px' }}>
             Certificaciones <span style={{ color: '#6B7280', fontWeight: 400, fontSize: '12px' }}>({total})</span>
           </p>
@@ -552,7 +552,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
           { label: 'Completadas', value: workerMeshes.filter(m => m.completionRate === 100).length, color: '#729362' },
           { label: 'En progreso', value: workerMeshes.filter(m => m.completionRate > 0 && m.completionRate < 100).length, color: '#FFB800' },
         ].map(s => (
-          <div key={s.label} style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: `1px solid rgba(91,34,119,0.2)`, borderRadius: '10px', padding: '14px 16px' }}>
+          <div key={s.label} style={{ backgroundColor: 'var(--color-surface)', border: `1px solid rgba(91,34,119,0.2)`, borderRadius: '10px', padding: '14px 16px' }}>
             <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '28px', fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.value}</p>
             <p style={{ fontSize: '11px', color: '#6B7280', marginTop: '2px' }}>{s.label}</p>
           </div>
@@ -561,7 +561,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
 
       {/* Lista de mallas — una por fila con stats internas */}
       {workerMeshes.length === 0 ? (
-        <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '32px', textAlign: 'center' }}>
+        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '32px', textAlign: 'center' }}>
           <p style={{ color: '#6B7280', fontSize: '14px' }}>No hay mallas asignadas</p>
         </div>
       ) : (
@@ -574,7 +574,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.08, duration: 0.4 }}
-              style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderLeft: `3px solid ${completionColor}`, borderRadius: '10px', padding: '16px 20px' }}
+              style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderLeft: `3px solid ${completionColor}`, borderRadius: '10px', padding: '16px 20px' }}
             >
               {/* Nombre + porcentaje */}
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
@@ -624,7 +624,7 @@ function HistorialTab() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
       {/* Header */}
-      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h3 style={{ fontFamily: '"Barlow Condensed"', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>Historial de Actividad</h3>
           <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '2px' }}>{mockHistoryActivities.length} eventos registrados</p>
@@ -635,7 +635,7 @@ function HistorialTab() {
       </div>
 
       {/* Lista de eventos */}
-      <div style={{ backgroundColor: 'rgba(26,16,64,0.85)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '8px 0', overflow: 'hidden' }}>
+      <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '8px 0', overflow: 'hidden' }}>
         {mockHistoryActivities.map((activity, index) => {
           const icons = { certificacion: CheckCircle, malla: BookOpen, alerta: AlertTriangle, curso: Award };
           const Icon = icons[activity.tipo as keyof typeof icons] || Clock;
