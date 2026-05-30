@@ -9,9 +9,9 @@ const CustomTooltip = ({ active, payload }: {
     const data = payload[0];
     return (
       <div style={{
-        backgroundColor: '#231455',
-        border: '1px solid rgba(91,34,119,0.35)',
-        borderRadius: '8px',
+        backgroundColor: 'var(--color-surface-alt)',
+        border: '1px solid var(--border-brand-hover)',
+        borderRadius: 'var(--radius-md)',
         color: '#F0F4FF',
         fontSize: '12px',
         padding: '12px',
@@ -20,7 +20,7 @@ const CustomTooltip = ({ active, payload }: {
           <div
             style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: data.payload.color }}
           />
-          <span style={{ color: '#8892A4' }}>{data.name}</span>
+          <span style={{ color: 'var(--color-text-secondary)' }}>{data.name}</span>
         </div>
         <p style={{ color: '#F0F4FF', fontFamily: '"JetBrains Mono", monospace', fontSize: '14px', marginTop: '4px' }}>{data.value}</p>
       </div>
@@ -65,16 +65,13 @@ export function StatusDonutChart() {
                 />
               ))}
             </Pie>
-            <Tooltip
-              content={<CustomTooltip />}
-              contentStyle={{ backgroundColor: '#231455', border: '1px solid rgba(91,34,119,0.35)', borderRadius: '6px', color: '#F0F4FF' }}
-            />
+            <Tooltip content={<CustomTooltip />} />
           </PieChart>
         </ResponsiveContainer>
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-3xl font-bold text-[#F0F4FF]">{total}</span>
+          <span className="font-display text-3xl font-bold" style={{ color: 'var(--color-text-primary)' }}>{total}</span>
           <span className="text-xs text-[#8892A4]">Certificaciones</span>
         </div>
       </div>
@@ -88,8 +85,8 @@ export function StatusDonutChart() {
               style={{ backgroundColor: item.color }}
             />
             <div className="flex items-baseline gap-1.5">
-              <span className="text-[#F0F4FF] font-mono text-sm">{item.value}</span>
-              <span className="text-[#8892A4] text-xs truncate">{item.name}</span>
+              <span className="font-mono text-sm" style={{ color: 'var(--color-text-primary)' }}>{item.value}</span>
+              <span className="text-xs truncate" style={{ color: 'var(--color-text-secondary)' }}>{item.name}</span>
             </div>
           </div>
         ))}

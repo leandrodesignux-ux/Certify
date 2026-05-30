@@ -18,9 +18,9 @@ const CustomTooltip = ({ active, payload }: {
     const data = payload[0].payload;
     return (
       <div style={{
-        backgroundColor: '#231455',
-        border: '1px solid rgba(91,34,119,0.35)',
-        borderRadius: '8px',
+        backgroundColor: 'var(--color-surface-alt)',
+        border: '1px solid var(--border-brand-hover)',
+        borderRadius: 'var(--radius-md)',
         color: '#F0F4FF',
         fontSize: '12px',
         padding: '12px',
@@ -46,14 +46,14 @@ export function ComplianceBarChart() {
         <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 0 }} style={{ backgroundColor: 'transparent' }}>
           <XAxis
             dataKey="label"
-            tick={{ fill: '#8892A4', fontSize: 10 }}
-            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
+            tick={{ fill: 'var(--chart-axis-text)', fontSize: 10 }}
+            axisLine={{ stroke: 'var(--border-brand)' }}
             tickLine={false}
             interval={0}
           />
           <YAxis
-            tick={{ fill: '#8892A4', fontSize: 11 }}
-            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
+            tick={{ fill: 'var(--chart-axis-text)', fontSize: 11 }}
+            axisLine={{ stroke: 'var(--border-brand)' }}
             tickLine={false}
             domain={[0, 100]}
             tickFormatter={(value) => `${value}%`}
@@ -61,7 +61,6 @@ export function ComplianceBarChart() {
           <Tooltip
             content={<CustomTooltip />}
             cursor={{ fill: 'rgba(91,34,119,0.08)' }}
-            contentStyle={{ backgroundColor: '#231455', border: '1px solid rgba(91,34,119,0.35)', borderRadius: '6px', color: '#F0F4FF' }}
           />
           <Bar
             dataKey="value"
@@ -73,7 +72,7 @@ export function ComplianceBarChart() {
             <LabelList
               dataKey="value"
               position="top"
-              fill="#F0F4FF"
+              fill="var(--color-text-primary)"
               fontSize={11}
               fontFamily="JetBrains Mono"
             />

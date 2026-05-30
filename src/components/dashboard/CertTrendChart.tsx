@@ -17,9 +17,9 @@ const CustomTooltip = ({ active, payload, label }: {
   if (active && payload && payload.length) {
     return (
       <div style={{
-        backgroundColor: '#231455',
-        border: '1px solid rgba(91,34,119,0.35)',
-        borderRadius: '8px',
+        backgroundColor: 'var(--color-surface-alt)',
+        border: '1px solid var(--border-brand-hover)',
+        borderRadius: 'var(--radius-md)',
         color: '#F0F4FF',
         fontSize: '12px',
         padding: '12px',
@@ -30,7 +30,7 @@ const CustomTooltip = ({ active, payload, label }: {
             <div
               style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: entry.color }}
             />
-            <span style={{ color: '#8892A4' }}>{entry.name}:</span>
+            <span style={{ color: 'var(--color-text-secondary)' }}>{entry.name}:</span>
             <span style={{ color: '#F0F4FF', fontFamily: '"JetBrains Mono", monospace' }}>{entry.value}</span>
           </div>
         ))}
@@ -68,18 +68,17 @@ export function CertTrendChart() {
           />
           <XAxis
             dataKey="month"
-            tick={{ fill: '#8892A4', fontSize: 11 }}
-            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
+            tick={{ fill: 'var(--chart-axis-text)', fontSize: 11 }}
+            axisLine={{ stroke: 'var(--border-brand)' }}
             tickLine={false}
           />
           <YAxis
-            tick={{ fill: '#8892A4', fontSize: 11 }}
-            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
+            tick={{ fill: 'var(--chart-axis-text)', fontSize: 11 }}
+            axisLine={{ stroke: 'var(--border-brand)' }}
             tickLine={false}
           />
           <Tooltip
             content={<CustomTooltip />}
-            contentStyle={{ backgroundColor: '#231455', border: '1px solid rgba(91,34,119,0.35)', borderRadius: '6px', color: '#F0F4FF' }}
             cursor={{ stroke: 'rgba(91,34,119,0.3)', strokeWidth: 1 }}
           />
           <Area
