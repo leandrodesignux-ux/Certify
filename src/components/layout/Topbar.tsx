@@ -110,7 +110,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
           <Menu className="w-5 h-5" />
         </button>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col" style={{ minWidth: 0, overflow: 'hidden' }}>
           {breadcrumbs.length > 0 && (
             <nav className="flex items-center text-xs text-[#8892A4] mb-0.5">
               {breadcrumbs.map((crumb, index) => (
@@ -127,7 +127,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
               ))}
             </nav>
           )}
-          <h1 className="font-display text-lg font-semibold text-[#F0F4FF] tracking-wide">
+          <h1 className="font-display text-lg font-semibold text-[#F0F4FF] tracking-wide truncate">
             {pageTitle}
           </h1>
         </div>
@@ -189,7 +189,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
       </div>
 
       {/* Right: Notifications + Avatar */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 md:gap-4">
         {/* Notifications */}
         <div className="relative" ref={notificationsRef}>
           <button
@@ -226,8 +226,8 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                 style={{
                   position: 'absolute',
                   top: 'calc(100% + 8px)',
-                  right: 0,
-                  width: '320px',
+                  right: isMobile ? '-8px' : '0',
+                  width: isMobile ? 'calc(100vw - 32px)' : '320px',
                   backgroundColor: 'var(--color-surface-alt)',
                   border: '1px solid rgba(91,34,119,0.35)',
                   borderRadius: 'var(--radius-md)',
