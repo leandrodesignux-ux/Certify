@@ -81,6 +81,7 @@ export function StatsCard({
         borderRadius: 'var(--radius-sm)',
         padding: '20px',
         height: '150px',
+        minHeight: '80px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -110,6 +111,7 @@ export function StatsCard({
             color: trend.direction === 'up' ? 'var(--kpi-trend-up)' : 'var(--kpi-trend-down)',
             backgroundColor: trend.direction === 'up' ? 'var(--status-ok-bg)' : 'var(--status-danger-bg)',
             borderRadius: '12px', padding: '3px 8px',
+            whiteSpace: 'nowrap', flexShrink: 0,
           }}>
             {trend.direction === 'up' ? '↑' : '↓'} {trend.value}
           </span>
@@ -122,6 +124,7 @@ export function StatsCard({
           fontFamily: '"Barlow Condensed", sans-serif',
           fontSize: '42px', fontWeight: 700, lineHeight: 1,
           color: '#F0F4FF', marginBottom: '4px',
+          maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis',
         }}>
           {typeof value === 'string' && value.includes('%') ? `${displayValue}%` : displayValue}
         </p>
