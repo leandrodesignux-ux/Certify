@@ -63,7 +63,7 @@ export function Dashboard() {
           </p>
         </div>
         {/* Mini status pills */}
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'var(--status-ok-bg)', border: '1px solid var(--status-ok-border)', borderRadius: '20px', padding: '6px 14px' }}>
             <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-success)', boxShadow: '0 0 6px rgba(114,147,98,0.8)', animation: 'pulse 2s infinite' }} />
             <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--status-ok-text)' }}>Sistema Online</span>
@@ -79,7 +79,7 @@ export function Dashboard() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: '16px' }}
       >
         {isLoading ? (
           <>
@@ -137,7 +137,7 @@ export function Dashboard() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(280px, 1fr)', gap: '20px', alignItems: 'start' }}
+        className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-5" style={{ alignItems: 'start' }}
       >
         {/* Columna izquierda: "Cumplimiento por Área" */}
         <Card variant="glass" style={{ borderRadius: '6px', padding: '24px' }}>
@@ -174,7 +174,7 @@ export function Dashboard() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}
+        className="grid grid-cols-1 md:grid-cols-2 gap-5"
       >
         {/* Tendencia Anual */}
         <Card variant="glass" style={{ borderRadius: '6px', padding: '24px' }}>
@@ -198,7 +198,7 @@ export function Dashboard() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '20px', alignItems: 'start' }}
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" style={{ alignItems: 'start' }}
       >
         {/* Panel 1: Alertas */}
         <AlertsPanel />
