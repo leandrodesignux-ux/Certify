@@ -360,38 +360,37 @@ function SidePanel() {
           </button>
         </div>
 
-        {/* Day headers */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: '6px' }}>
-          {DAY_LABELS.map(d => (
-            <div key={d} style={{ textAlign: 'center', fontSize: '10px', fontWeight: 600, color: 'var(--color-text-muted)', padding: '4px 0' }}>{d}</div>
-          ))}
-        </div>
-
-        {/* Day cells */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px' }}>
-          {cells.map((day, i) => (
-            <div
-              key={i}
-              style={{
-                height: '28px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '12px',
-                fontWeight: isToday(day) ? 700 : 400,
-                color: day === null ? 'transparent'
-                  : isToday(day) ? '#0A0E1A'
-                  : 'var(--color-text-secondary)',
-                backgroundColor: isToday(day) ? 'var(--color-electric)' : 'transparent',
-                borderRadius: '50%',
-                width: '28px',
-                margin: '0 auto',
-                cursor: day ? 'default' : 'default',
-              }}
-            >
-              {day ?? ''}
-            </div>
-          ))}
+        {/* Day headers + cells */}
+        <div style={{ width: '100%', overflowX: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: '6px' }}>
+            {DAY_LABELS.map(d => (
+              <div key={d} style={{ textAlign: 'center', fontSize: '10px', fontWeight: 600, color: 'var(--color-text-muted)', padding: '4px 0' }}>{d}</div>
+            ))}
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px' }}>
+            {cells.map((day, i) => (
+              <div
+                key={i}
+                style={{
+                  aspectRatio: '1',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px',
+                  fontWeight: isToday(day) ? 700 : 400,
+                  color: day === null ? 'transparent'
+                    : isToday(day) ? '#0A0E1A'
+                    : 'var(--color-text-secondary)',
+                  backgroundColor: isToday(day) ? 'var(--color-electric)' : 'transparent',
+                  borderRadius: '50%',
+                  minWidth: 0,
+                  cursor: day ? 'default' : 'default',
+                }}
+              >
+                {day ?? ''}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -501,9 +500,9 @@ export function Curriculum() {
   };
 
   return (
-    <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }} onKeyDown={handleKeyDown}>
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6" style={{ alignItems: 'flex-start' }} onKeyDown={handleKeyDown}>
       {/* Main content column */}
-      <div className="space-y-6" style={{ flex: 1, minWidth: 0 }}>
+      <div className="space-y-6" style={{ minWidth: 0 }}>
       {/* Header */}
       <motion.div
         custom={0}
@@ -513,8 +512,8 @@ export function Curriculum() {
         className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
         style={{ marginBottom: '24px' }}
       >
-        <div>
-          <h1 className="font-display text-3xl font-bold text-gradient tracking-tight">
+        <div style={{ minWidth: 0, overflow: 'hidden' }}>
+          <h1 className="font-display text-3xl font-bold text-gradient tracking-tight truncate">
             Mallas Curriculares
           </h1>
           <p className="text-[#8892A4] text-sm mt-1">
@@ -554,9 +553,11 @@ export function Curriculum() {
               </button>
             )}
           </div>
-          <Button variant="ghost" size="md" icon={Plus}>
-            Nueva Malla
-          </Button>
+          <div style={{ flexShrink: 0 }}>
+            <Button variant="ghost" size="md" icon={Plus}>
+              Nueva Malla
+            </Button>
+          </div>
         </div>
       </motion.div>
 
@@ -624,7 +625,7 @@ export function Curriculum() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}
+        className="grid grid-cols-3 gap-2 sm:gap-3" style={{ marginBottom: '24px' }}
       >
         {[
           { label: 'Mallas totales', value: stats.totalMeshes, icon: Layers, color: '#9b6ab5' },
@@ -636,8 +637,8 @@ export function Curriculum() {
               <stat.icon style={{ width: '20px', height: '20px', color: stat.color }} />
             </div>
             <div style={{ minWidth: 0 }}>
-              <p style={{ fontFamily: '"Barlow Condensed"', fontSize: '26px', fontWeight: 700, color: stat.color, lineHeight: 1, margin: 0 }}>{stat.value}</p>
-              <p style={{ fontSize: '11px', color: '#8892A4', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: '2px 0 0 0' }}>{stat.label}</p>
+              <p style={{ fontFamily: '"Barlow Condensed"', fontSize: 'clamp(18px, 4vw, 26px)', fontWeight: 700, color: stat.color, lineHeight: 1, margin: 0 }}>{stat.value}</p>
+              <p style={{ fontSize: 'clamp(10px, 2.5vw, 11px)', color: '#8892A4', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: '2px 0 0 0' }}>{stat.label}</p>
             </div>
           </div>
         ))}
