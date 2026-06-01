@@ -27,7 +27,8 @@ export function AreaComplianceCards() {
   }));
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
+    <div style={{ overflowX: 'auto', marginLeft: '-4px', paddingLeft: '4px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(160px, 100%), 1fr))', gap: '12px' }}>
       {areas.map((area, index) => {
         const data = [
           { name: 'compliance', value: area.value },
@@ -49,6 +50,7 @@ export function AreaComplianceCards() {
               alignItems: 'center',
               gap: '8px',
               position: 'relative',
+              minWidth: 0,
             }}
           >
             {/* Rank badge */}
@@ -118,6 +120,7 @@ export function AreaComplianceCards() {
           </motion.div>
         );
       })}
+    </div>
     </div>
   );
 }
