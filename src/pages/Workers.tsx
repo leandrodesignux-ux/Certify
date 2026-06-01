@@ -46,7 +46,7 @@ function WorkersComponent() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}
+        style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}
       >
         <div style={{ flex: 1 }}>
           <h1 className="font-display text-3xl font-bold text-gradient tracking-wider">
@@ -69,7 +69,7 @@ function WorkersComponent() {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}
+        className="grid grid-cols-3 gap-2 sm:gap-3"
       >
         {/* Total Trabajadores — limpia filtros */}
         <div
@@ -77,7 +77,7 @@ function WorkersComponent() {
           style={{ 
             cursor: 'pointer',
             minWidth: 0,
-            padding: '14px 16px',
+            padding: 'clamp(10px, 2vw, 14px) clamp(10px, 2vw, 16px)',
             borderRadius: '10px',
             display: 'flex',
             gap: '12px',
@@ -89,8 +89,7 @@ function WorkersComponent() {
           onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--border-brand-hover)'}
           onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border-brand)'}
         >
-          <div style={{ 
-            display: 'flex', 
+          <div className="hidden sm:flex" style={{ 
             alignItems: 'center', 
             justifyContent: 'center', 
             width: '36px', 
@@ -127,7 +126,7 @@ function WorkersComponent() {
           style={{ 
             cursor: 'pointer',
             minWidth: 0,
-            padding: '14px 16px',
+            padding: 'clamp(10px, 2vw, 14px) clamp(10px, 2vw, 16px)',
             borderRadius: '10px',
             display: 'flex',
             gap: '12px',
@@ -139,8 +138,7 @@ function WorkersComponent() {
           onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(114,147,98,0.6)'}
           onMouseLeave={e => e.currentTarget.style.borderColor = filters.complianceMin === 80 ? 'rgba(114,147,98,0.6)' : 'rgba(114,147,98,0.2)'}
         >
-          <div style={{ 
-            display: 'flex', 
+          <div className="hidden sm:flex" style={{ 
             alignItems: 'center', 
             justifyContent: 'center', 
             width: '36px', 
@@ -177,7 +175,7 @@ function WorkersComponent() {
           style={{ 
             cursor: 'pointer',
             minWidth: 0,
-            padding: '14px 16px',
+            padding: 'clamp(10px, 2vw, 14px) clamp(10px, 2vw, 16px)',
             borderRadius: '10px',
             display: 'flex',
             gap: '12px',
@@ -189,8 +187,7 @@ function WorkersComponent() {
           onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(255,61,87,0.6)'}
           onMouseLeave={e => e.currentTarget.style.borderColor = filters.complianceMax === 79 ? 'rgba(255,61,87,0.6)' : 'rgba(255,61,87,0.2)'}
         >
-          <div style={{ 
-            display: 'flex', 
+          <div className="hidden sm:flex" style={{ 
             alignItems: 'center', 
             justifyContent: 'center', 
             width: '36px', 
@@ -231,7 +228,7 @@ function WorkersComponent() {
         style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', marginTop: '8px' }}
       >
         {/* Búsqueda */}
-        <div style={{ position: 'relative', flex: 1, minWidth: '240px' }}>
+        <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
           <Search style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: 'var(--color-text-muted)' }} />
           <input
             type="text"
@@ -261,7 +258,7 @@ function WorkersComponent() {
               key={mode}
               onClick={() => setViewMode(mode)}
               style={{
-                width: '36px', height: '34px',
+                minWidth: '44px', height: '44px',
                 borderRadius: '8px',
                 border: 'none',
                 backgroundColor: viewMode === mode ? 'rgba(124,77,171,0.3)' : 'transparent',
