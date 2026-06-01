@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
@@ -11,12 +12,19 @@ interface AppLayoutProps {
 export function AppLayout({ pageTitle, breadcrumbs }: AppLayoutProps) {
   const { sidebarCollapsed } = useUIStore();
 
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 768);
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: '#0d0920' }}>
       <Sidebar />
       <div
         style={{
-          marginLeft: sidebarCollapsed ? '64px' : '240px',
+          marginLeft: isMobile ? '0px' : (sidebarCollapsed ? '64px' : '240px'),
           transition: 'margin-left 0.3s cubic-bezier(0.16,1,0.3,1)',
           flex: 1,
           display: 'flex',
@@ -30,8 +38,8 @@ export function AppLayout({ pageTitle, breadcrumbs }: AppLayoutProps) {
           style={{
             flex: 1,
             paddingTop: '80px',
-            paddingLeft: '28px',
-            paddingRight: '28px',
+            paddingLeft: isMobile ? '16px' : '28px',
+            paddingRight: isMobile ? '16px' : '28px',
             paddingBottom: '24px',
             overflowY: 'auto',
             overflowX: 'hidden',
