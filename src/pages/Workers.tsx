@@ -466,11 +466,7 @@ function WorkersComponent() {
             </motion.div>
           </Card>
         ) : viewMode === 'grid' ? (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gap: '16px',
-          }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {displayWorkers.map((worker, index) => (
               <FlipWorkerCard key={worker.id} worker={worker} index={index} />
             ))}
