@@ -23,12 +23,12 @@ export function WorkerTable({ workers }: WorkerTableProps) {
 
   return (
     <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--border-brand)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
-      <div style={{ overflowX: 'auto' }}>
+      <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'thin', scrollbarColor: 'rgba(91,34,119,0.3) transparent' }}>
         <table role="table" aria-label="Lista de trabajadores" style={{ width: '100%' }}>
           <colgroup>
             <col style={{ width: '220px' }} />  {/* Trabajador */}
-            <col style={{ width: '120px' }} />  {/* Área */}
-            <col />                              {/* Cargo */}
+            <col style={{ width: '120px' }} className="hidden md:table-column" />  {/* Área */}
+            <col className="hidden lg:table-column" />                              {/* Cargo */}
             <col style={{ width: '80px' }} />   {/* Score */}
             <col style={{ width: '100px' }} />  {/* Certs */}
             <col style={{ width: '80px' }} />   {/* Estado */}
@@ -39,10 +39,10 @@ export function WorkerTable({ workers }: WorkerTableProps) {
               <th scope="col" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Trabajador
               </th>
-              <th scope="col" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <th scope="col" className="hidden md:table-cell" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Área
               </th>
-              <th scope="col" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <th scope="col" className="hidden lg:table-cell" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Cargo
               </th>
               <th scope="col" style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -78,7 +78,7 @@ export function WorkerTable({ workers }: WorkerTableProps) {
                   onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(124,77,171,0.06)')}
                   onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                 >
-                  <td style={{ padding: '16px 20px' }}>
+                  <td style={{ padding: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       {worker.foto ? (
                         <img
@@ -101,10 +101,10 @@ export function WorkerTable({ workers }: WorkerTableProps) {
                       </div>
                     </div>
                   </td>
-                  <td style={{ padding: '16px 20px' }}>
+                  <td className="hidden md:table-cell" style={{ padding: '16px 20px' }}>
                     <span style={{ fontSize: '14px', color: 'var(--color-text-primary)' }}>{worker.area}</span>
                   </td>
-                  <td style={{ padding: '16px 20px' }}>
+                  <td className="hidden lg:table-cell" style={{ padding: '16px 20px' }}>
                     <span style={{ fontSize: '14px', color: 'var(--color-text-primary)' }}>{worker.cargo}</span>
                   </td>
                   <td style={{ padding: '16px 20px', textAlign: 'center' }}>
@@ -124,14 +124,16 @@ export function WorkerTable({ workers }: WorkerTableProps) {
                     </div>
                   </td>
                   <td style={{ padding: '16px 20px', textAlign: 'right' }}>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      icon={Eye}
-                      onClick={() => navigate(`/workers/${worker.id}`)}
-                    >
-                      Ver
-                    </Button>
+                    <div style={{ display: 'inline-flex', minHeight: '44px', minWidth: '44px', alignItems: 'center', justifyContent: 'center' }}>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        icon={Eye}
+                        onClick={() => navigate(`/workers/${worker.id}`)}
+                      >
+                        Ver
+                      </Button>
+                    </div>
                   </td>
                 </motion.tr>
               );
