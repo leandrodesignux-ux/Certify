@@ -222,7 +222,8 @@ export function Sidebar() {
                     width: '100%',
                     display: 'flex',
                     alignItems: 'center',
-                    padding: '10px 12px',
+                    padding: '12px 16px',
+                    minHeight: '48px',
                     borderRadius: 'var(--radius-sm)',
                     transition: 'all 0.15s ease',
                     backgroundColor: isActive
@@ -351,7 +352,7 @@ export function Sidebar() {
             <button
               style={{
                 marginLeft: 'auto',
-                padding: '6px',
+                padding: '10px',
                 color: isHoverLogout ? '#FF3D57' : '#8892A4',
                 background: 'transparent',
                 border: 'none',
