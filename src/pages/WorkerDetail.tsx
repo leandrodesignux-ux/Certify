@@ -171,7 +171,7 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
     : { color: '#FF3D57', label: 'Crítico' };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', position: 'sticky', top: '24px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }} className="lg:sticky lg:top-6">
       
       {/* === CARD 1: Identidad === */}
       <motion.div
@@ -366,14 +366,14 @@ export function WorkerDetail() {
       </motion.div>
 
       {/* Two Column Layout */}
-      <div className="grid gap-6" style={{ gridTemplateColumns: 'var(--worker-detail-cols, 280px 1fr)', alignItems: 'start' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6" style={{ alignItems: 'start' }}>
         {/* Left Column - Worker Side Panel (ALWAYS VISIBLE) */}
         <WorkerSidePanel worker={worker} />
         
         {/* Right Column - Tabs + Dynamic Content */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Tabs navigation */}
-          <div style={{ display: 'flex', backgroundColor: 'var(--color-surface)', borderRadius: 'var(--radius-md)', padding: '4px', gap: '2px', border: '1px solid rgba(91,34,119,0.2)', width: 'fit-content' }}>
+          <div style={{ display: 'flex', backgroundColor: 'var(--color-surface)', borderRadius: 'var(--radius-md)', padding: '4px', gap: '2px', border: '1px solid rgba(91,34,119,0.2)', overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -382,6 +382,7 @@ export function WorkerDetail() {
                   style={{
                     display: 'flex', alignItems: 'center', gap: '7px',
                     padding: '8px 16px', borderRadius: '7px', border: 'none', cursor: 'pointer',
+                    flexShrink: 0, minHeight: '44px', whiteSpace: 'nowrap',
                     backgroundColor: isActive ? 'var(--color-surface-alt)' : 'transparent',
                     color: isActive ? '#c49fe0' : '#6B7280',
                     fontSize: '13px', fontWeight: isActive ? 600 : 400,
@@ -442,7 +443,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       
       {/* Fila superior: 3 módulos de estado */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {[
           { label: 'Vigentes', value: vigentes, total, color: '#729362', pct: total > 0 ? Math.round((vigentes/total)*100) : 0 },
           { label: 'Por Vencer', value: proximas, total, color: '#FFB800', pct: total > 0 ? Math.round((proximas/total)*100) : 0 },
@@ -450,7 +451,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
         ].map(stat => (
           <div key={stat.label} style={{ backgroundColor: 'var(--color-surface)', border: `1px solid ${stat.color}25`, borderRadius: '10px', padding: '16px', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(to right, transparent, ${stat.color}, transparent)` }} />
-            <p style={{ fontFamily: 'var(--font-display)', fontSize: '36px', fontWeight: 700, color: stat.color, lineHeight: 1, marginBottom: '2px' }}>{stat.value}</p>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 5vw, 36px)', fontWeight: 700, color: stat.color, lineHeight: 1, marginBottom: '2px' }}>{stat.value}</p>
             <p style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{stat.label}</p>
             <p style={{ fontSize: '10px', color: stat.color, marginTop: '6px', fontFamily: '"JetBrains Mono"' }}>{stat.pct}% del total</p>
           </div>
@@ -458,7 +459,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
       </div>
 
       {/* Fila: Score visual + Timeline */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         
         {/* Overall Score */}
         <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '20px' }}>
@@ -546,7 +547,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
       </div>
 
       {/* Stats rápidas */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {[
           { label: 'Total mallas', value: workerMeshes.length, color: '#9b6ab5' },
           { label: 'Completadas', value: workerMeshes.filter(m => m.completionRate === 100).length, color: '#729362' },
