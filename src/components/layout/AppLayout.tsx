@@ -45,7 +45,7 @@ export function AppLayout({ pageTitle, breadcrumbs }: AppLayoutProps) {
             overflowX: 'hidden',
           }}
         >
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
             <Outlet />
           </div>
         </main>

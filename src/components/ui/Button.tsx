@@ -70,9 +70,9 @@ export function Button({
   };
 
   const sizeStyles = {
-    sm: { padding: '6px 12px', fontSize: '12px' },
-    md: { padding: '8px 16px', fontSize: '14px' },
-    lg: { padding: '12px 24px', fontSize: '16px' },
+    sm: { padding: '6px 12px', fontSize: '12px', minHeight: '36px' },
+    md: { padding: '8px 16px', fontSize: '14px', minHeight: '44px' },
+    lg: { padding: '12px 24px', fontSize: '16px', minHeight: '52px' },
   };
 
   const isDisabled = disabled || loading;
