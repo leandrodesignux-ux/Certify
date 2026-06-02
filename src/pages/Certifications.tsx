@@ -389,7 +389,7 @@ export function Certifications() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
         role="tablist"
-        className="overflow-x-auto -webkit-overflow-scrolling touch"
+        className="overflow-x-auto scrollbar-hidden"
         onKeyDown={(e) => {
           if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
             e.preventDefault();
@@ -429,7 +429,9 @@ export function Certifications() {
               onClick={() => { setActiveTab(tab.id); setCurrentPage(1); scrollToTop(); }}
               style={{
                 minWidth: 'var(--tab-min-width)',
-                padding: '10px 20px',
+                minHeight: '44px',
+                whiteSpace: 'nowrap',
+                padding: '10px 16px',
                 borderRadius: 'var(--radius-md)',
                 backgroundColor: isActive ? `${tab.color}1F` : 'transparent',
                 border: isActive ? `1px solid ${tab.color}66` : '1px solid transparent',
