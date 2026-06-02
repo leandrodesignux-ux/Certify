@@ -234,7 +234,7 @@ Generado automáticamente por CertifyX
                 </span>
               </p>
             </div>
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center flex-shrink-0" style={{ gap: '8px', flexWrap: 'wrap' }}>
               <button
                 onClick={exportSummaryCSV}
                 aria-label="Exportar resumen como CSV"
@@ -284,6 +284,7 @@ Generado automáticamente por CertifyX
           <div
             role="tablist"
             aria-label="Tipo de reporte"
+            className="[&::-webkit-scrollbar]:hidden"
             style={{
               display: 'flex',
               gap: '8px',
@@ -292,7 +293,11 @@ Generado automáticamente por CertifyX
               borderRadius: 'var(--radius-md)',
               border: '1px solid var(--border-brand)',
               overflowX: 'auto',
-              width: 'fit-content',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch',
+              maxWidth: '100%',
+              paddingBottom: '4px',
               marginTop: 'var(--space-md)',
             }}
           >
@@ -310,7 +315,10 @@ Generado automáticamente por CertifyX
                   style={{
                     position: 'relative',
                     minWidth: 'var(--tab-min-width)',
-                    padding: '10px 20px',
+                    minHeight: '44px',
+                    flexShrink: 0,
+                    whiteSpace: 'nowrap',
+                    padding: '10px 16px',
                     borderRadius: 'var(--radius-md)',
                     cursor: 'pointer',
                     border: isActive ? '1px solid var(--report-tab-active-border)' : '1px solid transparent',

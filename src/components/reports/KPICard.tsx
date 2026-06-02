@@ -44,7 +44,7 @@ export function KPICard({ title, value, subtitle, icon: Icon, color, trend = 'ne
         <div>
           <p
             className="font-display font-bold"
-            style={{ fontSize: 'clamp(28px, 3vw, 36px)', color, lineHeight: 1, marginBottom: '4px' }}
+            style={{ fontSize: 'clamp(22px, 5vw, 32px)', color, lineHeight: 1, marginBottom: '4px' }}
           >
             {value}
           </p>
