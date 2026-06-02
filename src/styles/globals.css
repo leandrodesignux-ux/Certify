@@ -417,3 +417,41 @@ textarea:focus-visible {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(91,34,119,0.3); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(91,34,119,0.5); }
+
+/* ===== RESPONSIVE TOKENS ===== */
+:root {
+  --mobile-padding: 16px;
+  --desktop-padding: 28px;
+  --card-padding-mobile: 12px;
+  --card-padding-desktop: 20px;
+}
+
+/* ===== SCROLLBAR HIDDEN UTILITY ===== */
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== TOUCH TARGET UTILITY ===== */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* ===== MOBILE SPACING OVERRIDES ===== */
+@media (max-width: 768px) {
+  :root {
+    --space-lg: 16px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+  }
+}
+
+/* ===== PULSE ANIMATION ===== */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
