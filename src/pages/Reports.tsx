@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useMemo } from 'react';
+import { motion } from 'framer-motion';
 import {
   FileText,
   Download,
@@ -7,10 +7,7 @@ import {
   TrendingUp,
   Award,
   AlertTriangle,
-  AlertCircle,
   Clock,
-  ChevronDown,
-  ChevronUp,
 } from 'lucide-react';
 import {
   BarChart,
@@ -31,6 +28,7 @@ import { useCertStore } from '../store/useCertStore';
 import { useNavigate } from 'react-router-dom';
 import { KPICard } from '../components/reports/KPICard';
 import { CustomBarTooltip, CustomPieTooltip } from '../components/reports/ChartTooltips';
+import { PanelHeader } from '../components/reports/PanelHeader';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -49,15 +47,7 @@ export function Reports() {
   const navigate = useNavigate();
   const { workers } = useWorkerStore();
   const { certifications } = useCertStore();
-  const [showAllRisk, setShowAllRisk] = useState(false);
-  const [activeReport, setActiveReport] = useState<'general' | 'cumplimiento' | 'riesgo' | 'exportar'>('general');
 
-  const reportTabs = [
-    { id: 'general',      label: 'Resumen General' },
-    { id: 'cumplimiento', label: 'Cumplimiento' },
-    { id: 'riesgo',       label: 'Trabajadores Riesgo' },
-    { id: 'exportar',     label: 'Exportar' },
-  ] as const;
 
   // SECTION 1: KPI Calculations
   const kpis = useMemo(() => {
@@ -218,166 +208,51 @@ Generado automáticamente por CertifyX
 
   return (
     <div className="space-y-8" role="main" aria-label="Vista de reportes">
-      {/* Header */}
-      <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible" style={{ marginBottom: 'var(--space-xl)' }}>
-        <div className="flex flex-col gap-4">
-          {/* Top row: título + acciones */}
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
-            <div>
-              <h1 className="text-3xl font-semibold tracking-tight" style={{ color: '#171717', letterSpacing: '-0.02em' }}>
-                Reportes y Análisis
-              </h1>
-              <p style={{ fontSize: '13px', color: '#666666', marginTop: '4px' }}>
-                Compliance y exportación · Período:{' '}
+      {/* ── HEADER ── */}
+      <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible" style={{ paddingBottom: '8px', borderBottom: '1px solid #f0f0f0' }}>
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          {/* Izquierda: título + subtítulo */}
+          <div>
+            <h1 style={{ fontSize: 'clamp(24px,4vw,30px)', fontWeight: 600, color: '#171717', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
+              Reportes y Análisis
+            </h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '6px', flexWrap: 'wrap', rowGap: '4px' }}>
+              <span style={{ fontSize: '13px', color: '#666666' }}>
+                Período:{' '}
                 <span style={{ color: '#171717', fontWeight: 500 }}>
                   {new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}
                 </span>
-              </p>
-            </div>
-            <div className="flex items-center flex-shrink-0" style={{ gap: '8px', flexWrap: 'wrap' }}>
-              <button
-                onClick={exportSummaryCSV}
-                aria-label="Exportar resumen como CSV"
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '6px',
-                  padding: '8px 14px',
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #ebebeb',
-                  borderRadius: '6px',
-                  color: '#171717',
-                  fontSize: '13px',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s',
-                  minHeight: '38px',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
-              >
-                <Download className="w-4 h-4" strokeWidth={1.5} />
-                CSV
-              </button>
-              <button
-                onClick={exportSENCE}
-                aria-label="Exportar reporte SENCE"
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '6px',
-                  padding: '8px 14px',
-                  backgroundColor: '#171717',
-                  border: '1px solid #171717',
-                  borderRadius: '6px',
-                  color: '#ffffff',
-                  fontSize: '13px',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s',
-                  minHeight: '38px',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#171717'; }}
-              >
-                <FileText className="w-4 h-4" strokeWidth={1.5} />
-                SENCE
-              </button>
+              </span>
+              <span style={{ color: '#d4d4d4', fontSize: '13px' }}>·</span>
+              <span style={{ fontSize: '13px', color: '#a8a8a8' }}>{workers.length} trabajadores</span>
+              <span style={{ color: '#d4d4d4', fontSize: '13px' }}>·</span>
+              <span style={{ fontSize: '13px', color: '#a8a8a8' }}>{certifications.length} certificaciones</span>
+              <span style={{ color: '#d4d4d4', fontSize: '13px' }}>·</span>
+              <span style={{ fontSize: '13px', color: '#a8a8a8' }}>{new Set(workers.map(w => w.area)).size} áreas</span>
             </div>
           </div>
-
-          {/* Bottom row: tabs de tipo de reporte */}
-          <div
-            role="tablist"
-            aria-label="Tipo de reporte"
-            className="[&::-webkit-scrollbar]:hidden"
-            style={{
-              display: 'flex',
-              gap: '0',
-              borderBottom: '1px solid #ebebeb',
-              overflowX: 'auto',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch',
-              maxWidth: '100%',
-              marginTop: '16px',
-            }}
-          >
-            {reportTabs.map((tab) => {
-              const isActive = activeReport === tab.id;
-              return (
-                <motion.button
-                  key={tab.id}
-                  role="tab"
-                  id={`tab-${tab.id}`}
-                  aria-selected={isActive}
-                  aria-controls={`panel-${tab.id}`}
-                  aria-label={tab.label}
-                  onClick={() => { setActiveReport(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  style={{
-                    position: 'relative',
-                    flexShrink: 0,
-                    whiteSpace: 'nowrap',
-                    padding: '10px 18px',
-                    marginBottom: '-1px',
-                    cursor: 'pointer',
-                    border: 'none',
-                    borderBottom: isActive ? '2px solid #171717' : '2px solid transparent',
-                    backgroundColor: 'transparent',
-                    color: isActive ? '#171717' : '#4d4d4d',
-                    fontSize: '14px',
-                    fontWeight: isActive ? 600 : 400,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    transition: 'color 0.15s, border-color 0.15s',
-                  }}
-                  onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#171717'; }}
-                  onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#4d4d4d'; }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                >
-                  {tab.label}
-                </motion.button>
-              );
-            })}
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Context Banner */}
-      <motion.div custom={0.08} variants={sectionVariants} initial="hidden" animate="visible">
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '12px 20px',
-          backgroundColor: '#fafafa',
-          border: '1px solid #ebebeb',
-          borderRadius: '6px',
-          flexWrap: 'wrap',
-          gap: '12px',
-          marginBottom: '24px',
-        }}>
-          {/* Período activo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-            <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#297a3a' }} />
-            <span style={{ fontSize: '13px', color: '#666666' }}>
-              Período activo:
-            </span>
-            <span style={{ fontSize: '13px', fontWeight: 500, color: '#171717' }}>
-              {new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}
-            </span>
-          </div>
-
-          {/* Stats rápidos inline */}
-          <div style={{ display: 'flex', gap: 'var(--space-lg)', flexWrap: 'wrap' }}>
-            {[
-              { label: 'Trabajadores', value: workers.length },
-              { label: 'Certificaciones totales', value: certifications.length },
-              { label: 'Áreas monitoreadas', value: new Set(workers.map(w => w.area)).size },
-            ].map(stat => (
-              <div key={stat.label} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontSize: '11px', color: '#a8a8a8' }}>{stat.label}:</span>
-                <span style={{ fontSize: '13px', fontWeight: 500, color: '#171717' }}>{stat.value}</span>
-              </div>
-            ))}
+          {/* Derecha: acciones */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            <button
+              onClick={exportSummaryCSV}
+              aria-label="Exportar resumen como CSV"
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', minHeight: '36px', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', color: '#171717', fontSize: '13px', fontWeight: 500, cursor: 'pointer', transition: 'background-color 0.15s', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
+            >
+              <Download className="w-3.5 h-3.5" strokeWidth={1.5} />
+              CSV
+            </button>
+            <button
+              onClick={exportSENCE}
+              aria-label="Exportar reporte SENCE"
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', minHeight: '36px', backgroundColor: '#171717', border: '1px solid #171717', borderRadius: '6px', color: '#ffffff', fontSize: '13px', fontWeight: 500, cursor: 'pointer', transition: 'background-color 0.15s', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#171717'; }}
+            >
+              <FileText className="w-3.5 h-3.5" strokeWidth={1.5} />
+              SENCE
+            </button>
           </div>
         </div>
       </motion.div>
@@ -432,38 +307,22 @@ Generado automáticamente por CertifyX
         </div>
       </motion.div>
 
-      <AnimatePresence mode="wait">
-      {/* SECTION 2 & 3: Charts Row */}
-      {(activeReport === 'general' || activeReport === 'cumplimiento') && (
-      <motion.div key="charts-section" role="tabpanel" id={`panel-${activeReport}`} aria-labelledby={`tab-${activeReport}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
+      {/* FILA B: Charts */}
+      <motion.div role="region" aria-label="Gráficos de cumplimiento y certificaciones" custom={0.3} variants={sectionVariants} initial="hidden" animate="visible">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
         {/* Compliance por Área - Bar Chart */}
-        <motion.div
-          custom={0.5}
-          variants={sectionVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <Card variant="glass" padding="lg" style={{ height: `${Math.max(360, complianceByArea.length * 58 + 80)}px` }}>
-            <div className="flex items-center justify-between mb-5">
-              <div>
-                <h3 className="font-semibold" style={{ fontSize: '16px', color: '#171717', letterSpacing: '-0.01em' }}>
-                  Cumplimiento por Área
-                </h3>
-                <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>
-                  Promedio de compliance por área operativa
-                </p>
-              </div>
-              <span style={{
-                fontSize: '11px', color: '#666666',
-                backgroundColor: '#f5f5f5',
-                padding: '3px 10px', borderRadius: '9999px',
-                border: '1px solid #ebebeb',
-              }}>
-                {complianceByArea.length} áreas
-              </span>
-            </div>
-            <ResponsiveContainer width="100%" height="88%">
+        <motion.div className="flex flex-col" custom={0.5} variants={sectionVariants} initial="hidden" animate="visible">
+          <Card variant="glass" padding="lg" hover={false} style={{ flex: 1, minHeight: '320px' }}>
+            <PanelHeader
+              title="Cumplimiento por Área"
+              subtitle="Promedio de compliance por área operativa"
+              action={
+                <span style={{ fontSize: '11px', color: '#666666', backgroundColor: '#f5f5f5', padding: '3px 10px', borderRadius: '9999px', border: '1px solid #ebebeb' }}>
+                  {complianceByArea.length} áreas
+                </span>
+              }
+            />
+            <ResponsiveContainer width="100%" height={280}>
               <BarChart data={complianceByArea} layout="vertical" margin={{ left: 90, right: 44, top: 4, bottom: 4 }}>
                 <XAxis type="number" domain={[0, 100]} hide />
                 <YAxis
@@ -475,8 +334,8 @@ Generado automáticamente por CertifyX
                   tickLine={false}
                 />
                 <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(23,23,23,0.04)' }} />
-                <Bar dataKey={() => 100} radius={[0, 6, 6, 0]} barSize={18} fill="#f0f0f0" isAnimationActive={false} />
-                <Bar dataKey="score" radius={[0, 6, 6, 0]} barSize={18}>
+                <Bar dataKey={() => 100} radius={[0, 4, 4, 0]} barSize={16} fill="#f0f0f0" isAnimationActive={false} />
+                <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={16}>
                   {complianceByArea.map((entry, index) => (
                     <Cell key={`bar-${index}`} fill={entry.fill} />
                   ))}
@@ -493,33 +352,19 @@ Generado automáticamente por CertifyX
         </motion.div>
 
         {/* Estado de Certificaciones - Donut Chart */}
-        <motion.div
-          custom={0.6}
-          variants={sectionVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <Card variant="glass" padding="lg" className="h-[420px]">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="font-semibold" style={{ fontSize: '16px', color: '#171717', letterSpacing: '-0.01em' }}>
-                  Estado de Certificaciones
-                </h3>
-                <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>
-                  Distribución por estado actual
-                </p>
-              </div>
-              <span style={{
-                fontSize: '11px', color: '#666666',
-                backgroundColor: '#f5f5f5',
-                padding: '3px 10px', borderRadius: '9999px',
-                border: '1px solid #ebebeb',
-              }}>
-                {certifications.length} total
-              </span>
-            </div>
-            <div className="flex items-center h-[calc(100%-60px)]">
-              <ResponsiveContainer width="52%" height="100%">
+        <motion.div className="flex flex-col" custom={0.6} variants={sectionVariants} initial="hidden" animate="visible">
+          <Card variant="glass" padding="lg" hover={false} style={{ flex: 1, minHeight: '380px' }}>
+            <PanelHeader
+              title="Estado de Certificaciones"
+              subtitle="Distribución por estado actual"
+              action={
+                <span style={{ fontSize: '11px', color: '#666666', backgroundColor: '#f5f5f5', padding: '3px 10px', borderRadius: '9999px', border: '1px solid #ebebeb' }}>
+                  {certifications.length} total
+                </span>
+              }
+            />
+            <div className="flex flex-col sm:flex-row items-center" style={{ height: '280px', gap: '8px' }}>
+              <ResponsiveContainer width="100%" height="55%" className="sm:w-1/2 sm:h-full">
                 <PieChart>
                   <Pie
                     data={certStatusData}
@@ -551,27 +396,18 @@ Generado automáticamente por CertifyX
                 </PieChart>
               </ResponsiveContainer>
               {/* Leyenda */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                {certStatusData.map((item, idx) => (
-                  <>
-                    {idx === 1 && (
-                      <div key={`sep-${idx}`} style={{ height: '1px', backgroundColor: '#ebebeb', marginTop: '8px', marginBottom: '8px' }} />
-                    )}
-                    <div key={item.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', padding: '2px 0' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
-                        <span style={{ fontSize: '12px', color: '#4d4d4d', marginLeft: '8px' }}>{item.name}</span>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-                        <span style={{ fontSize: '12px', fontWeight: 600, color: item.color }}>
-                          {item.value}
-                        </span>
-                        <span style={{ fontSize: '11px', color: '#a8a8a8', marginLeft: '4px' }}>
-                          {item.percentage}%
-                        </span>
-                      </div>
+              <div className="sm:flex-1" style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '8px', width: '100%' }}>
+                {certStatusData.map((item) => (
+                  <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ fontSize: '11px', color: '#666666', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</p>
                     </div>
-                  </>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', flexShrink: 0 }}>
+                      <span style={{ fontSize: '13px', fontWeight: 600, color: '#171717' }}>{item.percentage}%</span>
+                      <span style={{ fontSize: '11px', color: '#a8a8a8' }}>({item.value})</span>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -579,257 +415,126 @@ Generado automáticamente por CertifyX
         </motion.div>
       </div>
       </motion.div>
-      )}
+
+      {/* FILA C: Riesgo + Export lado a lado */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
 
       {/* SECTION 4: Top Trabajadores en Riesgo */}
-      {(activeReport === 'general' || activeReport === 'riesgo') && (
-      <motion.div key="risk-section" role="tabpanel" id={`panel-${activeReport}`} aria-labelledby={`tab-${activeReport}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <motion.div custom={0.7} variants={sectionVariants} initial="hidden" animate="visible">
-        <Card variant="glass" padding="lg">
-          {/* Header de sección */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-lg)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-              <AlertCircle style={{ width: '20px', height: '20px', color: '#e5484d', flexShrink: 0 }} strokeWidth={1.5} aria-hidden="true" />
-              <h3 className="font-semibold" style={{ fontSize: '16px', color: '#171717', letterSpacing: '-0.01em' }}>
-                Trabajadores en Riesgo
-              </h3>
-            </div>
-            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-              <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: '11px', color: '#a8a8a8' }}>Con cert. vencida</p>
-                <p style={{ fontSize: '14px', fontWeight: 600, color: '#e5484d' }}>
-                  {topRiskWorkers.filter(w => w.expiredCount > 0).length}
-                </p>
-              </div>
-              <div style={{ width: '1px', height: '28px', backgroundColor: '#ebebeb' }} />
-              <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: '11px', color: '#a8a8a8' }}>Por vencer</p>
-                <p style={{ fontSize: '14px', fontWeight: 600, color: '#b25000' }}>
-                  {topRiskWorkers.filter(w => w.expiringCount > 0).length}
-                </p>
-              </div>
-            </div>
-          </div>
+      <motion.div role="region" aria-label="Trabajadores en riesgo" className="flex flex-col" custom={0.5} variants={sectionVariants} initial="hidden" animate="visible">
+        <Card variant="glass" padding="lg" hover={false} style={{ flex: 1 }}>
+          <PanelHeader
+            title="Trabajadores en Riesgo"
+            subtitle="Menor índice de cumplimiento"
+            action={
+              <button
+                onClick={() => navigate('/workers')}
+                style={{ fontSize: '12px', fontWeight: 500, color: '#4d4d4d', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline', textUnderlineOffset: '2px' }}
+              >
+                Ver todos
+              </button>
+            }
+          />
 
-          {/* Tabla */}
-          <div style={{ overflowX: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#d4d4d4 transparent' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }} role="table" aria-label="Trabajadores con menor cumplimiento">
-              <colgroup>
-                <col style={{ width: '40px' }} />   {/* Rank */}
-                <col style={{ width: '44px' }} />   {/* Avatar */}
-                <col />                              {/* Nombre / Área */}
-                <col style={{ width: '80px' }} />   {/* Vencidas */}
-                <col style={{ width: '80px' }} />   {/* Próximas */}
-                <col style={{ width: '72px' }} />   {/* Acción */}
-              </colgroup>
-              <thead>
-                <tr>
-                  {['#', '', 'Trabajador', 'Vencidas', 'Próximas', ''].map((h, i) => (
-                    <th key={i} style={{
-                      padding: '6px 10px',
-                      fontSize: '11px',
-                      fontWeight: 500,
-                      color: '#666666',
-                      textAlign: i >= 3 ? 'center' : 'left',
-                      borderBottom: '1px solid #ebebeb',
-                      whiteSpace: 'nowrap',
+          {/* Lista compacta top-5 */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            {topRiskWorkers.slice(0, 5).map((worker, index) => (
+              <motion.div
+                key={worker.id}
+                initial={{ opacity: 0, x: -6 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.04, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                onClick={() => navigate(`/workers/${worker.id}`)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  padding: '8px 6px', borderRadius: '6px', cursor: 'pointer',
+                  transition: 'background-color 0.12s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fafafa'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
+              >
+                {/* Avatar */}
+                {worker.foto
+                  ? <img src={worker.foto} alt="" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                  : (
+                    <div style={{
+                      width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
+                      backgroundColor: '#f0f0f0', border: '1px solid #ebebeb',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '11px', fontWeight: 600, color: '#4d4d4d',
                     }}>
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {topRiskWorkers.slice(0, showAllRisk ? 10 : 5).map((worker, index) => (
-                  <motion.tr
-                    key={worker.id}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.02, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ borderBottom: index < (showAllRisk ? topRiskWorkers.length : Math.min(5, topRiskWorkers.length)) - 1 ? '1px solid #f5f5f5' : 'none', cursor: 'default' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLTableRowElement).style.backgroundColor = '#fafafa'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'transparent'; }}
-                  >
-                    {/* Rank */}
-                    <td style={{ padding: '12px 10px', textAlign: 'center' }}>
-                      <div style={{
-                        width: '24px', height: '24px', borderRadius: '50%',
-                        backgroundColor: index === 0 ? 'rgba(229,72,77,0.08)' : index === 1 ? 'rgba(178,80,0,0.08)' : 'transparent',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        margin: '0 auto',
-                      }}>
-                        <span style={{
-                          fontSize: '13px', fontWeight: 600,
-                          color: index === 0 ? '#e5484d' : index === 1 ? '#b25000' : '#a8a8a8',
-                        }}>
-                          {index + 1}
-                        </span>
-                      </div>
-                    </td>
-                    {/* Avatar */}
-                    <td style={{ padding: '12px 6px' }}>
-                      {worker.foto
-                        ? <img src={worker.foto} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} />
-                        : (
-                          <div style={{
-                            width: '36px', height: '36px', borderRadius: '50%',
-                            backgroundColor: '#f0f0f0',
-                            border: '1px solid #ebebeb',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            fontSize: '11px', fontWeight: 600,
-                            color: '#4d4d4d',
-                          }}>
-                            {worker.nombre[0]}{worker.apellidos[0]}
-                          </div>
-                        )
-                      }
-                    </td>
-                    {/* Nombre / Área */}
-                    <td style={{ padding: '12px 8px', minWidth: 0 }}>
-                      <p style={{ fontSize: '13px', color: '#171717', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {worker.nombre} {worker.apellidos}
-                      </p>
-                      <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>
-                        {worker.area} · {worker.cargo}
-                      </p>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px' }}>
-                        <div style={{ width: '60px', height: '3px', backgroundColor: '#f0f0f0', borderRadius: '2px' }}>
-                          <div style={{
-                            height: '3px',
-                            width: `${worker.complianceScore}%`,
-                            backgroundColor: worker.scoreColor,
-                            borderRadius: '2px',
-                            transition: 'width 0.6s ease',
-                          }} />
-                        </div>
-                        <span style={{ fontSize: '10px', color: '#a8a8a8' }}>{worker.complianceScore}%</span>
-                      </div>
-                    </td>
-                    {/* Vencidas */}
-                    <td style={{ padding: '12px 10px', textAlign: 'center' }}>
-                      {worker.expiredCount > 0
-                        ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '13px', fontWeight: 500, color: '#e5484d' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#e5484d', flexShrink: 0 }} />
-                            {worker.expiredCount}
-                          </span>
-                        : <span style={{ fontSize: '13px', color: '#a8a8a8' }}>—</span>
-                      }
-                    </td>
-                    {/* Próximas */}
-                    <td style={{ padding: '12px 10px', textAlign: 'center' }}>
-                      {worker.expiringCount > 0
-                        ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '13px', fontWeight: 500, color: '#b25000' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#b25000', flexShrink: 0 }} />
-                            {worker.expiringCount}
-                          </span>
-                        : <span style={{ fontSize: '13px', color: '#a8a8a8' }}>—</span>
-                      }
-                    </td>
-                    {/* Acción */}
-                    <td style={{ padding: '12px 10px', textAlign: 'center' }}>
-                      <button
-                        onClick={() => navigate(`/workers/${worker.id}`)}
-                        aria-label={`Ver perfil de ${worker.nombre} ${worker.apellidos}`}
-                        style={{
-                          padding: '5px 12px',
-                          minHeight: '30px',
-                          borderRadius: '6px',
-                          border: '1px solid #ebebeb',
-                          backgroundColor: '#ffffff',
-                          color: '#171717',
-                          fontSize: '11px',
-                          fontWeight: 500,
-                          cursor: 'pointer',
-                          transition: 'all 0.15s',
-                          whiteSpace: 'nowrap',
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
-                        onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
-                      >
-                        Ver
-                      </button>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
+                      {worker.nombre[0]}{worker.apellidos[0]}
+                    </div>
+                  )
+                }
+                {/* Nombre + cargo */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {worker.nombre} {worker.apellidos}
+                  </p>
+                  <p style={{ fontSize: '11px', color: '#a8a8a8', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {worker.area} · {worker.cargo}
+                  </p>
+                </div>
+                {/* Score + indicadores */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', flexShrink: 0, gap: '3px' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: worker.scoreColor }}>{worker.complianceScore}%</span>
+                  <div style={{ display: 'flex', gap: '4px' }}>
+                    {worker.expiredCount > 0 && (
+                      <span style={{ fontSize: '10px', fontWeight: 500, color: '#e5484d', backgroundColor: 'rgba(229,72,77,0.08)', border: '1px solid rgba(229,72,77,0.2)', borderRadius: '9999px', padding: '1px 6px' }}>
+                        {worker.expiredCount}v
+                      </span>
+                    )}
+                    {worker.expiringCount > 0 && (
+                      <span style={{ fontSize: '10px', fontWeight: 500, color: '#b25000', backgroundColor: 'rgba(178,80,0,0.08)', border: '1px solid rgba(178,80,0,0.2)', borderRadius: '9999px', padding: '1px 6px' }}>
+                        {worker.expiringCount}p
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-
-          {/* Expandir/colapsar */}
-          {topRiskWorkers.length > 5 && (
-            <button
-              onClick={() => setShowAllRisk(s => !s)}
-              style={{
-                width: '100%',
-                marginTop: '12px',
-                padding: '8px 16px',
-                minHeight: '38px',
-                borderRadius: '6px',
-                border: '1px dashed #d4d4d4',
-                backgroundColor: 'transparent',
-                color: '#666666',
-                fontSize: '13px',
-                cursor: 'pointer',
-                transition: 'all 0.15s',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#a8a8a8'; e.currentTarget.style.color = '#171717'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#d4d4d4'; e.currentTarget.style.color = '#666666'; }}
-              aria-expanded={showAllRisk}
-            >
-              {showAllRisk
-                ? <><ChevronUp className="w-3 h-3 inline mr-1" />Mostrar menos</>
-                : <><ChevronDown className="w-3 h-3 inline mr-1" />Ver {topRiskWorkers.length - 5} trabajadores más</>
-              }
-            </button>
-          )}
         </Card>
       </motion.div>
-      </motion.div>
-      )}
 
       {/* SECTION 5: Exportar Reportes */}
-      {(activeReport === 'general' || activeReport === 'exportar') && (
-      <motion.div key="export-section" role="tabpanel" id={`panel-${activeReport}`} aria-labelledby={`tab-${activeReport}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <motion.div custom={0.8} variants={sectionVariants} initial="hidden" animate="visible">
-        <Card variant="glass" padding="lg">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)' }}>
-            <Download style={{ width: '20px', height: '20px', color: '#4d4d4d' }} strokeWidth={1.5} aria-hidden="true" />
-            <h3 className="font-semibold" style={{ fontSize: '16px', color: '#171717', letterSpacing: '-0.01em' }}>
-              Exportar Reportes
-            </h3>
-          </div>
+      <motion.div role="region" aria-label="Exportar reportes" className="flex flex-col" custom={0.6} variants={sectionVariants} initial="hidden" animate="visible">
+        <Card variant="glass" padding="lg" hover={false} style={{ flex: 1 }}>
+          <PanelHeader
+            title="Exportar Reportes"
+            subtitle="Descargá los datos en el formato que necesités"
+            action={
+              <span style={{ fontSize: '11px', color: '#666666', backgroundColor: '#f5f5f5', padding: '3px 10px', borderRadius: '9999px', border: '1px solid #ebebeb' }}>
+                {workers.length} trabajadores
+              </span>
+            }
+          />
 
-          <div className="grid grid-cols-1 gap-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {[
               {
                 icon: Download,
                 label: 'Resumen CSV',
-                description: 'Datos completos de trabajadores y certificaciones en formato CSV',
-                meta: `Incluye ${workers.length} trabajadores · ${certifications.length} certificaciones`,
+                description: `${workers.length} trabajadores · ${certifications.length} certs`,
                 onClick: exportSummaryCSV,
                 disabled: false,
                 pro: false,
-                colorHex: '#4d4d4d',
               },
               {
                 icon: FileText,
                 label: 'Reporte SENCE',
-                description: 'Formato texto para organismos reguladores y auditorías',
-                meta: 'Formato .txt compatible con organismos reguladores',
+                description: 'Formato .txt para organismos reguladores',
                 onClick: exportSENCE,
                 disabled: false,
                 pro: false,
-                colorHex: '#297a3a',
               },
               {
                 icon: ImageIcon,
                 label: 'Exportar PNG',
-                description: 'Gráficos e informes visuales en alta resolución',
-                meta: 'Requiere plan Pro ✦',
+                description: 'Gráficos en alta resolución',
                 onClick: () => {},
                 disabled: true,
                 pro: true,
-                colorHex: '#a8a8a8',
               },
             ].map((item) => (
               <button
@@ -839,77 +544,33 @@ Generado automáticamente por CertifyX
                 aria-label={item.label}
                 aria-disabled={item.disabled}
                 style={{
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: '16px',
-                  padding: '16px 20px',
-                  minHeight: '80px',
-                  textAlign: 'left',
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #ebebeb',
-                  borderRadius: '6px',
+                  width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
+                  padding: '12px 14px', textAlign: 'left',
+                  backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px',
                   cursor: item.disabled ? 'not-allowed' : 'pointer',
-                  opacity: item.disabled ? 0.5 : 1,
-                  transition: 'all 0.15s',
+                  opacity: item.disabled ? 0.5 : 1, transition: 'all 0.15s',
                 }}
-                onMouseEnter={e => {
-                  if (!item.disabled) {
-                    e.currentTarget.style.borderColor = '#d4d4d4';
-                    e.currentTarget.style.backgroundColor = '#fafafa';
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!item.disabled) {
-                    e.currentTarget.style.borderColor = '#ebebeb';
-                    e.currentTarget.style.backgroundColor = '#ffffff';
-                  }
-                }}
+                onMouseEnter={e => { if (!item.disabled) { e.currentTarget.style.borderColor = '#d4d4d4'; e.currentTarget.style.backgroundColor = '#fafafa'; } }}
+                onMouseLeave={e => { if (!item.disabled) { e.currentTarget.style.borderColor = '#ebebeb'; e.currentTarget.style.backgroundColor = '#ffffff'; } }}
               >
-                <div style={{
-                  width: '44px', height: '44px', flexShrink: 0,
-                  borderRadius: '8px',
-                  backgroundColor: '#f5f5f5',
-                  border: '1px solid #ebebeb',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <item.icon style={{ width: '20px', height: '20px', color: '#4d4d4d' }} strokeWidth={1.5} />
+                <div style={{ width: '36px', height: '36px', flexShrink: 0, borderRadius: '6px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <item.icon style={{ width: '16px', height: '16px', color: '#4d4d4d' }} strokeWidth={1.5} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', display: 'flex', alignItems: 'center' }}>
+                  <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {item.label}
-                    {item.pro && (
-                      <span style={{
-                        fontSize: '10px', fontWeight: 500, padding: '2px 8px',
-                        backgroundColor: '#f5f5f5', border: '1px solid #ebebeb',
-                        borderRadius: '9999px', color: '#666666', marginLeft: '8px',
-                      }}>PRO</span>
-                    )}
+                    {item.pro && <span style={{ fontSize: '10px', padding: '1px 6px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '9999px', color: '#666666' }}>PRO</span>}
                   </p>
-                  <p style={{ fontSize: '12px', color: '#666666', lineHeight: 1.5, marginTop: '2px' }}>
-                    {item.description}
-                  </p>
-                  <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '6px' }}>
-                    {item.meta}
-                  </p>
+                  <p style={{ fontSize: '11px', color: '#a8a8a8', margin: '2px 0 0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.description}</p>
                 </div>
-                {!item.disabled && (
-                  <span
-                    className="export-arrow"
-                    style={{ color: '#a8a8a8', fontSize: '18px', flexShrink: 0, marginLeft: 'auto', transition: 'color 0.15s' }}
-                  >
-                    →
-                  </span>
-                )}
+                {!item.disabled && <span style={{ color: '#a8a8a8', fontSize: '16px', flexShrink: 0 }}>→</span>}
               </button>
             ))}
           </div>
         </Card>
       </motion.div>
-      </motion.div>
-      )}
-      </AnimatePresence>
+
+      </div>{/* fin FILA C */}
     </div>
   );
 }
