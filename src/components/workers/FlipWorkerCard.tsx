@@ -15,9 +15,6 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
   const vigentes = worker.certifications.filter(c => c.estado === 'vigente').length;
   const vencidas = worker.certifications.filter(c => c.estado === 'vencido').length;
 
-  const scoreColor = worker.complianceScore >= 80 ? '#297a3a'
-    : worker.complianceScore >= 60 ? '#b25000' : '#e5484d';
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -26,27 +23,28 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
         borderRadius: '6px',
         overflow: 'hidden',
-        border: '1px solid #ebebeb',
-        borderLeft: `3px solid ${scoreColor}`,
+        borderTop: `2px solid ${expired ? '#e5484d' : vencidas > 0 ? '#b25000' : '#297a3a'}`,
+        boxShadow: 'rgba(0,0,0,0.06) 0px 1px 2px 0px, rgba(0,0,0,0.06) 0px 0px 0px 1px',
         backgroundColor: '#ffffff',
       }}
     >
       {/* ── HEADER ── */}
-      {/* Banda de color sólido con scoreColor */}
-      <div style={{ position: 'relative', height: '64px', backgroundColor: scoreColor, flexShrink: 0 }}>
+      {/* Banda neutra igual para todas las cards */}
+      <div style={{ position: 'relative', height: '64px', backgroundColor: '#f5f5f5', flexShrink: 0 }}>
         {/* Badge VENCIDA — esquina superior derecha sobre la banda */}
         {expired && (
           <div style={{
             position: 'absolute', top: '10px', right: '10px', zIndex: 10,
-            backgroundColor: 'rgba(0,0,0,0.25)',
-            border: '1px solid rgba(255,255,255,0.35)',
+            backgroundColor: 'rgba(229,72,77,0.10)',
+            border: '1px solid rgba(229,72,77,0.30)',
             borderRadius: '9999px', padding: '3px 8px 3px 5px',
             display: 'flex', alignItems: 'center', gap: '4px',
           }}>
-            <AlertCircle style={{ width: '11px', height: '11px', color: '#ffffff' }} strokeWidth={1.5} />
-            <span style={{ fontSize: '10px', fontWeight: 600, color: '#ffffff', letterSpacing: '0.3px' }}>VENCIDA</span>
+            <AlertCircle style={{ width: '11px', height: '11px', color: '#e5484d' }} strokeWidth={1.5} />
+            <span style={{ fontSize: '10px', fontWeight: 600, color: '#e5484d', letterSpacing: '0.3px' }}>VENCIDA</span>
           </div>
         )}
 
@@ -91,7 +89,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
 
       {/* ── DATOS PERSONALES ── */}
       {/* Label de sección con banda de fondo sutil */}
-      <div style={{ backgroundColor: '#f5f5f5', borderTop: '1px solid #ebebeb', borderBottom: '1px solid #ebebeb', padding: '4px 14px' }}>
+      <div style={{ backgroundColor: '#f5f5f5', borderTop: '1px solid #f0f0f0', borderBottom: '1px solid #f0f0f0', padding: '4px 14px' }}>
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#a8a8a8', letterSpacing: '0.07em', textTransform: 'uppercase', margin: 0 }}>DATOS PERSONALES</p>
       </div>
       {/* Grid 2 col — min-width:0 en cada celda es crítico para que ellipsis funcione */}
@@ -110,7 +108,7 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
       </div>
 
       {/* ── MALLAS EN CURSO ── */}
-      <div style={{ backgroundColor: '#f5f5f5', borderTop: '1px solid #ebebeb', borderBottom: '1px solid #ebebeb', padding: '4px 14px' }}>
+      <div style={{ backgroundColor: '#f5f5f5', borderTop: '1px solid #f0f0f0', borderBottom: '1px solid #f0f0f0', padding: '4px 14px' }}>
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#a8a8a8', letterSpacing: '0.07em', textTransform: 'uppercase', margin: 0 }}>MALLAS EN CURSO</p>
       </div>
       <div style={{ padding: '10px 14px 12px' }}>
@@ -143,6 +141,9 @@ function FlipWorkerCardFn({ worker, index = 0 }: Props) {
           <p style={{ fontSize: '11px', color: '#a8a8a8', margin: 0 }}>Sin mallas asignadas</p>
         )}
       </div>
+
+      {/* Espaciador — empuja el botón al pie sin estirar las secciones */}
+      <div style={{ flex: 1 }} />
 
       {/* ── BOTÓN VER MÁS DETALLES ── */}
       <button

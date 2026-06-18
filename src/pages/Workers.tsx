@@ -465,7 +465,7 @@ function WorkersComponent() {
             </motion.div>
           </Card>
         ) : viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 items-stretch">
             {displayWorkers.map((worker, index) => (
               <FlipWorkerCard key={worker.id} worker={worker} index={index} />
             ))}
