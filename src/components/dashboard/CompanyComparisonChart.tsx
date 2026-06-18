@@ -16,21 +16,20 @@ const CustomTooltip = ({ active, payload, label }: {
   if (active && payload && payload.length) {
     return (
       <div style={{
-        backgroundColor: '#231455',
-        border: '1px solid rgba(91,34,119,0.4)',
-        borderRadius: '8px',
-        color: '#F0F4FF',
+        backgroundColor: '#ffffff',
+        border: '1px solid #ebebeb',
+        borderRadius: '6px',
+        color: '#171717',
         fontSize: '12px',
         padding: '12px',
+        boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
       }}>
-        <p style={{ fontWeight: 500, marginBottom: '8px' }}>{label}</p>
+        <p style={{ fontWeight: 500, marginBottom: '8px', color: '#4d4d4d' }}>{label}</p>
         {payload.map((entry, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px' }}>
-            <div
-              style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: entry.color }}
-            />
-            <span style={{ color: '#8892A4' }}>{entry.name}:</span>
-            <span style={{ color: '#F0F4FF', fontFamily: '"JetBrains Mono", monospace' }}>{entry.value}%</span>
+            <div style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: entry.color }} />
+            <span style={{ color: '#666666' }}>{entry.name}:</span>
+            <span style={{ color: '#171717', fontFamily: 'var(--font-mono)' }}>{entry.value}%</span>
           </div>
         ))}
       </div>
@@ -55,49 +54,49 @@ export function CompanyComparisonChart() {
         <LineChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }} style={{ backgroundColor: 'transparent' }}>
           <CartesianGrid
             strokeDasharray="3 3"
-            stroke="rgba(255,255,255,0.05)"
+            stroke="#ebebeb"
             vertical={false}
           />
           <XAxis
             dataKey="month"
-            tick={{ fill: '#8892A4', fontSize: 11 }}
-            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
+            tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#ebebeb' }}
             tickLine={false}
           />
           <YAxis
-            tick={{ fill: '#8892A4', fontSize: 11 }}
-            axisLine={{ stroke: 'rgba(91,34,119,0.2)' }}
+            tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#ebebeb' }}
             tickLine={false}
             domain={[60, 100]}
             tickFormatter={(value) => `${value}%`}
           />
-          <Tooltip content={<CustomTooltip />} contentStyle={{ backgroundColor: '#231455', border: '1px solid rgba(91,34,119,0.4)', borderRadius: '8px', color: '#F0F4FF', fontSize: '12px' }} />
+          <Tooltip content={<CustomTooltip />} />
           <Line
             type="monotone"
             dataKey="corpa"
             name="Corpa Andina"
-            stroke="#7c4dab"
-            strokeWidth={2}
-            dot={{ fill: '#7c4dab', r: 3, strokeWidth: 0 }}
-            activeDot={{ r: 5, fill: '#7c4dab', stroke: '#0d0920', strokeWidth: 2 }}
+            stroke="#171717"
+            strokeWidth={1.5}
+            dot={{ fill: '#171717', r: 3, strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: '#171717', stroke: '#ffffff', strokeWidth: 2 }}
           />
           <Line
             type="monotone"
             dataKey="vial"
             name="Vial Norte"
-            stroke="#8a9e52"
-            strokeWidth={2}
-            dot={{ fill: '#8a9e52', r: 3, strokeWidth: 0 }}
-            activeDot={{ r: 5, fill: '#8a9e52', stroke: '#0d0920', strokeWidth: 2 }}
+            stroke="#4d4d4d"
+            strokeWidth={1.5}
+            dot={{ fill: '#4d4d4d', r: 3, strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: '#4d4d4d', stroke: '#ffffff', strokeWidth: 2 }}
           />
           <Line
             type="monotone"
             dataKey="agro"
             name="Agroindustrial"
-            stroke="#FFB800"
-            strokeWidth={2}
-            dot={{ fill: '#FFB800', r: 3, strokeWidth: 0 }}
-            activeDot={{ r: 5, fill: '#FFB800', stroke: '#0A0E1A', strokeWidth: 2 }}
+            stroke="#a8a8a8"
+            strokeWidth={1.5}
+            dot={{ fill: '#a8a8a8', r: 3, strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: '#a8a8a8', stroke: '#ffffff', strokeWidth: 2 }}
           />
         </LineChart>
       </ResponsiveContainer>

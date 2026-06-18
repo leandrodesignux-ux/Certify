@@ -43,46 +43,38 @@ export const CertStatCard = React.memo(function CertStatCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      whileHover={{ 
-        y: -2, 
-        transition: { duration: 0.15 },
-        boxShadow: `0 8px 25px ${color}20`
-      }}
+      whileHover={{ y: -1, transition: { duration: 0.15 } }}
       style={{
-        backgroundColor: 'var(--surface-card)',
-        border: '1px solid var(--border-brand)',
-        borderRadius: 'var(--radius-md)',
+        backgroundColor: '#ffffff',
+        border: '1px solid #ebebeb',
+        borderRadius: 'var(--radius-sm)',
         padding: '16px',
         position: 'relative',
         overflow: 'hidden',
-        transition: 'box-shadow 0.15s ease',
       }}
     >
-      {/* Top color bar - "eyebrow" indicator */}
+      {/* Top hairline progress bar */}
       <div 
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
-          height: '4px',
-          backgroundColor: color,
-          borderRadius: '4px 4px 0 0',
+          height: '2px',
+          backgroundColor: '#ebebeb',
+          borderRadius: '2px 2px 0 0',
         }}
       />
-      
-      {/* Progress bar fill */}
       {!isPercentage && (
         <div 
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
-            height: '4px',
+            height: '2px',
             width: `${percentage}%`,
             backgroundColor: color,
-            opacity: 0.7,
-            borderRadius: '4px 0 0 0',
+            borderRadius: '2px 0 0 0',
           }}
         />
       )}
@@ -91,14 +83,14 @@ export const CertStatCard = React.memo(function CertStatCard({
         <div style={{
           width: '40px',
           height: '40px',
-          borderRadius: '10px',
-          backgroundColor: `${color}15`,
+          borderRadius: '6px',
+          backgroundColor: '#f5f5f5',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexShrink: 0,
         }}>
-          <Icon style={{ width: '20px', height: '20px', color }} />
+          <Icon style={{ width: '20px', height: '20px', color }} strokeWidth={1.5} />
         </div>
         <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: '4px' }}>
           <motion.p
@@ -108,22 +100,23 @@ export const CertStatCard = React.memo(function CertStatCard({
             style={{
               fontFamily: 'var(--font-display)',
               fontSize: '32px',
-              fontWeight: 700,
-              color,
+              fontWeight: 600,
+              color: '#171717',
               lineHeight: 1,
+              letterSpacing: '-0.04em',
             }}
           >
             {animatedValue}{isPercentage ? '%' : ''}
           </motion.p>
           {!isPercentage && total > 0 && (
-            <span style={{ fontSize: '11px', color: '#4A5568', alignSelf: 'flex-end', marginBottom: '3px' }}>
+            <span style={{ fontSize: '11px', color: '#a8a8a8', alignSelf: 'flex-end', marginBottom: '3px' }}>
               /{total}
             </span>
           )}
         </div>
       </div>
       
-      <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '8px' }}>{label}</p>
+      <p style={{ fontSize: '12px', color: '#666666', marginTop: '8px' }}>{label}</p>
     </motion.div>
   );
 });

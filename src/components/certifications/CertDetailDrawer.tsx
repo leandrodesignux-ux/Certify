@@ -18,10 +18,10 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
 
   const getStatusColor = (estado: string) => {
     switch (estado) {
-      case 'vigente': return '#729362';
-      case 'proximo_vencer': return '#FFB800';
-      case 'vencido': return '#FF3D57';
-      default: return '#7c4dab';
+      case 'vigente': return '#297a3a';
+      case 'proximo_vencer': return '#b25000';
+      case 'vencido': return '#e5484d';
+      default: return '#a8a8a8';
     }
   };
 
@@ -51,7 +51,8 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-[rgba(13,9,32,0.6)] backdrop-blur-sm z-40"
+            className="fixed inset-0 z-40"
+            style={{ backgroundColor: 'rgba(0,0,0,0.2)' }}
             onClick={onClose}
           />
 
@@ -67,45 +68,46 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
             className="fixed right-0 top-0 bottom-0 z-50"
             style={{
               width: 'min(420px, 100vw)',
-              background: 'rgba(26,16,64,0.95)',
-              backdropFilter: 'blur(20px)',
-              borderLeft: '1px solid var(--border-brand)',
-              boxShadow: '-20px 0 60px rgba(13,9,32,0.5)',
+              backgroundColor: '#ffffff',
+              borderLeft: '1px solid #ebebeb',
+              boxShadow: '-4px 0 16px rgba(0,0,0,0.06)',
             }}
           >
             {/* Header */}
             <div 
               className="relative p-6 border-b"
-              style={{ borderColor: 'var(--border-brand)' }}
+              style={{ borderColor: '#ebebeb' }}
             >
               <button
                 onClick={onClose}
-                className="absolute top-6 right-6 p-1.5 rounded-md hover:bg-[rgba(91,34,119,0.15)] transition-colors"
+                className="absolute top-6 right-6 p-1.5 rounded-md transition-colors"
                 aria-label="Cerrar detalle"
+                style={{ color: '#a8a8a8' }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
               >
-                <X className="w-5 h-5 text-[#8892A4]" />
+                <X className="w-5 h-5" strokeWidth={1.5} />
               </button>
 
               <div className="flex items-start gap-4 mb-4">
                 <div 
-                  className="p-2.5 rounded-lg"
-                  style={{ backgroundColor: `${statusColor}15` }}
+                  className="p-2.5"
+                  style={{ backgroundColor: '#f5f5f5', borderRadius: '6px' }}
                 >
                   <Award 
                     className="w-6 h-6" 
                     style={{ color: statusColor }} 
+                    strokeWidth={1.5}
                   />
                 </div>
                 
                 <div className="flex-1">
                   <h2 
-                    className="text-xl font-bold mb-2"
+                    className="text-xl font-semibold mb-2"
                     style={{ 
                       fontFamily: 'var(--font-display)',
-                      background: `linear-gradient(135deg, ${statusColor}, #F0F4FF)`,
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
+                      color: '#171717',
+                      letterSpacing: '-0.02em',
                     }}
                   >
                     {cert.nombre}
@@ -118,21 +120,23 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
             {/* Worker Section */}
             <div 
               className="p-5 border-b"
-              style={{ borderColor: 'var(--border-brand)' }}
+              style={{ borderColor: '#ebebeb' }}
             >
               <div className="flex items-center gap-3">
                 {worker?.foto ? (
                   <img
                     src={worker.foto}
                     alt={`${worker.nombre} ${worker.apellidos}`}
-                    className="w-12 h-12 rounded-full object-cover border border-[rgba(91,34,119,0.3)]"
+                    className="w-12 h-12 rounded-full object-cover"
+                    style={{ border: '1px solid #ebebeb' }}
                   />
                 ) : (
                   <div 
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold"
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-medium"
                     style={{ 
-                      backgroundColor: 'rgba(91,34,119,0.15)',
-                      color: '#9b6ab5'
+                      backgroundColor: '#f0f0f0',
+                      border: '1px solid #ebebeb',
+                      color: '#4d4d4d'
                     }}
                   >
                     {worker ? getInitials(worker.nombre, worker.apellidos) : '?'}
@@ -140,19 +144,19 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                 )}
                 
                 <div className="flex-1">
-                  <p className="text-base font-bold text-[#F0F4FF]">
+                  <p className="text-base font-semibold" style={{ color: '#171717' }}>
                     {worker ? `${worker.nombre} ${worker.apellidos}` : 'Trabajador no encontrado'}
                   </p>
-                  <p className="text-sm text-[#8892A4]">{worker?.cargo || 'Sin cargo'}</p>
+                  <p className="text-sm" style={{ color: '#666666' }}>{worker?.cargo || 'Sin cargo'}</p>
                 </div>
 
                 {worker?.area && (
                   <div
-                    className="px-3 py-1.5 rounded-full text-xs font-medium"
+                    className="px-3 py-1.5 rounded text-xs font-medium"
                     style={{
-                      backgroundColor: 'rgba(155,106,181,0.15)',
-                      color: '#9b6ab5',
-                      border: '1px solid rgba(155,106,181,0.3)',
+                      backgroundColor: '#f5f5f5',
+                      color: '#4d4d4d',
+                      border: '1px solid #ebebeb',
                     }}
                   >
                     {worker.area}
@@ -164,14 +168,14 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
             {/* Dates Section */}
             <div 
               className="p-5 border-b"
-              style={{ borderColor: 'var(--border-brand)' }}
+              style={{ borderColor: '#ebebeb' }}
             >
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-[#6B7280] mb-1">
+                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>
                     Fecha Obtención
                   </p>
-                  <p className="text-sm text-[#F0F4FF]">
+                  <p className="text-sm" style={{ color: '#171717' }}>
                     {new Date(cert.fechaObtension).toLocaleDateString('es-ES', {
                       day: '2-digit',
                       month: 'short',
@@ -181,7 +185,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                 </div>
                 
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-[#6B7280] mb-1">
+                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>
                     Fecha Vencimiento
                   </p>
                   <p 
@@ -200,7 +204,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
               {/* Progress Bar */}
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <p className="text-xs text-[#6B7280]">Vida de la certificación</p>
+                  <p className="text-xs" style={{ color: '#a8a8a8' }}>Vida de la certificación</p>
                   <p 
                     className="text-xs font-medium"
                     style={{ color: statusColor }}
@@ -213,7 +217,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                 </div>
                 <div 
                   className="h-2 rounded-full overflow-hidden"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}
+                  style={{ backgroundColor: '#ebebeb' }}
                 >
                   <motion.div
                     initial={{ width: 0 }}
@@ -229,30 +233,30 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
             {/* Emisor and Type Section */}
             <div 
               className="p-5 border-b"
-              style={{ borderColor: 'var(--border-brand)' }}
+              style={{ borderColor: '#ebebeb' }}
             >
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-[#6B7280] mb-1">
+                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>
                     Emisor
                   </p>
-                  <p className="text-sm text-[#F0F4FF]">{cert.emisor}</p>
+                  <p className="text-sm" style={{ color: '#171717' }}>{cert.emisor}</p>
                 </div>
                 
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-[#6B7280] mb-1">
+                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>
                     Tipo
                   </p>
                   <Badge status={cert.tipo} />
                 </div>
                 
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-[#6B7280] mb-1">
+                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>
                     ID Interno
                   </p>
                   <p 
                     className="text-xs font-mono"
-                    style={{ color: '#6B7280' }}
+                    style={{ color: '#a8a8a8' }}
                   >
                     {cert.id}
                   </p>
@@ -263,19 +267,19 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
             {/* Footer */}
             <div 
               className="p-4 border-t mt-auto"
-              style={{ borderColor: 'var(--border-brand)' }}
+              style={{ borderColor: '#ebebeb' }}
             >
               <div className="flex gap-3">
                 <button
                   onClick={onClose}
-                  className="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg border transition-colors"
+                  className="flex-1 px-4 py-2.5 text-sm font-medium rounded-md border transition-colors"
                   style={{
                     backgroundColor: 'transparent',
-                    borderColor: 'var(--border-brand)',
-                    color: '#8892A4',
+                    borderColor: '#ebebeb',
+                    color: '#4d4d4d',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+                    e.currentTarget.style.backgroundColor = '#f5f5f5';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = 'transparent';
@@ -289,18 +293,17 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                     navigate(`/workers/${cert.workerId}`);
                     onClose();
                   }}
-                  className="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition-colors"
+                  className="flex-1 px-4 py-2.5 text-sm font-medium rounded-md transition-colors"
                   style={{
-                    backgroundColor: 'rgba(91,34,119,0.2)',
-                    borderColor: 'rgba(91,34,119,0.4)',
-                    color: '#c49fe0',
-                    border: '1px solid',
+                    backgroundColor: '#171717',
+                    color: '#ffffff',
+                    border: '1px solid #171717',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.3)';
+                    e.currentTarget.style.backgroundColor = '#2e2e2e';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.2)';
+                    e.currentTarget.style.backgroundColor = '#171717';
                   }}
                 >
                   Ir al trabajador

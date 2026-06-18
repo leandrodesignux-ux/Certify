@@ -8,10 +8,10 @@ interface CertTimelineProps {
 }
 
 const statusConfig = {
-  vigente: { icon: CheckCircle, color: '#729362', bg: 'bg-[rgba(114,147,98,0.15)]' },
-  proximo_vencer: { icon: Clock, color: '#FFB800', bg: 'bg-[rgba(255,184,0,0.15)]' },
-  vencido: { icon: AlertCircle, color: '#FF3D57', bg: 'bg-[rgba(255,61,87,0.15)]' },
-  pendiente: { icon: Award, color: '#7c4dab', bg: 'bg-[rgba(91,34,119,0.15)]' },
+  vigente:       { icon: CheckCircle, color: '#297a3a', bg: '#f0f7f1' },
+  proximo_vencer:{ icon: Clock,       color: '#b25000', bg: '#fdf3ed' },
+  vencido:       { icon: AlertCircle, color: '#e5484d', bg: '#fdf2f2' },
+  pendiente:     { icon: Award,       color: '#a8a8a8', bg: '#f5f5f5' },
 };
 
 export function CertTimeline({ certs }: CertTimelineProps) {
@@ -23,13 +23,10 @@ export function CertTimeline({ certs }: CertTimelineProps) {
     <div className="py-4">
       {/* Timeline Track */}
       <div className="relative">
-        {/* Gradient Line */}
+        {/* Track Line */}
         <div
-          className="absolute top-6 left-0 right-0 h-0.5"
-          style={{
-            background: 'linear-gradient(90deg, #9b6ab5 0%, #c49fe0 100%)',
-            opacity: 0.3,
-          }}
+          className="absolute top-6 left-0 right-0 h-px"
+          style={{ backgroundColor: '#ebebeb' }}
         />
 
         {/* Points */}
@@ -48,18 +45,18 @@ export function CertTimeline({ certs }: CertTimelineProps) {
               >
                 {/* Point */}
                 <div
-                  className={`w-12 h-12 rounded-full ${config.bg} flex items-center justify-center border-2 z-10`}
-                  style={{ borderColor: config.color }}
+                  className="w-12 h-12 rounded-full flex items-center justify-center border z-10"
+                  style={{ backgroundColor: config.bg, borderColor: config.color }}
                 >
-                  <Icon className="w-5 h-5" style={{ color: config.color }} />
+                  <Icon className="w-5 h-5" style={{ color: config.color }} strokeWidth={1.5} />
                 </div>
 
                 {/* Label */}
                 <div className="mt-3 text-center">
-                  <p className="text-xs text-[#F0F4FF] font-medium truncate max-w-[100px]">
+                  <p className="text-xs font-medium truncate max-w-[100px]" style={{ color: '#171717' }}>
                     {cert.nombre.length > 20 ? cert.nombre.slice(0, 18) + '...' : cert.nombre}
                   </p>
-                  <p className="text-xs text-[#8892A4] mt-0.5">
+                  <p className="text-xs mt-0.5" style={{ color: '#666666' }}>
                     {formatDate(cert.fechaObtension)}
                   </p>
                   <div

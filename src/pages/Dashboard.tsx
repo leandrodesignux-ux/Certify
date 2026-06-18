@@ -55,21 +55,21 @@ export function Dashboard() {
         style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
       >
         <div>
-          <h1 className="font-display text-3xl font-bold tracking-tight text-gradient mb-1 flex items-center gap-2">
-            Panel Operacional <Zap style={{ width: '16px', height: '16px', color: '#9b6ab5' }} />
+          <h1 className="text-3xl font-semibold tracking-tight mb-1 flex items-center gap-2" style={{ color: '#171717', letterSpacing: '-0.02em' }}>
+            Panel Operacional <Zap style={{ width: '16px', height: '16px', color: '#a8a8a8' }} strokeWidth={1.5} />
           </h1>
-          <p style={{ color: 'var(--color-text-secondary)', fontSize: '14px' }}>
+          <p style={{ color: '#666666', fontSize: '14px' }}>
             Corpa Andina Minera S.A. · Turno día activo · {new Date().toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
         </div>
         {/* Mini status pills */}
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'var(--status-ok-bg)', border: '1px solid var(--status-ok-border)', borderRadius: '20px', padding: '6px 14px' }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-success)', boxShadow: '0 0 6px rgba(114,147,98,0.8)', animation: 'pulse 2s infinite' }} />
-            <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--status-ok-text)' }}>Sistema Online</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(41,122,58,0.08)', border: '1px solid rgba(41,122,58,0.2)', borderRadius: '9999px', padding: '4px 12px' }}>
+            <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#297a3a' }} />
+            <span style={{ fontSize: '12px', fontWeight: 500, color: '#297a3a' }}>Sistema Online</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'var(--status-warn-bg)', border: '1px solid var(--status-warn-border)', borderRadius: '20px', padding: '6px 14px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--status-warn-text)' }}>⚠ {criticalAlerts} alertas críticas</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(178,80,0,0.08)', border: '1px solid rgba(178,80,0,0.2)', borderRadius: '9999px', padding: '4px 12px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 500, color: '#b25000' }}>{criticalAlerts} alertas críticas</span>
           </div>
         </div>
       </motion.div>
@@ -142,27 +142,27 @@ export function Dashboard() {
         {/* Columna izquierda: "Cumplimiento por Área" */}
         <Card variant="glass" style={{ borderRadius: '6px', padding: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--color-text-primary)', letterSpacing: '0.3px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#171717', letterSpacing: '-0.01em', display: 'flex', alignItems: 'center', gap: '8px' }}>
               Cumplimiento por Área
             </h3>
-            <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>{new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}</span>
+            <span style={{ fontSize: '12px', color: '#a8a8a8' }}>{new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}</span>
           </div>
           <ComplianceBarChart />
         </Card>
 
         {/* Columna derecha: Gauge de compliance global */}
         <Card variant="glass" style={{ borderRadius: '6px', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--color-text-primary)', letterSpacing: '0.3px', marginBottom: '16px', textAlign: 'center' }}>
+          <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#171717', letterSpacing: '-0.01em', marginBottom: '16px', textAlign: 'center' }}>
             Compliance Global
           </h3>
           <ComplianceGauge score={avgCompliance} />
           <div style={{ marginTop: '16px', width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-              <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>Meta mensual</span>
-              <span style={{ fontSize: '12px', color: 'var(--color-purple-mid)', fontWeight: 600 }}>85%</span>
+              <span style={{ fontSize: '12px', color: '#666666' }}>Meta mensual</span>
+              <span style={{ fontSize: '12px', color: '#171717', fontWeight: 500 }}>85%</span>
             </div>
-            <div style={{ height: '4px', backgroundColor: 'var(--color-surface-alt)', borderRadius: '2px', overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: `${avgCompliance}%`, backgroundColor: avgCompliance >= 85 ? '#729362' : '#FFB800', borderRadius: '2px', transition: 'width 1s ease' }} />
+            <div style={{ height: '4px', backgroundColor: '#f0f0f0', borderRadius: '2px', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${avgCompliance}%`, backgroundColor: avgCompliance >= 85 ? '#297a3a' : '#b25000', borderRadius: '2px', transition: 'width 1s ease' }} />
             </div>
           </div>
         </Card>
@@ -178,14 +178,14 @@ export function Dashboard() {
       >
         {/* Tendencia Anual */}
         <Card variant="glass" style={{ borderRadius: '6px', padding: '24px' }}>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--color-text-primary)', letterSpacing: '0.3px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#171717', letterSpacing: '-0.01em', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             Tendencia de Certificaciones
           </h3>
           <CertTrendChart />
         </Card>
         {/* Distribución de estados */}
         <Card variant="glass" style={{ borderRadius: '6px', padding: '24px' }}>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--color-text-primary)', letterSpacing: '0.3px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#171717', letterSpacing: '-0.01em', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             Distribución de Estados
           </h3>
           <StatusDonutChart />

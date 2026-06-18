@@ -25,10 +25,10 @@ export function Settings() {
         initial="hidden"
         animate="visible"
       >
-        <h1 className="font-display text-3xl font-bold text-gradient tracking-tight">
+        <h1 className="text-3xl font-semibold tracking-tight" style={{ color: '#171717', letterSpacing: '-0.02em' }}>
           Configuración
         </h1>
-        <p style={{ color: 'var(--color-text-secondary)', marginTop: '4px' }}>
+        <p style={{ color: '#666666', marginTop: '4px' }}>
           Gestiona preferencias y opciones del sistema
         </p>
       </motion.div>
@@ -41,46 +41,33 @@ export function Settings() {
         animate="visible"
       >
         <Card variant="glass" padding="lg" className="text-center py-16">
-          <div className="inline-flex p-4 bg-[rgba(91,34,119,0.15)] rounded-full mb-6">
-            <Settings2 className="w-12 h-12 text-[#9b6ab5]" />
+          <div className="inline-flex p-4 rounded-full mb-6" style={{ backgroundColor: '#f5f5f5', border: '1px solid #ebebeb' }}>
+            <Settings2 className="w-12 h-12" style={{ color: '#a8a8a8' }} strokeWidth={1.5} />
           </div>
-          <h2 className="font-display text-2xl font-bold mb-3" style={{ color: 'var(--color-text-primary)' }}>
+          <h2 className="text-2xl font-semibold mb-3" style={{ color: '#171717', letterSpacing: '-0.02em' }}>
             Próximamente
           </h2>
-          <p className="max-w-md mx-auto mb-8" style={{ color: 'var(--color-text-secondary)' }}>
+          <p className="max-w-md mx-auto mb-8" style={{ color: '#666666' }}>
             El panel de configuración está en desarrollo. Pronto podrás gestionar usuarios,
             notificaciones, integraciones y más.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-            <div className="p-4 flex items-center gap-4" style={{ backgroundColor: 'rgba(35,20,85,0.6)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-brand)' }}>
-              <Users className="w-6 h-6" style={{ color: 'var(--color-purple-mid)' }} />
-              <div className="text-left">
-                <p className="text-sm" style={{ color: 'var(--color-text-primary)' }}>Usuarios y roles</p>
-                <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Gestión de permisos</p>
+            {[
+              { icon: Users,    label: 'Usuarios y roles',   sub: 'Gestión de permisos' },
+              { icon: Bell,     label: 'Notificaciones',     sub: 'Alertas y recordatorios' },
+              { icon: Shield,   label: 'Seguridad',          sub: 'Autenticación y acceso' },
+              { icon: Database, label: 'Datos',              sub: 'Backup y restauración' },
+            ].map(({ icon: Icon, label, sub }) => (
+              <div key={label} className="p-4 flex items-center gap-4" style={{ backgroundColor: '#fafafa', borderRadius: 'var(--radius-sm)', border: '1px solid #ebebeb' }}>
+                <Icon className="w-6 h-6" style={{ color: '#a8a8a8' }} strokeWidth={1.5} />
+                <div className="text-left">
+                  <p className="text-sm" style={{ color: '#171717' }}>{label}</p>
+                  <p className="text-xs" style={{ color: '#666666' }}>{sub}</p>
+                </div>
               </div>
-            </div>
-            <div className="p-4 flex items-center gap-4" style={{ backgroundColor: 'rgba(35,20,85,0.6)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-brand)' }}>
-              <Bell className="w-6 h-6" style={{ color: 'var(--color-purple-mid)' }} />
-              <div className="text-left">
-                <p className="text-sm" style={{ color: 'var(--color-text-primary)' }}>Notificaciones</p>
-                <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Alertas y recordatorios</p>
-              </div>
-            </div>
-            <div className="p-4 flex items-center gap-4" style={{ backgroundColor: 'rgba(35,20,85,0.6)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-brand)' }}>
-              <Shield className="w-6 h-6" style={{ color: 'var(--color-purple-mid)' }} />
-              <div className="text-left">
-                <p className="text-sm" style={{ color: 'var(--color-text-primary)' }}>Seguridad</p>
-                <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Autenticación y acceso</p>
-              </div>
-            </div>
-            <div className="p-4 flex items-center gap-4" style={{ backgroundColor: 'rgba(35,20,85,0.6)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-brand)' }}>
-              <Database className="w-6 h-6" style={{ color: 'var(--color-purple-mid)' }} />
-              <div className="text-left">
-                <p className="text-sm" style={{ color: 'var(--color-text-primary)' }}>Datos</p>
-                <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Backup y restauración</p>
-              </div>
-            </div>
+            ))}
+
           </div>
         </Card>
       </motion.div>

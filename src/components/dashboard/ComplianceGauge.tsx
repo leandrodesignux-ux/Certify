@@ -10,9 +10,9 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
 
   // Calculate color based on score with gradient logic
   const getColor = () => {
-    if (clampedScore >= 80) return '#729362'; // Green
-    if (clampedScore >= 60) return '#FFB800'; // Yellow
-    return '#FF3D57'; // Red
+    if (clampedScore >= 80) return '#297a3a'; // Green
+    if (clampedScore >= 60) return '#b25000'; // Warning
+    return '#e5484d'; // Danger
   };
 
   const data = [{ name: 'Compliance', value: clampedScore, fill: getColor() }];
@@ -30,14 +30,6 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
             startAngle={90}
             endAngle={-270}
           >
-            {/* Gradient definitions */}
-            <defs>
-              <linearGradient id="gaugeGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#FF3D57" />
-                <stop offset="60%" stopColor="#FFB800" />
-                <stop offset="100%" stopColor="#729362" />
-              </linearGradient>
-            </defs>
             <PolarAngleAxis
               type="number"
               domain={[0, 100]}
@@ -45,16 +37,10 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
             />
             {/* Background track */}
             <RadialBar
-              background
+              background={{ fill: '#f5f5f5' }}
               dataKey="value"
-              cornerRadius={10}
-              fill="#231455"
-            />
-            {/* Progress bar with gradient */}
-            <RadialBar
-              dataKey="value"
-              cornerRadius={10}
-              fill="url(#gaugeGradient)"
+              cornerRadius={6}
+              fill={getColor()}
               isAnimationActive={true}
               animationDuration={1000}
             />
@@ -67,8 +53,8 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 0.4 }}
-            className="font-display text-4xl font-bold"
-            style={{ color: getColor() }}
+            className="font-display"
+            style={{ color: '#171717', fontWeight: 600, fontSize: '2.25rem', letterSpacing: '-0.04em' }}
           >
             {Math.round(clampedScore)}%
           </motion.span>

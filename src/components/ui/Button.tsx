@@ -47,22 +47,22 @@ export function Button({
       case 'primary':
         return {
           ...base,
-          backgroundColor: 'var(--color-electric)',
-          color: '#F0F4FF',
+          backgroundColor: '#171717',
+          color: '#ffffff',
         };
       case 'ghost':
         return {
           ...base,
           backgroundColor: 'transparent',
-          border: '1px solid var(--border-brand-hover)',
-          color: '#c49fe0',
+          border: '1px solid #171717',
+          color: '#171717',
         };
       case 'danger':
         return {
           ...base,
-          backgroundColor: 'rgba(255,61,87,0.15)',
-          border: '1px solid rgba(255,61,87,0.3)',
-          color: '#FF3D57',
+          backgroundColor: 'transparent',
+          border: '1px solid #e5484d',
+          color: '#e5484d',
         };
       default:
         return base;
@@ -84,7 +84,7 @@ export function Button({
     alignItems: 'center',
     justifyContent: 'center',
     gap: '8px',
-    fontWeight: 600,
+    fontWeight: 500,
     cursor: isDisabled ? 'not-allowed' : 'pointer',
     opacity: isDisabled ? 0.5 : 1,
   };
@@ -121,8 +121,8 @@ export function Button({
       type={type}
       onClick={handleClick}
       disabled={isDisabled}
-      whileHover={isDisabled ? undefined : { scale: 1.02 }}
-      whileTap={isDisabled ? undefined : { scale: 0.97 }}
+      whileHover={isDisabled ? undefined : { scale: 1.01 }}
+      whileTap={isDisabled ? undefined : { scale: 0.99 }}
       transition={{ duration: 0.1 }}
       style={style}
       className={`focus-ring ${className}`}
@@ -145,7 +145,7 @@ export function Button({
               marginLeft: '-4px',
               marginTop: '-4px',
               borderRadius: '50%',
-              backgroundColor: variant === 'primary' ? 'rgba(255,255,255,0.15)' : 'rgba(91,34,119,0.4)',
+              backgroundColor: variant === 'primary' ? 'rgba(255,255,255,0.2)' : 'rgba(23,23,23,0.08)',
               pointerEvents: 'none',
             }}
           />

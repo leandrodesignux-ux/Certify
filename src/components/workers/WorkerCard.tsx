@@ -44,12 +44,12 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
         >
           {/* FRONT */}
           <div
-            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
-            className="absolute inset-0 rounded-xl overflow-hidden border border-[rgba(91,34,119,0.25)] bg-[#1a1040]"
+            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', borderRadius: '6px' }}
+            className="absolute inset-0 overflow-hidden border border-[#ebebeb] bg-white"
           >
             {hasExpiredCerts && (
-              <div className="absolute top-2 right-2 z-10 w-7 h-7 bg-[#FF3D57] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_12px_rgba(255,61,87,0.6)]">
-                <AlertCircle className="w-4 h-4 text-white" />
+              <div className="absolute top-2 right-2 z-10 w-7 h-7 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(229,72,77,0.08)', border: '1px solid rgba(229,72,77,0.3)' }}>
+                <AlertCircle className="w-4 h-4" style={{ color: '#e5484d' }} strokeWidth={1.5} />
               </div>
             )}
             {/* Photo */}
@@ -57,73 +57,71 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
               {worker.foto ? (
                 <img src={worker.foto} alt={worker.nombre} className="w-full h-full object-cover object-top" />
               ) : (
-                <div className="w-full h-full bg-[#231455] flex items-center justify-center">
-                  <span className="text-5xl font-bold text-[#9b6ab5]">{initials}</span>
+                <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#f5f5f5' }}>
+                  <span className="text-5xl font-semibold" style={{ color: '#4d4d4d' }}>{initials}</span>
                 </div>
               )}
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1a1040] via-[#1a1040]/30 to-transparent" />
               {/* Score badge */}
-              <div className={`absolute bottom-3 right-3 px-2 py-0.5 rounded-full text-sm font-bold bg-[#130b3a]/90 border border-current ${scoreColor}`}>
+              <div className={`absolute bottom-3 right-3 px-2 py-0.5 rounded-full text-sm font-semibold bg-white/90 border ${scoreColor}`} style={{ borderColor: '#ebebeb' }}>
                 {worker.complianceScore}%
               </div>
               {/* Area badge */}
-              <div className="absolute bottom-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-medium bg-[rgba(91,34,119,0.2)] text-[#c49fe0] border border-[rgba(91,34,119,0.4)]">
+              <div className="absolute bottom-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'rgba(0,0,0,0.5)', color: '#ffffff' }}>
                 {worker.area}
               </div>
             </div>
             {/* Info */}
             <div className="px-4 pt-3 pb-2">
-              <h3 className="font-display text-lg font-bold text-[#F0F4FF] leading-tight truncate">
+              <h3 className="font-display text-lg font-semibold leading-tight truncate" style={{ color: '#171717' }}>
                 {worker.nombre} {worker.apellidos}
               </h3>
-              <p className="text-xs text-[#8892A4] truncate mt-0.5">{worker.cargo}</p>
+              <p className="text-xs truncate mt-0.5" style={{ color: '#666666' }}>{worker.cargo}</p>
               <div className="mt-3">
                 <ProgressBar value={worker.complianceScore} showLabel={false} />
               </div>
             </div>
             {/* Flip hint */}
-            <div className="absolute bottom-3 right-3 flex items-center gap-1 text-[#4A5568]">
-              <RotateCcw className="w-3 h-3" />
+            <div className="absolute bottom-3 right-3 flex items-center gap-1" style={{ color: '#a8a8a8' }}>
+              <RotateCcw className="w-3 h-3" strokeWidth={1.5} />
               <span className="text-[10px]">ver datos</span>
             </div>
           </div>
 
           {/* BACK */}
           <div
-            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)', overflowY: 'auto' }}
-            className="absolute inset-0 rounded-xl border border-[rgba(91,34,119,0.3)] bg-[#130b3a] p-4"
+            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)', overflowY: 'auto', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px' }}
+            className="absolute inset-0 p-4"
           >
-            <div className="flex items-center gap-3 mb-4 pb-3 border-b border-[rgba(91,34,119,0.2)]">
+            <div className="flex items-center gap-3 mb-4 pb-3" style={{ borderBottom: '1px solid #ebebeb' }}>
               {worker.foto ? (
-                <img src={worker.foto} alt={worker.nombre} className="w-10 h-10 rounded-full object-cover border-2 border-[rgba(91,34,119,0.4)]" />
+                <img src={worker.foto} alt={worker.nombre} className="w-10 h-10 rounded-full object-cover" style={{ border: '1px solid #ebebeb' }} />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-[#231455] flex items-center justify-center text-[#9b6ab5] font-bold">{initials}</div>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center font-medium" style={{ backgroundColor: '#f0f0f0', border: '1px solid #ebebeb', color: '#4d4d4d' }}>{initials}</div>
               )}
               <div className="min-w-0">
-                <p className="text-sm font-bold text-[#F0F4FF] truncate">{worker.nombre} {worker.apellidos}</p>
-                <p className="text-[10px] text-[#8892A4]">{worker.rut}</p>
+                <p className="text-sm font-semibold truncate" style={{ color: '#171717' }}>{worker.nombre} {worker.apellidos}</p>
+                <p className="text-[10px] font-mono" style={{ color: '#a8a8a8' }}>{worker.rut}</p>
               </div>
             </div>
             <div className="space-y-1 mb-4 text-xs">
-              <div className="flex justify-between"><span className="text-[#8892A4]">Email</span><span className="text-[#F0F4FF] truncate max-w-[60%] text-right">{worker.email}</span></div>
-              <div className="flex justify-between"><span className="text-[#8892A4]">Empresa</span><span className="text-[#F0F4FF] truncate max-w-[60%] text-right">{worker.empresa}</span></div>
-              <div className="flex justify-between"><span className="text-[#8892A4]">Departamento</span><span className="text-[#F0F4FF]">{worker.departamento}</span></div>
+              <div className="flex justify-between"><span style={{ color: '#666666' }}>Email</span><span className="truncate max-w-[60%] text-right" style={{ color: '#171717' }}>{worker.email}</span></div>
+              <div className="flex justify-between"><span style={{ color: '#666666' }}>Empresa</span><span className="truncate max-w-[60%] text-right" style={{ color: '#171717' }}>{worker.empresa}</span></div>
+              <div className="flex justify-between"><span style={{ color: '#666666' }}>Departamento</span><span style={{ color: '#171717' }}>{worker.departamento}</span></div>
             </div>
             <div className="flex gap-2 mb-4">
-              {vigentes > 0 && <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[rgba(114,147,98,0.18)] text-[#8fb87a] border border-[rgba(114,147,98,0.4)]">{vigentes} vigentes</span>}
-              {vencidas > 0 && <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[rgba(255,61,87,0.15)] text-[#FF3D57] border border-[rgba(255,61,87,0.3)]">{vencidas} vencidas</span>}
-              {proximas > 0 && <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[rgba(255,184,0,0.15)] text-[#FFB800] border border-[rgba(255,184,0,0.3)]">{proximas} próx.</span>}
+              {vigentes > 0 && <span className="px-2 py-0.5 rounded text-[10px] font-medium" style={{ backgroundColor: 'rgba(41,122,58,0.08)', color: '#297a3a', border: '1px solid rgba(41,122,58,0.2)' }}>{vigentes} vigentes</span>}
+              {vencidas > 0 && <span className="px-2 py-0.5 rounded text-[10px] font-medium" style={{ backgroundColor: 'rgba(229,72,77,0.08)', color: '#e5484d', border: '1px solid rgba(229,72,77,0.2)' }}>{vencidas} vencidas</span>}
+              {proximas > 0 && <span className="px-2 py-0.5 rounded text-[10px] font-medium" style={{ backgroundColor: 'rgba(178,80,0,0.08)', color: '#b25000', border: '1px solid rgba(178,80,0,0.2)' }}>{proximas} próx.</span>}
             </div>
             {workerMeshes.length > 0 && (
               <div>
-                <p className="text-[10px] text-[#8892A4] uppercase tracking-wider mb-2">Mallas en curso</p>
+                <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>Mallas en curso</p>
                 <div className="space-y-2">
                   {workerMeshes.map(mesh => (
                     <div key={mesh.id}>
                       <div className="flex justify-between text-[10px] mb-1">
-                        <span className="text-[#F0F4FF] truncate max-w-[70%]">{mesh.nombre}</span>
-                        <span className="text-[#c49fe0]">{mesh.completionRate}%</span>
+                        <span className="truncate max-w-[70%]" style={{ color: '#171717' }}>{mesh.nombre}</span>
+                        <span style={{ color: '#666666' }}>{mesh.completionRate}%</span>
                       </div>
                       <ProgressBar value={mesh.completionRate} showLabel={false} />
                     </div>
@@ -137,12 +135,12 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
                 marginTop: '12px',
                 width: '100%',
                 padding: '8px',
-                backgroundColor: 'rgba(91,34,119,0.2)',
-                border: '1px solid rgba(91,34,119,0.4)',
+                backgroundColor: '#171717',
+                border: '1px solid #171717',
                 borderRadius: '6px',
-                color: '#c49fe0',
+                color: '#ffffff',
                 fontSize: '12px',
-                fontWeight: 600,
+                fontWeight: 500,
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -150,11 +148,11 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
                 gap: '6px',
               }}
             >
-              <Eye className="w-3 h-3" />
+              <Eye className="w-3 h-3" strokeWidth={1.5} />
               Ver perfil completo
             </button>
-            <div className="absolute bottom-2 right-3 flex items-center gap-1 text-[#4A5568]">
-              <RotateCcw className="w-3 h-3" />
+            <div className="absolute bottom-2 right-3 flex items-center gap-1" style={{ color: '#a8a8a8' }}>
+              <RotateCcw className="w-3 h-3" strokeWidth={1.5} />
               <span className="text-[10px]">volver</span>
             </div>
           </div>
@@ -164,9 +162,12 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
       {/* Ver Detalles button — always visible below card */}
       <button
         onClick={(e) => { e.stopPropagation(); navigate(`/workers/${worker.id}`); }}
-        className="w-full py-2 text-sm font-semibold text-[#c49fe0] border border-[rgba(91,34,119,0.35)] rounded-xl bg-transparent hover:bg-[rgba(91,34,119,0.15)] hover:border-[rgba(91,34,119,0.55)] transition-all duration-150 flex items-center justify-center gap-2"
+        className="w-full py-2 text-sm font-medium transition-all duration-150 flex items-center justify-center gap-2"
+        style={{ color: '#4d4d4d', border: '1px solid #ebebeb', backgroundColor: 'transparent', borderRadius: '6px' }}
+        onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+        onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
       >
-        <Eye className="w-4 h-4" />
+        <Eye className="w-4 h-4" strokeWidth={1.5} />
         Ver Detalles
       </button>
     </motion.div>

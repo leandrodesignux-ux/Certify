@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { mockChartData } from '../../data/mockData';
 
-const AREA_COLOR = 'var(--color-purple-mid)';
+const AREA_COLOR = '#171717';
 
 // Generate mock trend data for each area
 const getMockTrend = (index: number): { direction: 'up' | 'down'; value: number } => {
@@ -41,8 +41,8 @@ export function AreaComplianceCards() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.4 }}
             style={{
-              backgroundColor: 'var(--color-surface)',
-              border: '1px solid var(--border-brand)',
+              backgroundColor: '#ffffff',
+              border: '1px solid #ebebeb',
               borderRadius: 'var(--radius-sm)',
               padding: '16px',
               display: 'flex',
@@ -56,8 +56,8 @@ export function AreaComplianceCards() {
             {/* Rank badge */}
             <span style={{
               position: 'absolute', top: '10px', right: '10px',
-              fontSize: '10px', fontWeight: 700,
-              color: '#4A5568', fontFamily: '"JetBrains Mono", monospace',
+              fontSize: '10px', fontWeight: 500,
+              color: '#a8a8a8', fontFamily: 'var(--font-mono)',
             }}>#{area.rank}</span>
 
             {/* Mini donut with animated fill */}
@@ -78,12 +78,8 @@ export function AreaComplianceCards() {
                     animationDuration={1500}
                     animationBegin={index * 200}
                   >
-                    <Cell
-                      fill={AREA_COLOR}
-                      opacity={0.9}
-                      className="animate-fillBar"
-                    />
-                    <Cell fill="#231455" />
+                    <Cell fill={AREA_COLOR} />
+                    <Cell fill="#f5f5f5" />
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
@@ -92,13 +88,13 @@ export function AreaComplianceCards() {
                 position: 'absolute', inset: 0,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-purple-light)', fontFamily: '"JetBrains Mono", monospace' }}>
+                <span style={{ fontSize: '11px', fontWeight: 600, color: '#171717', fontFamily: 'var(--font-mono)' }}>
                   {area.value}%
                 </span>
               </div>
             </div>
 
-            <p style={{ fontSize: '11px', fontWeight: 600, color: '#F0F4FF', textAlign: 'center', lineHeight: 1.2 }}>
+            <p style={{ fontSize: '11px', fontWeight: 500, color: '#171717', textAlign: 'center', lineHeight: 1.2 }}>
               {area.label}
             </p>
 
@@ -108,7 +104,7 @@ export function AreaComplianceCards() {
               alignItems: 'center',
               gap: '4px',
               fontSize: '10px',
-              color: area.trend.direction === 'up' ? 'var(--color-success)' : 'var(--color-danger)',
+              color: area.trend.direction === 'up' ? '#297a3a' : '#e5484d',
             }}>
               {area.trend.direction === 'up' ? (
                 <TrendingUp style={{ width: '10px', height: '10px' }} />

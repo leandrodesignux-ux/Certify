@@ -37,10 +37,10 @@ type SortField = 'worker' | 'cert' | 'tipo' | 'fechaObt' | 'fechaVen' | 'estado'
 type SortOrder = 'asc' | 'desc';
 
 const tabs = [
-  { id: 'todas' as TabType, label: 'Todas', color: '#7c4dab', countKey: 'total' as const },
-  { id: 'vigentes' as TabType, label: 'Vigentes', color: '#729362', countKey: 'vigentes' as const },
-  { id: 'proximas' as TabType, label: 'Por vencer', color: '#FFB800', countKey: 'porvencer' as const },
-  { id: 'vencidas' as TabType, label: 'Vencidas', color: '#FF3D57', countKey: 'vencidas' as const },
+  { id: 'todas' as TabType, label: 'Todas', countKey: 'total' as const },
+  { id: 'vigentes' as TabType, label: 'Vigentes', countKey: 'vigentes' as const },
+  { id: 'proximas' as TabType, label: 'Por vencer', countKey: 'porvencer' as const },
+  { id: 'vencidas' as TabType, label: 'Vencidas', countKey: 'vencidas' as const },
 ];
 
 // Notification Badge Component (kept local as it's small and used only here)
@@ -62,7 +62,7 @@ function NotificationBadge({ count, color }: { count: number; color: string }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        border: '2px solid var(--color-navy-deep)',
+        border: '2px solid #ffffff',
       }}
     >
       {count > 9 ? '9+' : count}
@@ -277,9 +277,9 @@ export function Certifications() {
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <ChevronsUpDown className="w-4 h-4 opacity-30" />;
     return sortOrder === 'asc' ? (
-      <ChevronUp className="w-4 h-4 text-[#9b6ab5]" />
+      <ChevronUp className="w-4 h-4" style={{ color: '#171717' }} />
     ) : (
-      <ChevronDown className="w-4 h-4 text-[#9b6ab5]" />
+      <ChevronDown className="w-4 h-4" style={{ color: '#171717' }} />
     );
   };
 
@@ -297,16 +297,16 @@ export function Certifications() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 
-              className="font-display font-bold text-gradient"
+              className="font-semibold"
               style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(24px, 3vw, 32px)',
+                fontSize: 'clamp(22px, 3vw, 30px)',
                 letterSpacing: '-0.02em',
+                color: '#171717',
               }}
             >
               Certificaciones
             </h1>
-            <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginTop: '4px' }}>
+            <p style={{ fontSize: '13px', color: '#666666', marginTop: '4px' }}>
               {(() => {
                 const hasFilters = activeTab !== 'todas' || search || areaFilter || tipoFilter;
                 if (hasFilters) {
@@ -343,28 +343,28 @@ export function Certifications() {
           icon={CheckCircle}
           value={summary.vigentes}
           label="Vigentes"
-          color="var(--color-success)"
+          color="#297a3a"
           total={summary.total}
         />
         <CertStatCard
           icon={Clock}
           value={summary.porvencer}
           label="Por vencer"
-          color="var(--color-warning)"
+          color="#b25000"
           total={summary.total}
         />
         <CertStatCard
           icon={AlertCircle}
           value={summary.vencidas}
           label="Vencidas"
-          color="var(--color-danger)"
+          color="#e5484d"
           total={summary.total}
         />
         <CertStatCard
           icon={Award}
           value={summary.pendientes}
           label="Pendientes"
-          color="var(--color-electric)"
+          color="#a8a8a8"
           total={summary.total}
         />
         <CertStatCard
@@ -372,11 +372,11 @@ export function Certifications() {
           value={summary.compliance}
           label="Compliance total"
           color={
-            parseFloat(summary.compliance) >= 80 
-              ? 'var(--color-success)' 
-              : parseFloat(summary.compliance) >= 60 
-                ? 'var(--color-warning)' 
-                : 'var(--color-danger)'
+            parseFloat(summary.compliance) >= 80
+              ? '#297a3a'
+              : parseFloat(summary.compliance) >= 60
+                ? '#b25000'
+                : '#e5484d'
           }
           total={summary.total}
           isPercentage={true}
@@ -389,7 +389,7 @@ export function Certifications() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
         role="tablist"
-        className="overflow-x-auto scrollbar-hidden"
+        className="overflow-x-auto [&::-webkit-scrollbar]:hidden"
         onKeyDown={(e) => {
           if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
             e.preventDefault();
@@ -407,12 +407,11 @@ export function Certifications() {
         }}
         style={{
           display: 'flex',
-          gap: '8px',
-          padding: '8px',
+          gap: '0',
           marginBottom: '20px',
-          backgroundColor: 'rgba(19,11,58,0.8)',
-          borderRadius: 'var(--radius-md)',
-          border: '1px solid var(--border-brand)',
+          borderBottom: '1px solid #ebebeb',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
         }}
       >
         {tabs.map((tab) => {
@@ -428,45 +427,37 @@ export function Certifications() {
               tabIndex={isActive ? 0 : -1}
               onClick={() => { setActiveTab(tab.id); setCurrentPage(1); scrollToTop(); }}
               style={{
-                minWidth: 'var(--tab-min-width)',
-                minHeight: '44px',
+                flexShrink: 0,
                 whiteSpace: 'nowrap',
-                padding: '10px 16px',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: isActive ? `${tab.color}1F` : 'transparent',
-                border: isActive ? `1px solid ${tab.color}66` : '1px solid transparent',
-                borderBottom: isActive ? `2px solid ${tab.color}` : '2px solid transparent',
-                color: isActive ? tab.color : 'var(--color-text-muted)',
-                fontWeight: isActive ? 600 : 500,
+                padding: '10px 18px',
+                marginBottom: '-1px',
+                backgroundColor: 'transparent',
+                border: 'none',
+                borderBottom: isActive ? '2px solid #171717' : '2px solid transparent',
+                color: isActive ? '#171717' : '#4d4d4d',
+                fontWeight: isActive ? 600 : 400,
                 fontSize: '14px',
-                transition: 'all 0.2s ease',
+                transition: 'color 0.15s, border-color 0.15s',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '10px',
-                flexShrink: 0,
+                gap: '8px',
                 cursor: 'pointer',
               }}
+              onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#171717'; }}
+              onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#4d4d4d'; }}
             >
-              <span
-                style={{
-                  width: '7px',
-                  height: '7px',
-                  borderRadius: '50%',
-                  backgroundColor: tab.color,
-                  flexShrink: 0,
-                }}
-              />
               <span>{tab.label}</span>
               <span
                 style={{
-                  padding: '2px 8px',
-                  borderRadius: 'var(--radius-full)',
-                  fontSize: '12px',
+                  padding: '1px 7px',
+                  borderRadius: '9999px',
+                  fontSize: '11px',
                   fontWeight: 500,
-                  backgroundColor: isActive ? `${tab.color}33` : 'rgba(255,255,255,0.06)',
-                  color: isActive ? tab.color : 'var(--color-text-muted)',
+                  backgroundColor: isActive ? '#f0f0f0' : 'rgba(23,23,23,0.06)',
+                  color: isActive ? '#171717' : '#a8a8a8',
                   flexShrink: 0,
+                  fontFamily: 'var(--font-mono)',
                 }}
               >
                 {count}
@@ -486,9 +477,9 @@ export function Certifications() {
         transition={{ delay: 0.25, duration: 0.4 }}
         style={{
           padding: '16px',
-          backgroundColor: 'rgba(19,11,58,0.4)',
-          borderRadius: 'var(--radius-md)',
-          border: '1px solid var(--border-brand)',
+          backgroundColor: '#ffffff',
+          borderRadius: '8px',
+          border: '1px solid #ebebeb',
         }}
       >
         {/* ROW 1 - Search + Controls */}
@@ -497,7 +488,8 @@ export function Certifications() {
           <div className="relative w-full md:flex-1">
             <Search 
               className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" 
-              style={{ color: searchFocused ? '#9b6ab5' : '#4A5568' }} 
+              style={{ color: searchFocused ? '#171717' : '#a8a8a8' }} 
+              strokeWidth={1.5}
             />
             <input
               type="text"
@@ -511,13 +503,13 @@ export function Certifications() {
               style={{
                 width: '100%',
                 height: '44px',
-                backgroundColor: 'var(--color-surface-alt)',
-                border: `1px solid ${searchFocused ? 'var(--border-brand-hover)' : (searchInput ? 'rgba(91,34,119,0.4)' : 'var(--border-brand)')}`,
-                borderRadius: 'var(--radius-md)',
+                backgroundColor: '#fafafa',
+                border: `1px solid ${searchFocused ? '#171717' : '#ebebeb'}`,
+                borderRadius: '6px',
                 paddingLeft: '52px',
                 paddingRight: search ? '48px' : '16px',
                 fontSize: '14px',
-                color: 'var(--color-text-primary)',
+                color: '#171717',
                 outline: 'none',
                 transition: 'border-color 0.2s',
               }}
@@ -525,7 +517,10 @@ export function Certifications() {
             {search && (
               <button
                 onClick={() => { setSearchInput(''); setSearch(''); }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#4A5568] hover:text-[#F0F4FF] transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 transition-colors"
+                style={{ color: '#a8a8a8' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#171717'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#a8a8a8'; }}
                 aria-label="Limpiar búsqueda"
               >
                 <X className="w-5 h-5" />
@@ -540,10 +535,10 @@ export function Certifications() {
             style={{
               height: '44px',
               padding: '0 16px',
-              backgroundColor: activeFilters > 0 ? 'rgba(255,61,87,0.1)' : 'rgba(91,34,119,0.1)',
-              border: '1px solid var(--border-brand)',
-              borderRadius: 'var(--radius-md)',
-              color: activeFilters > 0 ? '#FF5C71' : '#9b6ab5',
+              backgroundColor: activeFilters > 0 ? 'rgba(229,72,77,0.06)' : '#ffffff',
+              border: activeFilters > 0 ? '1px solid rgba(229,72,77,0.3)' : '1px solid #ebebeb',
+              borderRadius: '6px',
+              color: activeFilters > 0 ? '#e5484d' : '#171717',
               fontSize: '14px',
               fontWeight: 500,
               cursor: 'pointer',
@@ -553,22 +548,22 @@ export function Certifications() {
               transition: 'all 0.15s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = activeFilters > 0 ? 'rgba(255,61,87,0.15)' : 'rgba(91,34,119,0.15)';
+              e.currentTarget.style.backgroundColor = activeFilters > 0 ? 'rgba(229,72,77,0.1)' : '#f5f5f5';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = activeFilters > 0 ? 'rgba(255,61,87,0.1)' : 'rgba(91,34,119,0.1)';
+              e.currentTarget.style.backgroundColor = activeFilters > 0 ? 'rgba(229,72,77,0.06)' : '#ffffff';
             }}
           >
             <SlidersHorizontal style={{ width: '16px', height: '16px' }} />
             Filtros
             {activeFilters > 0 && (
-              <NotificationBadge count={activeFilters} color="#FF3D57" />
+              <NotificationBadge count={activeFilters} color="#e5484d" />
             )}
           </button>
         </div>
 
         {/* Results Count - Below Input */}
-        <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '6px', marginLeft: '4px' }}>
+        <p style={{ fontSize: '12px', color: '#a8a8a8', marginTop: '6px', marginLeft: '4px' }}>
           {filtered.length} certificaciones encontradas
         </p>
 
@@ -578,11 +573,11 @@ export function Certifications() {
             <motion.p
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              style={{ fontSize: '12px', color: '#FF3D57', marginTop: '8px', marginLeft: '4px' }}
+              style={{ fontSize: '12px', color: '#e5484d', marginTop: '8px', marginLeft: '4px' }}
             >
               No se encontraron certificaciones para "{search}". Intenta con otros términos.
             </motion.p>
-            <p style={{fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '4px', marginLeft: '4px'}}>
+            <p style={{fontSize: '12px', color: '#a8a8a8', marginTop: '4px', marginLeft: '4px'}}>
               Prueba buscar por nombre completo, nombre de certificación o empresa emisora.
             </p>
           </>
@@ -599,10 +594,9 @@ export function Certifications() {
               style={{ 
                 position: 'relative',
                 padding: '20px', 
-                backgroundColor: 'rgba(13,9,32,0.6)', 
-                borderRadius: 'var(--radius-md)', 
-                border: '1px solid rgba(91,34,119,0.2)', 
-                backdropFilter: 'blur(8px)',
+                backgroundColor: '#fafafa', 
+                borderRadius: '6px', 
+                border: '1px solid #ebebeb', 
                 overflow: 'hidden'
               }}
             >
@@ -621,21 +615,21 @@ export function Certifications() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
-                    padding: '6px 12px',
+                    padding: '5px 12px',
                     fontSize: '12px',
-                    color: '#FF5C71',
-                    backgroundColor: 'rgba(255,61,87,0.1)',
-                    border: '1px solid rgba(255,61,87,0.2)',
-                    borderRadius: 'var(--radius-md)',
+                    color: '#e5484d',
+                    backgroundColor: '#ffffff',
+                    border: '1px solid rgba(229,72,77,0.3)',
+                    borderRadius: '6px',
                     cursor: 'pointer',
                     transition: 'all 0.15s',
                     zIndex: 1,
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(255,61,87,0.15)';
+                    e.currentTarget.style.backgroundColor = 'rgba(229,72,77,0.06)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(255,61,87,0.1)';
+                    e.currentTarget.style.backgroundColor = '#ffffff';
                   }}
                 >
                   <X style={{ width: '14px', height: '14px' }} />
@@ -647,9 +641,9 @@ export function Certifications() {
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
                 <span style={{ 
                   fontSize: '10px', 
-                  fontWeight: 700, 
-                  letterSpacing: '0.12em', 
-                  color: 'var(--color-text-muted)', 
+                  fontWeight: 600, 
+                  letterSpacing: '0.08em', 
+                  color: '#a8a8a8', 
                   textTransform: 'uppercase',
                   width: '48px',
                   flexShrink: 0 
@@ -664,24 +658,24 @@ export function Certifications() {
                       onClick={() => setAreaFilter(area === 'Todas' ? '' : area)}
                       style={{ 
                         padding: '5px 14px', 
-                        borderRadius: 'var(--radius-full)', 
+                        borderRadius: '9999px', 
                         fontSize: '12px', 
                         fontWeight: 500, 
                         border: '1px solid', 
                         cursor: 'pointer', 
                         transition: 'all 0.15s ease', 
-                        borderColor: isActive ? 'rgba(124,77,171,0.4)' : 'rgba(255,255,255,0.08)', 
-                        backgroundColor: isActive ? 'rgba(124,77,171,0.15)' : 'transparent', 
-                        color: isActive ? '#c49fe0' : 'var(--color-text-muted)',
+                        borderColor: isActive ? '#171717' : '#ebebeb', 
+                        backgroundColor: isActive ? '#171717' : '#ffffff', 
+                        color: isActive ? '#ffffff' : '#4d4d4d',
                       }}
                       onMouseEnter={(e) => {
                         if (!isActive) {
-                          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)';
+                          e.currentTarget.style.backgroundColor = '#f5f5f5';
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (!isActive) {
-                          e.currentTarget.style.backgroundColor = 'transparent';
+                          e.currentTarget.style.backgroundColor = '#ffffff';
                         }
                       }}
                     >
@@ -692,15 +686,15 @@ export function Certifications() {
               </div>
 
               {/* Separator */}
-              <hr style={{ border: 'none', borderTop: '1px solid rgba(91,34,119,0.1)', margin: '12px 0' }} />
+              <hr style={{ border: 'none', borderTop: '1px solid #ebebeb', margin: '12px 0' }} />
 
               {/* Tipo Chips */}
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
                 <span style={{ 
                   fontSize: '10px', 
-                  fontWeight: 700, 
-                  letterSpacing: '0.12em', 
-                  color: 'var(--color-text-muted)', 
+                  fontWeight: 600, 
+                  letterSpacing: '0.08em', 
+                  color: '#a8a8a8', 
                   textTransform: 'uppercase',
                   width: '48px',
                   flexShrink: 0 
@@ -711,34 +705,34 @@ export function Certifications() {
                   const isActive = tipo === 'Todos' ? !tipoFilter : tipoFilter === tipo;
                   const getTipoStyles = (type: string, active: boolean) => {
                     if (!active) return {
-                      borderColor: 'rgba(255,255,255,0.08)',
-                      backgroundColor: 'transparent',
-                      color: 'var(--color-text-muted)'
+                      borderColor: '#ebebeb',
+                      backgroundColor: '#ffffff',
+                      color: '#4d4d4d'
                     };
                     switch (type) {
                       case 'obligatoria':
                         return {
-                          borderColor: 'rgba(255,61,87,0.4)',
-                          backgroundColor: 'rgba(255,61,87,0.15)',
-                          color: '#FF5C71'
+                          borderColor: 'rgba(229,72,77,0.35)',
+                          backgroundColor: 'rgba(229,72,77,0.08)',
+                          color: '#e5484d'
                         };
                       case 'complementaria':
                         return {
-                          borderColor: 'rgba(138,158,82,0.4)',
-                          backgroundColor: 'rgba(138,158,82,0.15)',
-                          color: '#9aaa58'
+                          borderColor: 'rgba(41,122,58,0.35)',
+                          backgroundColor: 'rgba(41,122,58,0.08)',
+                          color: '#297a3a'
                         };
                       case 'legal':
                         return {
-                          borderColor: 'rgba(155,106,181,0.4)',
-                          backgroundColor: 'rgba(155,106,181,0.15)',
-                          color: '#9b6ab5'
+                          borderColor: '#d4d4d4',
+                          backgroundColor: '#f5f5f5',
+                          color: '#171717'
                         };
                       default:
                         return {
-                          borderColor: 'rgba(255,255,255,0.08)',
-                          backgroundColor: 'transparent',
-                          color: 'var(--color-text-muted)'
+                          borderColor: '#ebebeb',
+                          backgroundColor: '#ffffff',
+                          color: '#4d4d4d'
                         };
                     }
                   };
@@ -749,7 +743,7 @@ export function Certifications() {
                       onClick={() => setTipoFilter(tipo === 'Todos' ? '' : tipo)}
                       style={{ 
                         padding: '5px 14px', 
-                        borderRadius: 'var(--radius-full)', 
+                        borderRadius: '9999px', 
                         fontSize: '12px', 
                         fontWeight: 500, 
                         border: '1px solid', 
@@ -759,12 +753,12 @@ export function Certifications() {
                       }}
                       onMouseEnter={(e) => {
                         if (!isActive) {
-                          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)';
+                          e.currentTarget.style.backgroundColor = '#f5f5f5';
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (!isActive) {
-                          e.currentTarget.style.backgroundColor = 'transparent';
+                          e.currentTarget.style.backgroundColor = styles.backgroundColor as string;
                         }
                       }}
                     >
@@ -778,7 +772,7 @@ export function Certifications() {
 
               {/* Results Count */}
               <div style={{ marginTop: '16px', textAlign: 'right' }}>
-                <span style={{ fontSize: '13px', color: 'var(--color-text-secondary)' }}>
+                <span style={{ fontSize: '13px', color: '#666666' }}>
                   {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
                 </span>
               </div>
@@ -792,7 +786,7 @@ export function Certifications() {
 
       {/* Virtualization Info */}
         {sorted.length > 100 && (
-          <p style={{fontSize: '12px', color: 'var(--color-text-muted)', marginBottom: '8px', marginLeft: '4px'}}>
+          <p style={{fontSize: '12px', color: '#a8a8a8', marginBottom: '8px', marginLeft: '4px'}}>
             Mostrando primeras {itemsPerPage} de {sorted.length}. Usa filtros para refinar.
           </p>
         )}
@@ -802,9 +796,9 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
-        style={{ backgroundColor: 'rgba(26,16,64,0.9)', backdropFilter: 'blur(12px)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '8px', overflow: 'hidden' }}
+        style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '8px', overflow: 'hidden' }}
       >
-        <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(91,34,119,0.3) transparent' }}>
+        <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d4d4d4 transparent' }}>
           <table className="w-full" role="grid">
             {/* Column widths definition */}
             <colgroup>
@@ -819,8 +813,9 @@ export function Certifications() {
             <thead 
               className="sticky top-0 z-10"
               style={{
-                backgroundColor: 'var(--color-obsidian)',
-                borderTop: '1px solid rgba(91,34,119,0.15)',
+                backgroundColor: '#fafafa',
+                borderTop: '1px solid #ebebeb',
+                borderBottom: '1px solid #ebebeb',
               }}
             >
               <tr>
@@ -834,7 +829,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: 'var(--color-text-muted)',
+                    color: '#666666',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -842,8 +837,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('worker')}
                   aria-sort={sortField === 'worker' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
                 >
                   <div className="flex items-center gap-1">
                     Trabajador
@@ -860,7 +855,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: 'var(--color-text-muted)',
+                    color: '#666666',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -868,8 +863,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('cert')}
                   aria-sort={sortField === 'cert' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
                 >
                   <div className="flex items-center gap-1">
                     Certificación
@@ -886,7 +881,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: 'var(--color-text-muted)',
+                    color: '#666666',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -894,8 +889,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('tipo')}
                   aria-sort={sortField === 'tipo' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
                 >
                   <div className="flex items-center gap-1">
                     Tipo
@@ -912,7 +907,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: 'var(--color-text-muted)',
+                    color: '#666666',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -920,8 +915,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('fechaVen')}
                   aria-sort={sortField === 'fechaVen' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
                 >
                   <div className="flex items-center gap-1">
                     Vencimiento
@@ -938,7 +933,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: 'var(--color-text-muted)',
+                    color: '#666666',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -946,8 +941,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('estado')}
                   aria-sort={sortField === 'estado' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
                 >
                   <div className="flex items-center justify-center gap-1">
                     Estado
@@ -965,7 +960,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: 'var(--color-text-muted)',
+                    color: '#666666',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
                     userSelect: 'none',
@@ -973,8 +968,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('fechaObt')}
                   aria-sort={sortField === 'fechaObt' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#A8B3C5'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
                 >
                   <div className="flex items-center gap-1">
                     Fecha Obtención
@@ -991,7 +986,7 @@ export function Certifications() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.08em',
-                    color: 'var(--color-text-muted)',
+                    color: '#666666',
                     textTransform: 'uppercase',
                     userSelect: 'none',
                   }}
@@ -1010,7 +1005,7 @@ export function Certifications() {
                   const initials = worker
                     ? `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase()
                     : '?';
-                  const borderColor = cert.estado === 'vigente' ? '#729362' : cert.estado === 'proximo_vencer' ? '#FFB800' : cert.estado === 'vencido' ? '#FF3D57' : '#7c4dab';
+                  const borderColor = cert.estado === 'vigente' ? '#297a3a' : cert.estado === 'proximo_vencer' ? '#b25000' : cert.estado === 'vencido' ? '#e5484d' : '#a8a8a8';
 
                   return (
                     <>
@@ -1027,7 +1022,7 @@ export function Certifications() {
                           transition: 'background-color 0.2s ease, border-left-color 0.2s ease',
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(124,77,171,0.06)';
+                          e.currentTarget.style.backgroundColor = '#fafafa';
                           e.currentTarget.style.borderLeftColor = borderColor;
                         }}
                         onMouseLeave={(e) => {
@@ -1047,7 +1042,7 @@ export function Certifications() {
                                   height: '36px',
                                   borderRadius: '50%',
                                   objectFit: 'cover',
-                                  border: '1px solid rgba(91,34,119,0.3)',
+                                  border: '1px solid #ebebeb',
                                 }}
                               />
                             ) : (
@@ -1056,14 +1051,14 @@ export function Certifications() {
                                   width: '36px',
                                   height: '36px',
                                   borderRadius: '50%',
-                                  backgroundColor: 'rgba(124,77,171,0.15)',
-                                  border: '1px solid rgba(91,34,119,0.3)',
+                                  backgroundColor: '#f0f0f0',
+                                  border: '1px solid #ebebeb',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
                                 }}
                               >
-                                <span style={{ fontSize: '13px', fontWeight: 600, color: '#c49fe0' }}>
+                                <span style={{ fontSize: '13px', fontWeight: 600, color: '#4d4d4d' }}>
                                   {initials}
                                 </span>
                               </div>
@@ -1073,7 +1068,7 @@ export function Certifications() {
                                 style={{
                                   fontSize: '14px',
                                   fontWeight: 600,
-                                  color: 'var(--color-text-primary)',
+                                  color: '#171717',
                                   display: 'block',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
@@ -1088,7 +1083,7 @@ export function Certifications() {
                                 <span
                                   style={{
                                     fontSize: '12px',
-                                    color: 'var(--color-text-muted)',
+                                    color: '#666666',
                                     display: 'block',
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
@@ -1107,10 +1102,10 @@ export function Certifications() {
                         {/* Certificación */}
                         <td style={{ padding: '12px 20px' }}>
                           <div style={{ width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            <p style={{ fontSize: '14px', fontWeight: 500, color: 'var(--color-text-primary)', lineHeight: 1.3, margin: 0 }}>
+                            <p style={{ fontSize: '14px', fontWeight: 500, color: '#171717', lineHeight: 1.3, margin: 0 }}>
                               {cert.nombre}
                             </p>
-                            <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '3px', margin: 0 }}>
+                            <p style={{ fontSize: '12px', color: '#666666', marginTop: '3px', margin: 0 }}>
                               {cert.emisor}
                             </p>
                           </div>
@@ -1124,7 +1119,7 @@ export function Certifications() {
                         {/* Vencimiento */}
                         <td style={{ padding: '12px 20px' }}>
                           <div>
-                            <span style={{ fontSize: '13px', fontWeight: 500, color: '#A8B3C5', display: 'block', marginBottom: '4px' }}>
+                            <span style={{ fontSize: '13px', fontWeight: 500, color: '#4d4d4d', display: 'block', marginBottom: '4px' }}>
                               {formatDate(cert.fechaVencimiento)}
                             </span>
                             <DaysSparkline diasRestantes={cert.diasRestantes} barWidth={72} barHeight={5} textSize="11px" />
@@ -1135,7 +1130,7 @@ export function Certifications() {
                         <td style={{ padding: '12px 20px', textAlign: 'center' }}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
                             {cert.estado === 'vencido' && (
-                              <AlertCircle style={{ width: '14px', height: '14px', color: '#FF3D57', flexShrink: 0 }} />
+                              <AlertCircle style={{ width: '14px', height: '14px', color: '#e5484d', flexShrink: 0 }} strokeWidth={1.5} />
                             )}
                             <Badge status={cert.estado} size="md" />
                           </div>
@@ -1143,7 +1138,7 @@ export function Certifications() {
 
                         {/* Fecha Obtención */}
                         <td className="hidden md:table-cell" style={{ padding: '12px 20px' }}>
-                          <span style={{ fontSize: '13px', color: '#A8B3C5' }}>
+                          <span style={{ fontSize: '13px', color: '#666666' }}>
                             {formatDate(cert.fechaObtension)}
                           </span>
                         </td>
@@ -1163,17 +1158,17 @@ export function Certifications() {
                             title="Ver detalle"
                             aria-label={`Ver detalle de ${cert.nombre}`}
                             onMouseEnter={(e) => {
-                              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
+                              e.currentTarget.style.backgroundColor = '#f5f5f5';
                               const icon = e.currentTarget.querySelector('svg');
-                              if (icon) icon.style.color = '#c49fe0';
+                              if (icon) icon.style.color = '#171717';
                             }}
                             onMouseLeave={(e) => {
                               e.currentTarget.style.backgroundColor = 'transparent';
                               const icon = e.currentTarget.querySelector('svg');
-                              if (icon) icon.style.color = '#9b6ab5';
+                              if (icon) icon.style.color = '#a8a8a8';
                             }}
                           >
-                            <Eye style={{ width: '16px', height: '16px', color: '#9b6ab5', transition: 'color 0.15s' }} />
+                            <Eye style={{ width: '16px', height: '16px', color: '#a8a8a8', transition: 'color 0.15s' }} strokeWidth={1.5} />
                           </button>
                         </td>
                       </motion.tr>
@@ -1202,9 +1197,9 @@ export function Certifications() {
             display: 'flex', 
             justifyContent: 'space-between', 
             alignItems: 'center', 
-            padding: '16px 20px',
-            backgroundColor: 'rgba(13,9,32,0.4)',
-            borderTop: '1px solid rgba(91,34,119,0.15)'
+            padding: '14px 20px',
+            backgroundColor: '#fafafa',
+            borderTop: '1px solid #ebebeb'
           }}>
             {/* Left side - Items per page segmented control */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }} title="Registros por página">
@@ -1224,22 +1219,18 @@ export function Certifications() {
                     border: '1px solid',
                     cursor: 'pointer',
                     transition: 'all 0.15s',
-                    borderColor: itemsPerPage === count 
-                      ? 'rgba(91,34,119,0.4)' 
-                      : 'rgba(91,34,119,0.15)',
-                    backgroundColor: itemsPerPage === count 
-                      ? 'rgba(91,34,119,0.2)' 
-                      : 'transparent',
-                    color: itemsPerPage === count ? '#c49fe0' : 'var(--color-text-muted)',
+                    borderColor: itemsPerPage === count ? '#171717' : '#ebebeb',
+                    backgroundColor: itemsPerPage === count ? '#171717' : '#ffffff',
+                    color: itemsPerPage === count ? '#ffffff' : '#666666',
                   }}
                   onMouseEnter={(e) => {
                     if (itemsPerPage !== count) {
-                      e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)';
+                      e.currentTarget.style.backgroundColor = '#f5f5f5';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (itemsPerPage !== count) {
-                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.backgroundColor = '#ffffff';
                     }
                   }}
                 >
@@ -1249,7 +1240,7 @@ export function Certifications() {
             </div>
 
             {/* Center - Showing info */}
-            <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
+            <span style={{ fontSize: '12px', color: '#666666' }}>
               Mostrando {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, sorted.length)} de {sorted.length} certificaciones
             </span>
 
@@ -1264,23 +1255,23 @@ export function Certifications() {
                   width: '32px',
                   height: '32px',
                   borderRadius: '6px',
-                  border: '1px solid var(--border-brand)',
-                  backgroundColor: 'rgba(19,11,58,0.6)',
-                  color: 'var(--color-text-primary)',
+                  border: '1px solid #ebebeb',
+                  backgroundColor: '#ffffff',
+                  color: '#4d4d4d',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  opacity: currentPage === 1 ? 0.4 : 1,
+                  opacity: currentPage === 1 ? 0.35 : 1,
                   cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
                   transition: 'all 0.15s'
                 }}
                 onMouseEnter={(e) => {
                   if (currentPage !== 1) {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
+                    e.currentTarget.style.backgroundColor = '#f5f5f5';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(19,11,58,0.6)';
+                  e.currentTarget.style.backgroundColor = '#ffffff';
                 }}
               >
                 <ChevronsLeft className="w-4 h-4" />
@@ -1295,23 +1286,23 @@ export function Certifications() {
                   width: '32px',
                   height: '32px',
                   borderRadius: '6px',
-                  border: '1px solid var(--border-brand)',
-                  backgroundColor: 'rgba(19,11,58,0.6)',
-                  color: 'var(--color-text-primary)',
+                  border: '1px solid #ebebeb',
+                  backgroundColor: '#ffffff',
+                  color: '#4d4d4d',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  opacity: currentPage === 1 ? 0.4 : 1,
+                  opacity: currentPage === 1 ? 0.35 : 1,
                   cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
                   transition: 'all 0.15s'
                 }}
                 onMouseEnter={(e) => {
                   if (currentPage !== 1) {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
+                    e.currentTarget.style.backgroundColor = '#f5f5f5';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(19,11,58,0.6)';
+                  e.currentTarget.style.backgroundColor = '#ffffff';
                 }}
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -1338,9 +1329,9 @@ export function Certifications() {
                         width: '32px',
                         height: '32px',
                         borderRadius: '6px',
-                        border: '1px solid var(--border-brand)',
-                        backgroundColor: 'transparent',
-                        color: 'var(--color-text-secondary)',
+                        border: '1px solid #ebebeb',
+                        backgroundColor: '#ffffff',
+                        color: '#4d4d4d',
                         fontSize: '13px',
                         cursor: 'pointer',
                         display: 'flex',
@@ -1349,10 +1340,10 @@ export function Certifications() {
                         transition: 'all 0.15s'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+                        e.currentTarget.style.backgroundColor = '#f5f5f5';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.backgroundColor = '#ffffff';
                       }}
                     >
                       1
@@ -1363,7 +1354,7 @@ export function Certifications() {
                     pages.push(
                       <span key="start-ellipsis" style={{ 
                         padding: '0 8px', 
-                        color: 'var(--color-text-muted)', 
+                        color: '#a8a8a8', 
                         fontSize: '13px' 
                       }}>
                         ...
@@ -1386,9 +1377,9 @@ export function Certifications() {
                         width: '32px',
                         height: '32px',
                         borderRadius: '6px',
-                        border: `1px solid ${isActive ? 'rgba(124,77,171,0.5)' : 'var(--border-brand)'}`,
-                        backgroundColor: isActive ? 'rgba(124,77,171,0.25)' : 'transparent',
-                        color: isActive ? '#c49fe0' : 'var(--color-text-secondary)',
+                        border: `1px solid ${isActive ? '#171717' : '#ebebeb'}`,
+                        backgroundColor: isActive ? '#171717' : '#ffffff',
+                        color: isActive ? '#ffffff' : '#4d4d4d',
                         fontSize: '13px',
                         fontWeight: isActive ? 600 : 400,
                         cursor: 'pointer',
@@ -1399,11 +1390,11 @@ export function Certifications() {
                       }}
                       onMouseEnter={(e) => {
                         if (!isActive) {
-                          e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+                          e.currentTarget.style.backgroundColor = '#f5f5f5';
                         }
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = isActive ? 'rgba(124,77,171,0.25)' : 'transparent';
+                        e.currentTarget.style.backgroundColor = isActive ? '#171717' : '#ffffff';
                       }}
                     >
                       {i}
@@ -1417,7 +1408,7 @@ export function Certifications() {
                     pages.push(
                       <span key="end-ellipsis" style={{ 
                         padding: '0 8px', 
-                        color: 'var(--color-text-muted)', 
+                        color: '#a8a8a8', 
                         fontSize: '13px' 
                       }}>
                         ...
@@ -1433,9 +1424,9 @@ export function Certifications() {
                         width: '32px',
                         height: '32px',
                         borderRadius: '6px',
-                        border: '1px solid var(--border-brand)',
-                        backgroundColor: 'transparent',
-                        color: 'var(--color-text-secondary)',
+                        border: '1px solid #ebebeb',
+                        backgroundColor: '#ffffff',
+                        color: '#4d4d4d',
                         fontSize: '13px',
                         cursor: 'pointer',
                         display: 'flex',
@@ -1444,10 +1435,10 @@ export function Certifications() {
                         transition: 'all 0.15s'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+                        e.currentTarget.style.backgroundColor = '#f5f5f5';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.backgroundColor = '#ffffff';
                       }}
                     >
                       {totalPages}
@@ -1467,23 +1458,23 @@ export function Certifications() {
                   width: '32px',
                   height: '32px',
                   borderRadius: '6px',
-                  border: '1px solid var(--border-brand)',
-                  backgroundColor: 'rgba(19,11,58,0.6)',
-                  color: 'var(--color-text-primary)',
+                  border: '1px solid #ebebeb',
+                  backgroundColor: '#ffffff',
+                  color: '#4d4d4d',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  opacity: currentPage === totalPages ? 0.4 : 1,
+                  opacity: currentPage === totalPages ? 0.35 : 1,
                   cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
                   transition: 'all 0.15s'
                 }}
                 onMouseEnter={(e) => {
                   if (currentPage !== totalPages) {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
+                    e.currentTarget.style.backgroundColor = '#f5f5f5';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(19,11,58,0.6)';
+                  e.currentTarget.style.backgroundColor = '#ffffff';
                 }}
               >
                 <ChevronRight className="w-4 h-4" />
@@ -1498,23 +1489,23 @@ export function Certifications() {
                   width: '32px',
                   height: '32px',
                   borderRadius: '6px',
-                  border: '1px solid var(--border-brand)',
-                  backgroundColor: 'rgba(19,11,58,0.6)',
-                  color: 'var(--color-text-primary)',
+                  border: '1px solid #ebebeb',
+                  backgroundColor: '#ffffff',
+                  color: '#4d4d4d',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  opacity: currentPage === totalPages ? 0.4 : 1,
+                  opacity: currentPage === totalPages ? 0.35 : 1,
                   cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
                   transition: 'all 0.15s'
                 }}
                 onMouseEnter={(e) => {
                   if (currentPage !== totalPages) {
-                    e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.15)';
+                    e.currentTarget.style.backgroundColor = '#f5f5f5';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(19,11,58,0.6)';
+                  e.currentTarget.style.backgroundColor = '#ffffff';
                 }}
               >
                 <ChevronsRight className="w-4 h-4" />

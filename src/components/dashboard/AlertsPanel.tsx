@@ -53,11 +53,11 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
       transition={{ duration: 0.3 }}
       style={{
         padding: '10px 20px',
-        borderBottom: '1px solid rgba(91,34,119,0.1)',
+        borderBottom: '1px solid #ebebeb',
         transition: 'background 0.15s',
         cursor: 'pointer',
       }}
-      onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)')}
+      onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f5f5f5')}
       onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
       onKeyDown={(e) => { if (e.key === 'Enter') setIsExpanded(v => !v); }}
     >
@@ -69,23 +69,22 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
         {/* Dot indicator */}
         <div style={{
           width: '8px', height: '8px', borderRadius: '50%', flexShrink: 0, marginTop: '4px',
-          backgroundColor: status === 'vencido' ? 'var(--color-danger)' : status === 'proximo_vencer' ? 'var(--color-warning)' : 'var(--color-text-secondary)',
-          boxShadow: status === 'vencido' ? '0 0 6px rgba(255,61,87,0.6)' : 'none',
+          backgroundColor: status === 'vencido' ? '#e5484d' : status === 'proximo_vencer' ? '#b25000' : '#a8a8a8',
         }} />
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '2px' }}>
+          <p style={{ fontSize: '13px', fontWeight: 600, color: '#171717', marginBottom: '2px' }}>
             {alert.workerName}
           </p>
-          <p style={{ fontSize: '11px', color: '#8892A4', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <p style={{ fontSize: '11px', color: '#666666', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {alert.message}
           </p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
           <ExpiryBadge diasRestantes={alert.diasRestantes ?? 0} />
           {isExpanded ? (
-            <ChevronUp style={{ width: '14px', height: '14px', color: '#8892A4' }} />
+            <ChevronUp style={{ width: '14px', height: '14px', color: '#a8a8a8' }} strokeWidth={1.5} />
           ) : (
-            <ChevronDown style={{ width: '14px', height: '14px', color: '#8892A4' }} />
+            <ChevronDown style={{ width: '14px', height: '14px', color: '#a8a8a8' }} strokeWidth={1.5} />
           )}
         </div>
       </div>
@@ -100,20 +99,20 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
             transition={{ duration: 0.2 }}
             style={{ overflow: 'hidden', marginTop: '12px', marginLeft: '20px' }}
           >
-            <div style={{ padding: '12px', backgroundColor: 'var(--color-surface-alt)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(91,34,119,0.18)' }}>
+            <div style={{ padding: '12px', backgroundColor: '#fafafa', borderRadius: 'var(--radius-sm)', border: '1px solid #ebebeb' }}>
               <div style={{ marginBottom: '8px' }}>
-                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Certificación</span>
-                <p style={{ fontSize: '12px', color: '#F0F4FF', marginTop: '2px' }}>{certName}</p>
+                <span style={{ fontSize: '11px', color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Certificación</span>
+                <p style={{ fontSize: '12px', color: '#171717', marginTop: '2px' }}>{certName}</p>
               </div>
               <div style={{ marginBottom: '8px' }}>
-                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Días restantes</span>
-                <p style={{ fontSize: '12px', color: status === 'vencido' ? 'var(--color-danger)' : status === 'proximo_vencer' ? 'var(--color-warning)' : 'var(--color-success)', marginTop: '2px', fontWeight: 600 }}>
+                <span style={{ fontSize: '11px', color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Días restantes</span>
+                <p style={{ fontSize: '12px', color: status === 'vencido' ? '#e5484d' : status === 'proximo_vencer' ? '#b25000' : '#297a3a', marginTop: '2px', fontWeight: 600 }}>
                   {alert.diasRestantes && alert.diasRestantes < 0 ? `${Math.abs(alert.diasRestantes)} días vencida` : `${alert.diasRestantes} días`}
                 </p>
               </div>
               <div style={{ marginBottom: '12px' }}>
-                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Acción recomendada</span>
-                <p style={{ fontSize: '12px', color: '#8892A4', marginTop: '2px' }}>{getRecommendedAction()}</p>
+                <span style={{ fontSize: '11px', color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Acción recomendada</span>
+                <p style={{ fontSize: '12px', color: '#666666', marginTop: '2px' }}>{getRecommendedAction()}</p>
               </div>
               <button
                 onClick={(e) => {
@@ -125,23 +124,23 @@ function AlertItem({ alert, onDismiss }: AlertItemProps) {
                   alignItems: 'center',
                   gap: '6px',
                   padding: '6px 12px',
-                  backgroundColor: 'rgba(114,147,98,0.12)',
-                  border: '1px solid rgba(114,147,98,0.3)',
+                  backgroundColor: '#f5f5f5',
+                  border: '1px solid #ebebeb',
                   borderRadius: '6px',
-                  color: '#729362',
+                  color: '#4d4d4d',
                   fontSize: '12px',
                   fontWeight: 500,
                   cursor: 'pointer',
                   transition: 'all 0.15s',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(114,147,98,0.18)';
+                  e.currentTarget.style.backgroundColor = '#ebebeb';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(114,147,98,0.12)';
+                  e.currentTarget.style.backgroundColor = '#f5f5f5';
                 }}
               >
-                <X style={{ width: '12px', height: '12px' }} />
+                <X style={{ width: '12px', height: '12px' }} strokeWidth={1.5} />
                 Marcar como visto
               </button>
             </div>
@@ -166,22 +165,21 @@ export function AlertsPanel() {
 
   return (
     <div style={{
-      backgroundColor: 'rgba(26,16,64,0.8)',
-      backdropFilter: 'blur(12px)',
-      border: '1px solid var(--border-brand)',
+      backgroundColor: '#ffffff',
+      border: '1px solid #ebebeb',
       borderRadius: 'var(--radius-sm)',
       display: 'flex',
       flexDirection: 'column',
       height: '400px',
     }}>
       {/* Header */}
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(91,34,119,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <AlertTriangle style={{ width: '20px', height: '20px', color: '#FFB800' }} />
-          <h2 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>Alertas</h2>
+          <AlertTriangle style={{ width: '20px', height: '20px', color: '#b25000' }} strokeWidth={1.5} />
+          <h2 style={{ fontSize: '16px', fontWeight: 600, color: '#171717', letterSpacing: '-0.02em' }}>Alertas</h2>
         </div>
         {criticalCount > 0 && (
-          <span style={{ padding: '2px 8px', backgroundColor: '#FF3D57', color: '#fff', fontSize: '12px', fontWeight: 500, borderRadius: 'var(--radius-sm)' }}>
+          <span style={{ padding: '2px 8px', backgroundColor: 'rgba(229,72,77,0.08)', color: '#e5484d', fontSize: '12px', fontWeight: 500, borderRadius: 'var(--radius-sm)', border: '1px solid rgba(229,72,77,0.2)' }}>
             {criticalCount}
           </span>
         )}
@@ -190,7 +188,7 @@ export function AlertsPanel() {
       {/* Alerts List */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {sortedAlerts.length === 0 ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#8892A4', fontSize: '14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#a8a8a8', fontSize: '14px' }}>
             Sin alertas pendientes
           </div>
         ) : (
@@ -203,23 +201,23 @@ export function AlertsPanel() {
       </div>
 
       {/* Footer link */}
-      <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(91,34,119,0.15)' }}>
+      <div style={{ padding: '12px 20px', borderTop: '1px solid #ebebeb' }}>
         <button
           onClick={() => navigate('/certifications?tab=vencidas')}
           style={{
             width: '100%',
             backgroundColor: 'transparent',
-            border: '1px solid rgba(91,34,119,0.3)',
+            border: '1px solid #ebebeb',
             borderRadius: 'var(--radius-sm)',
             padding: '8px',
             fontSize: '12px',
-            color: '#9b6ab5',
+            color: '#4d4d4d',
             cursor: 'pointer',
-            fontWeight: 600,
+            fontWeight: 500,
             transition: 'all 0.15s',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.1)';
+            e.currentTarget.style.backgroundColor = '#f5f5f5';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = 'transparent';

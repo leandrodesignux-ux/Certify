@@ -8,14 +8,14 @@ export function ProgressBar({ value, showLabel = false }: ProgressBarProps) {
 
   // Determine color based on value
   const getColor = () => {
-    if (clampedValue >= 80) return '#729362'; // success
-    if (clampedValue >= 60) return '#FFB800'; // warning
-    return '#FF3D57'; // danger
+    if (clampedValue >= 80) return '#297a3a'; // success
+    if (clampedValue >= 60) return '#b25000'; // warning
+    return '#e5484d'; // danger
   };
 
   return (
     <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <div style={{ height: '6px', flex: 1, backgroundColor: 'rgba(255,255,255,0.07)', borderRadius: '9999px', overflow: 'hidden' }}>
+      <div style={{ height: '4px', flex: 1, backgroundColor: '#ebebeb', borderRadius: '9999px', overflow: 'hidden' }}>
         <div
           className="animate-fill-bar"
           style={{
@@ -28,7 +28,7 @@ export function ProgressBar({ value, showLabel = false }: ProgressBarProps) {
         />
       </div>
       {showLabel && (
-        <span style={{ fontSize: '12px', color: '#8892A4', flexShrink: 0 }}>{Math.round(clampedValue)}%</span>
+        <span style={{ fontSize: '12px', color: '#666666', flexShrink: 0 }}>{Math.round(clampedValue)}%</span>
       )}
     </div>
   );

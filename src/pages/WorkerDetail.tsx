@@ -27,11 +27,11 @@ type TabType = 'certificaciones' | 'mallas' | 'historial';
 
 // Mock history activities
 const mockHistoryActivities = [
-  { id: 'h1', tipo: 'certificacion', titulo: 'Certificación renovada', descripcion: 'Certificación de Altura aprobada', fecha: '2024-05-15T10:30:00', color: '#729362' },
-  { id: 'h2', tipo: 'malla', titulo: 'Malla completada', descripcion: 'Malla de Seguridad Industrial 100% completada', fecha: '2024-05-10T14:20:00', color: '#8a9e52' },
-  { id: 'h3', tipo: 'alerta', titulo: 'Alerta de vencimiento', descripcion: 'Próximo vencimiento: Equipos Pesados', fecha: '2024-05-08T09:15:00', color: '#FFB800' },
-  { id: 'h4', tipo: 'curso', titulo: 'Curso iniciado', descripcion: 'Inició curso de Liderazgo en Terreno', fecha: '2024-05-05T11:00:00', color: '#9b6ab5' },
-  { id: 'h5', tipo: 'certificacion', titulo: 'Nueva certificación', descripcion: 'Certificación de Primeros Auxilios obtenida', fecha: '2024-05-01T16:45:00', color: '#729362' },
+  { id: 'h1', tipo: 'certificacion', titulo: 'Certificación renovada', descripcion: 'Certificación de Altura aprobada', fecha: '2024-05-15T10:30:00', color: '#297a3a' },
+  { id: 'h2', tipo: 'malla', titulo: 'Malla completada', descripcion: 'Malla de Seguridad Industrial 100% completada', fecha: '2024-05-10T14:20:00', color: '#297a3a' },
+  { id: 'h3', tipo: 'alerta', titulo: 'Alerta de vencimiento', descripcion: 'Próximo vencimiento: Equipos Pesados', fecha: '2024-05-08T09:15:00', color: '#b25000' },
+  { id: 'h4', tipo: 'curso', titulo: 'Curso iniciado', descripcion: 'Inició curso de Liderazgo en Terreno', fecha: '2024-05-05T11:00:00', color: '#4d4d4d' },
+  { id: 'h5', tipo: 'certificacion', titulo: 'Nueva certificación', descripcion: 'Certificación de Primeros Auxilios obtenida', fecha: '2024-05-01T16:45:00', color: '#297a3a' },
 ];
 
 // Format relative time
@@ -68,7 +68,7 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
       const hasValid = certsInMonth.some((c) => c.estado === 'vigente');
 
       return {
-        color: hasExpired ? '#FF3D57' : hasExpiring ? '#FFB800' : hasValid ? '#729362' : 'rgba(91,34,119,0.2)',
+        color: hasExpired ? '#e5484d' : hasExpiring ? '#b25000' : hasValid ? '#297a3a' : '#ebebeb',
         count: certsInMonth.length,
         certNames: certsInMonth.map(c => c.nombre),
       };
@@ -80,8 +80,8 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
   return (
     <Card variant="glass" style={{ padding: '16px', marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-        <Clock style={{ width: '16px', height: '16px', color: '#9b6ab5' }} />
-        <span style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF' }}>
+        <Clock style={{ width: '16px', height: '16px', color: '#a8a8a8' }} strokeWidth={1.5} />
+        <span style={{ fontSize: '13px', fontWeight: 600, color: '#171717' }}>
           Timeline de Vencimientos {new Date().getFullYear()}
         </span>
       </div>
@@ -122,16 +122,16 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
                   bottom: 'calc(100% + 6px)',
                   left: '50%',
                   transform: 'translateX(-50%)',
-                  backgroundColor: '#130b3a',
-                  border: '1px solid rgba(91,34,119,0.4)',
-                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #ebebeb',
+                  borderRadius: '6px',
                   padding: '6px 10px',
                   fontSize: '11px',
-                  color: '#F0F4FF',
+                  color: '#171717',
                   whiteSpace: 'nowrap',
                   zIndex: 50,
                   pointerEvents: 'none',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                 }}>
                   {tooltip.certs.map((name, i) => (
                     <div key={i} style={{ color: data.color }}>{name}</div>
@@ -149,8 +149,8 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
           <div key={index} style={{ flex: 1, textAlign: 'center' }}>
             <span style={{
               fontSize: '11px',
-              color: index === currentMonth ? 'var(--color-purple-mid)' : 'var(--color-text-muted)',
-              fontWeight: index === currentMonth ? 700 : 400,
+              color: index === currentMonth ? '#171717' : '#a8a8a8',
+              fontWeight: index === currentMonth ? 600 : 400,
             }}>
               {month}
             </span>
@@ -165,10 +165,10 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
 // Worker Side Panel Component (Left Column)
 function WorkerSidePanel({ worker }: { worker: WorkerType }) {
   const initials = `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase();
-  const compliance = worker.complianceScore >= 90 ? { color: '#9b6ab5', label: 'Excelente' }
-    : worker.complianceScore >= 70 ? { color: '#8a9e52', label: 'Bueno' }
-    : worker.complianceScore >= 50 ? { color: '#FFB800', label: 'Regular' }
-    : { color: '#FF3D57', label: 'Crítico' };
+  const compliance = worker.complianceScore >= 90 ? { color: '#297a3a', label: 'Excelente' }
+    : worker.complianceScore >= 70 ? { color: '#297a3a', label: 'Bueno' }
+    : worker.complianceScore >= 50 ? { color: '#b25000', label: 'Regular' }
+    : { color: '#e5484d', label: 'Crítico' };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }} className="lg:sticky lg:top-6">
@@ -179,37 +179,39 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', overflow: 'hidden' }}>
+        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', overflow: 'hidden' }}>
           
-          {/* Banner de color según compliance */}
-          <div style={{ height: '72px', background: `linear-gradient(135deg, ${compliance.color}30 0%, ${compliance.color}08 100%)`, position: 'relative' }}>
-            {/* Botón editar */}
-            <button style={{ position: 'absolute', top: '10px', right: '12px', padding: '5px 10px', backgroundColor: 'rgba(26,16,64,0.7)', border: '1px solid rgba(91,34,119,0.3)', borderRadius: '6px', color: '#8892A4', fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
+          {/* Banner — fafafa con engineering grid */}
+          <div style={{ height: '64px', backgroundColor: '#fafafa', backgroundImage: 'linear-gradient(rgba(23,23,23,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(23,23,23,0.04) 1px, transparent 1px)', backgroundSize: '40px 40px', position: 'relative', borderBottom: '1px solid #ebebeb' }}>
+            <button style={{ position: 'absolute', top: '10px', right: '12px', padding: '4px 10px', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', color: '#666666', fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
+              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f5f5f5'}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = '#ffffff'}
+            >
               ✎ Editar
             </button>
           </div>
 
           {/* Avatar superpuesto al banner */}
           <div style={{ padding: '0 20px 20px', position: 'relative' }}>
-            <div style={{ marginTop: '-36px', marginBottom: '12px', position: 'relative', display: 'inline-block' }}>
-              <div style={{ width: '72px', height: '72px', borderRadius: '50%', overflow: 'hidden', border: `3px solid ${compliance.color}`, backgroundColor: '#231455', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ marginTop: '-32px', marginBottom: '12px', position: 'relative', display: 'inline-block' }}>
+              <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #ebebeb', backgroundColor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {worker.foto
                   ? <img src={worker.foto} alt={`${worker.nombre}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  : <span style={{ fontFamily: 'var(--font-display)', fontSize: '24px', fontWeight: 700, color: compliance.color }}>{initials}</span>
+                  : <span style={{ fontSize: '22px', fontWeight: 600, color: '#4d4d4d' }}>{initials}</span>
                 }
               </div>
             </div>
 
             {/* Nombre + cargo */}
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 700, color: '#F0F4FF', lineHeight: 1.1, marginBottom: '4px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#171717', lineHeight: 1.2, marginBottom: '4px', letterSpacing: '-0.01em' }}>
               {worker.nombre} {worker.apellidos}
             </h2>
-            <p style={{ fontSize: '13px', color: '#c49fe0', marginBottom: '12px' }}>{worker.cargo}</p>
+            <p style={{ fontSize: '13px', color: '#4d4d4d', marginBottom: '12px' }}>{worker.cargo}</p>
 
             {/* Badge de rango */}
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', backgroundColor: `${compliance.color}15`, border: `1px solid ${compliance.color}40`, borderRadius: '20px' }}>
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: compliance.color }} />
-              <span style={{ fontSize: '11px', fontWeight: 700, color: compliance.color, letterSpacing: '0.5px' }}>{compliance.label.toUpperCase()}</span>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '3px 10px', backgroundColor: `${compliance.color}0d`, border: `1px solid ${compliance.color}30`, borderRadius: '9999px' }}>
+              <div style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: compliance.color }} />
+              <span style={{ fontSize: '11px', fontWeight: 500, color: compliance.color }}>{compliance.label}</span>
             </div>
           </div>
         </div>
@@ -221,21 +223,21 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
-          <p style={{ fontSize: '10px', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Métricas</p>
+        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px' }}>
+          <p style={{ fontSize: '10px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Métricas</p>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
             {[
-              { label: 'Compliance', value: `${worker.complianceScore}%`, color: worker.complianceScore >= 80 ? '#8a9e52' : worker.complianceScore >= 60 ? '#FFB800' : '#FF3D57' },
-              { label: 'Certificaciones', value: worker.certifications.length, color: '#9b6ab5' },
-              { label: 'Vigentes', value: worker.certifications.filter(c => c.estado === 'vigente').length, color: '#729362' },
-              { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: worker.certifications.filter(c => c.estado === 'vencido').length > 0 ? '#FF3D57' : 'var(--color-text-muted)' },
+              { label: 'Compliance', value: `${worker.complianceScore}%`, color: worker.complianceScore >= 80 ? '#297a3a' : worker.complianceScore >= 60 ? '#b25000' : '#e5484d' },
+              { label: 'Certificaciones', value: worker.certifications.length, color: '#171717' },
+              { label: 'Vigentes', value: worker.certifications.filter(c => c.estado === 'vigente').length, color: '#297a3a' },
+              { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: worker.certifications.filter(c => c.estado === 'vencido').length > 0 ? '#e5484d' : '#a8a8a8' },
             ].map(metric => (
-              <div key={metric.label} style={{ backgroundColor: 'var(--color-surface-alt)', borderRadius: '8px', padding: '10px 12px', border: '1px solid var(--border-brand)' }}>
-                <p style={{ fontFamily: 'var(--font-display)', fontSize: '26px', fontWeight: 700, color: metric.color, lineHeight: 1, marginBottom: '2px' }}>
+              <div key={metric.label} style={{ backgroundColor: '#fafafa', borderRadius: '6px', padding: '10px 12px', border: '1px solid #ebebeb' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '22px', fontWeight: 600, color: metric.color, lineHeight: 1, marginBottom: '2px' }}>
                   {metric.value}
                 </p>
-                <p style={{ fontSize: '10px', color: 'var(--color-text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{metric.label}</p>
+                <p style={{ fontSize: '10px', color: '#a8a8a8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{metric.label}</p>
               </div>
             ))}
           </div>
@@ -248,8 +250,8 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.16, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.25)', borderRadius: '12px', padding: '16px' }}>
-          <p style={{ fontSize: '10px', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Información</p>
+        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px' }}>
+          <p style={{ fontSize: '10px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Información</p>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
             {[
@@ -260,9 +262,9 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
               { label: 'Empresa', value: worker.empresa },
               { label: 'Ingreso', value: new Date(worker.fechaIngreso).toLocaleDateString('es-CL') },
             ].map((item, i, arr) => (
-              <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: i < arr.length - 1 ? '1px solid var(--border-brand)' : 'none', gap: '8px' }}>
-                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', flexShrink: 0 }}>{item.label}</span>
-                <span style={{ fontSize: '12px', color: '#F0F4FF', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'right', maxWidth: '160px' }}>{item.value}</span>
+              <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: i < arr.length - 1 ? '1px solid #ebebeb' : 'none', gap: '8px' }}>
+                <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0 }}>{item.label}</span>
+                <span style={{ fontSize: '12px', color: '#171717', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'right', maxWidth: '160px' }}>{item.value}</span>
               </div>
             ))}
           </div>
@@ -277,14 +279,14 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {[
-            { label: 'Agregar Certificación', color: '#9b6ab5', bg: 'rgba(91,34,119,0.12)', border: 'rgba(91,34,119,0.35)', icon: Plus },
-            { label: 'Exportar Perfil', color: '#729362', bg: 'rgba(114,147,98,0.1)', border: 'rgba(114,147,98,0.3)', icon: Download },
-            { label: 'Enviar Alerta', color: '#FFB800', bg: 'rgba(255,184,0,0.08)', border: 'rgba(255,184,0,0.25)', icon: Bell },
+            { label: 'Agregar Certificación', icon: Plus },
+            { label: 'Exportar Perfil', icon: Download },
+            { label: 'Enviar Alerta', icon: Bell },
           ].map(action => (
             <button key={action.label}
-              style={{ width: '100%', padding: '10px 16px', backgroundColor: action.bg, border: `1px solid ${action.border}`, borderRadius: 'var(--radius-sm)', color: action.color, fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
-              onMouseEnter={e => { e.currentTarget.style.opacity = '0.8'; }}
-              onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
+              style={{ width: '100%', padding: '9px 16px', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', color: '#171717', fontSize: '13px', fontWeight: 500, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
             >
               <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <action.icon style={{ width: '16px', height: '16px' }} />
@@ -311,7 +313,7 @@ export function WorkerDetail() {
   if (!worker) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
-        <p className="text-[#F0F4FF] text-lg">Trabajador no encontrado</p>
+        <p className="text-lg" style={{ color: '#171717' }}>Trabajador no encontrado</p>
         <Button variant="ghost" onClick={() => navigate('/workers')} className="mt-4">
           ← Volver a trabajadores
         </Button>
@@ -328,7 +330,6 @@ export function WorkerDetail() {
       id: 'certificaciones' as TabType,
       label: 'Certificaciones',
       icon: Award,
-      color: '#7c4dab',
       count: worker.certifications.length,
       alertCount: expiredCertCount,
     },
@@ -336,7 +337,6 @@ export function WorkerDetail() {
       id: 'mallas' as TabType,
       label: 'Mallas',
       icon: BookOpen,
-      color: '#8a9e52',
       count: workerMeshes.length,
       alertCount: 0,
     },
@@ -344,7 +344,6 @@ export function WorkerDetail() {
       id: 'historial' as TabType,
       label: 'Historial',
       icon: Clock,
-      color: '#FFB800',
       count: 0,
       alertCount: 0,
     },
@@ -373,7 +372,7 @@ export function WorkerDetail() {
         {/* Right Column - Tabs + Dynamic Content */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Tabs navigation */}
-          <div style={{ display: 'flex', backgroundColor: 'var(--color-surface)', borderRadius: 'var(--radius-md)', padding: '4px', gap: '2px', border: '1px solid rgba(91,34,119,0.2)', overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
+          <div style={{ display: 'flex', backgroundColor: '#f5f5f5', borderRadius: '6px', padding: '3px', gap: '2px', border: '1px solid #ebebeb', overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -381,26 +380,27 @@ export function WorkerDetail() {
                 <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                   style={{
                     display: 'flex', alignItems: 'center', gap: '7px',
-                    padding: '8px 16px', borderRadius: '7px', border: 'none', cursor: 'pointer',
-                    flexShrink: 0, minHeight: '44px', whiteSpace: 'nowrap',
-                    backgroundColor: isActive ? 'var(--color-surface-alt)' : 'transparent',
-                    color: isActive ? '#c49fe0' : '#6B7280',
-                    fontSize: '13px', fontWeight: isActive ? 600 : 400,
-                    transition: 'all 0.15s', fontFamily: '"DM Sans", sans-serif',
-                    boxShadow: isActive ? '0 1px 6px rgba(91,34,119,0.3)' : 'none',
+                    padding: '8px 16px', borderRadius: '6px', cursor: 'pointer',
+                    flexShrink: 0, minHeight: '40px', whiteSpace: 'nowrap',
+                    backgroundColor: isActive ? '#ffffff' : 'transparent',
+                    color: isActive ? '#171717' : '#666666',
+                    fontSize: '13px', fontWeight: isActive ? 500 : 400,
+                    transition: 'all 0.15s',
+                    border: isActive ? '1px solid #ebebeb' : '1px solid transparent',
+                    boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
                   }}
-                  onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = '#a89fc4'; }}
-                  onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = '#6B7280'; }}
+                  onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = '#171717'; }}
+                  onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = '#666666'; }}
                 >
                   <Icon style={{ width: '14px', height: '14px', flexShrink: 0 }} />
                   <span>{tab.label}</span>
                   {tab.count > 0 && (
-                    <span style={{ fontSize: '11px', fontWeight: 700, backgroundColor: isActive ? 'rgba(91,34,119,0.4)' : 'rgba(91,34,119,0.15)', color: isActive ? '#c49fe0' : '#6B7280', borderRadius: '20px', padding: '0 6px', minWidth: '18px', textAlign: 'center', fontFamily: '"JetBrains Mono"' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 500, backgroundColor: isActive ? '#f0f0f0' : 'rgba(23,23,23,0.06)', color: isActive ? '#171717' : '#a8a8a8', borderRadius: '9999px', padding: '0 6px', minWidth: '18px', textAlign: 'center', fontFamily: 'var(--font-mono)' }}>
                       {tab.count}
                     </span>
                   )}
                   {tab.alertCount > 0 && (
-                    <span style={{ fontSize: '10px', fontWeight: 700, backgroundColor: 'rgba(255,61,87,0.2)', color: '#FF5C71', borderRadius: '20px', padding: '0 5px', border: '1px solid rgba(255,61,87,0.3)' }}>
+                    <span style={{ fontSize: '10px', fontWeight: 500, backgroundColor: 'rgba(229,72,77,0.08)', color: '#e5484d', borderRadius: '9999px', padding: '0 5px', border: '1px solid rgba(229,72,77,0.2)' }}>
                       {tab.alertCount}
                     </span>
                   )}
@@ -437,7 +437,7 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
   const pendientes = worker.certifications.filter(c => c.estado === 'pendiente').length;
   const total = worker.certifications.length;
   const compliance = worker.complianceScore;
-  const complianceColor = compliance >= 80 ? '#8a9e52' : compliance >= 60 ? '#FFB800' : '#FF3D57';
+  const complianceColor = compliance >= 80 ? '#297a3a' : compliance >= 60 ? '#b25000' : '#e5484d';
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -445,15 +445,15 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
       {/* Fila superior: 3 módulos de estado */}
       <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {[
-          { label: 'Vigentes', value: vigentes, total, color: '#729362', pct: total > 0 ? Math.round((vigentes/total)*100) : 0 },
-          { label: 'Por Vencer', value: proximas, total, color: '#FFB800', pct: total > 0 ? Math.round((proximas/total)*100) : 0 },
-          { label: 'Vencidas', value: vencidas, total, color: '#FF3D57', pct: total > 0 ? Math.round((vencidas/total)*100) : 0 },
+          { label: 'Vigentes', value: vigentes, total, color: '#297a3a', pct: total > 0 ? Math.round((vigentes/total)*100) : 0 },
+          { label: 'Por Vencer', value: proximas, total, color: '#b25000', pct: total > 0 ? Math.round((proximas/total)*100) : 0 },
+          { label: 'Vencidas', value: vencidas, total, color: '#e5484d', pct: total > 0 ? Math.round((vencidas/total)*100) : 0 },
         ].map(stat => (
-          <div key={stat.label} style={{ backgroundColor: 'var(--color-surface)', border: `1px solid ${stat.color}25`, borderRadius: '10px', padding: '16px', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(to right, transparent, ${stat.color}, transparent)` }} />
-            <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 5vw, 36px)', fontWeight: 700, color: stat.color, lineHeight: 1, marginBottom: '2px' }}>{stat.value}</p>
-            <p style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{stat.label}</p>
-            <p style={{ fontSize: '10px', color: stat.color, marginTop: '6px', fontFamily: '"JetBrains Mono"' }}>{stat.pct}% del total</p>
+          <div key={stat.label} style={{ backgroundColor: '#ffffff', border: `1px solid ${stat.color}20`, borderRadius: '6px', padding: '16px', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '2px', backgroundColor: stat.color, opacity: 0.25 }} />
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(22px, 5vw, 32px)', fontWeight: 600, color: stat.color, lineHeight: 1, marginBottom: '2px' }}>{stat.value}</p>
+            <p style={{ fontSize: '11px', color: '#a8a8a8' }}>{stat.label}</p>
+            <p style={{ fontSize: '10px', color: stat.color, marginTop: '6px', fontFamily: 'var(--font-mono)' }}>{stat.pct}% del total</p>
           </div>
         ))}
       </div>
@@ -462,13 +462,13 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         
         {/* Overall Score */}
-        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '20px' }}>
-          <p style={{ fontSize: '12px', fontWeight: 600, color: '#8892A4', marginBottom: '16px' }}>Score Global</p>
+        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '20px' }}>
+          <p style={{ fontSize: '12px', fontWeight: 500, color: '#a8a8a8', marginBottom: '16px' }}>Score Global</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             {/* SVG ring */}
             <div style={{ position: 'relative', width: '80px', height: '80px', flexShrink: 0 }}>
               <svg width="80" height="80" style={{ transform: 'rotate(-90deg)' }}>
-                <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(91,34,119,0.15)" strokeWidth="7" />
+                <circle cx="40" cy="40" r="34" fill="none" stroke="#ebebeb" strokeWidth="7" />
                 <motion.circle cx="40" cy="40" r="34" fill="none" stroke={complianceColor} strokeWidth="7" strokeLinecap="round"
                   strokeDasharray={2 * Math.PI * 34}
                   initial={{ strokeDashoffset: 2 * Math.PI * 34 }}
@@ -477,15 +477,15 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
                 />
               </svg>
               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: complianceColor }}>{compliance}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', fontWeight: 600, color: complianceColor }}>{compliance}</span>
               </div>
             </div>
             <div>
-              {compliance >= 80 && <p style={{ fontSize: '12px', color: '#8a9e52', fontWeight: 600, marginBottom: '4px' }}>✓ Cumplimiento OK</p>}
-              {compliance < 80 && compliance >= 60 && <p style={{ fontSize: '12px', color: '#FFB800', fontWeight: 600, marginBottom: '4px' }}>⚠ Requiere atención</p>}
-              {compliance < 60 && <p style={{ fontSize: '12px', color: '#FF3D57', fontWeight: 600, marginBottom: '4px' }}>✕ Acción urgente</p>}
-              <p style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{total} certificaciones en total</p>
-              <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>{pendientes} pendientes</p>
+              {compliance >= 80 && <p style={{ fontSize: '12px', color: '#297a3a', fontWeight: 500, marginBottom: '4px' }}>Cumplimiento OK</p>}
+              {compliance < 80 && compliance >= 60 && <p style={{ fontSize: '12px', color: '#b25000', fontWeight: 500, marginBottom: '4px' }}>Requiere atención</p>}
+              {compliance < 60 && <p style={{ fontSize: '12px', color: '#e5484d', fontWeight: 500, marginBottom: '4px' }}>Acción urgente</p>}
+              <p style={{ fontSize: '11px', color: '#a8a8a8' }}>{total} certificaciones en total</p>
+              <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>{pendientes} pendientes</p>
             </div>
           </div>
         </div>
@@ -496,13 +496,13 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
 
       {/* Lista de certificaciones */}
       {worker.certifications.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--color-text-muted)' }}>
+        <div style={{ textAlign: 'center', padding: '40px 20px', color: '#a8a8a8' }}>
           <p style={{ fontSize: '14px' }}>No hay certificaciones registradas</p>
         </div>
       ) : (
-        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px' }}>
-          <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '12px' }}>
-            Certificaciones <span style={{ color: 'var(--color-text-muted)', fontWeight: 400, fontSize: '12px' }}>({total})</span>
+        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px' }}>
+          <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', marginBottom: '12px' }}>
+            Certificaciones <span style={{ color: '#a8a8a8', fontWeight: 400, fontSize: '12px' }}>({total})</span>
           </p>
           <div 
             className="certs-scroll" 
@@ -537,10 +537,10 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
       {/* Header de sección */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>
+          <h3 style={{ fontSize: '17px', fontWeight: 600, color: '#171717', letterSpacing: '-0.01em' }}>
             Mallas Curriculares
           </h3>
-          <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+          <p style={{ fontSize: '12px', color: '#666666', marginTop: '2px' }}>
             {workerMeshes.length} mallas asignadas a {workerName}
           </p>
         </div>
@@ -549,25 +549,25 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
       {/* Stats rápidas */}
       <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {[
-          { label: 'Total mallas', value: workerMeshes.length, color: '#9b6ab5' },
-          { label: 'Completadas', value: workerMeshes.filter(m => m.completionRate === 100).length, color: '#729362' },
-          { label: 'En progreso', value: workerMeshes.filter(m => m.completionRate > 0 && m.completionRate < 100).length, color: '#FFB800' },
+          { label: 'Total mallas', value: workerMeshes.length, color: '#171717' },
+          { label: 'Completadas', value: workerMeshes.filter(m => m.completionRate === 100).length, color: '#297a3a' },
+          { label: 'En progreso', value: workerMeshes.filter(m => m.completionRate > 0 && m.completionRate < 100).length, color: '#b25000' },
         ].map(s => (
-          <div key={s.label} style={{ backgroundColor: 'var(--color-surface)', border: `1px solid rgba(91,34,119,0.2)`, borderRadius: '10px', padding: '14px 16px' }}>
-            <p style={{ fontFamily: 'var(--font-display)', fontSize: '28px', fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.value}</p>
-            <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>{s.label}</p>
+          <div key={s.label} style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '14px 16px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '24px', fontWeight: 600, color: s.color, lineHeight: 1 }}>{s.value}</p>
+            <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>{s.label}</p>
           </div>
         ))}
       </div>
 
       {/* Lista de mallas — una por fila con stats internas */}
       {workerMeshes.length === 0 ? (
-        <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '32px', textAlign: 'center' }}>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '14px' }}>No hay mallas asignadas</p>
+        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '32px', textAlign: 'center' }}>
+          <p style={{ color: '#a8a8a8', fontSize: '14px' }}>No hay mallas asignadas</p>
         </div>
       ) : (
         workerMeshes.map((mesh, index) => {
-          const completionColor = mesh.completionRate >= 80 ? '#729362' : mesh.completionRate >= 50 ? '#FFB800' : '#FF3D57';
+          const completionColor = mesh.completionRate >= 80 ? '#297a3a' : mesh.completionRate >= 50 ? '#b25000' : '#e5484d';
           const cursosCompletados = Math.round((mesh.completionRate / 100) * mesh.cursos.length);
           
           return (
@@ -575,21 +575,21 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.08, duration: 0.4 }}
-              style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderLeft: `3px solid ${completionColor}`, borderRadius: '10px', padding: '16px 20px' }}
+              style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderLeft: `3px solid ${completionColor}`, borderRadius: '6px', padding: '16px 20px' }}
             >
               {/* Nombre + porcentaje */}
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
                 <div>
-                  <p style={{ fontSize: '14px', fontWeight: 600, color: '#F0F4FF', marginBottom: '2px' }}>{mesh.nombre}</p>
-                  <p style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{mesh.cursos.length} cursos · {cursosCompletados} completados</p>
+                  <p style={{ fontSize: '14px', fontWeight: 500, color: '#171717', marginBottom: '2px' }}>{mesh.nombre}</p>
+                  <p style={{ fontSize: '11px', color: '#666666' }}>{mesh.cursos.length} cursos · {cursosCompletados} completados</p>
                 </div>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 700, color: completionColor, lineHeight: 1 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '20px', fontWeight: 600, color: completionColor, lineHeight: 1 }}>
                   {mesh.completionRate}%
                 </span>
               </div>
 
               {/* Barra de progreso */}
-              <div style={{ height: '6px', backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '3px', overflow: 'hidden', marginBottom: '12px' }}>
+              <div style={{ height: '4px', backgroundColor: '#f0f0f0', borderRadius: '3px', overflow: 'hidden', marginBottom: '12px' }}>
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${mesh.completionRate}%` }}
@@ -601,13 +601,13 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
               {/* Mini stats de cursos por estado */}
               <div style={{ display: 'flex', gap: '16px' }}>
                 {[
-                  { label: 'Completados', value: cursosCompletados, color: '#729362' },
-                  { label: 'En curso', value: Math.max(0, mesh.cursos.length - cursosCompletados - 1), color: '#FFB800' },
-                  { label: 'Pendientes', value: Math.max(0, mesh.cursos.length - cursosCompletados), color: 'var(--color-text-muted)' },
+                  { label: 'Completados', value: cursosCompletados, color: '#297a3a' },
+                  { label: 'En curso', value: Math.max(0, mesh.cursos.length - cursosCompletados - 1), color: '#b25000' },
+                  { label: 'Pendientes', value: Math.max(0, mesh.cursos.length - cursosCompletados), color: '#a8a8a8' },
                 ].map(s => (
                   <div key={s.label} style={{ textAlign: 'center' }}>
-                    <p style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.value}</p>
-                    <p style={{ fontSize: '10px', color: 'var(--color-text-muted)', marginTop: '1px' }}>{s.label}</p>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 600, color: s.color, lineHeight: 1 }}>{s.value}</p>
+                    <p style={{ fontSize: '10px', color: '#a8a8a8', marginTop: '1px' }}>{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -625,18 +625,18 @@ function HistorialTab() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
       {/* Header */}
-      <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>Historial de Actividad</h3>
-          <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '2px' }}>{mockHistoryActivities.length} eventos registrados</p>
+          <h3 style={{ fontSize: '17px', fontWeight: 600, color: '#171717', letterSpacing: '-0.01em' }}>Historial de Actividad</h3>
+          <p style={{ fontSize: '12px', color: '#666666', marginTop: '2px' }}>{mockHistoryActivities.length} eventos registrados</p>
         </div>
-        <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', backgroundColor: 'rgba(91,34,119,0.1)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '20px', padding: '4px 12px' }}>
+        <span style={{ fontSize: '11px', color: '#666666', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '9999px', padding: '4px 12px' }}>
           Últimos 30 días
         </span>
       </div>
 
       {/* Lista de eventos */}
-      <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid rgba(91,34,119,0.2)', borderRadius: '10px', padding: '8px 0', overflow: 'hidden' }}>
+      <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '8px 0', overflow: 'hidden' }}>
         {mockHistoryActivities.map((activity, index) => {
           const icons = { certificacion: CheckCircle, malla: BookOpen, alerta: AlertTriangle, curso: Award };
           const Icon = icons[activity.tipo as keyof typeof icons] || Clock;
@@ -647,8 +647,8 @@ function HistorialTab() {
               initial={{ opacity: 0, x: -12 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.07, duration: 0.35 }}
-              style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 20px', borderBottom: isLast ? 'none' : '1px solid rgba(91,34,119,0.08)', transition: 'background 0.12s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(91,34,119,0.05)'; }}
+              style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 20px', borderBottom: isLast ? 'none' : '1px solid #f5f5f5', transition: 'background 0.12s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fafafa'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
             >
               {/* Ícono */}
@@ -657,11 +657,11 @@ function HistorialTab() {
               </div>
               {/* Texto */}
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '1px' }}>{activity.titulo}</p>
-                <p style={{ fontSize: '12px', color: '#8892A4', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activity.descripcion}</p>
+                <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', marginBottom: '1px' }}>{activity.titulo}</p>
+                <p style={{ fontSize: '12px', color: '#666666', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activity.descripcion}</p>
               </div>
               {/* Tiempo */}
-              <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', flexShrink: 0, fontFamily: '"JetBrains Mono"' }}>
+              <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0, fontFamily: 'var(--font-mono)' }}>
                 {getRelativeTime(activity.fecha)}
               </span>
             </motion.div>

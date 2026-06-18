@@ -17,21 +17,20 @@ const CustomTooltip = ({ active, payload, label }: {
   if (active && payload && payload.length) {
     return (
       <div style={{
-        backgroundColor: 'var(--color-surface-alt)',
-        border: '1px solid var(--border-brand-hover)',
-        borderRadius: 'var(--radius-md)',
-        color: '#F0F4FF',
+        backgroundColor: '#ffffff',
+        border: '1px solid #ebebeb',
+        borderRadius: '6px',
+        color: '#171717',
         fontSize: '12px',
         padding: '12px',
+        boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
       }}>
-        <p style={{ fontWeight: 500, marginBottom: '8px' }}>{label}</p>
+        <p style={{ fontWeight: 500, marginBottom: '8px', color: '#4d4d4d' }}>{label}</p>
         {payload.map((entry, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px' }}>
-            <div
-              style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: entry.color }}
-            />
-            <span style={{ color: 'var(--color-text-secondary)' }}>{entry.name}:</span>
-            <span style={{ color: '#F0F4FF', fontFamily: '"JetBrains Mono", monospace' }}>{entry.value}</span>
+            <div style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: entry.color }} />
+            <span style={{ color: '#666666' }}>{entry.name}:</span>
+            <span style={{ color: '#171717', fontFamily: 'var(--font-mono)' }}>{entry.value}</span>
           </div>
         ))}
       </div>
@@ -53,40 +52,40 @@ export function CertTrendChart() {
         <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }} style={{ backgroundColor: 'transparent' }}>
           <defs>
             <linearGradient id="colorVigentes" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#7c4dab" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#7c4dab" stopOpacity={0.05} />
+              <stop offset="5%" stopColor="#297a3a" stopOpacity={0.15} />
+              <stop offset="95%" stopColor="#297a3a" stopOpacity={0.02} />
             </linearGradient>
             <linearGradient id="colorVencidas" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#FF3D57" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#FF3D57" stopOpacity={0.05} />
+              <stop offset="5%" stopColor="#e5484d" stopOpacity={0.12} />
+              <stop offset="95%" stopColor="#e5484d" stopOpacity={0.02} />
             </linearGradient>
           </defs>
           <CartesianGrid
             strokeDasharray="3 3"
-            stroke="rgba(255,255,255,0.05)"
+            stroke="#ebebeb"
             vertical={false}
           />
           <XAxis
             dataKey="month"
-            tick={{ fill: 'var(--chart-axis-text)', fontSize: 11 }}
-            axisLine={{ stroke: 'var(--border-brand)' }}
+            tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#ebebeb' }}
             tickLine={false}
           />
           <YAxis
-            tick={{ fill: 'var(--chart-axis-text)', fontSize: 11 }}
-            axisLine={{ stroke: 'var(--border-brand)' }}
+            tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#ebebeb' }}
             tickLine={false}
           />
           <Tooltip
             content={<CustomTooltip />}
-            cursor={{ stroke: 'rgba(91,34,119,0.3)', strokeWidth: 1 }}
+            cursor={{ stroke: '#d4d4d4', strokeWidth: 1 }}
           />
           <Area
             type="monotone"
             dataKey="vigentes"
             name="Renovadas"
-            stroke="#7c4dab"
-            strokeWidth={2}
+            stroke="#297a3a"
+            strokeWidth={1.5}
             fillOpacity={1}
             fill="url(#colorVigentes)"
             isAnimationActive={true}
@@ -96,8 +95,8 @@ export function CertTrendChart() {
             type="monotone"
             dataKey="vencidas"
             name="Vencidas"
-            stroke="#FF3D57"
-            strokeWidth={2}
+            stroke="#e5484d"
+            strokeWidth={1.5}
             fillOpacity={1}
             fill="url(#colorVencidas)"
             isAnimationActive={true}

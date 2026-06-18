@@ -63,7 +63,7 @@ export function formatRelativeDate(date: string): string {
 }
 
 export function getCertStatusColor(diasRestantes: number): string {
-  if (diasRestantes <= 0) return '#FF3D57';  // Rojo para vencido
-  if (diasRestantes <= 60) return '#FFB800'; // Amarillo para próximo a vencer
-  return '#729362'; // Verde para vigente
+  if (diasRestantes <= 0) return '#e5484d';  // Rojo para vencido
+  if (diasRestantes <= 60) return '#b25000'; // Amarillo para próximo a vencer
+  return '#297a3a'; // Verde para vigente
 }

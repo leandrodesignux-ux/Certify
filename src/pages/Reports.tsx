@@ -53,10 +53,10 @@ export function Reports() {
   const [activeReport, setActiveReport] = useState<'general' | 'cumplimiento' | 'riesgo' | 'exportar'>('general');
 
   const reportTabs = [
-    { id: 'general',      label: 'Resumen General',    color: '#9b6ab5' },
-    { id: 'cumplimiento', label: 'Cumplimiento',        color: '#729362' },
-    { id: 'riesgo',       label: 'Trabajadores Riesgo', color: '#FF3D57' },
-    { id: 'exportar',     label: 'Exportar',            color: '#FFB800' },
+    { id: 'general',      label: 'Resumen General' },
+    { id: 'cumplimiento', label: 'Cumplimiento' },
+    { id: 'riesgo',       label: 'Trabajadores Riesgo' },
+    { id: 'exportar',     label: 'Exportar' },
   ] as const;
 
   // SECTION 1: KPI Calculations
@@ -97,9 +97,9 @@ export function Reports() {
         : 0;
       
       // Color coding
-      let color = 'var(--color-danger)';
-      if (avgScore > 80) color = 'var(--color-success)';
-      else if (avgScore > 60) color = 'var(--color-warning)';
+      let color = '#e5484d';
+      if (avgScore > 80) color = '#297a3a';
+      else if (avgScore > 60) color = '#b25000';
 
       return {
         area,
@@ -118,10 +118,10 @@ export function Reports() {
     const total = certifications.length || 1;
 
     return [
-      { name: 'Vigentes', value: vigentes, color: 'var(--chart-vigente)', percentage: ((vigentes / total) * 100).toFixed(1) },
-      { name: 'Próx. vencer', value: proximas, color: 'var(--chart-proximo)', percentage: ((proximas / total) * 100).toFixed(1) },
-      { name: 'Vencidas', value: vencidas, color: 'var(--chart-vencido)', percentage: ((vencidas / total) * 100).toFixed(1) },
-      { name: 'Pendientes', value: pendientes, color: 'var(--chart-pendiente)', percentage: ((pendientes / total) * 100).toFixed(1) },
+      { name: 'Vigentes', value: vigentes, color: '#297a3a', percentage: ((vigentes / total) * 100).toFixed(1) },
+      { name: 'Próx. vencer', value: proximas, color: '#b25000', percentage: ((proximas / total) * 100).toFixed(1) },
+      { name: 'Vencidas', value: vencidas, color: '#e5484d', percentage: ((vencidas / total) * 100).toFixed(1) },
+      { name: 'Pendientes', value: pendientes, color: '#a8a8a8', percentage: ((pendientes / total) * 100).toFixed(1) },
     ];
   }, [certifications]);
 
@@ -134,9 +134,9 @@ export function Reports() {
         const expiredCount = worker.certifications.filter(c => c.estado === 'vencido').length;
         const expiringCount = worker.certifications.filter(c => c.estado === 'proximo_vencer').length;
         
-        let scoreColor = 'var(--color-danger)';
-        if (worker.complianceScore >= 80) scoreColor = 'var(--color-success)';
-        else if (worker.complianceScore >= 60) scoreColor = 'var(--color-warning)';
+        let scoreColor = '#e5484d';
+        if (worker.complianceScore >= 80) scoreColor = '#297a3a';
+        else if (worker.complianceScore >= 60) scoreColor = '#b25000';
 
         return {
           ...worker,
@@ -205,9 +205,9 @@ Generado automáticamente por CertifyX
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'var(--color-success)';
-    if (score >= 60) return 'var(--color-warning)';
-    return 'var(--color-danger)';
+    if (score >= 80) return '#297a3a';
+    if (score >= 60) return '#b25000';
+    return '#e5484d';
   };
 
   const getComplianceLabel = (score: number) => {
@@ -224,12 +224,12 @@ Generado automáticamente por CertifyX
           {/* Top row: título + acciones */}
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
             <div>
-              <h1 className="font-display font-bold text-gradient tracking-tight" style={{ fontSize: 'var(--text-h1)' }}>
+              <h1 className="text-3xl font-semibold tracking-tight" style={{ color: '#171717', letterSpacing: '-0.02em' }}>
                 Reportes y Análisis
               </h1>
-              <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-secondary)', marginTop: 'var(--space-xs)' }}>
+              <p style={{ fontSize: '13px', color: '#666666', marginTop: '4px' }}>
                 Compliance y exportación · Período:{' '}
-                <span style={{ color: 'var(--color-purple-light)', fontWeight: 'var(--font-weight-medium)' }}>
+                <span style={{ color: '#171717', fontWeight: 500 }}>
                   {new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}
                 </span>
               </p>
@@ -239,42 +239,44 @@ Generado automáticamente por CertifyX
                 onClick={exportSummaryCSV}
                 aria-label="Exportar resumen como CSV"
                 style={{
-                  display: 'flex', alignItems: 'center', gap: 'var(--space-xs)',
+                  display: 'flex', alignItems: 'center', gap: '6px',
                   padding: '8px 14px',
-                  backgroundColor: 'var(--color-surface-alt)',
-                  border: '1px solid var(--border-brand)',
-                  borderRadius: 'var(--radius-sm)',
-                  color: 'var(--color-purple-light)',
-                  fontSize: 'var(--text-small)',
-                  fontWeight: 'var(--font-weight-medium)',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #ebebeb',
+                  borderRadius: '6px',
+                  color: '#171717',
+                  fontSize: '13px',
+                  fontWeight: 500,
                   cursor: 'pointer',
-                  transition: 'var(--transition-base)',
-                  minHeight: '40px',
+                  transition: 'all 0.15s',
+                  minHeight: '38px',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-brand-hover)'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-brand)'; }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-4 h-4" strokeWidth={1.5} />
                 CSV
               </button>
               <button
                 onClick={exportSENCE}
                 aria-label="Exportar reporte SENCE"
                 style={{
-                  display: 'flex', alignItems: 'center', gap: 'var(--space-xs)',
+                  display: 'flex', alignItems: 'center', gap: '6px',
                   padding: '8px 14px',
-                  backgroundColor: 'var(--color-electric)',
-                  border: 'none',
-                  borderRadius: 'var(--radius-sm)',
-                  color: 'var(--color-text-primary)',
-                  fontSize: 'var(--text-small)',
-                  fontWeight: 'var(--font-weight-medium)',
+                  backgroundColor: '#171717',
+                  border: '1px solid #171717',
+                  borderRadius: '6px',
+                  color: '#ffffff',
+                  fontSize: '13px',
+                  fontWeight: 500,
                   cursor: 'pointer',
-                  transition: 'var(--transition-base)',
-                  minHeight: '40px',
+                  transition: 'all 0.15s',
+                  minHeight: '38px',
                 }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#171717'; }}
               >
-                <FileText className="w-4 h-4" />
+                <FileText className="w-4 h-4" strokeWidth={1.5} />
                 SENCE
               </button>
             </div>
@@ -287,18 +289,14 @@ Generado automáticamente por CertifyX
             className="[&::-webkit-scrollbar]:hidden"
             style={{
               display: 'flex',
-              gap: '8px',
-              padding: '8px',
-              backgroundColor: 'var(--color-surface-deep)',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--border-brand)',
+              gap: '0',
+              borderBottom: '1px solid #ebebeb',
               overflowX: 'auto',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
               WebkitOverflowScrolling: 'touch',
               maxWidth: '100%',
-              paddingBottom: '4px',
-              marginTop: 'var(--space-md)',
+              marginTop: '16px',
             }}
           >
             {reportTabs.map((tab) => {
@@ -314,26 +312,25 @@ Generado automáticamente por CertifyX
                   onClick={() => { setActiveReport(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   style={{
                     position: 'relative',
-                    minWidth: 'var(--tab-min-width)',
-                    minHeight: '44px',
                     flexShrink: 0,
                     whiteSpace: 'nowrap',
-                    padding: '10px 16px',
-                    borderRadius: 'var(--radius-md)',
+                    padding: '10px 18px',
+                    marginBottom: '-1px',
                     cursor: 'pointer',
-                    border: isActive ? '1px solid var(--report-tab-active-border)' : '1px solid transparent',
-                    borderBottom: isActive ? `2px solid ${tab.color}` : '1px solid transparent',
-                    backgroundColor: isActive ? 'var(--report-tab-active-bg)' : 'transparent',
-                    color: isActive ? tab.color : 'var(--color-text-muted)',
-                    fontSize: 'var(--text-small)',
-                    fontWeight: isActive ? 600 : 500,
+                    border: 'none',
+                    borderBottom: isActive ? '2px solid #171717' : '2px solid transparent',
+                    backgroundColor: 'transparent',
+                    color: isActive ? '#171717' : '#4d4d4d',
+                    fontSize: '14px',
+                    fontWeight: isActive ? 600 : 400,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    transition: 'color 0.15s, background-color 0.15s',
+                    transition: 'color 0.15s, border-color 0.15s',
                   }}
-                  whileHover={!isActive ? { color: 'var(--color-text-secondary)' } : {}}
+                  onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#171717'; }}
+                  onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#4d4d4d'; }}
                   transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 >
                   {tab.label}
@@ -350,21 +347,21 @@ Generado automáticamente por CertifyX
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: 'var(--space-md) var(--space-lg)',
-          backgroundColor: 'var(--color-surface-deep)',
-          border: '1px solid var(--border-brand)',
-          borderRadius: 'var(--radius-md)',
+          padding: '12px 20px',
+          backgroundColor: '#fafafa',
+          border: '1px solid #ebebeb',
+          borderRadius: '6px',
           flexWrap: 'wrap',
-          gap: 'var(--space-sm)',
-          marginBottom: 'var(--space-lg)',
+          gap: '12px',
+          marginBottom: '24px',
         }}>
           {/* Período activo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-            <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--color-success)', boxShadow: '0 0 6px rgba(114,147,98,0.8)' }} />
-            <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-secondary)' }}>
+            <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#297a3a' }} />
+            <span style={{ fontSize: '13px', color: '#666666' }}>
               Período activo:
             </span>
-            <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-purple-light)' }}>
+            <span style={{ fontSize: '13px', fontWeight: 500, color: '#171717' }}>
               {new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}
             </span>
           </div>
@@ -372,13 +369,13 @@ Generado automáticamente por CertifyX
           {/* Stats rápidos inline */}
           <div style={{ display: 'flex', gap: 'var(--space-lg)', flexWrap: 'wrap' }}>
             {[
-              { label: 'Trabajadores', value: workers.length, color: 'var(--color-text-primary)' },
-              { label: 'Certificaciones totales', value: certifications.length, color: 'var(--color-text-primary)' },
-              { label: 'Áreas monitoreadas', value: new Set(workers.map(w => w.area)).size, color: 'var(--color-purple-light)' },
+              { label: 'Trabajadores', value: workers.length },
+              { label: 'Certificaciones totales', value: certifications.length },
+              { label: 'Áreas monitoreadas', value: new Set(workers.map(w => w.area)).size },
             ].map(stat => (
               <div key={stat.label} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)' }}>{stat.label}:</span>
-                <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--font-weight-medium)', color: stat.color }}>{stat.value}</span>
+                <span style={{ fontSize: '11px', color: '#a8a8a8' }}>{stat.label}:</span>
+                <span style={{ fontSize: '13px', fontWeight: 500, color: '#171717' }}>{stat.value}</span>
               </div>
             ))}
           </div>
@@ -409,7 +406,7 @@ Generado automáticamente por CertifyX
             trendLabel={`${Math.round((kpis.activeCerts / (certifications.length || 1)) * 100)}% del total`}
             trend="up"
             icon={Award}
-            color="var(--color-success)"
+            color="#297a3a"
             delay={0.15}
           />
           <KPICard
@@ -419,7 +416,7 @@ Generado automáticamente por CertifyX
             trendLabel={kpis.expiringSoon > 5 ? 'Nivel alto' : 'Nivel normal'}
             trend={kpis.expiringSoon > 5 ? 'down' : 'neutral'}
             icon={Clock}
-            color="var(--color-warning)"
+            color="#b25000"
             delay={0.2}
           />
           <KPICard
@@ -429,7 +426,7 @@ Generado automáticamente por CertifyX
             trendLabel={kpis.workersAtRisk > 3 ? 'Crítico' : 'Controlado'}
             trend={kpis.workersAtRisk > 3 ? 'down' : 'neutral'}
             icon={AlertTriangle}
-            color="var(--color-danger)"
+            color="#e5484d"
             delay={0.25}
           />
         </div>
@@ -450,18 +447,18 @@ Generado automáticamente por CertifyX
           <Card variant="glass" padding="lg" style={{ height: `${Math.max(360, complianceByArea.length * 58 + 80)}px` }}>
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
+                <h3 className="font-semibold" style={{ fontSize: '16px', color: '#171717', letterSpacing: '-0.01em' }}>
                   Cumplimiento por Área
                 </h3>
-                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>
                   Promedio de compliance por área operativa
                 </p>
               </div>
               <span style={{
-                fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)',
-                backgroundColor: 'var(--color-surface-alt)',
-                padding: '3px 10px', borderRadius: 'var(--radius-full)',
-                border: '1px solid var(--border-brand)',
+                fontSize: '11px', color: '#666666',
+                backgroundColor: '#f5f5f5',
+                padding: '3px 10px', borderRadius: '9999px',
+                border: '1px solid #ebebeb',
               }}>
                 {complianceByArea.length} áreas
               </span>
@@ -472,13 +469,13 @@ Generado automáticamente por CertifyX
                 <YAxis
                   type="category"
                   dataKey="area"
-                  tick={{ fill: 'var(--chart-axis-text)', fontSize: 11, fontFamily: 'var(--font-body)' }}
+                  tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
                   width={90}
                   axisLine={false}
                   tickLine={false}
                 />
-                <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(91,34,119,0.07)' }} />
-                <Bar dataKey={() => 100} radius={[0, 6, 6, 0]} barSize={18} fill="rgba(255,255,255,0.03)" isAnimationActive={false} />
+                <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(23,23,23,0.04)' }} />
+                <Bar dataKey={() => 100} radius={[0, 6, 6, 0]} barSize={18} fill="#f0f0f0" isAnimationActive={false} />
                 <Bar dataKey="score" radius={[0, 6, 6, 0]} barSize={18}>
                   {complianceByArea.map((entry, index) => (
                     <Cell key={`bar-${index}`} fill={entry.fill} />
@@ -486,7 +483,7 @@ Generado automáticamente por CertifyX
                   <LabelList
                     dataKey="score"
                     position="right"
-                    style={{ fill: 'var(--color-text-secondary)', fontSize: '11px', fontFamily: 'var(--font-body)' }}
+                    style={{ fill: '#666666', fontSize: '11px', fontFamily: 'var(--font-body)' }}
                     formatter={(v) => `${v}%`}
                   />
                 </Bar>
@@ -505,18 +502,18 @@ Generado automáticamente por CertifyX
           <Card variant="glass" padding="lg" className="h-[420px]">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
+                <h3 className="font-semibold" style={{ fontSize: '16px', color: '#171717', letterSpacing: '-0.01em' }}>
                   Estado de Certificaciones
                 </h3>
-                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>
                   Distribución por estado actual
                 </p>
               </div>
               <span style={{
-                fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)',
-                backgroundColor: 'var(--color-surface-alt)',
-                padding: '3px 10px', borderRadius: 'var(--radius-full)',
-                border: '1px solid var(--border-brand)',
+                fontSize: '11px', color: '#666666',
+                backgroundColor: '#f5f5f5',
+                padding: '3px 10px', borderRadius: '9999px',
+                border: '1px solid #ebebeb',
               }}>
                 {certifications.length} total
               </span>
@@ -540,10 +537,10 @@ Generado automáticamente por CertifyX
                     <Label
                       content={() => (
                         <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle">
-                          <tspan x="50%" dy="-8" style={{ fill: 'var(--color-text-primary)', fontSize: '22px', fontWeight: 700, fontFamily: 'var(--font-display)' }}>
+                          <tspan x="50%" dy="-8" style={{ fill: '#171717', fontSize: '22px', fontWeight: 600 }}>
                             {certifications.length}
                           </tspan>
-                          <tspan x="50%" dy="18" style={{ fill: 'var(--color-text-muted)', fontSize: '10px', fontFamily: 'var(--font-body)' }}>
+                          <tspan x="50%" dy="18" style={{ fill: '#a8a8a8', fontSize: '10px' }}>
                             total
                           </tspan>
                         </text>
@@ -558,18 +555,18 @@ Generado automáticamente por CertifyX
                 {certStatusData.map((item, idx) => (
                   <>
                     {idx === 1 && (
-                      <div key={`sep-${idx}`} style={{ height: '1px', backgroundColor: 'var(--border-brand)', marginTop: '8px', marginBottom: '8px' }} />
+                      <div key={`sep-${idx}`} style={{ height: '1px', backgroundColor: '#ebebeb', marginTop: '8px', marginBottom: '8px' }} />
                     )}
                     <div key={item.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', padding: '2px 0' }}>
                       <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
                         <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
-                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-secondary)', marginLeft: '8px' }}>{item.name}</span>
+                        <span style={{ fontSize: '12px', color: '#4d4d4d', marginLeft: '8px' }}>{item.name}</span>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-                        <span style={{ fontSize: 'var(--text-small)', fontWeight: 600, color: item.color }}>
+                        <span style={{ fontSize: '12px', fontWeight: 600, color: item.color }}>
                           {item.value}
                         </span>
-                        <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginLeft: '4px' }}>
+                        <span style={{ fontSize: '11px', color: '#a8a8a8', marginLeft: '4px' }}>
                           {item.percentage}%
                         </span>
                       </div>
@@ -592,22 +589,22 @@ Generado automáticamente por CertifyX
           {/* Header de sección */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-lg)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-              <AlertCircle style={{ width: '20px', height: '20px', color: 'var(--color-danger)', flexShrink: 0 }} aria-hidden="true" />
-              <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
+              <AlertCircle style={{ width: '20px', height: '20px', color: '#e5484d', flexShrink: 0 }} strokeWidth={1.5} aria-hidden="true" />
+              <h3 className="font-semibold" style={{ fontSize: '16px', color: '#171717', letterSpacing: '-0.01em' }}>
                 Trabajadores en Riesgo
               </h3>
             </div>
             <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
               <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)' }}>Con cert. vencida</p>
-                <p style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--color-danger)' }}>
+                <p style={{ fontSize: '11px', color: '#a8a8a8' }}>Con cert. vencida</p>
+                <p style={{ fontSize: '14px', fontWeight: 600, color: '#e5484d' }}>
                   {topRiskWorkers.filter(w => w.expiredCount > 0).length}
                 </p>
               </div>
-              <div style={{ width: '1px', height: '28px', backgroundColor: 'var(--border-brand)' }} />
+              <div style={{ width: '1px', height: '28px', backgroundColor: '#ebebeb' }} />
               <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)' }}>Por vencer</p>
-                <p style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--color-warning)' }}>
+                <p style={{ fontSize: '11px', color: '#a8a8a8' }}>Por vencer</p>
+                <p style={{ fontSize: '14px', fontWeight: 600, color: '#b25000' }}>
                   {topRiskWorkers.filter(w => w.expiringCount > 0).length}
                 </p>
               </div>
@@ -615,7 +612,7 @@ Generado automáticamente por CertifyX
           </div>
 
           {/* Tabla */}
-          <div style={{ overflowX: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(91,34,119,0.3) transparent' }}>
+          <div style={{ overflowX: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#d4d4d4 transparent' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }} role="table" aria-label="Trabajadores con menor cumplimiento">
               <colgroup>
                 <col style={{ width: '40px' }} />   {/* Rank */}
@@ -630,11 +627,11 @@ Generado automáticamente por CertifyX
                   {['#', '', 'Trabajador', 'Vencidas', 'Próximas', ''].map((h, i) => (
                     <th key={i} style={{
                       padding: '6px 10px',
-                      fontSize: 'var(--text-micro)',
-                      fontWeight: 'var(--font-weight-medium)',
-                      color: 'var(--color-text-muted)',
+                      fontSize: '11px',
+                      fontWeight: 500,
+                      color: '#666666',
                       textAlign: i >= 3 ? 'center' : 'left',
-                      borderBottom: '1px solid var(--border-brand)',
+                      borderBottom: '1px solid #ebebeb',
                       whiteSpace: 'nowrap',
                     }}>
                       {h}
@@ -649,21 +646,21 @@ Generado automáticamente por CertifyX
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.02, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ borderBottom: index < (showAllRisk ? topRiskWorkers.length : Math.min(5, topRiskWorkers.length)) - 1 ? '1px solid var(--border-brand)' : 'none', cursor: 'default' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'rgba(124,77,171,0.06)'; }}
+                    style={{ borderBottom: index < (showAllRisk ? topRiskWorkers.length : Math.min(5, topRiskWorkers.length)) - 1 ? '1px solid #f5f5f5' : 'none', cursor: 'default' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLTableRowElement).style.backgroundColor = '#fafafa'; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'transparent'; }}
                   >
                     {/* Rank */}
                     <td style={{ padding: '12px 10px', textAlign: 'center' }}>
                       <div style={{
                         width: '24px', height: '24px', borderRadius: '50%',
-                        backgroundColor: index === 0 ? 'var(--status-danger-bg)' : index === 1 ? 'var(--status-warn-bg)' : 'transparent',
+                        backgroundColor: index === 0 ? 'rgba(229,72,77,0.08)' : index === 1 ? 'rgba(178,80,0,0.08)' : 'transparent',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         margin: '0 auto',
                       }}>
-                        <span className="font-display font-bold" style={{
-                          fontSize: '14px',
-                          color: index === 0 ? 'var(--color-danger)' : index === 1 ? 'var(--color-warning)' : 'var(--color-text-muted)',
+                        <span style={{
+                          fontSize: '13px', fontWeight: 600,
+                          color: index === 0 ? '#e5484d' : index === 1 ? '#b25000' : '#a8a8a8',
                         }}>
                           {index + 1}
                         </span>
@@ -676,10 +673,11 @@ Generado automáticamente por CertifyX
                         : (
                           <div style={{
                             width: '36px', height: '36px', borderRadius: '50%',
-                            backgroundColor: 'var(--color-surface-alt)',
+                            backgroundColor: '#f0f0f0',
+                            border: '1px solid #ebebeb',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            fontSize: 'var(--text-micro)', fontWeight: 'var(--font-weight-bold)',
-                            color: 'var(--color-purple-mid)',
+                            fontSize: '11px', fontWeight: 600,
+                            color: '#4d4d4d',
                           }}>
                             {worker.nombre[0]}{worker.apellidos[0]}
                           </div>
@@ -688,14 +686,14 @@ Generado automáticamente por CertifyX
                     </td>
                     {/* Nombre / Área */}
                     <td style={{ padding: '12px 8px', minWidth: 0 }}>
-                      <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-medium)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <p style={{ fontSize: '13px', color: '#171717', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {worker.nombre} {worker.apellidos}
                       </p>
-                      <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                      <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>
                         {worker.area} · {worker.cargo}
                       </p>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px' }}>
-                        <div style={{ width: '60px', height: '3px', backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '2px' }}>
+                        <div style={{ width: '60px', height: '3px', backgroundColor: '#f0f0f0', borderRadius: '2px' }}>
                           <div style={{
                             height: '3px',
                             width: `${worker.complianceScore}%`,
@@ -704,27 +702,27 @@ Generado automáticamente por CertifyX
                             transition: 'width 0.6s ease',
                           }} />
                         </div>
-                        <span style={{ fontSize: '10px', color: 'var(--color-text-muted)' }}>{worker.complianceScore}%</span>
+                        <span style={{ fontSize: '10px', color: '#a8a8a8' }}>{worker.complianceScore}%</span>
                       </div>
                     </td>
                     {/* Vencidas */}
                     <td style={{ padding: '12px 10px', textAlign: 'center' }}>
                       {worker.expiredCount > 0
-                        ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: 'var(--text-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-danger)' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-danger)', flexShrink: 0 }} />
+                        ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '13px', fontWeight: 500, color: '#e5484d' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#e5484d', flexShrink: 0 }} />
                             {worker.expiredCount}
                           </span>
-                        : <span style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)' }}>—</span>
+                        : <span style={{ fontSize: '13px', color: '#a8a8a8' }}>—</span>
                       }
                     </td>
                     {/* Próximas */}
                     <td style={{ padding: '12px 10px', textAlign: 'center' }}>
                       {worker.expiringCount > 0
-                        ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: 'var(--text-body)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-warning)' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-warning)', flexShrink: 0 }} />
+                        ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '13px', fontWeight: 500, color: '#b25000' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#b25000', flexShrink: 0 }} />
                             {worker.expiringCount}
                           </span>
-                        : <span style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)' }}>—</span>
+                        : <span style={{ fontSize: '13px', color: '#a8a8a8' }}>—</span>
                       }
                     </td>
                     {/* Acción */}
@@ -733,20 +731,20 @@ Generado automáticamente por CertifyX
                         onClick={() => navigate(`/workers/${worker.id}`)}
                         aria-label={`Ver perfil de ${worker.nombre} ${worker.apellidos}`}
                         style={{
-                          padding: '6px 14px',
-                          minHeight: '32px',
-                          borderRadius: 'var(--radius-sm)',
-                          border: '1px solid var(--border-brand)',
-                          backgroundColor: 'transparent',
-                          color: 'var(--color-purple-light)',
-                          fontSize: 'var(--text-micro)',
-                          fontWeight: 'var(--font-weight-medium)',
+                          padding: '5px 12px',
+                          minHeight: '30px',
+                          borderRadius: '6px',
+                          border: '1px solid #ebebeb',
+                          backgroundColor: '#ffffff',
+                          color: '#171717',
+                          fontSize: '11px',
+                          fontWeight: 500,
                           cursor: 'pointer',
-                          transition: 'var(--transition-base)',
+                          transition: 'all 0.15s',
                           whiteSpace: 'nowrap',
                         }}
-                        onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-brand-hover)'; e.currentTarget.style.backgroundColor = 'rgba(124,77,171,0.08)'; }}
-                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-brand)'; e.currentTarget.style.backgroundColor = 'transparent'; }}
+                        onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+                        onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
                       >
                         Ver
                       </button>
@@ -763,19 +761,19 @@ Generado automáticamente por CertifyX
               onClick={() => setShowAllRisk(s => !s)}
               style={{
                 width: '100%',
-                marginTop: 'var(--space-md)',
-                padding: 'var(--space-sm) var(--space-md)',
-                minHeight: '40px',
-                borderRadius: 'var(--radius-sm)',
-                border: '1px dashed var(--border-brand)',
+                marginTop: '12px',
+                padding: '8px 16px',
+                minHeight: '38px',
+                borderRadius: '6px',
+                border: '1px dashed #d4d4d4',
                 backgroundColor: 'transparent',
-                color: 'var(--color-text-muted)',
-                fontSize: 'var(--text-small)',
+                color: '#666666',
+                fontSize: '13px',
                 cursor: 'pointer',
-                transition: 'var(--transition-base)',
+                transition: 'all 0.15s',
               }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-brand-hover)'; e.currentTarget.style.color = 'var(--color-purple-light)'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-brand)'; e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = '#a8a8a8'; e.currentTarget.style.color = '#171717'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = '#d4d4d4'; e.currentTarget.style.color = '#666666'; }}
               aria-expanded={showAllRisk}
             >
               {showAllRisk
@@ -795,8 +793,8 @@ Generado automáticamente por CertifyX
       <motion.div custom={0.8} variants={sectionVariants} initial="hidden" animate="visible">
         <Card variant="glass" padding="lg">
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)' }}>
-            <Download style={{ width: '20px', height: '20px', color: 'var(--color-purple-mid)' }} aria-hidden="true" />
-            <h3 className="font-display font-bold" style={{ fontSize: 'var(--text-h2)', color: 'var(--color-text-primary)' }}>
+            <Download style={{ width: '20px', height: '20px', color: '#4d4d4d' }} strokeWidth={1.5} aria-hidden="true" />
+            <h3 className="font-semibold" style={{ fontSize: '16px', color: '#171717', letterSpacing: '-0.01em' }}>
               Exportar Reportes
             </h3>
           </div>
@@ -811,8 +809,7 @@ Generado automáticamente por CertifyX
                 onClick: exportSummaryCSV,
                 disabled: false,
                 pro: false,
-                color: 'var(--color-purple-mid)',
-                colorHex: '#9b6ab5',
+                colorHex: '#4d4d4d',
               },
               {
                 icon: FileText,
@@ -822,8 +819,7 @@ Generado automáticamente por CertifyX
                 onClick: exportSENCE,
                 disabled: false,
                 pro: false,
-                color: 'var(--color-success)',
-                colorHex: '#729362',
+                colorHex: '#297a3a',
               },
               {
                 icon: ImageIcon,
@@ -833,8 +829,7 @@ Generado automáticamente por CertifyX
                 onClick: () => {},
                 disabled: true,
                 pro: true,
-                color: 'var(--color-warning)',
-                colorHex: '#FFB800',
+                colorHex: '#a8a8a8',
               },
             ].map((item) => (
               <button
@@ -848,64 +843,61 @@ Generado automáticamente por CertifyX
                   display: 'flex',
                   flexDirection: 'row',
                   alignItems: 'center',
-                  gap: 'var(--space-md)',
-                  padding: 'var(--space-md) var(--space-lg)',
-                  minHeight: 'var(--export-card-min-h)',
+                  gap: '16px',
+                  padding: '16px 20px',
+                  minHeight: '80px',
                   textAlign: 'left',
-                  backgroundColor: 'var(--color-surface)',
-                  border: '1px solid var(--border-brand)',
-                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #ebebeb',
+                  borderRadius: '6px',
                   cursor: item.disabled ? 'not-allowed' : 'pointer',
-                  opacity: item.disabled ? 0.55 : 1,
-                  transition: 'var(--transition-base)',
+                  opacity: item.disabled ? 0.5 : 1,
+                  transition: 'all 0.15s',
                 }}
                 onMouseEnter={e => {
                   if (!item.disabled) {
-                    e.currentTarget.style.borderColor = item.colorHex + '70';
-                    e.currentTarget.style.backgroundColor = item.colorHex + '0a';
-                    const arrow = e.currentTarget.querySelector('.export-arrow') as HTMLElement | null;
-                    if (arrow) arrow.style.color = item.colorHex;
+                    e.currentTarget.style.borderColor = '#d4d4d4';
+                    e.currentTarget.style.backgroundColor = '#fafafa';
                   }
                 }}
                 onMouseLeave={e => {
                   if (!item.disabled) {
-                    e.currentTarget.style.borderColor = 'var(--border-brand)';
-                    e.currentTarget.style.backgroundColor = 'var(--color-surface)';
-                    const arrow = e.currentTarget.querySelector('.export-arrow') as HTMLElement | null;
-                    if (arrow) arrow.style.color = item.colorHex + '80';
+                    e.currentTarget.style.borderColor = '#ebebeb';
+                    e.currentTarget.style.backgroundColor = '#ffffff';
                   }
                 }}
               >
                 <div style={{
-                  width: '52px', height: '52px', flexShrink: 0,
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: item.colorHex + '18',
+                  width: '44px', height: '44px', flexShrink: 0,
+                  borderRadius: '8px',
+                  backgroundColor: '#f5f5f5',
+                  border: '1px solid #ebebeb',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <item.icon style={{ width: '24px', height: '24px', color: item.color }} />
+                  <item.icon style={{ width: '20px', height: '20px', color: '#4d4d4d' }} strokeWidth={1.5} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--color-text-primary)', display: 'flex', alignItems: 'center' }}>
+                  <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', display: 'flex', alignItems: 'center' }}>
                     {item.label}
                     {item.pro && (
                       <span style={{
-                        fontSize: '10px', fontWeight: 700, padding: '2px 8px',
-                        backgroundColor: 'rgba(255,184,0,0.1)', border: '1px solid rgba(255,184,0,0.3)',
-                        borderRadius: 'var(--radius-full)', color: '#FFB800', marginLeft: '8px',
+                        fontSize: '10px', fontWeight: 500, padding: '2px 8px',
+                        backgroundColor: '#f5f5f5', border: '1px solid #ebebeb',
+                        borderRadius: '9999px', color: '#666666', marginLeft: '8px',
                       }}>PRO</span>
                     )}
                   </p>
-                  <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-muted)', lineHeight: 1.5, marginTop: '2px' }}>
+                  <p style={{ fontSize: '12px', color: '#666666', lineHeight: 1.5, marginTop: '2px' }}>
                     {item.description}
                   </p>
-                  <p style={{ fontSize: 'var(--text-micro)', color: item.colorHex + 'b3', marginTop: '6px' }}>
+                  <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '6px' }}>
                     {item.meta}
                   </p>
                 </div>
                 {!item.disabled && (
                   <span
                     className="export-arrow"
-                    style={{ color: item.colorHex + '80', fontSize: '18px', flexShrink: 0, marginLeft: 'auto', transition: 'color 0.15s' }}
+                    style={{ color: '#a8a8a8', fontSize: '18px', flexShrink: 0, marginLeft: 'auto', transition: 'color 0.15s' }}
                   >
                     →
                   </span>

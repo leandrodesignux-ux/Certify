@@ -34,59 +34,59 @@ export function Badge({ status, label, size = 'sm', dot }: BadgeProps) {
       case 'vigente':
         return {
           ...base,
-          backgroundColor: 'rgba(114,147,98,0.12)',
-          color: '#729362',
-          borderColor: 'rgba(114,147,98,0.3)',
+          backgroundColor: 'rgba(41,122,58,0.08)',
+          color: '#297a3a',
+          borderColor: 'rgba(41,122,58,0.2)',
         };
       case 'proximo_vencer':
         return {
           ...base,
-          backgroundColor: 'rgba(255,184,0,0.10)',
-          color: '#FFB800',
-          borderColor: 'rgba(255,184,0,0.25)',
+          backgroundColor: 'rgba(178,80,0,0.08)',
+          color: '#b25000',
+          borderColor: 'rgba(178,80,0,0.2)',
         };
       case 'vencido':
         return {
           ...base,
-          backgroundColor: 'rgba(255,61,87,0.10)',
-          color: '#FF3D57',
-          borderColor: 'rgba(255,61,87,0.25)',
+          backgroundColor: 'rgba(229,72,77,0.08)',
+          color: '#e5484d',
+          borderColor: 'rgba(229,72,77,0.2)',
         };
       case 'pendiente':
         return {
           ...base,
-          backgroundColor: 'rgba(91,34,119,0.08)',
-          color: '#9b6ab5',
-          borderColor: 'rgba(91,34,119,0.2)',
+          backgroundColor: 'rgba(23,23,23,0.05)',
+          color: '#4d4d4d',
+          borderColor: '#ebebeb',
         };
       // TYPE BADGES - outline only, no background
       case 'obligatoria':
         return {
           ...base,
           backgroundColor: 'transparent',
-          color: '#FF5C71',
-          borderColor: 'rgba(255,61,87,0.35)',
+          color: '#e5484d',
+          borderColor: '#ebebeb',
         };
       case 'complementaria':
         return {
           ...base,
           backgroundColor: 'transparent',
-          color: '#9aaa58',
-          borderColor: 'rgba(138,158,82,0.35)',
+          color: '#4d4d4d',
+          borderColor: '#ebebeb',
         };
       case 'legal':
         return {
           ...base,
           backgroundColor: 'transparent',
-          color: '#9b6ab5',
-          borderColor: 'rgba(155,106,181,0.35)',
+          color: '#4d4d4d',
+          borderColor: '#ebebeb',
         };
       default:
         return {
           ...base,
-          backgroundColor: 'rgba(91,34,119,0.08)',
-          color: '#9b6ab5',
-          borderColor: 'rgba(91,34,119,0.2)',
+          backgroundColor: 'rgba(23,23,23,0.05)',
+          color: '#4d4d4d',
+          borderColor: '#ebebeb',
         };
     }
   };
@@ -94,15 +94,15 @@ export function Badge({ status, label, size = 'sm', dot }: BadgeProps) {
   const getDotColor = (status: string): string => {
     switch (status) {
       case 'vigente':
-        return '#729362';
+        return '#297a3a';
       case 'proximo_vencer':
-        return '#FFB800';
+        return '#b25000';
       case 'vencido':
-        return '#FF3D57';
+        return '#e5484d';
       case 'pendiente':
-        return '#9b6ab5';
+        return '#4d4d4d';
       default:
-        return '#9b6ab5';
+        return '#4d4d4d';
     }
   };
 

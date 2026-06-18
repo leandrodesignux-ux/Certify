@@ -15,25 +15,24 @@ export function TopUrgentWorkers() {
 
   return (
     <div style={{
-      backgroundColor: 'rgba(26,16,64,0.8)',
-      backdropFilter: 'blur(12px)',
-      border: '1px solid var(--border-brand)',
+      backgroundColor: '#ffffff',
+      border: '1px solid #ebebeb',
       borderRadius: 'var(--radius-sm)',
       display: 'flex',
       flexDirection: 'column',
       height: '400px',
     }}>
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(91,34,119,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h2 style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '18px', fontWeight: 700, color: '#F0F4FF' }}>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <h2 style={{ fontSize: '16px', fontWeight: 600, color: '#171717', letterSpacing: '-0.02em' }}>
           Requieren Acción
         </h2>
-        <span style={{ backgroundColor: 'var(--status-danger-bg)', color: 'var(--color-danger)', fontSize: '11px', fontWeight: 700, borderRadius: 'var(--radius-sm)', padding: '3px 8px' }}>
+        <span style={{ backgroundColor: 'rgba(229,72,77,0.08)', color: '#e5484d', fontSize: '11px', fontWeight: 500, borderRadius: 'var(--radius-sm)', padding: '3px 8px', border: '1px solid rgba(229,72,77,0.2)' }}>
           {urgent.length}
         </span>
       </div>
       <div style={{ flex: 1, overflowY: 'auto', padding: '8px 0' }}>
         {urgent.length === 0 ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#8892A4', fontSize: '13px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#a8a8a8', fontSize: '13px' }}>
             ✓ Sin trabajadores críticos
           </div>
         ) : urgent.map((worker) => {
@@ -44,46 +43,47 @@ export function TopUrgentWorkers() {
               key={worker.id}
               onClick={() => navigate(`/workers/${worker.id}`)}
               style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', transition: 'background 0.15s' }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.08)')}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f5f5f5')}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
             >
               {worker.foto
                 ? <img src={worker.foto} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
-                : <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: 'var(--color-surface-alt)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-purple-light)', fontWeight: 700, fontSize: '13px', flexShrink: 0 }}>{initials}</div>
+                : <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#f0f0f0', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4d4d4d', fontWeight: 500, fontSize: '13px', flexShrink: 0 }}>{initials}</div>
               }
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: '#F0F4FF', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: '#171717', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {worker.nombre} {worker.apellidos}
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <ProgressBar value={worker.complianceScore} showLabel={false} />
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: hasExpired ? 'var(--color-danger)' : 'var(--color-warning)', flexShrink: 0 }}>
+                  <span style={{ fontSize: '11px', fontWeight: 600, color: hasExpired ? '#e5484d' : '#b25000', flexShrink: 0 }}>
                     {worker.complianceScore}%
                   </span>
                 </div>
                 {hasExpired && (
-                  <p style={{ fontSize: '10px', color: 'var(--color-danger)', marginTop: '2px' }}>Cert. vencida</p>
+                  <p style={{ fontSize: '10px', color: '#e5484d', marginTop: '2px' }}>Cert. vencida</p>
                 )}
               </div>
               <ArrowRight
-                className="arrow-icon"
                 style={{
                   width: '14px',
                   height: '14px',
-                  color: '#4A5568',
+                  color: '#a8a8a8',
                   flexShrink: 0,
                   transition: 'all 0.2s',
-                  opacity: 0.5,
                 }}
+                strokeWidth={1.5}
               />
             </div>
           );
         })}
       </div>
-      <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(91,34,119,0.15)' }}>
+      <div style={{ padding: '12px 20px', borderTop: '1px solid #ebebeb' }}>
         <button
           onClick={() => navigate('/workers')}
-          style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid rgba(91,34,119,0.3)', borderRadius: 'var(--radius-sm)', padding: '8px', fontSize: '12px', color: '#9b6ab5', cursor: 'pointer', fontWeight: 600 }}
+          style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid #ebebeb', borderRadius: 'var(--radius-sm)', padding: '8px', fontSize: '12px', color: '#4d4d4d', cursor: 'pointer', fontWeight: 500, transition: 'background 0.15s' }}
+          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; }}
         >
           Ver todos los trabajadores →
         </button>

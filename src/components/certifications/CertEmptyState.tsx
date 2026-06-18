@@ -42,9 +42,9 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
       style={{ 
         textAlign: 'center', 
         padding: '48px 20px',
-        background: 'rgba(91,34,119,0.04)',
-        borderRadius: 'var(--radius-lg)',
-        border: '1px dashed rgba(91,34,119,0.15)',
+        background: '#fafafa',
+        borderRadius: 'var(--radius-sm)',
+        border: '1px dashed #d4d4d4',
         margin: '20px'
       }}
     >
@@ -57,7 +57,7 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
             position: 'absolute',
             inset: '-10px',
             borderRadius: '50%',
-            border: '2px dashed rgba(91,34,119,0.4)',
+            border: '1px dashed #d4d4d4',
           }}
         />
         <motion.div
@@ -67,25 +67,15 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
             position: 'absolute',
             inset: '-25px',
             borderRadius: '50%',
-            border: '2px dashed rgba(138,158,82,0.25)',
+            border: '1px dashed #e8e8e8',
           }}
         />
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
-          style={{
-            position: 'absolute',
-            inset: '-40px',
-            borderRadius: '50%',
-            border: '2px dashed rgba(255,184,0,0.15)',
-          }}
-        />
-        <Award style={{ width: '64px', height: '64px', color: '#7c4dab', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
+        <Award style={{ width: '48px', height: '48px', color: '#a8a8a8', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} strokeWidth={1.5} />
       </div>
-      <p style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '24px', fontWeight: 700, color: '#F0F4FF', marginBottom: '8px' }}>
+      <p style={{ fontSize: '20px', fontWeight: 600, color: '#171717', marginBottom: '8px', letterSpacing: '-0.02em' }}>
         {title}
       </p>
-      <p style={{ fontSize: '14px', color: '#8892A4', marginBottom: '20px' }}>
+      <p style={{ fontSize: '14px', color: '#666666', marginBottom: '20px' }}>
         {subtitle}
       </p>
 
@@ -96,22 +86,20 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
             onClick={onClearSearch}
             style={{
               padding: '8px 16px',
-              backgroundColor: 'rgba(91,34,119,0.12)',
-              border: '1px solid rgba(91,34,119,0.35)',
+              backgroundColor: '#f5f5f5',
+              border: '1px solid #ebebeb',
               borderRadius: '6px',
-              color: '#9b6ab5',
+              color: '#4d4d4d',
               fontSize: '13px',
               fontWeight: 500,
               cursor: 'pointer',
               transition: 'all 0.15s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.2)';
-              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.backgroundColor = '#ebebeb';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.12)';
-              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.backgroundColor = '#f5f5f5';
             }}
           >
             Limpiar búsqueda
@@ -122,22 +110,20 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
             onClick={onSwitchToAll}
             style={{
               padding: '8px 16px',
-              backgroundColor: 'rgba(138,158,82,0.1)',
-              border: '1px solid rgba(138,158,82,0.35)',
+              backgroundColor: '#171717',
+              border: '1px solid #171717',
               borderRadius: '6px',
-              color: '#8a9e52',
+              color: '#ffffff',
               fontSize: '13px',
               fontWeight: 500,
               cursor: 'pointer',
               transition: 'all 0.15s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(138,158,82,0.18)';
-              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.backgroundColor = '#2e2e2e';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(138,158,82,0.1)';
-              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.backgroundColor = '#171717';
             }}
           >
             Ver todas las certificaciones
@@ -151,22 +137,20 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
             }}
             style={{
               padding: '8px 16px',
-              backgroundColor: 'rgba(255,61,87,0.1)',
-              border: '1px solid rgba(255,61,87,0.35)',
+              backgroundColor: 'rgba(229,72,77,0.08)',
+              border: '1px solid rgba(229,72,77,0.2)',
               borderRadius: '6px',
-              color: '#ff3d57',
+              color: '#e5484d',
               fontSize: '13px',
               fontWeight: 500,
               cursor: 'pointer',
               transition: 'all 0.15s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255,61,87,0.18)';
-              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.backgroundColor = 'rgba(229,72,77,0.14)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255,61,87,0.1)';
-              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.backgroundColor = 'rgba(229,72,77,0.08)';
             }}
           >
             Limpiar todo

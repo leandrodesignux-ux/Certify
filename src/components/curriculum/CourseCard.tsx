@@ -9,23 +9,23 @@ interface CourseCardProps {
   index?: number;
 }
 
-const categoryColors: Record<string, { bg: string; accent: string }> = {
-  'Inducción': { bg: 'bg-[#1a1040]', accent: '#9b6ab5' },
-  'Seguridad': { bg: 'bg-[#1a1040]', accent: '#8a9e52' },
-  'Habilidades': { bg: 'bg-[#1a1040]', accent: '#FFB800' },
-  'Liderazgo': { bg: 'bg-[#1a1040]', accent: '#729362' },
-  'Emergencias': { bg: 'bg-[#1a1040]', accent: '#FF3D57' },
+const categoryColors: Record<string, { accent: string }> = {
+  'Inducción':  { accent: '#4d4d4d' },
+  'Seguridad':  { accent: '#297a3a' },
+  'Habilidades':{ accent: '#b25000' },
+  'Liderazgo':  { accent: '#297a3a' },
+  'Emergencias':{ accent: '#e5484d' },
 };
 
 const statusConfig = {
-  completado: { icon: CheckCircle, color: '#729362', bg: 'bg-[rgba(114,147,98,0.15)]', label: 'Completado' },
-  en_progreso: { icon: Play, color: '#7c4dab', bg: 'bg-[rgba(91,34,119,0.15)]', label: 'En progreso' },
-  pendiente: { icon: Clock, color: '#8892A4', bg: 'bg-[rgba(136,146,164,0.15)]', label: 'Pendiente' },
-  bloqueado: { icon: Lock, color: '#4A5568', bg: 'bg-[rgba(74,85,104,0.15)]', label: 'Bloqueado' },
+  completado:  { icon: CheckCircle, color: '#297a3a', bg: 'rgba(41,122,58,0.08)',   border: 'rgba(41,122,58,0.2)',  label: 'Completado' },
+  en_progreso: { icon: Play,        color: '#171717', bg: 'rgba(23,23,23,0.06)',    border: '#d4d4d4',              label: 'En progreso' },
+  pendiente:   { icon: Clock,       color: '#a8a8a8', bg: 'rgba(168,168,168,0.08)', border: 'rgba(168,168,168,0.3)',label: 'Pendiente' },
+  bloqueado:   { icon: Lock,        color: '#a8a8a8', bg: 'rgba(168,168,168,0.06)', border: 'rgba(168,168,168,0.2)',label: 'Bloqueado' },
 };
 
 export function CourseCard({ course, index = 0 }: CourseCardProps) {
-  const colors = categoryColors[course.categoria] || { bg: 'bg-[#1a1040]', accent: '#9b6ab5' };
+  const colors = categoryColors[course.categoria] || { accent: '#4d4d4d' };
   const status = statusConfig[course.estado];
   const StatusIcon = status.icon;
 
@@ -36,7 +36,7 @@ export function CourseCard({ course, index = 0 }: CourseCardProps) {
       transition={{ delay: index * 0.05, duration: 0.3 }}
       className="w-[200px]"
     >
-      <div className={`${colors.bg} rounded-sm overflow-hidden border border-[rgba(91,34,119,0.2)] hover:border-[rgba(91,34,119,0.45)] transition-colors duration-200`}>
+      <div className="rounded-sm overflow-hidden transition-colors duration-200" style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb' }}>
         {/* Header with accent */}
         <div
           className="h-1.5"
@@ -52,11 +52,11 @@ export function CourseCard({ course, index = 0 }: CourseCardProps) {
             >
               {course.categoria}
             </span>
-            <span className="text-xs text-[#8892A4]">{course.duracionHoras}h</span>
+            <span className="text-xs" style={{ color: '#a8a8a8' }}>{course.duracionHoras}h</span>
           </div>
 
           {/* Course Name */}
-          <h4 className="font-display text-base font-semibold text-[#F0F4FF] leading-tight min-h-[40px]">
+          <h4 className="text-base font-semibold leading-tight min-h-[40px]" style={{ color: '#171717' }}>
             {course.nombre}
           </h4>
 
@@ -70,8 +70,8 @@ export function CourseCard({ course, index = 0 }: CourseCardProps) {
 
           {/* Status Badge */}
           <div className="flex items-center justify-between mt-3">
-            <div className={`flex items-center gap-1.5 px-2 py-1 rounded-sm ${status.bg}`}>
-              <StatusIcon className="w-3.5 h-3.5" style={{ color: status.color }} />
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-sm" style={{ backgroundColor: status.bg, border: `1px solid ${status.border}` }}>
+              <StatusIcon className="w-3.5 h-3.5" style={{ color: status.color }} strokeWidth={1.5} />
               <span className="text-xs font-medium" style={{ color: status.color }}>
                 {status.label}
               </span>
@@ -79,7 +79,7 @@ export function CourseCard({ course, index = 0 }: CourseCardProps) {
 
             {/* Completion Date */}
             {course.estado === 'completado' && course.fechaCertificado && (
-              <span className="text-[10px] text-[#8892A4]">
+              <span className="text-[10px]" style={{ color: '#a8a8a8' }}>
                 {formatDate(course.fechaCertificado)}
               </span>
             )}

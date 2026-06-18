@@ -32,26 +32,11 @@ function useCountUp(target: number, duration = 1200) {
 }
 
 const colorMap = {
-  electric: {
-    color: '#7c4dab',
-    glow: 'shadow-[0_0_12px_rgba(124,77,171,0.3)]',
-  },
-  volt: {
-    color: '#8a9e52',
-    glow: 'shadow-[0_0_12px_rgba(138,158,82,0.3)]',
-  },
-  warning: {
-    color: '#FFB800',
-    glow: 'shadow-[0_0_12px_rgba(255,184,0,0.3)]',
-  },
-  danger: {
-    color: '#FF3D57',
-    glow: 'shadow-[0_0_12px_rgba(255,61,87,0.3)]',
-  },
-  success: {
-    color: '#729362',
-    glow: 'shadow-[0_0_12px_rgba(114,147,98,0.3)]',
-  },
+  electric: { color: '#171717' },
+  volt:     { color: '#297a3a' },
+  warning:  { color: '#b25000' },
+  danger:   { color: '#e5484d' },
+  success:  { color: '#297a3a' },
 };
 
 export function StatsCard({
@@ -76,8 +61,8 @@ export function StatsCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] as const }}
       style={{
-        backgroundColor: 'var(--color-surface)',
-        border: `1px solid ${colors.color}22`,
+        backgroundColor: '#ffffff',
+        border: '1px solid #ebebeb',
         borderRadius: 'var(--radius-sm)',
         padding: '20px',
         height: '150px',
@@ -88,29 +73,21 @@ export function StatsCard({
         position: 'relative',
         overflow: 'hidden',
         cursor: 'default',
-        transition: 'border-color 0.2s, transform 0.2s',
+        transition: 'border-color 0.2s',
       }}
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ borderColor: '#d4d4d4' }}
     >
-      {/* Glow accent top-right */}
-      <div style={{
-        position: 'absolute', top: 0, right: 0,
-        width: '80px', height: '80px',
-        background: `radial-gradient(circle at top right, ${colors.color}18, transparent 70%)`,
-        pointerEvents: 'none',
-      }} />
-
       {/* Top row: icon + trend */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ backgroundColor: `${colors.color}18`, borderRadius: '10px', padding: '8px' }}>
-          <Icon style={{ width: '18px', height: '18px', color: colors.color }} />
+        <div style={{ backgroundColor: '#f5f5f5', borderRadius: '6px', padding: '8px' }}>
+          <Icon style={{ width: '18px', height: '18px', color: colors.color }} strokeWidth={1.5} />
         </div>
         {trend && (
           <span style={{
             fontSize: '11px', fontWeight: 600,
             color: trend.direction === 'up' ? 'var(--kpi-trend-up)' : 'var(--kpi-trend-down)',
             backgroundColor: trend.direction === 'up' ? 'var(--status-ok-bg)' : 'var(--status-danger-bg)',
-            borderRadius: '12px', padding: '3px 8px',
+            borderRadius: '9999px', padding: '3px 8px',
             whiteSpace: 'nowrap', flexShrink: 0,
           }}>
             {trend.direction === 'up' ? '↑' : '↓'} {trend.value}
@@ -121,22 +98,16 @@ export function StatsCard({
       {/* Bottom: number + label */}
       <div>
         <p style={{
-          fontFamily: '"Barlow Condensed", sans-serif',
-          fontSize: '42px', fontWeight: 700, lineHeight: 1,
-          color: '#F0F4FF', marginBottom: '4px',
+          fontFamily: 'var(--font-display)',
+          fontSize: '42px', fontWeight: 600, lineHeight: 1,
+          color: '#171717', marginBottom: '4px',
+          letterSpacing: '-0.04em',
           maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis',
         }}>
           {typeof value === 'string' && value.includes('%') ? `${displayValue}%` : displayValue}
         </p>
-        <p style={{ fontSize: '12px', color: 'var(--color-text-secondary)', fontWeight: 500 }}>{subtitle}</p>
+        <p style={{ fontSize: '12px', color: '#666666', fontWeight: 500 }}>{subtitle}</p>
       </div>
-
-      {/* Bottom accent line */}
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0,
-        height: '2px',
-        background: `linear-gradient(to right, ${colors.color}60, transparent)`,
-      }} />
     </motion.div>
   );
 }

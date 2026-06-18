@@ -11,20 +11,16 @@ import {
   Bell,
   BarChart3,
   BookOpen,
-  Quote,
   ArrowRight,
 } from 'lucide-react';
-import { Button } from '../components/ui/Button';
 
-// Navbar
+// ─── Navbar ────────────────────────────────────────────────────────────────────
 function Navbar() {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -33,183 +29,331 @@ function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
       style={{
         position: 'sticky',
         top: 0,
-        left: 0,
-        right: 0,
         zIndex: 50,
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        backgroundColor: scrolled ? 'rgba(10,14,26,0.85)' : 'transparent',
-        borderBottom: scrolled ? '1px solid rgba(91,34,119,0.2)' : 'none',
-        transition: 'all 0.3s ease',
+        backgroundColor: scrolled ? 'rgba(255,255,255,0.92)' : '#ffffff',
+        borderBottom: '1px solid #ebebeb',
+        backdropFilter: scrolled ? 'blur(8px)' : 'none',
+        transition: 'background-color 0.2s, backdrop-filter 0.2s',
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <Zap className="w-6 h-6 text-[#9b6ab5]" />
-          <span className="font-display text-xl font-bold text-[#F0F4FF]">CertifyX</span>
+      <div
+        style={{
+          maxWidth: '1152px',
+          margin: '0 auto',
+          padding: '0 24px',
+          height: '60px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        {/* Logo — single prismatic accent on the mark */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '26px',
+              height: '26px',
+              borderRadius: '6px',
+              background: 'linear-gradient(135deg, #0070f3 0%, #7928ca 50%, #ff4ecd 100%)',
+            }}
+          >
+            <Zap style={{ width: '14px', height: '14px', color: '#ffffff' }} strokeWidth={2.5} />
+          </span>
+          <span
+            style={{
+              fontSize: '17px',
+              fontWeight: 600,
+              letterSpacing: '-0.02em',
+              color: '#171717',
+            }}
+          >
+            CertifyX
+          </span>
         </div>
 
         {/* Links */}
         <div className="hidden md:flex items-center gap-8">
-          <a
-            href="#features"
-            className="text-sm text-[#8892A4] hover:text-[#F0F4FF] transition-colors"
-          >
-            Producto
-          </a>
-          <a
-            href="#pricing"
-            className="text-sm text-[#8892A4] hover:text-[#F0F4FF] transition-colors"
-          >
-            Precios
-          </a>
-          <a
-            href="#demo"
-            className="text-sm text-[#8892A4] hover:text-[#F0F4FF] transition-colors"
-          >
-            Demo
-          </a>
+          {['Producto', 'Precios', 'Demo'].map((label) => (
+            <a
+              key={label}
+              href={`#${label.toLowerCase()}`}
+              style={{ fontSize: '14px', color: '#4d4d4d', textDecoration: 'none', transition: 'color 0.15s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#171717'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#4d4d4d'; }}
+            >
+              {label}
+            </a>
+          ))}
         </div>
 
         {/* CTA */}
-        <Button variant="primary" size="sm" onClick={() => navigate('/dashboard')}>
+        <button
+          onClick={() => navigate('/dashboard')}
+          style={{
+            height: '36px',
+            padding: '0 16px',
+            backgroundColor: '#171717',
+            color: '#ffffff',
+            border: '1px solid #171717',
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontWeight: 500,
+            cursor: 'pointer',
+            transition: 'background-color 0.15s',
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#2e2e2e'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#171717'; }}
+        >
           Ingresar
-        </Button>
+        </button>
       </div>
     </motion.nav>
   );
 }
 
-// Hero Section
+// ─── Hero ───────────────────────────────────────────────────────────────────────
 function Hero() {
   const navigate = useNavigate();
 
   return (
-    <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: '#0d0920' }}>
-      {/* Background */}
-      <div style={{ position: 'absolute', inset: 0, backgroundColor: '#0d0920' }}>
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(91, 34, 119, 0.2) 1px, transparent 0)',
-            backgroundSize: '32px 32px',
-          }}
-        />
-        {/* Glow */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(91,34,119,0.12) 0%, transparent 70%)',
-          }}
-        />
-      </div>
+    <section
+      style={{
+        position: 'relative',
+        backgroundColor: '#fafafa',
+        overflow: 'hidden',
+        paddingTop: '96px',
+        paddingBottom: '96px',
+      }}
+    >
+      {/* Engineering grid — subtle dots */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(circle at 1px 1px, #d4d4d4 1px, transparent 0)',
+          backgroundSize: '28px 28px',
+          opacity: 0.6,
+          pointerEvents: 'none',
+        }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 text-center">
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+      <div
+        style={{
+          position: 'relative',
+          maxWidth: '1152px',
+          margin: '0 auto',
+          padding: '0 24px',
+          textAlign: 'center',
+        }}
+      >
+        {/* Label pill */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          style={{
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: 'clamp(48px, 8vw, 96px)',
-            fontWeight: 700,
-            color: '#9b6ab5',
-            lineHeight: 1.1,
-            letterSpacing: '-0.02em',
-          }}
+          transition={{ duration: 0.4 }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '28px' }}
         >
-          Del papel al panel.
-        </motion.h1>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '4px 12px',
+              backgroundColor: '#ffffff',
+              border: '1px solid #ebebeb',
+              borderRadius: '9999px',
+              fontSize: '12px',
+              fontWeight: 500,
+              color: '#4d4d4d',
+            }}
+          >
+            <span
+              style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: '#297a3a',
+                flexShrink: 0,
+              }}
+            />
+            Gestión de certificaciones industriales
+          </span>
+        </motion.div>
 
-        {/* Sub */}
-        <motion.p
+        {/* Headline — Geist style */}
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          style={{ marginTop: '24px', fontSize: '20px', color: '#8892A4', maxWidth: '672px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          style={{
+            fontSize: 'clamp(40px, 6vw, 72px)',
+            fontWeight: 500,
+            color: '#171717',
+            lineHeight: 1.1,
+            letterSpacing: '-0.06em',
+            marginBottom: '24px',
+            maxWidth: '800px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
         >
-          Certifica el talento industrial en tiempo real.
-          <br />
-          Gestión de competencias sin fricción.
+          Del papel al panel,<br />sin fricción.
+        </motion.h1>
+
+        {/* Subhead */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          style={{
+            fontSize: '16px',
+            color: '#4d4d4d',
+            maxWidth: '560px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            lineHeight: 1.7,
+            marginBottom: '40px',
+          }}
+        >
+          Certifica el talento industrial en tiempo real. Alertas automáticas,
+          dashboard vivo y mallas curriculares en un solo lugar.
         </motion.p>
 
         {/* CTAs */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px' }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}
         >
+          {/* Filled */}
           <button
             onClick={() => navigate('/dashboard')}
             style={{
-              backgroundColor: '#7c4dab',
-              color: '#F0F4FF',
-              padding: '12px 28px',
-              borderRadius: '8px',
-              fontWeight: 600,
-              border: 'none',
+              height: '44px',
+              padding: '0 24px',
+              backgroundColor: '#171717',
+              color: '#ffffff',
+              border: '1px solid #171717',
+              borderRadius: '6px',
+              fontSize: '15px',
+              fontWeight: 500,
               cursor: 'pointer',
-              fontSize: '16px',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
+              transition: 'background-color 0.15s',
             }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#2e2e2e'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#171717'; }}
           >
-            Ver Dashboard <ArrowRight style={{ width: '20px', height: '20px' }} />
+            Ver Dashboard <ArrowRight style={{ width: '16px', height: '16px' }} strokeWidth={2} />
           </button>
+          {/* Outlined */}
           <button
             style={{
-              backgroundColor: 'transparent',
-              color: '#F0F4FF',
-              padding: '12px 28px',
-              borderRadius: '8px',
-              fontWeight: 600,
-              border: '1px solid rgba(240,244,255,0.25)',
+              height: '44px',
+              padding: '0 24px',
+              backgroundColor: '#ffffff',
+              color: '#171717',
+              border: '1px solid #d4d4d4',
+              borderRadius: '6px',
+              fontSize: '15px',
+              fontWeight: 500,
               cursor: 'pointer',
-              fontSize: '16px',
+              transition: 'border-color 0.15s, background-color 0.15s',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.borderColor = '#a8a8a8';
+              (e.currentTarget as HTMLElement).style.backgroundColor = '#fafafa';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.borderColor = '#d4d4d4';
+              (e.currentTarget as HTMLElement).style.backgroundColor = '#ffffff';
             }}
           >
             Ver Demo
           </button>
         </motion.div>
 
-        {/* Mockup */}
+        {/* Dashboard mockup */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
-          className="mt-16 mx-auto max-w-4xl"
+          transition={{ duration: 0.7, delay: 0.5 }}
+          style={{ marginTop: '64px', maxWidth: '900px', marginLeft: 'auto', marginRight: 'auto' }}
         >
-          <div className="relative bg-[#1a1040] rounded-lg border border-[rgba(91,34,119,0.3)] shadow-[0_0_40px_rgba(91,34,119,0.2)] p-6">
-            {/* Mock Header */}
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-[rgba(91,34,119,0.2)]">
-              <div className="flex items-center gap-4">
-                <div className="w-3 h-3 rounded-full bg-[#FF3D57]" />
-                <div className="w-3 h-3 rounded-full bg-[#FFB800]" />
-                <div className="w-3 h-3 rounded-full bg-[#729362]" />
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              border: '1px solid #ebebeb',
+              borderRadius: '6px',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04)',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Titlebar */}
+            <div
+              style={{
+                backgroundColor: '#fafafa',
+                borderBottom: '1px solid #ebebeb',
+                padding: '12px 16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ebebeb' }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ebebeb' }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ebebeb' }} />
               </div>
-              <div className="text-xs text-[#8892A4]">Dashboard CertifyX</div>
+              <span style={{ fontSize: '12px', color: '#a8a8a8' }}>Dashboard CertifyX</span>
+              <div style={{ width: '52px' }} />
             </div>
-
-            {/* Mock Stats */}
-            <div className="grid grid-cols-4 gap-4">
+            {/* Mock stats */}
+            <div
+              style={{
+                padding: '20px',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: '12px',
+              }}
+            >
               {[
-                { label: 'Trabajadores', value: '20', color: '#9b6ab5' },
-                { label: 'Certificaciones Vigentes', value: '45', color: '#729362' },
-                { label: 'Próximas a Vencer', value: '12', color: '#FFB800' },
-                { label: 'Compliance', value: '78%', color: '#8a9e52' },
+                { label: 'Trabajadores', value: '20', color: '#171717' },
+                { label: 'Vigentes', value: '45', color: '#297a3a' },
+                { label: 'Por vencer', value: '12', color: '#b25000' },
+                { label: 'Compliance', value: '78%', color: '#171717' },
               ].map((stat) => (
-                <div key={stat.label} className="bg-[#231455] rounded p-4">
-                  <p className="text-xs text-[#8892A4] mb-1">{stat.label}</p>
+                <div
+                  key={stat.label}
+                  style={{
+                    backgroundColor: '#fafafa',
+                    border: '1px solid #ebebeb',
+                    borderRadius: '6px',
+                    padding: '16px',
+                  }}
+                >
+                  <p style={{ fontSize: '11px', color: '#a8a8a8', marginBottom: '8px', fontWeight: 500 }}>
+                    {stat.label}
+                  </p>
                   <p
-                    className="font-display text-2xl font-bold"
-                    style={{ color: stat.color }}
+                    style={{
+                      fontSize: '28px',
+                      fontWeight: 600,
+                      color: stat.color,
+                      letterSpacing: '-0.04em',
+                      lineHeight: 1,
+                    }}
                   >
                     {stat.value}
                   </p>
@@ -219,19 +363,19 @@ function Hero() {
           </div>
         </motion.div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          style={{ marginTop: '48px', display: 'flex', justifyContent: 'center' }}
         >
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-            className="text-[#8892A4]"
+            animate={{ y: [0, 6, 0] }}
+            transition={{ repeat: Infinity, duration: 1.6 }}
+            style={{ color: '#a8a8a8' }}
           >
-            <ChevronDown className="w-6 h-6" />
+            <ChevronDown style={{ width: '20px', height: '20px' }} strokeWidth={1.5} />
           </motion.div>
         </motion.div>
       </div>
@@ -239,52 +383,72 @@ function Hero() {
   );
 }
 
-// Pain Points
+// ─── Pain Points ────────────────────────────────────────────────────────────────
 function PainPoints() {
   const painPoints = [
     {
       icon: AlertTriangle,
       title: 'Certificaciones vencidas sin avisar',
       desc: 'Multas por trabajadores operando con licencias caducadas.',
-      color: '#FF3D57',
+      iconColor: '#e5484d',
+      iconBg: 'rgba(229,72,77,0.08)',
     },
     {
       icon: FileX,
       title: 'Excel desactualizados y perdidos',
       desc: 'Versiones dispersas, datos inconsistentes, sin historial.',
-      color: '#FFB800',
+      iconColor: '#b25000',
+      iconBg: 'rgba(178,80,0,0.08)',
     },
     {
       icon: ShieldAlert,
       title: 'Multas y paralizaciones',
       desc: 'Fiscalizaciones SENCE que detienen operaciones críticas.',
-      color: '#FF3D57',
+      iconColor: '#e5484d',
+      iconBg: 'rgba(229,72,77,0.08)',
     },
     {
       icon: EyeOff,
       title: 'Sin visibilidad del equipo',
       desc: 'No sabes quién está capacitado ni qué falta en terreno.',
-      color: '#6B7280',
+      iconColor: '#4d4d4d',
+      iconBg: '#f5f5f5',
     },
   ];
 
   return (
-    <section id="features" className="py-24 bg-[#0d0920]">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="features" style={{ padding: '96px 0', backgroundColor: '#ffffff' }}>
+      <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px' }}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.5 }}
+          style={{ textAlign: 'center', marginBottom: '56px' }}
         >
-          <h2 className="font-display text-4xl font-bold text-[#F0F4FF] mb-4">
+          <h2
+            style={{
+              fontSize: 'clamp(28px, 4vw, 40px)',
+              fontWeight: 500,
+              color: '#171717',
+              letterSpacing: '-0.04em',
+              marginBottom: '12px',
+            }}
+          >
             El caos de certificaciones en terreno
           </h2>
-          <p className="text-[#8892A4]">Problemas que resolvió ayer. Hoy, son historia.</p>
+          <p style={{ fontSize: '15px', color: '#666666' }}>
+            Problemas que resolviste ayer. Hoy, son historia.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '16px',
+          }}
+        >
           {painPoints.map((pain, index) => {
             const Icon = pain.icon;
             return (
@@ -293,19 +457,46 @@ function PainPoints() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
                 style={{
-                  backgroundColor: '#1a1040',
-                  border: '1px solid rgba(91,34,119,0.2)',
-                  borderRadius: '12px',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #ebebeb',
+                  borderRadius: '6px',
                   padding: '24px',
+                  transition: 'box-shadow 0.15s',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = 'none';
                 }}
               >
-                <Icon className="w-10 h-10 mb-4" style={{ color: pain.color }} />
-                <h3 className="font-display text-xl font-semibold text-[#F0F4FF] mb-2">
+                <div
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '6px',
+                    backgroundColor: pain.iconBg,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '16px',
+                  }}
+                >
+                  <Icon style={{ width: '20px', height: '20px', color: pain.iconColor }} strokeWidth={1.5} />
+                </div>
+                <h3
+                  style={{
+                    fontSize: '15px',
+                    fontWeight: 600,
+                    color: '#171717',
+                    marginBottom: '8px',
+                  }}
+                >
                   {pain.title}
                 </h3>
-                <p className="text-sm text-[#8892A4] leading-relaxed">{pain.desc}</p>
+                <p style={{ fontSize: '14px', color: '#666666', lineHeight: 1.6 }}>{pain.desc}</p>
               </motion.div>
             );
           })}
@@ -315,7 +506,7 @@ function PainPoints() {
   );
 }
 
-// Features
+// ─── Features (3-column Vercel card grid) ──────────────────────────────────────
 function Features() {
   const features = [
     {
@@ -336,64 +527,136 @@ function Features() {
   ];
 
   return (
-    <section className="py-24 bg-[#130b3a]">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="relative">
-          {/* Connection Line */}
-          <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-px bg-gradient-to-r from-transparent via-[#7c4dab] to-transparent" />
+    <section style={{ padding: '96px 0', backgroundColor: '#fafafa', borderTop: '1px solid #ebebeb', borderBottom: '1px solid #ebebeb' }}>
+      <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          style={{ textAlign: 'center', marginBottom: '56px' }}
+        >
+          <h2
+            style={{
+              fontSize: 'clamp(28px, 4vw, 40px)',
+              fontWeight: 500,
+              color: '#171717',
+              letterSpacing: '-0.04em',
+              marginBottom: '12px',
+            }}
+          >
+            Todo lo que necesitas
+          </h2>
+          <p style={{ fontSize: '15px', color: '#666666' }}>
+            Construido para equipos industriales que no tienen margen de error.
+          </p>
+        </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.15 }}
-                  className="text-center"
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '16px',
+          }}
+        >
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+            return (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                style={{
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #ebebeb',
+                  borderRadius: '6px',
+                  padding: '24px',
+                }}
+              >
+                <div
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '6px',
+                    backgroundColor: '#f5f5f5',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '20px',
+                  }}
                 >
-                  <div className="inline-flex p-4 bg-[rgba(91,34,119,0.15)] rounded-sm mb-6">
-                    <Icon className="w-8 h-8 text-[#9b6ab5]" />
-                  </div>
-                  <h3 className="font-display text-2xl font-semibold text-[#F0F4FF] mb-3">
-                    {feature.title}
-                  </h3>
-                  <p className="text-[#8892A4]">{feature.desc}</p>
-                </motion.div>
-              );
-            })}
-          </div>
+                  <Icon style={{ width: '20px', height: '20px', color: '#4d4d4d' }} strokeWidth={1.5} />
+                </div>
+                <h3
+                  style={{
+                    fontSize: '15px',
+                    fontWeight: 600,
+                    color: '#171717',
+                    marginBottom: '8px',
+                  }}
+                >
+                  {feature.title}
+                </h3>
+                <p style={{ fontSize: '14px', color: '#666666', lineHeight: 1.6 }}>{feature.desc}</p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-// Stats
+// ─── Stats ──────────────────────────────────────────────────────────────────────
 function Stats() {
   const stats = [
-    { value: '500+', label: 'Empresas' },
-    { value: '40.000+', label: 'Trabajadores' },
+    { value: '500+', label: 'Empresas activas' },
+    { value: '40.000+', label: 'Trabajadores gestionados' },
     { value: '98%', label: 'menos papel' },
   ];
 
   return (
-    <section className="py-20 bg-[#130b3a]">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <section style={{ padding: '80px 0', backgroundColor: '#ffffff' }}>
+      <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '1px',
+            backgroundColor: '#ebebeb',
+            borderRadius: '6px',
+            overflow: 'hidden',
+            border: '1px solid #ebebeb',
+          }}
+        >
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              style={{ textAlign: 'center' }}
+              transition={{ duration: 0.4, delay: index * 0.08 }}
+              style={{
+                backgroundColor: '#ffffff',
+                padding: '40px 32px',
+                textAlign: 'center',
+              }}
             >
-              <p style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '56px', fontWeight: 700, color: '#9b6ab5' }}>{stat.value}</p>
-              <p style={{ marginTop: '8px', color: '#8892A4' }}>{stat.label}</p>
+              <p
+                style={{
+                  fontSize: 'clamp(40px, 5vw, 56px)',
+                  fontWeight: 500,
+                  color: '#171717',
+                  letterSpacing: '-0.05em',
+                  lineHeight: 1,
+                  marginBottom: '8px',
+                }}
+              >
+                {stat.value}
+              </p>
+              <p style={{ fontSize: '14px', color: '#666666' }}>{stat.label}</p>
             </motion.div>
           ))}
         </div>
@@ -402,7 +665,7 @@ function Stats() {
   );
 }
 
-// Testimonials
+// ─── Testimonials ───────────────────────────────────────────────────────────────
 function Testimonials() {
   const testimonials = [
     {
@@ -422,44 +685,82 @@ function Testimonials() {
   ];
 
   return (
-    <section className="py-24 bg-[#0d0920]">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.h2
+    <section style={{ padding: '96px 0', backgroundColor: '#fafafa', borderTop: '1px solid #ebebeb' }}>
+      <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px' }}>
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="font-display text-4xl font-bold text-[#F0F4FF] text-center mb-16"
+          transition={{ duration: 0.5 }}
+          style={{ textAlign: 'center', marginBottom: '56px' }}
         >
-          Lo que dicen nuestros clientes
-        </motion.h2>
+          <h2
+            style={{
+              fontSize: 'clamp(28px, 4vw, 40px)',
+              fontWeight: 500,
+              color: '#171717',
+              letterSpacing: '-0.04em',
+            }}
+          >
+            Lo que dicen nuestros clientes
+          </h2>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '16px',
+          }}
+        >
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               style={{
-                backgroundColor: '#231455',
-                border: '1px solid rgba(91,34,119,0.18)',
-                borderRadius: '12px',
+                backgroundColor: '#ffffff',
+                border: '1px solid #ebebeb',
+                borderRadius: '6px',
                 padding: '24px',
               }}
             >
-              <Quote style={{ width: '32px', height: '32px', color: '#9b6ab5', marginBottom: '16px' }} />
-              <p style={{ color: '#F0F4FF', lineHeight: 1.6, marginBottom: '24px' }}>"{testimonial.quote}"</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '9999px', backgroundColor: '#1a1040', border: '1px solid rgba(91,34,119,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontWeight: 700, color: '#c49fe0' }}>
+              <p
+                style={{
+                  fontSize: '15px',
+                  color: '#171717',
+                  lineHeight: 1.7,
+                  marginBottom: '24px',
+                }}
+              >
+                "{testimonial.quote}"
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    backgroundColor: '#f0f0f0',
+                    border: '1px solid #ebebeb',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                >
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#4d4d4d' }}>
                     {testimonial.initials}
                   </span>
                 </div>
                 <div>
-                  <p style={{ fontWeight: 500, color: '#F0F4FF' }}>{testimonial.name}</p>
-                  <p style={{ fontSize: '14px', color: '#8892A4' }}>
-                    {testimonial.role}, {testimonial.company}
+                  <p style={{ fontSize: '14px', fontWeight: 600, color: '#171717' }}>
+                    {testimonial.name}
+                  </p>
+                  <p style={{ fontSize: '13px', color: '#666666' }}>
+                    {testimonial.role} · {testimonial.company}
                   </p>
                 </div>
               </div>
@@ -471,58 +772,127 @@ function Testimonials() {
   );
 }
 
-// CTA Final
+// ─── CTA Final ──────────────────────────────────────────────────────────────────
 function CTA() {
   const navigate = useNavigate();
 
   return (
     <section
       id="pricing"
-      className="py-24 relative overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #130b3a 0%, #0d0920 100%)',
+        padding: '96px 0',
+        backgroundColor: '#171717',
       }}
     >
-      {/* Glow */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(91,34,119,0.18) 0%, transparent 70%)',
+          maxWidth: '720px',
+          margin: '0 auto',
+          padding: '0 24px',
+          textAlign: 'center',
         }}
-      />
-
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+      >
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-[#F0F4FF] mb-6">
+          <h2
+            style={{
+              fontSize: 'clamp(32px, 5vw, 52px)',
+              fontWeight: 500,
+              color: '#ffffff',
+              letterSpacing: '-0.05em',
+              lineHeight: 1.1,
+              marginBottom: '20px',
+            }}
+          >
             Deja el papel atrás.
           </h2>
-          <p className="text-xl text-[#8892A4] mb-10">
+          <p
+            style={{
+              fontSize: '16px',
+              color: 'rgba(255,255,255,0.6)',
+              marginBottom: '40px',
+              lineHeight: 1.6,
+            }}
+          >
             Únete a las empresas que ya certifican en tiempo real.
           </p>
-          <Button variant="primary" size="lg" onClick={() => navigate('/dashboard')}>
-            Empezar Ahora →
-          </Button>
+          <button
+            onClick={() => navigate('/dashboard')}
+            style={{
+              height: '48px',
+              padding: '0 28px',
+              backgroundColor: '#ffffff',
+              color: '#171717',
+              border: '1px solid #ffffff',
+              borderRadius: '6px',
+              fontSize: '15px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'background-color 0.15s, color 0.15s',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.backgroundColor = '#ffffff';
+            }}
+          >
+            Empezar ahora <ArrowRight style={{ width: '16px', height: '16px' }} strokeWidth={2} />
+          </button>
         </motion.div>
       </div>
     </section>
   );
 }
 
-// Footer
+// ─── Footer ─────────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer className="py-8 bg-[#0d0920] border-t border-[rgba(91,34,119,0.15)]">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <Zap className="w-5 h-5 text-[#9b6ab5]" />
-          <span className="font-display text-lg font-bold text-[#F0F4FF]">CertifyX</span>
+    <footer
+      style={{
+        padding: '28px 24px',
+        backgroundColor: '#ffffff',
+        borderTop: '1px solid #ebebeb',
+      }}
+    >
+      <div
+        style={{
+          maxWidth: '1152px',
+          margin: '0 auto',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '16px',
+          flexWrap: 'wrap',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '22px',
+              height: '22px',
+              borderRadius: '5px',
+              background: 'linear-gradient(135deg, #0070f3 0%, #7928ca 50%, #ff4ecd 100%)',
+            }}
+          >
+            <Zap style={{ width: '12px', height: '12px', color: '#ffffff' }} strokeWidth={2.5} />
+          </span>
+          <span style={{ fontSize: '15px', fontWeight: 600, letterSpacing: '-0.02em', color: '#171717' }}>
+            CertifyX
+          </span>
         </div>
-        <p className="text-sm text-[#5c5480]">
+        <p style={{ fontSize: '13px', color: '#a8a8a8' }}>
           © 2025 CertifyX. Plataforma de gestión de competencias industriales.
         </p>
       </div>
@@ -530,10 +900,10 @@ function Footer() {
   );
 }
 
-// Main Landing Page
+// ─── Main ───────────────────────────────────────────────────────────────────────
 export function Landing() {
   return (
-    <div className="bg-[#0d0920] min-h-screen">
+    <div style={{ backgroundColor: '#ffffff', minHeight: '100vh' }}>
       <Navbar />
       <Hero />
       <PainPoints />

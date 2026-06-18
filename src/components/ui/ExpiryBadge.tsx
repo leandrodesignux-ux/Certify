@@ -14,7 +14,7 @@ export function ExpiryBadge({ diasRestantes, fechaVencimiento }: ExpiryBadgeProp
       alignItems: 'center',
       padding: '2px 8px',
       fontSize: '12px',
-      fontFamily: '"JetBrains Mono", monospace',
+      fontFamily: 'var(--font-mono)',
       fontWeight: 500,
       border: '1px solid',
       borderRadius: '4px',
@@ -27,11 +27,11 @@ export function ExpiryBadge({ diasRestantes, fechaVencimiento }: ExpiryBadgeProp
         text: 'VENCIDO',
         style: {
           ...base,
-          backgroundColor: 'rgba(255,61,87,0.15)',
-          color: '#FF3D57',
-          borderColor: 'rgba(255,61,87,0.3)',
+          backgroundColor: 'rgba(229,72,77,0.08)',
+          color: '#e5484d',
+          borderColor: 'rgba(229,72,77,0.2)',
         },
-        tooltipColor: '#FF3D57',
+        tooltipColor: '#e5484d',
       };
     }
     if (diasRestantes <= 15) {
@@ -39,11 +39,11 @@ export function ExpiryBadge({ diasRestantes, fechaVencimiento }: ExpiryBadgeProp
         text: `${diasRestantes}d`,
         style: {
           ...base,
-          backgroundColor: 'rgba(255,61,87,0.1)',
-          color: '#FF3D57',
-          borderColor: 'rgba(255,61,87,0.3)',
+          backgroundColor: 'rgba(229,72,77,0.08)',
+          color: '#e5484d',
+          borderColor: 'rgba(229,72,77,0.2)',
         },
-        tooltipColor: '#FF3D57',
+        tooltipColor: '#e5484d',
       };
     }
     if (diasRestantes <= 60) {
@@ -51,22 +51,22 @@ export function ExpiryBadge({ diasRestantes, fechaVencimiento }: ExpiryBadgeProp
         text: `${diasRestantes}d`,
         style: {
           ...base,
-          backgroundColor: 'rgba(255,184,0,0.1)',
-          color: '#FFB800',
-          borderColor: 'rgba(255,184,0,0.3)',
+          backgroundColor: 'rgba(178,80,0,0.08)',
+          color: '#b25000',
+          borderColor: 'rgba(178,80,0,0.2)',
         },
-        tooltipColor: '#FFB800',
+        tooltipColor: '#b25000',
       };
     }
     return {
       text: `${diasRestantes}d`,
       style: {
         ...base,
-        backgroundColor: 'rgba(114,147,98,0.12)',
-        color: '#729362',
-        borderColor: 'rgba(114,147,98,0.3)',
+        backgroundColor: 'rgba(41,122,58,0.08)',
+        color: '#297a3a',
+        borderColor: 'rgba(41,122,58,0.2)',
       },
-        tooltipColor: '#729362',
+        tooltipColor: '#297a3a',
     };
   };
 
@@ -102,15 +102,15 @@ export function ExpiryBadge({ diasRestantes, fechaVencimiento }: ExpiryBadgeProp
           bottom: 'calc(100% + 8px)',
           left: '50%',
           transform: 'translateX(-50%)',
-          backgroundColor: '#231455',
-          color: '#F0F4FF',
+          backgroundColor: '#ffffff',
+          color: '#171717',
           padding: '8px 12px',
           borderRadius: '6px',
           fontSize: '12px',
-          fontFamily: 'DM Sans, sans-serif',
+          fontFamily: 'var(--font-body)',
           whiteSpace: 'nowrap',
-          border: `1px solid ${result.tooltipColor}40`,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          border: '1px solid #ebebeb',
+          boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
           zIndex: 100,
           opacity: isHovered ? 1 : 0,
           visibility: isHovered ? 'visible' : 'hidden',
@@ -121,7 +121,7 @@ export function ExpiryBadge({ diasRestantes, fechaVencimiento }: ExpiryBadgeProp
         <span style={{ color: result.tooltipColor, fontWeight: 600 }}>
           {getDaysText()}
         </span>
-        <span style={{ color: '#8892A4', display: 'block', marginTop: '2px', fontSize: '11px' }}>
+        <span style={{ color: '#666666', display: 'block', marginTop: '2px', fontSize: '11px' }}>
           Vence el {getExpiryDate()}
         </span>
         {/* Tooltip arrow */}

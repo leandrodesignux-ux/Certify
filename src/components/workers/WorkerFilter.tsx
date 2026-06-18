@@ -25,14 +25,13 @@ export function WorkerFilter({}: WorkerFilterProps) {
 
   return (
     <div style={{
-      backgroundColor: 'var(--color-surface)',
-      backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(91,34,119,0.2)',
-      borderRadius: 'var(--radius-md)',
-      padding: '12px 16px',
+      backgroundColor: '#ffffff',
+      border: '1px solid #ebebeb',
+      borderRadius: 'var(--radius-sm)',
+      padding: '10px 16px',
       display: 'flex',
       alignItems: 'center',
-      gap: '12px',
+      gap: '8px',
       flexWrap: 'wrap',
     }}>
       {/* Área Select */}
@@ -42,13 +41,14 @@ export function WorkerFilter({}: WorkerFilterProps) {
           setFilters({ area: e.target.value === 'Todas' ? '' : e.target.value })
         }
         style={{
-          height: '40px',
-          backgroundColor: 'var(--color-surface-alt)',
-          border: '1px solid rgba(91,34,119,0.25)',
-          borderRadius: 'var(--radius-md)',
-          padding: '0 12px',
+          height: '32px',
+          backgroundColor: '#ffffff',
+          border: '1px solid #ebebeb',
+          borderRadius: '9999px',
+          padding: '0 14px',
           fontSize: '13px',
-          color: 'var(--color-text-primary)',
+          fontWeight: 500,
+          color: '#171717',
           cursor: 'pointer',
           outline: 'none',
           minWidth: '120px',
@@ -81,13 +81,14 @@ export function WorkerFilter({}: WorkerFilterProps) {
           setFilters({ complianceMin: min });
         }}
         style={{
-          height: '40px',
-          backgroundColor: 'var(--color-surface-alt)',
-          border: '1px solid rgba(91,34,119,0.25)',
-          borderRadius: 'var(--radius-md)',
-          padding: '0 12px',
+          height: '32px',
+          backgroundColor: '#ffffff',
+          border: '1px solid #ebebeb',
+          borderRadius: '9999px',
+          padding: '0 14px',
           fontSize: '13px',
-          color: 'var(--color-text-primary)',
+          fontWeight: 500,
+          color: '#171717',
           cursor: 'pointer',
           outline: 'none',
           minWidth: '150px',
@@ -105,20 +106,23 @@ export function WorkerFilter({}: WorkerFilterProps) {
         <button
           onClick={clearFilters}
           style={{
-            height: '40px',
-            padding: '0 14px',
+            height: '32px',
+            padding: '0 12px',
             backgroundColor: 'transparent',
-            border: '1px solid rgba(255,61,87,0.3)',
-            borderRadius: 'var(--radius-md)',
-            color: '#FF3D57',
+            border: '1px solid rgba(229,72,77,0.2)',
+            borderRadius: '9999px',
+            color: '#e5484d',
             fontSize: '13px',
+            fontWeight: 500,
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
           }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(229,72,77,0.06)'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
         >
-          <X style={{ width: '14px', height: '14px' }} />
+          <X style={{ width: '13px', height: '13px' }} strokeWidth={1.5} />
           Limpiar ({activeFiltersCount})
         </button>
       )}

@@ -49,10 +49,10 @@ function WorkersComponent() {
         style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}
       >
         <div style={{ flex: 1 }}>
-          <h1 className="font-display text-3xl font-bold text-gradient tracking-wider">
+          <h1 className="text-3xl font-semibold tracking-tight" style={{ color: '#171717', letterSpacing: '-0.02em' }}>
             Trabajadores
           </h1>
-          <p style={{ color: 'var(--color-text-secondary)', fontSize: '13px', marginTop: '4px' }}>
+          <p style={{ color: '#666666', fontSize: '13px', marginTop: '4px' }}>
             {totalWorkers} trabajadores registrados · Corpa Andina Minera S.A.
           </p>
         </div>
@@ -82,36 +82,35 @@ function WorkersComponent() {
             display: 'flex',
             gap: '12px',
             alignItems: 'center',
-            border: '1px solid var(--border-brand)',
-            backgroundColor: 'var(--color-surface)',
+            border: '1px solid #ebebeb',
+            backgroundColor: '#ffffff',
             transition: 'all 0.15s',
           }}
-          onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--border-brand-hover)'}
-          onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border-brand)'}
+          onMouseEnter={e => e.currentTarget.style.borderColor = '#d4d4d4'}
+          onMouseLeave={e => e.currentTarget.style.borderColor = '#ebebeb'}
         >
           <div className="hidden sm:flex" style={{ 
             alignItems: 'center', 
             justifyContent: 'center', 
             width: '36px', 
             height: '36px', 
-            borderRadius: '8px', 
-            backgroundColor: 'rgba(91,34,119,0.2)',
+            borderRadius: '6px', 
+            backgroundColor: '#f0f0f0',
             flexShrink: 0
           }}>
-            <Users2 style={{ width: '20px', height: '20px', color: '#9b6ab5' }} />
+            <Users2 style={{ width: '20px', height: '20px', color: '#4d4d4d' }} strokeWidth={1.5} />
           </div>
           <div style={{ minWidth: 0, flex: 1 }}>
             <p style={{ 
-              fontSize: '28px', 
+              fontSize: '26px', 
               lineHeight: 1, 
-              fontFamily: '"Barlow Condensed", sans-serif', 
-              fontWeight: 700, 
-              color: 'var(--color-text-primary)',
+              fontWeight: 600, 
+              color: '#171717',
               margin: 0
             }}>{totalWorkers}</p>
             <p style={{ 
               fontSize: '11px', 
-              color: 'var(--color-text-secondary)',
+              color: '#666666',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -131,36 +130,35 @@ function WorkersComponent() {
             display: 'flex',
             gap: '12px',
             alignItems: 'center',
-            border: filters.complianceMin === 80 ? '1px solid rgba(114,147,98,0.6)' : '1px solid rgba(114,147,98,0.2)',
-            backgroundColor: 'var(--color-surface)',
+            border: filters.complianceMin === 80 ? '1px solid rgba(41,122,58,0.4)' : '1px solid rgba(41,122,58,0.15)',
+            backgroundColor: filters.complianceMin === 80 ? 'rgba(41,122,58,0.04)' : '#ffffff',
             transition: 'all 0.15s',
           }}
-          onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(114,147,98,0.6)'}
-          onMouseLeave={e => e.currentTarget.style.borderColor = filters.complianceMin === 80 ? 'rgba(114,147,98,0.6)' : 'rgba(114,147,98,0.2)'}
+          onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(41,122,58,0.4)'}
+          onMouseLeave={e => e.currentTarget.style.borderColor = filters.complianceMin === 80 ? 'rgba(41,122,58,0.4)' : 'rgba(41,122,58,0.15)'}
         >
           <div className="hidden sm:flex" style={{ 
             alignItems: 'center', 
             justifyContent: 'center', 
             width: '36px', 
             height: '36px', 
-            borderRadius: '8px', 
-            backgroundColor: 'rgba(114,147,98,0.18)',
+            borderRadius: '6px', 
+            backgroundColor: 'rgba(41,122,58,0.08)',
             flexShrink: 0
           }}>
-            <ShieldCheck style={{ width: '20px', height: '20px', color: '#729362' }} />
+            <ShieldCheck style={{ width: '20px', height: '20px', color: '#297a3a' }} strokeWidth={1.5} />
           </div>
           <div style={{ minWidth: 0, flex: 1 }}>
             <p style={{ 
-              fontSize: '28px', 
+              fontSize: '26px', 
               lineHeight: 1, 
-              fontFamily: '"Barlow Condensed", sans-serif', 
-              fontWeight: 700, 
-              color: 'var(--color-text-primary)',
+              fontWeight: 600, 
+              color: '#171717',
               margin: 0
             }}>{complianceOkCount}</p>
             <p style={{ 
               fontSize: '11px', 
-              color: 'var(--color-text-secondary)',
+              color: '#666666',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -180,36 +178,35 @@ function WorkersComponent() {
             display: 'flex',
             gap: '12px',
             alignItems: 'center',
-            border: filters.complianceMax === 79 ? '1px solid rgba(255,61,87,0.6)' : '1px solid rgba(255,61,87,0.2)',
-            backgroundColor: filters.complianceMax === 79 ? 'rgba(255,61,87,0.06)' : 'var(--color-surface)',
+            border: filters.complianceMax === 79 ? '1px solid rgba(229,72,77,0.4)' : '1px solid rgba(229,72,77,0.15)',
+            backgroundColor: filters.complianceMax === 79 ? 'rgba(229,72,77,0.04)' : '#ffffff',
             transition: 'all 0.15s',
           }}
-          onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(255,61,87,0.6)'}
-          onMouseLeave={e => e.currentTarget.style.borderColor = filters.complianceMax === 79 ? 'rgba(255,61,87,0.6)' : 'rgba(255,61,87,0.2)'}
+          onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(229,72,77,0.4)'}
+          onMouseLeave={e => e.currentTarget.style.borderColor = filters.complianceMax === 79 ? 'rgba(229,72,77,0.4)' : 'rgba(229,72,77,0.15)'}
         >
           <div className="hidden sm:flex" style={{ 
             alignItems: 'center', 
             justifyContent: 'center', 
             width: '36px', 
             height: '36px', 
-            borderRadius: '8px', 
-            backgroundColor: 'rgba(255,61,87,0.15)',
+            borderRadius: '6px', 
+            backgroundColor: 'rgba(229,72,77,0.08)',
             flexShrink: 0
           }}>
-            <ShieldAlert style={{ width: '20px', height: '20px', color: '#FF3D57' }} />
+            <ShieldAlert style={{ width: '20px', height: '20px', color: '#e5484d' }} strokeWidth={1.5} />
           </div>
           <div style={{ minWidth: 0, flex: 1 }}>
             <p style={{ 
-              fontSize: '28px', 
+              fontSize: '26px', 
               lineHeight: 1, 
-              fontFamily: '"Barlow Condensed", sans-serif', 
-              fontWeight: 700, 
-              color: 'var(--color-text-primary)',
+              fontWeight: 600, 
+              color: '#171717',
               margin: 0
             }}>{requireActionCount}</p>
             <p style={{ 
               fontSize: '11px', 
-              color: 'var(--color-text-secondary)',
+              color: '#666666',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -229,7 +226,7 @@ function WorkersComponent() {
       >
         {/* Búsqueda */}
         <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-          <Search style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: 'var(--color-text-muted)' }} />
+          <Search style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: '#a8a8a8' }} strokeWidth={1.5} />
           <input
             type="text"
             placeholder="Buscar trabajador, RUT, cargo..."
@@ -237,32 +234,32 @@ function WorkersComponent() {
             onChange={(e) => setFilters({ search: e.target.value })}
             style={{
               width: '100%',
-              height: '42px',
-              backgroundColor: 'var(--color-surface-alt)',
-              border: '1px solid rgba(91,34,119,0.25)',
-              borderRadius: '10px',
+              height: '40px',
+              backgroundColor: '#ffffff',
+              border: '1px solid #ebebeb',
+              borderRadius: '6px',
               padding: '0 16px 0 42px',
               fontSize: '13px',
-              color: 'var(--color-text-primary)',
+              color: '#171717',
               outline: 'none',
             }}
-            onFocus={e => e.currentTarget.style.borderColor = 'rgba(91,34,119,0.6)'}
-            onBlur={e => e.currentTarget.style.borderColor = 'rgba(91,34,119,0.25)'}
+            onFocus={e => e.currentTarget.style.borderColor = '#d4d4d4'}
+            onBlur={e => e.currentTarget.style.borderColor = '#ebebeb'}
           />
         </div>
 
         {/* Toggle Grid / Tabla — Siempre visible */}
-        <div style={{ display: 'flex', gap: '4px', backgroundColor: 'var(--color-surface-alt)', borderRadius: '10px', padding: '4px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', gap: '2px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '6px', padding: '3px', flexShrink: 0 }}>
           {(['grid', 'table'] as const).map(mode => (
             <button
               key={mode}
               onClick={() => setViewMode(mode)}
               style={{
-                minWidth: '44px', height: '44px',
-                borderRadius: '8px',
-                border: 'none',
-                backgroundColor: viewMode === mode ? 'rgba(124,77,171,0.3)' : 'transparent',
-                color: viewMode === mode ? 'var(--color-purple-mid)' : 'var(--color-text-secondary)',
+                minWidth: '36px', height: '36px',
+                borderRadius: '4px',
+                border: viewMode === mode ? '1px solid #ebebeb' : '1px solid transparent',
+                backgroundColor: viewMode === mode ? '#ffffff' : 'transparent',
+                color: viewMode === mode ? '#171717' : '#a8a8a8',
                 cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'all 0.15s',
@@ -277,14 +274,14 @@ function WorkersComponent() {
         <button
           onClick={() => setShowFilters(f => !f)}
           style={{
-            padding: '0 16px',
-            height: '42px',
-            backgroundColor: showFilters ? 'var(--color-surface-alt)' : 'rgba(255,255,255,0.04)',
-            border: `1px solid ${showFilters ? 'rgba(91,34,119,0.5)' : 'rgba(91,34,119,0.25)'}`,
-            borderRadius: '10px',
-            color: showFilters ? '#9b6ab5' : 'var(--color-text-secondary)',
+            padding: '0 14px',
+            height: '40px',
+            backgroundColor: showFilters ? '#f5f5f5' : '#ffffff',
+            border: `1px solid ${showFilters ? '#d4d4d4' : '#ebebeb'}`,
+            borderRadius: '6px',
+            color: showFilters ? '#171717' : '#666666',
             fontSize: '13px',
-            fontWeight: 600,
+            fontWeight: 500,
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
@@ -306,17 +303,17 @@ function WorkersComponent() {
           exit={{ opacity: 0, height: 0 }}
           style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}
         >
-          <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', flexShrink: 0 }}>Filtros activos:</span>
+          <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0 }}>Filtros activos:</span>
           {filters.search && (
             <span
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '5px',
-                padding: '3px 10px 3px 10px',
+                padding: '3px 10px',
                 minHeight: '28px',
-                backgroundColor: 'rgba(91,34,119,0.15)',
-                border: '1px solid rgba(91,34,119,0.35)',
-                borderRadius: 'var(--radius-full)',
-                fontSize: '12px', color: '#c49fe0',
+                backgroundColor: '#f5f5f5',
+                border: '1px solid #ebebeb',
+                borderRadius: '9999px',
+                fontSize: '12px', color: '#4d4d4d',
                 cursor: 'pointer',
               }}
               onClick={() => setFilters({ search: '' })}
@@ -330,10 +327,10 @@ function WorkersComponent() {
                 display: 'inline-flex', alignItems: 'center', gap: '5px',
                 padding: '3px 10px',
                 minHeight: '28px',
-                backgroundColor: 'rgba(91,34,119,0.15)',
-                border: '1px solid rgba(91,34,119,0.35)',
-                borderRadius: 'var(--radius-full)',
-                fontSize: '12px', color: '#c49fe0',
+                backgroundColor: '#f5f5f5',
+                border: '1px solid #ebebeb',
+                borderRadius: '9999px',
+                fontSize: '12px', color: '#4d4d4d',
                 cursor: 'pointer',
               }}
               onClick={() => setFilters({ area: '' })}
@@ -347,10 +344,10 @@ function WorkersComponent() {
                 display: 'inline-flex', alignItems: 'center', gap: '5px',
                 padding: '3px 10px',
                 minHeight: '28px',
-                backgroundColor: 'rgba(91,34,119,0.15)',
-                border: '1px solid rgba(91,34,119,0.35)',
-                borderRadius: 'var(--radius-full)',
-                fontSize: '12px', color: '#c49fe0',
+                backgroundColor: '#f5f5f5',
+                border: '1px solid #ebebeb',
+                borderRadius: '9999px',
+                fontSize: '12px', color: '#4d4d4d',
                 cursor: 'pointer',
               }}
               onClick={() => setFilters({ complianceMin: 0 })}
@@ -363,10 +360,11 @@ function WorkersComponent() {
             style={{
               padding: '3px 10px',
               backgroundColor: 'transparent',
-              border: '1px solid rgba(255,61,87,0.3)',
-              borderRadius: 'var(--radius-full)',
-              color: '#FF5C71',
+              border: '1px solid rgba(229,72,77,0.2)',
+              borderRadius: '9999px',
+              color: '#e5484d',
               fontSize: '12px',
+              fontWeight: 500,
               cursor: 'pointer',
             }}
           >
@@ -390,7 +388,7 @@ function WorkersComponent() {
       {/* Visual Separator */}
       <div style={{ 
         height: '1px', 
-        background: 'linear-gradient(to right, transparent, rgba(91,34,119,0.3), transparent)', 
+        backgroundColor: '#ebebeb',
         margin: '8px 0' 
       }} />
 
@@ -403,10 +401,10 @@ function WorkersComponent() {
         className="flex items-center justify-between"
         style={{ marginBottom: '20px' }}
       >
-        <p className="text-sm text-[var(--color-text-secondary)]">
+        <p className="text-sm" style={{ color: '#666666' }}>
           Mostrando{' '}
-          <span className="text-[var(--color-text-primary)] font-medium">{displayWorkers.length}</span> de{' '}
-          <span className="text-[var(--color-text-primary)] font-medium">{totalWorkers}</span> trabajadores
+          <span style={{ color: '#171717', fontWeight: 500 }}>{displayWorkers.length}</span> de{' '}
+          <span style={{ color: '#171717', fontWeight: 500 }}>{totalWorkers}</span> trabajadores
         </p>
       </motion.div>
 
@@ -433,7 +431,7 @@ function WorkersComponent() {
                     position: 'absolute',
                     inset: '-15px',
                     borderRadius: '50%',
-                    border: '2px dashed rgba(91,34,119,0.25)',
+                    border: '1px dashed #d4d4d4',
                   }}
                 />
                 <div
@@ -444,20 +442,21 @@ function WorkersComponent() {
                     transform: 'translate(-50%, -50%)',
                     width: '64px',
                     height: '64px',
-                    backgroundColor: 'rgba(91,34,119,0.08)',
+                    backgroundColor: '#f5f5f5',
+                    border: '1px solid #ebebeb',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <Users style={{ width: '32px', height: '32px', color: '#9b6ab5' }} />
+                  <Users style={{ width: '32px', height: '32px', color: '#a8a8a8' }} strokeWidth={1.5} />
                 </div>
               </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: '8px' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#171717', marginBottom: '8px', letterSpacing: '-0.01em' }}>
                 Sin trabajadores
               </h3>
-              <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', marginBottom: '24px', maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
+              <p style={{ fontSize: '14px', color: '#666666', marginBottom: '24px', maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
                 No se encontraron trabajadores con los filtros aplicados. Intenta ajustar tu búsqueda o limpiar los filtros.
               </p>
               <Button variant="ghost" size="md" onClick={() => window.location.reload()}>
@@ -485,7 +484,7 @@ function WorkersComponent() {
           animate="visible"
           className="flex justify-center pt-4"
         >
-          <p className="text-sm text-[var(--color-text-secondary)]">
+          <p className="text-sm" style={{ color: '#a8a8a8' }}>
             Mostrando todos los resultados filtrados
           </p>
         </motion.div>

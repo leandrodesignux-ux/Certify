@@ -598,17 +598,17 @@ export const mockChartData = {
       {
         label: 'Certificaciones Vencidas',
         data: [2, 1, 3, 2, 4, 1, 2, 3, 2, 1, 2, 3],
-        color: '#FF3D57',
+        color: '#e5484d',
       },
       {
         label: 'Certificaciones Renovadas',
         data: [5, 3, 6, 4, 7, 2, 4, 5, 6, 3, 4, 5],
-        color: '#729362',
+        color: '#297a3a',
       },
       {
         label: 'Próximas a Vencer',
         data: [8, 6, 9, 7, 10, 5, 7, 8, 9, 6, 7, 8],
-        color: '#FFB800',
+        color: '#b25000',
       },
     ],
   },
@@ -617,7 +617,7 @@ export const mockChartData = {
   byArea: {
     labels: ['Operaciones', 'Mantención', 'Seguridad', 'Logística', 'RRHH'],
     data: [45, 78, 92, 68, 85],
-    colors: ['#7c4dab', '#8a9e52', '#729362', '#FFB800', '#FF3D57'],
+    colors: ['#171717', '#4d4d4d', '#297a3a', '#b25000', '#e5484d'],
   },
   
   // Gráfica donut de estados
@@ -629,7 +629,7 @@ export const mockChartData = {
       mockCertifications.filter(c => c.estado === 'vencido').length,
       mockCertifications.filter(c => c.estado === 'pendiente').length,
     ],
-    colors: ['#729362', '#FFB800', '#FF3D57', '#9b6ab5'],
+    colors: ['#297a3a', '#b25000', '#e5484d', '#a8a8a8'],
   },
   
   // Gráfica de compliance por empresa
@@ -640,6 +640,6 @@ export const mockChartData = {
       Math.round(mockWorkers.filter(w => w.empresa === empresas[1]).reduce((a, w) => a + w.complianceScore, 0) / mockWorkers.filter(w => w.empresa === empresas[1]).length),
       Math.round(mockWorkers.filter(w => w.empresa === empresas[2]).reduce((a, w) => a + w.complianceScore, 0) / mockWorkers.filter(w => w.empresa === empresas[2]).length),
     ],
-    colors: ['#7c4dab', '#8a9e52', '#FFB800'],
+    colors: ['#171717', '#4d4d4d', '#a8a8a8'],
   },
 };

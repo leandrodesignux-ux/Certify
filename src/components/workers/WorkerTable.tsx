@@ -22,8 +22,8 @@ export function WorkerTable({ workers }: WorkerTableProps) {
   };
 
   return (
-    <div style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--border-brand)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
-      <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'thin', scrollbarColor: 'rgba(91,34,119,0.3) transparent' }}>
+    <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+      <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'thin', scrollbarColor: '#d4d4d4 transparent' }}>
         <table role="table" aria-label="Lista de trabajadores" style={{ width: '100%' }}>
           <colgroup>
             <col style={{ width: '220px' }} />  {/* Trabajador */}
@@ -35,28 +35,17 @@ export function WorkerTable({ workers }: WorkerTableProps) {
             <col style={{ width: '90px' }} />   {/* Acción */}
           </colgroup>
           <thead>
-            <tr style={{ borderBottom: '1px solid var(--border-brand)' }}>
-              <th scope="col" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Trabajador
-              </th>
-              <th scope="col" className="hidden md:table-cell" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Área
-              </th>
-              <th scope="col" className="hidden lg:table-cell" style={{ padding: '12px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Cargo
-              </th>
-              <th scope="col" style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Score
-              </th>
-              <th scope="col" style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Certs Vigentes
-              </th>
-              <th scope="col" style={{ padding: '12px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Estado
-              </th>
-              <th scope="col" style={{ padding: '12px 20px', textAlign: 'right', fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Acción
-              </th>
+            <tr style={{ borderBottom: '1px solid #ebebeb', backgroundColor: '#fafafa' }}>
+              {['Trabajador', 'Área|md', 'Cargo|lg', 'Score|center', 'Certs Vigentes|center', 'Estado|center', 'Acción|right'].map(col => {
+                const [label, align] = col.split('|');
+                const responsive = align === 'md' ? 'hidden md:table-cell' : align === 'lg' ? 'hidden lg:table-cell' : '';
+                const textAlign = (align === 'center' || align === 'right') ? align as 'center' | 'right' : 'left';
+                return (
+                  <th key={label} scope="col" className={responsive} style={{ padding: '12px 20px', textAlign: textAlign, fontSize: '11px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    {label}
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
@@ -74,8 +63,8 @@ export function WorkerTable({ workers }: WorkerTableProps) {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.03, duration: 0.3 }}
-                  style={{ borderBottom: index < workers.length - 1 ? '1px solid var(--border-brand)' : 'none', cursor: 'pointer' }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(124,77,171,0.06)')}
+                  style={{ borderBottom: index < workers.length - 1 ? '1px solid #ebebeb' : 'none', cursor: 'pointer' }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f5f5f5')}
                   onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                 >
                   <td style={{ padding: '12px' }}>
@@ -84,37 +73,37 @@ export function WorkerTable({ workers }: WorkerTableProps) {
                         <img
                           src={worker.foto}
                           alt={`${worker.nombre} ${worker.apellidos}`}
-                          style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(91,34,119,0.3)' }}
+                          style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #ebebeb' }}
                         />
                       ) : (
-                        <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--color-surface-alt)', border: '1px solid rgba(91,34,119,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <span style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 600, color: 'var(--color-purple-light)' }}>
+                        <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#f0f0f0', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <span style={{ fontSize: '14px', fontWeight: 500, color: '#4d4d4d' }}>
                             {initials}
                           </span>
                         </div>
                       )}
                       <div>
-                        <p style={{ fontWeight: 500, color: 'var(--color-text-primary)' }}>
+                        <p style={{ fontWeight: 500, color: '#171717' }}>
                           {worker.nombre} {worker.apellidos}
                         </p>
-                        <p style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>{worker.empresa}</p>
+                        <p style={{ fontSize: '12px', color: '#666666' }}>{worker.empresa}</p>
                       </div>
                     </div>
                   </td>
                   <td className="hidden md:table-cell" style={{ padding: '16px 20px' }}>
-                    <span style={{ fontSize: '14px', color: 'var(--color-text-primary)' }}>{worker.area}</span>
+                    <span style={{ fontSize: '14px', color: '#171717' }}>{worker.area}</span>
                   </td>
                   <td className="hidden lg:table-cell" style={{ padding: '16px 20px' }}>
-                    <span style={{ fontSize: '14px', color: 'var(--color-text-primary)' }}>{worker.cargo}</span>
+                    <span style={{ fontSize: '14px', color: '#171717' }}>{worker.cargo}</span>
                   </td>
                   <td style={{ padding: '16px 20px', textAlign: 'center' }}>
-                    <span className={`font-display text-xl font-bold ${scoreColor}`}>
+                    <span className={`font-display text-xl font-semibold ${scoreColor}`}>
                       {worker.complianceScore}
                     </span>
                   </td>
                   <td style={{ padding: '16px 20px', textAlign: 'center' }}>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--color-success)' }}>{activeCerts}</span>
-                    <span style={{ color: 'var(--color-text-muted)', fontSize: '14px' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: '#297a3a' }}>{activeCerts}</span>
+                    <span style={{ color: '#a8a8a8', fontSize: '14px' }}>
                       /{worker.certifications.length}
                     </span>
                   </td>

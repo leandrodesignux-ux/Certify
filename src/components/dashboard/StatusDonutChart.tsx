@@ -9,20 +9,19 @@ const CustomTooltip = ({ active, payload }: {
     const data = payload[0];
     return (
       <div style={{
-        backgroundColor: 'var(--color-surface-alt)',
-        border: '1px solid var(--border-brand-hover)',
-        borderRadius: 'var(--radius-md)',
-        color: '#F0F4FF',
+        backgroundColor: '#ffffff',
+        border: '1px solid #ebebeb',
+        borderRadius: '6px',
+        color: '#171717',
         fontSize: '12px',
         padding: '12px',
+        boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div
-            style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: data.payload.color }}
-          />
-          <span style={{ color: 'var(--color-text-secondary)' }}>{data.name}</span>
+          <div style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: data.payload.color }} />
+          <span style={{ color: '#666666' }}>{data.name}</span>
         </div>
-        <p style={{ color: '#F0F4FF', fontFamily: '"JetBrains Mono", monospace', fontSize: '14px', marginTop: '4px' }}>{data.value}</p>
+        <p style={{ color: '#171717', fontFamily: 'var(--font-mono)', fontSize: '14px', marginTop: '4px' }}>{data.value}</p>
       </div>
     );
   }
@@ -59,9 +58,6 @@ export function StatusDonutChart() {
                 <Cell
                   key={`cell-${index}`}
                   fill={entry.color}
-                  style={{
-                    filter: `drop-shadow(0 0 6px ${entry.color}40)`,
-                  }}
                 />
               ))}
             </Pie>
@@ -71,8 +67,8 @@ export function StatusDonutChart() {
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-3xl font-bold" style={{ color: 'var(--color-text-primary)' }}>{total}</span>
-          <span className="text-xs text-[#8892A4]">Certificaciones</span>
+          <span className="font-display text-3xl" style={{ color: '#171717', fontWeight: 600, letterSpacing: '-0.04em' }}>{total}</span>
+          <span className="text-xs" style={{ color: '#666666' }}>Certificaciones</span>
         </div>
       </div>
 

@@ -21,12 +21,12 @@ const sectionVariants = {
 
 // Category config
 const CATEGORY_CONFIG: Record<string, { color: string; bg: string; icon: typeof Layers }> = {
-  'Seguridad':    { color: 'var(--color-volt)', bg: 'rgba(138,158,82,0.10)',  icon: Layers },
-  'Operaciones':  { color: 'var(--color-purple-mid)', bg: 'rgba(91,34,119,0.10)',   icon: Layers },
-  'Inducción':    { color: 'var(--color-warning)', bg: 'rgba(255,184,0,0.10)',   icon: Layers },
-  'Liderazgo':    { color: 'var(--color-warning)', bg: 'rgba(255,184,0,0.10)',   icon: Layers },
-  'Emergencias':  { color: 'var(--color-danger)', bg: 'rgba(255,61,87,0.10)',   icon: Layers },
-  'Capacitación': { color: 'var(--color-success)', bg: 'rgba(114,147,98,0.10)',  icon: Layers },
+  'Seguridad':    { color: '#297a3a', bg: 'rgba(41,122,58,0.06)',   icon: Layers },
+  'Operaciones':  { color: '#4d4d4d', bg: 'rgba(23,23,23,0.05)',    icon: Layers },
+  'Inducción':    { color: '#b25000', bg: 'rgba(178,80,0,0.06)',    icon: Layers },
+  'Liderazgo':    { color: '#b25000', bg: 'rgba(178,80,0,0.06)',    icon: Layers },
+  'Emergencias':  { color: '#e5484d', bg: 'rgba(229,72,77,0.06)',   icon: Layers },
+  'Capacitación': { color: '#4d4d4d', bg: 'rgba(23,23,23,0.04)',    icon: Layers },
 };
 
 // Derive category from mesh name
@@ -63,9 +63,9 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
   const mock = MESH_MOCK[mesh.id] ?? { rating: 4.5, startDate: 'Ene 2024' };
 
   // Completion color
-  const completionColor = mesh.completionRate >= 80 ? '#729362'
-    : mesh.completionRate >= 50 ? '#FFB800'
-    : '#FF3D57';
+  const completionColor = mesh.completionRate >= 80 ? '#297a3a'
+    : mesh.completionRate >= 50 ? '#b25000'
+    : '#e5484d';
 
   // Compact progress ring (inline SVG, no external component)
   const ringSize = 36;
@@ -82,15 +82,13 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
       animate="visible"
       className="transition-all duration-200"
       style={{
-        backgroundColor: 'var(--color-surface)',
-        borderRadius: '12px',
-        border: `1px solid ${hovered ? cfg.color + '40' : 'rgba(91,34,119,0.2)'}`,
+        backgroundColor: '#ffffff',
+        borderRadius: '6px',
+        border: `1px solid ${hovered ? '#d4d4d4' : '#ebebeb'}`,
         overflow: 'hidden',
         cursor: 'pointer',
-        boxShadow: hovered
-          ? `0 4px 24px rgba(91,34,119,0.2), 0 0 0 1px ${cfg.color}20`
-          : '0 2px 8px rgba(0,0,0,0.3)',
-        transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
+        boxShadow: hovered ? '0 4px 16px rgba(0,0,0,0.06)' : '0 1px 4px rgba(0,0,0,0.04)',
+        transform: hovered ? 'translateY(-1px)' : 'translateY(0)',
         display: 'flex',
         flexDirection: 'row',
         minHeight: '148px',
@@ -131,7 +129,7 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
         <div style={{ position: 'relative', width: ringSize, height: ringSize }}>
           <svg width={ringSize} height={ringSize} style={{ transform: 'rotate(-90deg)' }}>
             <circle cx={ringSize / 2} cy={ringSize / 2} r={r}
-              fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={strokeW} />
+              fill="none" stroke="#ebebeb" strokeWidth={strokeW} />
             <motion.circle
               cx={ringSize / 2} cy={ringSize / 2} r={r}
               fill="none" stroke={completionColor} strokeWidth={strokeW} strokeLinecap="round"
@@ -144,8 +142,8 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
           <div style={{
             position: 'absolute', inset: 0,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '9px', fontWeight: 700, color: completionColor,
-            fontFamily: '"JetBrains Mono", monospace',
+            fontSize: '9px', fontWeight: 600, color: completionColor,
+            fontFamily: 'var(--font-mono)',
           }}>
             {mesh.completionRate}%
           </div>
@@ -165,10 +163,10 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
           <span style={{
             display: 'inline-flex', alignItems: 'center',
-            padding: '4px 12px',
+            padding: '3px 10px',
             backgroundColor: cfg.bg,
             color: cfg.color,
-            fontSize: '12px', fontWeight: 500,
+            fontSize: '11px', fontWeight: 500,
             borderRadius: '9999px',
             border: `1px solid ${cfg.color}30`,
           }}>
@@ -177,13 +175,13 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
           {/* Rating badge */}
           <div style={{
             display: 'flex', alignItems: 'center', gap: '3px',
-            backgroundColor: 'var(--status-warn-bg)',
-            border: '1px solid var(--status-warn-border)',
-            borderRadius: '20px',
+            backgroundColor: 'rgba(178,80,0,0.06)',
+            border: '1px solid rgba(178,80,0,0.15)',
+            borderRadius: '9999px',
             padding: '3px 8px',
           }}>
-            <Star style={{ width: '10px', height: '10px', color: 'var(--color-warning)', fill: 'var(--color-warning)' }} />
-            <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-warning)', fontFamily: '"JetBrains Mono", monospace' }}>
+            <Star style={{ width: '10px', height: '10px', color: '#b25000', fill: '#b25000' }} />
+            <span style={{ fontSize: '11px', fontWeight: 600, color: '#b25000', fontFamily: 'var(--font-mono)' }}>
               {mock.rating}
             </span>
           </div>
@@ -191,9 +189,8 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
 
         {/* Title */}
         <h3 style={{
-          fontFamily: '"Barlow Condensed", sans-serif',
-          fontSize: '17px', fontWeight: 700,
-          color: '#F0F4FF', lineHeight: 1.25,
+          fontSize: '15px', fontWeight: 600,
+          color: '#171717', lineHeight: 1.3, letterSpacing: '-0.01em',
           marginBottom: '5px',
           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>
@@ -202,7 +199,7 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
 
         {/* Description */}
         <p style={{
-          fontSize: '12px', color: '#8892A4',
+          fontSize: '12px', color: '#666666',
           lineHeight: 1.5, marginBottom: '10px',
           display: '-webkit-box',
           WebkitLineClamp: 2,
@@ -217,18 +214,16 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {/* Start date */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <Calendar style={{ width: '12px', height: '12px', color: 'var(--color-text-muted)' }} />
-              <span style={{ fontSize: '11px', color: '#8892A4' }}>Inicio: {mock.startDate}</span>
+              <Calendar style={{ width: '12px', height: '12px', color: '#a8a8a8' }} strokeWidth={1.5} />
+              <span style={{ fontSize: '11px', color: '#a8a8a8' }}>Inicio: {mock.startDate}</span>
             </div>
-            {/* Workers count */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <Users style={{ width: '12px', height: '12px', color: 'var(--color-text-muted)' }} />
-              <span style={{ fontSize: '11px', color: '#8892A4' }}>{workersCount}</span>
+              <Users style={{ width: '12px', height: '12px', color: '#a8a8a8' }} strokeWidth={1.5} />
+              <span style={{ fontSize: '11px', color: '#a8a8a8' }}>{workersCount}</span>
             </div>
-            {/* Courses count */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <BookOpen style={{ width: '12px', height: '12px', color: 'var(--color-text-muted)' }} />
-              <span style={{ fontSize: '11px', color: '#8892A4' }}>{coursesCount} cursos</span>
+              <BookOpen style={{ width: '12px', height: '12px', color: '#a8a8a8' }} strokeWidth={1.5} />
+              <span style={{ fontSize: '11px', color: '#a8a8a8' }}>{coursesCount} cursos</span>
             </div>
           </div>
 
@@ -238,12 +233,12 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
             onClick={(e) => { e.stopPropagation(); onClick(); }}
             className="transition-colors duration-200"
             style={{
-              padding: '8px 16px',
-              backgroundColor: hovered ? 'var(--color-purple-deep)' : 'var(--color-electric)',
+              padding: '6px 14px',
+              backgroundColor: hovered ? '#2e2e2e' : '#171717',
               border: 'none',
-              borderRadius: 'var(--radius-full)',
-              color: '#F0F4FF',
-              fontSize: '14px', fontWeight: 600,
+              borderRadius: '9999px',
+              color: '#ffffff',
+              fontSize: '13px', fontWeight: 500,
               cursor: 'pointer',
               flexShrink: 0,
             }}
@@ -322,9 +317,9 @@ function SidePanel() {
     <div style={{
       width: '320px',
       flexShrink: 0,
-      backgroundColor: 'var(--color-surface)',
-      borderLeft: '1px solid var(--border-brand)',
-      borderRadius: 'var(--radius-md)',
+      backgroundColor: '#ffffff',
+      border: '1px solid #ebebeb',
+      borderRadius: '6px',
       display: 'flex',
       flexDirection: 'column',
       gap: '0',
@@ -340,21 +335,21 @@ function SidePanel() {
           <button
             type="button"
             onClick={prevMonth}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-text-primary)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-secondary)')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#a8a8a8', padding: '4px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#171717')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#a8a8a8')}
           >
-            <ChevronLeft style={{ width: '16px', height: '16px' }} />
+            <ChevronLeft style={{ width: '16px', height: '16px' }} strokeWidth={1.5} />
           </button>
-          <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--color-text-primary)', fontFamily: 'var(--font-display)', letterSpacing: '0.5px' }}>
+          <span style={{ fontSize: '13px', fontWeight: 600, color: '#171717' }}>
             {MONTH_NAMES[viewMonth]} {viewYear}
           </span>
           <button
             type="button"
             onClick={nextMonth}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-text-primary)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-secondary)')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#a8a8a8', padding: '4px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#171717')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#a8a8a8')}
           >
             <ChevronRight style={{ width: '16px', height: '16px' }} />
           </button>
@@ -364,7 +359,7 @@ function SidePanel() {
         <div style={{ width: '100%', overflowX: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: '6px' }}>
             {DAY_LABELS.map(d => (
-              <div key={d} style={{ textAlign: 'center', fontSize: '10px', fontWeight: 600, color: 'var(--color-text-muted)', padding: '4px 0' }}>{d}</div>
+              <div key={d} style={{ textAlign: 'center', fontSize: '10px', fontWeight: 500, color: '#a8a8a8', padding: '4px 0' }}>{d}</div>
             ))}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px' }}>
@@ -377,11 +372,11 @@ function SidePanel() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontSize: '12px',
-                  fontWeight: isToday(day) ? 700 : 400,
+                  fontWeight: isToday(day) ? 600 : 400,
                   color: day === null ? 'transparent'
-                    : isToday(day) ? '#0A0E1A'
-                    : 'var(--color-text-secondary)',
-                  backgroundColor: isToday(day) ? 'var(--color-electric)' : 'transparent',
+                    : isToday(day) ? '#ffffff'
+                    : '#666666',
+                  backgroundColor: isToday(day) ? '#171717' : 'transparent',
                   borderRadius: '50%',
                   minWidth: 0,
                   cursor: day ? 'default' : 'default',
@@ -395,11 +390,11 @@ function SidePanel() {
       </div>
 
       {/* Divider */}
-      <div style={{ height: '1px', backgroundColor: 'rgba(91,34,119,0.15)', margin: '0 20px' }} />
+      <div style={{ height: '1px', backgroundColor: '#ebebeb', margin: '0 20px' }} />
 
       {/* ── Próximas Actividades ── */}
       <div style={{ padding: '16px 20px 20px', flex: 1, overflowY: 'auto' }}>
-        <p style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '12px' }}>
+        <p style={{ fontSize: '11px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>
           Próximas Actividades
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -411,37 +406,36 @@ function SidePanel() {
                 alignItems: 'center',
                 gap: '12px',
                 padding: '10px 12px',
-                backgroundColor: 'var(--color-surface-alt)',
-                border: '1px solid var(--border-brand)',
-                borderRadius: 'var(--radius-sm)',
+                backgroundColor: '#fafafa',
+                border: '1px solid #ebebeb',
+                borderRadius: '6px',
                 transition: 'border-color 0.15s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--border-brand-hover)')}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border-brand)')}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = '#d4d4d4')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = '#ebebeb')}
             >
               {/* Day number */}
               <div style={{ width: '32px', flexShrink: 0, textAlign: 'center' }}>
                 <span style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: '22px',
-                  fontWeight: 700,
+                  fontSize: '20px',
+                  fontWeight: 600,
                   lineHeight: 1,
-                  color: 'var(--color-text-muted)',
+                  color: '#a8a8a8',
                 }}>
                   {SCHEDULE_DAYS[i]}
                 </span>
               </div>
               {/* Content */}
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: '12px', fontWeight: 600, color: '#F0F4FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <p style={{ fontSize: '12px', fontWeight: 500, color: '#171717', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {item.nombre}
                 </p>
-                <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>
                   {item.completados} de {item.total} capítulos
                 </p>
               </div>
               {/* Time */}
-              <span style={{ fontSize: '10px', color: 'var(--color-text-muted)', flexShrink: 0, fontFamily: '"JetBrains Mono", monospace' }}>
+              <span style={{ fontSize: '10px', color: '#a8a8a8', flexShrink: 0, fontFamily: 'var(--font-mono)' }}>
                 {SCHEDULE_TIMES[i]}
               </span>
             </div>
@@ -513,41 +507,43 @@ export function Curriculum() {
         style={{ marginBottom: '24px' }}
       >
         <div style={{ minWidth: 0, overflow: 'hidden' }}>
-          <h1 className="font-display text-3xl font-bold text-gradient tracking-tight truncate">
+          <h1 className="text-3xl font-semibold tracking-tight truncate" style={{ color: '#171717', letterSpacing: '-0.02em' }}>
             Mallas Curriculares
           </h1>
-          <p className="text-[#8892A4] text-sm mt-1">
+          <p className="text-sm mt-1" style={{ color: '#666666' }}>
             {mockMeshes.length} mallas de capacitación activas
           </p>
         </div>
         <div className="flex items-center gap-3">
           {/* Search input — relocated to header right */}
           <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#a8a8a8' }} strokeWidth={1.5} />
             <input
               type="text"
               placeholder="Buscar mallas..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
-                height: '40px',
+                height: '38px',
                 width: '224px',
-                backgroundColor: '#231455',
-                border: '1px solid rgba(91,34,119,0.25)',
-                borderRadius: '8px',
+                backgroundColor: '#ffffff',
+                border: '1px solid #ebebeb',
+                borderRadius: '6px',
                 paddingLeft: '40px',
                 paddingRight: '32px',
-                fontSize: '14px',
-                color: '#F0F4FF',
+                fontSize: '13px',
+                color: '#171717',
                 outline: 'none'
               }}
-              className="placeholder-[#4A5568] focus:border-[rgba(91,34,119,0.5)] transition-colors"
+              onFocus={e => e.currentTarget.style.borderColor = '#d4d4d4'}
+              onBlur={e => e.currentTarget.style.borderColor = '#ebebeb'}
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#4A5568] hover:text-[#F0F4FF] transition-colors"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 transition-colors"
+                style={{ color: '#a8a8a8' }}
               >
                 <X className="w-4 h-4" />
               </button>
@@ -571,7 +567,7 @@ export function Curriculum() {
           display: 'flex',
           alignItems: 'center',
           gap: '0',
-          borderBottom: '1px solid rgba(91,34,119,0.2)',
+          borderBottom: '1px solid #ebebeb',
         }}
       >
         {TABS.map((tab) => {
@@ -587,27 +583,27 @@ export function Curriculum() {
                 gap: '6px',
                 padding: '10px 18px',
                 fontSize: '14px',
-                fontWeight: isActive ? 700 : 500,
-                color: isActive ? 'var(--color-purple-mid)' : 'var(--color-text-secondary)',
+                fontWeight: isActive ? 600 : 400,
+                color: isActive ? '#171717' : '#666666',
                 background: 'none',
                 border: 'none',
-                borderBottom: isActive ? '2px solid var(--color-purple-mid)' : '2px solid transparent',
+                borderBottom: isActive ? '2px solid #171717' : '2px solid transparent',
                 marginBottom: '-1px',
                 cursor: 'pointer',
                 transition: 'color 0.15s, border-color 0.15s',
               }}
               onMouseEnter={(e) => {
-                if (!isActive) e.currentTarget.style.color = '#C8D6E5';
+                if (!isActive) e.currentTarget.style.color = '#171717';
               }}
               onMouseLeave={(e) => {
-                if (!isActive) e.currentTarget.style.color = '#8892A4';
+                if (!isActive) e.currentTarget.style.color = '#666666';
               }}
             >
               {tab.dot && (
                 <span style={{
                   width: '7px', height: '7px',
                   borderRadius: '50%',
-                  backgroundColor: isActive ? 'var(--color-purple-mid)' : 'var(--color-text-muted)',
+                  backgroundColor: isActive ? '#171717' : '#d4d4d4',
                   flexShrink: 0,
                   display: 'inline-block',
                   transition: 'background-color 0.15s',
@@ -628,17 +624,17 @@ export function Curriculum() {
         className="grid grid-cols-3 gap-2 sm:gap-3" style={{ marginBottom: '24px' }}
       >
         {[
-          { label: 'Mallas totales', value: stats.totalMeshes, icon: Layers, color: '#9b6ab5' },
-          { label: 'Total recursos', value: stats.totalCourses, icon: BookOpen, color: '#729362' },
-          { label: 'Completadas', value: Math.round(mockMeshes.filter(m => m.completionRate === 100).length), icon: GraduationCap, color: '#FFB800' },
+          { label: 'Mallas totales', value: stats.totalMeshes, icon: Layers },
+          { label: 'Total recursos', value: stats.totalCourses, icon: BookOpen },
+          { label: 'Completadas', value: Math.round(mockMeshes.filter(m => m.completionRate === 100).length), icon: GraduationCap },
         ].map(stat => (
-          <div key={stat.label} style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--border-brand)', borderRadius: 'var(--radius-md)', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '10px', backgroundColor: stat.color + '15', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <stat.icon style={{ width: '20px', height: '20px', color: stat.color }} />
+          <div key={stat.label} style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '36px', height: '36px', borderRadius: '6px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <stat.icon style={{ width: '18px', height: '18px', color: '#4d4d4d' }} strokeWidth={1.5} />
             </div>
             <div style={{ minWidth: 0 }}>
-              <p style={{ fontFamily: '"Barlow Condensed"', fontSize: 'clamp(18px, 4vw, 26px)', fontWeight: 700, color: stat.color, lineHeight: 1, margin: 0 }}>{stat.value}</p>
-              <p style={{ fontSize: 'clamp(10px, 2.5vw, 11px)', color: '#8892A4', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: '2px 0 0 0' }}>{stat.label}</p>
+              <p style={{ fontSize: 'clamp(18px, 4vw, 24px)', fontWeight: 600, color: '#171717', lineHeight: 1, margin: 0 }}>{stat.value}</p>
+              <p style={{ fontSize: 'clamp(10px, 2.5vw, 11px)', color: '#666666', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: '2px 0 0 0' }}>{stat.label}</p>
             </div>
           </div>
         ))}
@@ -649,8 +645,8 @@ export function Curriculum() {
       <div className="grid grid-cols-1 gap-4">
         {filteredMeshes.length === 0 ? (
           <div className="col-span-full text-center py-16">
-            <p className="text-[#8892A4] text-lg">No se encontraron mallas</p>
-            <p className="text-[#4A5568] text-sm mt-2">Intenta con otra búsqueda</p>
+            <p className="text-lg" style={{ color: '#666666' }}>No se encontraron mallas</p>
+            <p className="text-sm mt-2" style={{ color: '#a8a8a8' }}>Intenta con otra búsqueda</p>
           </div>
         ) : (
           filteredMeshes.map((mesh, index) => (
@@ -681,7 +677,7 @@ export function Curriculum() {
             onClick={() => setSelectedMesh(null)}
           >
             {/* Backdrop */}
-            <div className="absolute inset-0 bg-[#0A0E1A]/80 backdrop-blur-sm" />
+            <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }} />
 
             {/* Modal Content */}
             <motion.div

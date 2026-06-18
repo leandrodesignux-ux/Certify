@@ -11,14 +11,14 @@ export function DaysSparkline({
 }) {
   const maxDays = 365;
   const percentage = Math.min(Math.max((diasRestantes / maxDays) * 100, 0), 100);
-  const color = diasRestantes <= 0 ? '#FF3D57' : diasRestantes <= 60 ? '#FFB800' : '#729362';
+  const color = diasRestantes <= 0 ? '#e5484d' : diasRestantes <= 60 ? '#b25000' : '#297a3a';
   
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <div style={{ 
         width: `${barWidth}px`, 
         height: `${barHeight}px`, 
-        backgroundColor: 'rgba(255,255,255,0.1)', 
+        backgroundColor: '#ebebeb', 
         borderRadius: `${barHeight / 2}px`,
         overflow: 'hidden'
       }}>

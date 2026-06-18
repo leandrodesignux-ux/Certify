@@ -21,8 +21,6 @@ export const CertTableRow = React.memo(function CertTableRow({
   const initials = worker
     ? `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase()
     : '?';
-  const borderColor = cert.estado === 'vigente' ? '#729362' : cert.estado === 'proximo_vencer' ? '#FFB800' : cert.estado === 'vencido' ? '#FF3D57' : '#7c4dab';
-
   return (
     <>
       <motion.tr
@@ -33,23 +31,21 @@ export const CertTableRow = React.memo(function CertTableRow({
         transition={{ delay: index * 0.03, duration: 0.3 }}
         className="group cursor-pointer"
         style={{
-          borderBottom: `1px solid ${borderColor}20`,
-          transition: 'all 0.2s ease',
+          borderBottom: '1px solid #ebebeb',
+          transition: 'background 0.15s',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = 'rgba(91,34,119,0.04)';
-          e.currentTarget.style.borderBottomColor = borderColor;
+          e.currentTarget.style.backgroundColor = '#f5f5f5';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.backgroundColor = 'transparent';
-          e.currentTarget.style.borderBottomColor = `${borderColor}20`;
         }}
       >
         {/* Trabajador */}
         <td 
           className="px-4 py-3"
           style={{ 
-            borderRight: '1px solid rgba(91,34,119,0.1)',
+            borderRight: '1px solid #ebebeb',
             verticalAlign: 'middle'
           }}
         >
@@ -60,18 +56,19 @@ export const CertTableRow = React.memo(function CertTableRow({
                 width: '32px',
                 height: '32px',
                 borderRadius: '50%',
-                backgroundColor: worker ? `${worker.area === 'Producción' ? '#FF3D57' : worker.area === 'Calidad' ? '#8a9e52' : worker.area === 'Mantenimiento' ? '#FFB800' : '#9b6ab5'}15` : '#4A556815',
-                color: worker ? (worker.area === 'Producción' ? '#FF3D57' : worker.area === 'Calidad' ? '#8a9e52' : worker.area === 'Mantenimiento' ? '#FFB800' : '#9b6ab5') : '#4A5568',
+                backgroundColor: '#f0f0f0',
+                border: '1px solid #ebebeb',
+                color: '#4d4d4d',
                 flexShrink: 0,
               }}
             >
               {initials}
             </div>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <p className="text-sm text-[#F0F4FF] font-medium truncate" style={{ maxWidth: '180px' }}>
+              <p className="text-sm font-medium truncate" style={{ maxWidth: '180px', color: '#171717' }}>
                 {worker ? `${worker.nombre} ${worker.apellidos}` : 'Trabajador no encontrado'}
               </p>
-              <p className="text-xs text-[#6B7280] truncate" style={{ maxWidth: '180px' }}>
+              <p className="text-xs truncate" style={{ maxWidth: '180px', color: '#666666' }}>
                 {worker?.cargo || 'Sin cargo'}
               </p>
             </div>
@@ -81,10 +78,10 @@ export const CertTableRow = React.memo(function CertTableRow({
         {/* Certificación */}
         <td className="px-4 py-3">
           <div>
-            <p className="text-sm text-[#F0F4FF] truncate mb-1" style={{ maxWidth: '200px' }}>
+            <p className="text-sm truncate mb-1" style={{ maxWidth: '200px', color: '#171717' }}>
               {cert.nombre}
             </p>
-            <p className="text-xs text-[#6B7280] truncate" style={{ maxWidth: '200px' }}>
+            <p className="text-xs truncate" style={{ maxWidth: '200px', color: '#666666' }}>
               {cert.emisor}
             </p>
           </div>
@@ -109,27 +106,27 @@ export const CertTableRow = React.memo(function CertTableRow({
         {/* Vencimiento */}
         <td className="px-4 py-3">
           <div>
-            <p className="text-sm text-[#F0F4FF] mb-1">
+            <p className="text-sm mb-1" style={{ color: '#171717' }}>
               {formatDate(cert.fechaVencimiento)}
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <div style={{ 
                 width: '40px', 
                 height: '4px', 
-                backgroundColor: 'rgba(255,255,255,0.1)', 
+                backgroundColor: '#ebebeb', 
                 borderRadius: '2px',
                 overflow: 'hidden'
               }}>
                 <div style={{
                   width: `${Math.min(Math.max((cert.diasRestantes / 365) * 100, 0), 100)}%`,
                   height: '100%',
-                  backgroundColor: cert.diasRestantes <= 0 ? '#FF3D57' : cert.diasRestantes <= 60 ? '#FFB800' : '#729362',
+                  backgroundColor: cert.diasRestantes <= 0 ? '#e5484d' : cert.diasRestantes <= 60 ? '#b25000' : '#297a3a',
                   borderRadius: '2px'
                 }} />
               </div>
               <span style={{ 
                 fontSize: '11px', 
-                color: cert.diasRestantes <= 0 ? '#FF3D57' : cert.diasRestantes <= 60 ? '#FFB800' : '#729362',
+                color: cert.diasRestantes <= 0 ? '#e5484d' : cert.diasRestantes <= 60 ? '#b25000' : '#297a3a',
                 fontWeight: 500
               }}>
                 {cert.diasRestantes > 0 ? `${cert.diasRestantes}d` : 'Vencido'}
@@ -145,7 +142,7 @@ export const CertTableRow = React.memo(function CertTableRow({
 
         {/* Fecha Obtención */}
         <td className="px-4 py-3 hidden md:table-cell">
-          <span className="text-sm text-[#F0F4FF]">
+          <span className="text-sm" style={{ color: '#171717' }}>
             {formatDate(cert.fechaObtension)}
           </span>
         </td>
@@ -154,11 +151,14 @@ export const CertTableRow = React.memo(function CertTableRow({
         <td className="px-4 py-3 text-center">
           <button
             onClick={() => onEyeClick(cert.id)}
-            className="p-1.5 rounded-md hover:bg-[rgba(91,34,119,0.15)] transition-colors"
+            className="p-1.5 rounded-md transition-colors"
             title="Ver detalle"
             aria-label={`Ver detalle de ${cert.nombre}`}
+            style={{ color: '#4d4d4d' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
           >
-            <Eye className="w-4 h-4 text-[#9b6ab5]" />
+            <Eye className="w-4 h-4" strokeWidth={1.5} />
           </button>
         </td>
       </motion.tr>

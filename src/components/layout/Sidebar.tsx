@@ -53,7 +53,7 @@ function NotificationBadge({ count, color }: { count: number; color: string }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        border: '2px solid var(--color-surface-deep)',
+        border: '2px solid #ffffff',
       }}
     >
       {count > 9 ? '9+' : count}
@@ -68,17 +68,17 @@ function NavTooltip({ label, visible }: { label: string; visible: boolean }) {
       style={{
         position: 'absolute',
         left: '56px',
-        backgroundColor: '#231455',
-        color: '#F0F4FF',
+        backgroundColor: '#ffffff',
+        color: '#171717',
         padding: '6px 12px',
         borderRadius: 'var(--radius-sm)',
         fontSize: '12px',
         fontWeight: 500,
         whiteSpace: 'nowrap',
-        border: '1px solid rgba(91,34,119,0.4)',
+        border: '1px solid #ebebeb',
         zIndex: 100,
         pointerEvents: visible ? 'auto' : 'none',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
         opacity: visible ? 1 : 0,
         transition: 'opacity 0.12s',
       }}
@@ -92,7 +92,7 @@ function NavTooltip({ label, visible }: { label: string; visible: boolean }) {
           transform: 'translateY(-50%)',
           borderWidth: '5px 5px 5px 0',
           borderStyle: 'solid',
-          borderColor: 'transparent rgba(91,34,119,0.4) transparent transparent',
+          borderColor: 'transparent #ebebeb transparent transparent',
         }}
       />
     </span>
@@ -117,8 +117,8 @@ export function Sidebar() {
   };
 
   const badgeColors = {
-    certifications: '#FF3D57',
-    reports: '#FFB800',
+    certifications: '#e5484d',
+    reports: '#b25000',
   };
 
   // Auto-collapse on tablet (<1024px)
@@ -155,16 +155,16 @@ export function Sidebar() {
   const SidebarContent = ({ isMobile = false }: { isMobile?: boolean }) => (
     <>
       {/* Logo */}
-      <div className="h-16 flex items-center px-4 border-b border-[rgba(91,34,119,0.2)]">
-        <Zap className="w-7 h-7 text-[#9b6ab5] flex-shrink-0" />
+      <div className="h-16 flex items-center px-4" style={{ borderBottom: '1px solid #ebebeb' }}>
+        <Zap className="w-7 h-7 flex-shrink-0" style={{ color: '#171717', strokeWidth: 1.5 }} />
         <span
           style={{
             marginLeft: '12px',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            color: '#c49fe0',
-            fontFamily: '"Barlow Condensed", sans-serif',
-            letterSpacing: '0.05em',
+            fontSize: '18px',
+            fontWeight: 600,
+            color: '#171717',
+            fontFamily: 'var(--font-display)',
+            letterSpacing: '-0.03em',
             opacity: sidebarCollapsed ? 0 : 1,
             width: sidebarCollapsed ? 0 : 'auto',
             overflow: 'hidden',
@@ -177,9 +177,10 @@ export function Sidebar() {
         {isMobile && (
           <button
             onClick={() => setMobileSidebarOpen(false)}
-            className="ml-auto p-2 text-[#8892A4] hover:text-[#F0F4FF] transition-colors"
+            className="ml-auto p-2 transition-colors"
+            style={{ color: '#666666' }}
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" strokeWidth={1.5} />
           </button>
         )}
       </div>
@@ -188,13 +189,13 @@ export function Sidebar() {
       {!isMobile && (
         <button
           onClick={toggleSidebar}
-          className="w-6 h-6 bg-[#1a1040] border border-[rgba(91,34,119,0.3)] rounded-sm flex items-center justify-center text-[#a89fc4] hover:text-[#9b6ab5] hover:border-[#5b2277]/50 transition-all duration-150"
-          style={{ position: 'absolute', right: '-12px', top: '80px', zIndex: 60, borderRadius: 'var(--radius-sm)' }}
+          className="w-6 h-6 flex items-center justify-center transition-all duration-150"
+          style={{ background: '#ffffff', border: '1px solid #ebebeb', borderRadius: 'var(--radius-sm)', color: '#4d4d4d', position: 'absolute', right: '-12px', top: '80px', zIndex: 60 }}
         >
           {sidebarCollapsed ? (
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
           ) : (
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
           )}
         </button>
       )}
@@ -227,15 +228,15 @@ export function Sidebar() {
                     borderRadius: 'var(--radius-sm)',
                     transition: 'all 0.15s ease',
                     backgroundColor: isActive
-                      ? 'rgba(91,34,119,0.25)'
+                      ? '#f0f0f0'
                       : isHovered
-                        ? 'rgba(91,34,119,0.12)'
+                        ? '#f5f5f5'
                         : 'transparent',
-                    color: isActive ? '#c49fe0' : isHovered ? '#F0F4FF' : 'var(--color-text-muted)',
+                    color: isActive ? '#171717' : isHovered ? '#171717' : '#4d4d4d',
                     borderLeft: isActive
-                      ? '2px solid #9b6ab5'
+                      ? '2px solid #171717'
                       : isHovered
-                        ? '2px solid rgba(91,34,119,0.4)'
+                        ? '2px solid #d4d4d4'
                         : '2px solid transparent',
                     position: 'relative',
                   }}
@@ -246,8 +247,8 @@ export function Sidebar() {
                         width: '20px',
                         height: '20px',
                         flexShrink: 0,
-                        color: isActive ? '#c49fe0' : isHovered ? '#F0F4FF' : 'var(--color-text-muted)',
                       }}
+                      strokeWidth={1.5}
                     />
                     {badgeCount > 0 && badgeColor && (
                       <NotificationBadge count={badgeCount} color={badgeColor} />
@@ -291,16 +292,16 @@ export function Sidebar() {
               justifyContent: 'space-between',
             }}
           >
-            <span style={{ fontSize: '11px', color: '#4A5568' }}>Colapsar sidebar</span>
+            <span style={{ fontSize: '11px', color: '#a8a8a8' }}>Colapsar sidebar</span>
             <kbd
               style={{
                 padding: '2px 6px',
-                backgroundColor: 'rgba(28,16,80,0.5)',
+                backgroundColor: '#fafafa',
                 borderRadius: '4px',
                 fontSize: '10px',
-                color: 'var(--color-text-muted)',
-                fontFamily: 'monospace',
-                border: '1px solid rgba(91,34,119,0.2)',
+                color: '#666666',
+                fontFamily: 'var(--font-mono)',
+                border: '1px solid #ebebeb',
               }}
             >
               ⌘B
@@ -310,14 +311,14 @@ export function Sidebar() {
       </nav>
 
       {/* User Section */}
-      <div style={{ padding: '12px', borderTop: '1px solid rgba(91,34,119,0.2)' }}>
+      <div style={{ padding: '12px', borderTop: '1px solid #ebebeb' }}>
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             padding: '10px 12px',
             borderRadius: 'var(--radius-sm)',
-            backgroundColor: 'rgba(28,35,51,0.3)',
+            backgroundColor: '#fafafa',
             justifyContent: sidebarCollapsed && !isMobile ? 'center' : 'flex-start',
           }}
         >
@@ -326,15 +327,15 @@ export function Sidebar() {
               width: '32px',
               height: '32px',
               borderRadius: 'var(--radius-sm)',
-              background: 'rgba(91,34,119,0.25)',
-              border: '1px solid rgba(91,34,119,0.3)',
+              background: '#f0f0f0',
+              border: '1px solid #ebebeb',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               flexShrink: 0,
             }}
           >
-            <User style={{ width: '16px', height: '16px', color: '#9b6ab5' }} />
+            <User style={{ width: '16px', height: '16px', color: '#4d4d4d' }} strokeWidth={1.5} />
           </div>
           <div
             style={{
@@ -345,15 +346,15 @@ export function Sidebar() {
               transition: 'opacity 0.15s, width 0.15s',
             }}
           >
-            <p style={{ fontSize: '14px', fontWeight: 500, color: '#F0F4FF' }}>Administrador</p>
-            <p style={{ fontSize: '12px', color: '#8892A4' }}>Admin</p>
+            <p style={{ fontSize: '14px', fontWeight: 500, color: '#171717' }}>Administrador</p>
+            <p style={{ fontSize: '12px', color: '#666666' }}>Admin</p>
           </div>
           {!sidebarCollapsed && (
             <button
               style={{
                 marginLeft: 'auto',
                 padding: '10px',
-                color: isHoverLogout ? '#FF3D57' : '#8892A4',
+                color: isHoverLogout ? '#e5484d' : '#a8a8a8',
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
@@ -362,7 +363,7 @@ export function Sidebar() {
               onMouseEnter={() => setIsHoverLogout(true)}
               onMouseLeave={() => setIsHoverLogout(false)}
             >
-              <LogOut style={{ width: '16px', height: '16px' }} />
+              <LogOut style={{ width: '16px', height: '16px' }} strokeWidth={1.5} />
             </button>
           )}
         </div>
@@ -377,7 +378,8 @@ export function Sidebar() {
         initial={false}
         animate={{ width: sidebarCollapsed ? 64 : 240 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="hidden md:flex h-screen bg-[#130b3a] border-r border-[rgba(91,34,119,0.2)] flex-col fixed left-0 top-0 z-50"
+        className="hidden md:flex h-screen flex-col fixed left-0 top-0 z-50"
+        style={{ backgroundColor: '#fafafa', borderRight: '1px solid #ebebeb' }}
       >
         <SidebarContent />
       </motion.aside>
@@ -406,7 +408,8 @@ export function Sidebar() {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="md:hidden fixed left-0 top-0 h-screen w-[280px] bg-[#130b3a] border-r border-[rgba(91,34,119,0.2)] flex flex-col z-[60]"
+              className="md:hidden fixed left-0 top-0 h-screen w-[280px] flex flex-col z-[60]"
+              style={{ backgroundColor: '#fafafa', borderRight: '1px solid #ebebeb' }}
             >
               <SidebarContent isMobile />
             </motion.aside>

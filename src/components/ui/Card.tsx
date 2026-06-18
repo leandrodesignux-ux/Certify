@@ -15,7 +15,7 @@ interface CardProps {
 
 export function Card({
   children,
-  variant = 'default',
+  variant: _variant = 'default',
   padding = 'md',
   className = '',
   hover = true,
@@ -24,21 +24,17 @@ export function Card({
   onMouseLeave,
   style,
 }: CardProps) {
-  const [isHovered, setIsHovered] = useState(false);
+  const [_isHovered, setIsHovered] = useState(false);
 
   const paddingStyles = {
     sm: 'p-3',
-    md: 'p-5',
+    md: 'p-6',
     lg: 'p-6',
   };
 
-  const baseStyles: React.CSSProperties = variant === 'glass' ? {
-    backgroundColor: 'rgba(26,16,64,0.92)',
-    border: '1px solid var(--border-brand)',
-    borderRadius: 'var(--radius-sm)',
-  } : {
-    backgroundColor: '#1a1040',
-    border: '1px solid var(--border-brand)',
+  const baseStyles: React.CSSProperties = {
+    backgroundColor: '#ffffff',
+    border: '1px solid #ebebeb',
     borderRadius: 'var(--radius-sm)',
   };
 
@@ -52,28 +48,13 @@ export function Card({
         ...style,
         position: 'relative',
         overflow: 'hidden',
-        ...(hover && isHovered ? { willChange: 'transform' } : {}),
       }}
       className={`transition-all duration-200 ${paddingStyles[padding]} ${
         hover
-          ? 'hover:border-[rgba(100,43,90,0.45)] hover:shadow-[0_0_20px_rgba(91,34,119,0.2)] hover:-translate-y-1'
+          ? 'hover:border-[#d4d4d4] hover:shadow-[rgba(0,0,0,0.08)_0_0_0_1px,rgba(0,0,0,0.04)_0_2px_2px_0]'
           : ''
       } ${className}`}
     >
-      {/* Shimmer overlay */}
-      {hover && (
-        <div
-          className="animate-shimmer"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            pointerEvents: 'none',
-            zIndex: -1,
-            opacity: isHovered ? 1 : 0,
-            transition: 'opacity 0.3s ease',
-          }}
-        />
-      )}
       {children}
     </div>
   );

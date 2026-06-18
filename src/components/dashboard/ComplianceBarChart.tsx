@@ -18,15 +18,16 @@ const CustomTooltip = ({ active, payload }: {
     const data = payload[0].payload;
     return (
       <div style={{
-        backgroundColor: 'var(--color-surface-alt)',
-        border: '1px solid var(--border-brand-hover)',
-        borderRadius: 'var(--radius-md)',
-        color: '#F0F4FF',
+        backgroundColor: '#ffffff',
+        border: '1px solid #ebebeb',
+        borderRadius: '6px',
+        color: '#171717',
         fontSize: '12px',
         padding: '12px',
+        boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
       }}>
-        <p style={{ fontWeight: 500, marginBottom: '4px' }}>{data.label}</p>
-        <p style={{ color: '#9b6ab5', fontFamily: '"JetBrains Mono", monospace', fontSize: '14px' }}>{data.value}%</p>
+        <p style={{ fontWeight: 500, marginBottom: '4px', color: '#4d4d4d' }}>{data.label}</p>
+        <p style={{ color: '#171717', fontFamily: 'var(--font-mono)', fontSize: '14px' }}>{data.value}%</p>
       </div>
     );
   }
@@ -46,21 +47,21 @@ export function ComplianceBarChart() {
         <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 0 }} style={{ backgroundColor: 'transparent' }}>
           <XAxis
             dataKey="label"
-            tick={{ fill: 'var(--chart-axis-text)', fontSize: 10 }}
-            axisLine={{ stroke: 'var(--border-brand)' }}
+            tick={{ fill: '#666666', fontSize: 10, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#ebebeb' }}
             tickLine={false}
             interval={0}
           />
           <YAxis
-            tick={{ fill: 'var(--chart-axis-text)', fontSize: 11 }}
-            axisLine={{ stroke: 'var(--border-brand)' }}
+            tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#ebebeb' }}
             tickLine={false}
             domain={[0, 100]}
             tickFormatter={(value) => `${value}%`}
           />
           <Tooltip
             content={<CustomTooltip />}
-            cursor={{ fill: 'rgba(91,34,119,0.08)' }}
+            cursor={{ fill: 'rgba(23,23,23,0.04)' }}
           />
           <Bar
             dataKey="value"
@@ -72,17 +73,14 @@ export function ComplianceBarChart() {
             <LabelList
               dataKey="value"
               position="top"
-              fill="var(--color-text-primary)"
+              fill="#666666"
               fontSize={11}
-              fontFamily="JetBrains Mono"
+              fontFamily="var(--font-mono)"
             />
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={entry.color}
-                style={{
-                  filter: 'drop-shadow(0 0 4px rgba(91,34,119,0.3))',
-                }}
               />
             ))}
           </Bar>
