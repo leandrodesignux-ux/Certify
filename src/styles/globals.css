@@ -447,6 +447,17 @@ textarea:focus-visible {
   }
 }
 
+/* ===== WORKER CARD DATA GRID ===== */
+.worker-data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 380px) {
+  .worker-data-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ===== PULSE ANIMATION ===== */
 @keyframes pulse {
   0%, 100% { opacity: 1; }
