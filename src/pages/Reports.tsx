@@ -208,7 +208,7 @@ Generado automáticamente por CertifyX
   };
 
   return (
-    <div className="space-y-8" role="main" aria-label="Vista de reportes">
+    <div className="space-y-10" role="main" aria-label="Vista de reportes">
       {/* ── HEADER ── */}
       <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible" style={{ paddingBottom: '8px', borderBottom: '1px solid #f0f0f0' }}>
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
@@ -259,7 +259,7 @@ Generado automáticamente por CertifyX
       {/* SECTION 1: KPIs */}
       <motion.div custom={0.1} variants={sectionVariants} initial="hidden" animate="visible">
         <div
-          className="grid gap-4 grid-cols-2 lg:grid-cols-4"
+          className="grid gap-5 grid-cols-2 lg:grid-cols-4"
           role="region"
           aria-label="Indicadores clave de cumplimiento"
         >
@@ -308,7 +308,7 @@ Generado automáticamente por CertifyX
 
       {/* FILA B: Charts */}
       <motion.div role="region" aria-label="Gráficos de cumplimiento y certificaciones" custom={0.3} variants={sectionVariants} initial="hidden" animate="visible">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
         {/* Compliance por Área - Bar Chart */}
         <motion.div className="flex flex-col" custom={0.5} variants={sectionVariants} initial="hidden" animate="visible">
           <Card variant="default" padding="lg" hover={false} style={{ flex: 1, minHeight: '380px', display: 'flex', flexDirection: 'column' }}>
@@ -358,17 +358,17 @@ Generado automáticamente por CertifyX
               action={<PanelBadge>{certifications.length} total</PanelBadge>}
               spacing={20}
             />
-            <div className="flex flex-col sm:flex-row" style={{ gap: '12px', marginTop: '8px' }}>
-              {/* Donut */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '240px', flex: '0 0 auto', width: '100%' }} className="sm:w-1/2">
+            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '16px', marginTop: '8px', alignItems: 'center' }}>
+              {/* Donut — ancho fijo 200px, crece hasta 240px */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '220px', flex: '0 0 200px', maxWidth: '240px' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={certStatusData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={60}
-                      outerRadius={95}
+                      innerRadius={58}
+                      outerRadius={90}
                       paddingAngle={2}
                       dataKey="value"
                       strokeWidth={0}
@@ -379,26 +379,26 @@ Generado automáticamente por CertifyX
                       <Label
                         content={() => (
                           <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle">
-                            <tspan x="50%" dy="-8" style={{ fill: '#171717', fontSize: '22px', fontWeight: 600 }}>
+                            <tspan x="50%" dy="-8" style={{ fill: '#171717', fontSize: '20px', fontWeight: 600 }}>
                               {certifications.length}
                             </tspan>
-                            <tspan x="50%" dy="18" style={{ fill: '#a8a8a8', fontSize: '10px' }}>
+                            <tspan x="50%" dy="17" style={{ fill: '#a8a8a8', fontSize: '10px' }}>
                               total
                             </tspan>
                           </text>
                         )}
                       />
                     </Pie>
-                    <Tooltip content={<CustomPieTooltip />} />
+                    <Tooltip content={<CustomPieTooltip />} wrapperStyle={{ zIndex: 10 }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
-              {/* Leyenda */}
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
+              {/* Leyenda — ocupa el espacio restante, mínimo 140px */}
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px', flex: '1 1 140px', minWidth: '140px' }}>
                 {certStatusData.map((item) => (
                   <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
-                    <p style={{ fontSize: '11px', color: '#666666', margin: 0, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</p>
+                    <p style={{ fontSize: '12px', color: '#666666', margin: 0, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</p>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', flexShrink: 0 }}>
                       <span style={{ fontSize: '13px', fontWeight: 600, color: '#171717' }}>{item.percentage}%</span>
                       <span style={{ fontSize: '11px', color: '#a8a8a8' }}>({item.value})</span>
@@ -413,7 +413,7 @@ Generado automáticamente por CertifyX
       </motion.div>
 
       {/* FILA C: Riesgo + Export lado a lado */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
 
       {/* SECTION 4: Top Trabajadores en Riesgo */}
       <motion.div role="region" aria-label="Trabajadores en riesgo" className="flex flex-col" custom={0.5} variants={sectionVariants} initial="hidden" animate="visible">
