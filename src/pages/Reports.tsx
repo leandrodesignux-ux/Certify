@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   FileText,
@@ -213,6 +213,15 @@ Generado automáticamente por CertifyX
     return 'Crítico';
   };
 
+  const [activeTab, setActiveTab] = useState<string>('general');
+
+  const tabs = [
+    { id: 'general',     label: 'Reporte General' },
+    { id: 'compliance',  label: 'Cumplimiento',   disabled: true },
+    { id: 'expirations', label: 'Vencimientos',   disabled: true },
+    { id: 'by-worker',   label: 'Por Trabajador', disabled: true },
+  ];
+
   const [activeReportTab, setActiveReportTab] = React.useState('resumen');
 
   const reportTabs = [
@@ -274,6 +283,14 @@ Generado automáticamente por CertifyX
           </div>
         </div>
       </motion.div>
+
+      {/* ── REPORT TABS ── */}
+      <motion.div custom={0.05} variants={sectionVariants} initial="hidden" animate="visible" style={{ marginBottom: 'var(--space-lg)' }}>
+        <ReportTabs tabs={tabs} activeId={activeTab} onChange={setActiveTab} />
+      </motion.div>
+
+      {activeTab === 'general' ? (
+        <>
 
       {/* ── INSPECCIÓN VISUAL: Nuevos componentes ── */}
       <motion.div custom={0.05} variants={sectionVariants} initial="hidden" animate="visible">
@@ -621,6 +638,65 @@ Generado automáticamente por CertifyX
       </motion.div>
 
       </div>{/* fin FILA C */}
+
+        </>
+      ) : (
+        <ComingSoonState
+          tabLabel={tabs.find(t => t.id === activeTab)?.label ?? ''}
+          onBack={() => setActiveTab('general')}
+        />
+      )}
+
+    </div>
+  );
+}
+
+function ComingSoonState({ tabLabel, onBack }: { tabLabel: string; onBack: () => void }) {
+  return (
+    <div style={{
+      display: 'flex', flexDirection: 'column', alignItems: 'center',
+      justifyContent: 'center', padding: 'var(--space-2xl)',
+      minHeight: '400px',
+      backgroundColor: 'var(--surface-card)',
+      border: '1px dashed var(--border-default)',
+      borderRadius: 'var(--radius-md)',
+    }}>
+      <div style={{
+        width: '56px', height: '56px', borderRadius: 'var(--radius-full)',
+        backgroundColor: 'var(--surface-soft)',
+        border: '1px solid var(--border-default)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        marginBottom: 'var(--space-md)',
+      }}>
+        <Clock style={{ width: '24px', height: '24px', color: 'var(--color-text-muted)' }} strokeWidth={1.5} />
+      </div>
+      <h3 style={{
+        fontSize: 'var(--text-h2)', fontWeight: 'var(--weight-semibold)',
+        color: 'var(--color-brand)', margin: 0, marginBottom: '6px',
+      }}>
+        {tabLabel} — próximamente
+      </h3>
+      <p style={{
+        fontSize: 'var(--text-body)', color: 'var(--color-text-muted)',
+        textAlign: 'center', maxWidth: '380px', margin: 0,
+      }}>
+        Esta sección está en desarrollo. Por ahora podés ver el panorama
+        completo en el Reporte General.
+      </p>
+      <button
+        onClick={onBack}
+        style={{
+          marginTop: 'var(--space-lg)',
+          padding: '8px 16px', backgroundColor: 'transparent',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-sm)',
+          color: 'var(--color-brand)',
+          fontSize: 'var(--text-body-sm)', fontWeight: 'var(--weight-medium)',
+          cursor: 'pointer',
+        }}
+      >
+        Ir a Reporte General
+      </button>
     </div>
   );
 }
