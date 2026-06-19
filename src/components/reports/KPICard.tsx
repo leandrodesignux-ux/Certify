@@ -22,7 +22,7 @@ interface KPICardProps {
   delay?: number;
 }
 
-export function KPICard({ title, value, subtitle, icon: Icon, color: _color, trend = 'neutral', trendLabel, delay = 0 }: KPICardProps) {
+export function KPICard({ title, value, subtitle, icon: Icon, color, trend = 'neutral', trendLabel, delay = 0 }: KPICardProps) {
   const TrendIcon = trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : Minus;
   const trendColor = trend === 'up'
     ? 'var(--kpi-trend-up)'
@@ -37,8 +37,8 @@ export function KPICard({ title, value, subtitle, icon: Icon, color: _color, tre
           <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)', lineHeight: 1.3 }}>
             {title}
           </p>
-          <div className="p-2.5 flex-shrink-0" style={{ backgroundColor: '#f5f5f5', borderRadius: '6px' }}>
-            <Icon className="w-4 h-4" style={{ color: '#4d4d4d' }} strokeWidth={1.5} />
+          <div style={{ width: '32px', height: '32px', flexShrink: 0, borderRadius: '6px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon style={{ width: '16px', height: '16px', color }} strokeWidth={1.5} />
           </div>
         </div>
         <p

@@ -26,10 +26,10 @@ export function Card({
 }: CardProps) {
   const [_isHovered, setIsHovered] = useState(false);
 
-  const paddingStyles = {
-    sm: 'p-3',
-    md: 'p-6',
-    lg: 'p-6',
+  const paddingMap: Record<'sm' | 'md' | 'lg', string> = {
+    sm: '16px',
+    md: '20px',
+    lg: '24px',
   };
 
   const baseStyles: React.CSSProperties = {
@@ -46,10 +46,11 @@ export function Card({
       style={{
         ...baseStyles,
         ...style,
+        padding: paddingMap[padding],
         position: 'relative',
         overflow: 'hidden',
       }}
-      className={`transition-all duration-200 ${paddingStyles[padding]} ${
+      className={`transition-all duration-200 ${
         hover
           ? 'hover:border-[#d4d4d4] hover:shadow-[rgba(0,0,0,0.08)_0_0_0_1px,rgba(0,0,0,0.04)_0_2px_2px_0]'
           : ''

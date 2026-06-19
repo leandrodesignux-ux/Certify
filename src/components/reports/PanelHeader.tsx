@@ -4,16 +4,17 @@ interface PanelHeaderProps {
   title: string;
   subtitle?: string;
   action?: ReactNode;
+  spacing?: number;
 }
 
-export function PanelHeader({ title, subtitle, action }: PanelHeaderProps) {
+export function PanelHeader({ title, subtitle, action, spacing = 16 }: PanelHeaderProps) {
   return (
     <div style={{
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'flex-start',
       justifyContent: 'space-between',
-      marginBottom: '16px',
+      marginBottom: `${spacing}px`,
     }}>
       <div>
         <h3 style={{
@@ -26,7 +27,7 @@ export function PanelHeader({ title, subtitle, action }: PanelHeaderProps) {
           {title}
         </h3>
         {subtitle && (
-          <p style={{ fontSize: '12px', color: '#a8a8a8', marginTop: '2px', marginBottom: 0 }}>
+          <p style={{ fontSize: '12px', color: '#a8a8a8', marginTop: '4px', marginBottom: 0 }}>
             {subtitle}
           </p>
         )}

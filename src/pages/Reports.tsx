@@ -29,6 +29,7 @@ import { useNavigate } from 'react-router-dom';
 import { KPICard } from '../components/reports/KPICard';
 import { CustomBarTooltip, CustomPieTooltip } from '../components/reports/ChartTooltips';
 import { PanelHeader } from '../components/reports/PanelHeader';
+import { PanelBadge } from '../components/reports/PanelBadge';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -314,11 +315,8 @@ Generado automáticamente por CertifyX
             <PanelHeader
               title="Cumplimiento por Área"
               subtitle="Promedio de compliance por área operativa"
-              action={
-                <span style={{ fontSize: '11px', color: '#666666', backgroundColor: '#f5f5f5', padding: '3px 10px', borderRadius: '9999px', border: '1px solid #ebebeb' }}>
-                  {complianceByArea.length} áreas
-                </span>
-              }
+              action={<PanelBadge>{complianceByArea.length} áreas</PanelBadge>}
+              spacing={20}
             />
             <div style={{ flex: 1, minHeight: 0 }}>
               <ResponsiveContainer width="100%" height="100%">
@@ -357,11 +355,8 @@ Generado automáticamente por CertifyX
             <PanelHeader
               title="Estado de Certificaciones"
               subtitle="Distribución por estado actual"
-              action={
-                <span style={{ fontSize: '11px', color: '#666666', backgroundColor: '#f5f5f5', padding: '3px 10px', borderRadius: '9999px', border: '1px solid #ebebeb' }}>
-                  {certifications.length} total
-                </span>
-              }
+              action={<PanelBadge>{certifications.length} total</PanelBadge>}
+              spacing={20}
             />
             <div className="flex flex-col sm:flex-row" style={{ gap: '12px', marginTop: '8px' }}>
               {/* Donut */}
@@ -437,7 +432,7 @@ Generado automáticamente por CertifyX
           />
 
           {/* Lista compacta top-5 */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', flex: 1 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0', flex: 1, marginTop: '4px' }}>
             {topRiskWorkers.slice(0, 5).map((worker, index) => (
               <motion.div
                 key={worker.id}
@@ -456,7 +451,7 @@ Generado automáticamente por CertifyX
               >
                 {/* Avatar */}
                 {worker.foto
-                  ? <img src={worker.foto} alt="" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                  ? <img src={worker.foto} alt="" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1px solid #ebebeb' }} />
                   : (
                     <div style={{
                       width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
@@ -478,16 +473,24 @@ Generado automáticamente por CertifyX
                   </p>
                 </div>
                 {/* Score + indicadores */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', flexShrink: 0, gap: '3px' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 600, color: worker.scoreColor }}>{worker.complianceScore}%</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', flexShrink: 0, gap: '4px' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: worker.scoreColor, lineHeight: 1 }}>{worker.complianceScore}%</span>
                   <div style={{ display: 'flex', gap: '4px' }}>
                     {worker.expiredCount > 0 && (
-                      <span style={{ fontSize: '10px', fontWeight: 500, color: '#e5484d', backgroundColor: 'rgba(229,72,77,0.08)', border: '1px solid rgba(229,72,77,0.2)', borderRadius: '9999px', padding: '1px 6px' }}>
+                      <span
+                        title={`${worker.expiredCount} vencida${worker.expiredCount > 1 ? 's' : ''}`}
+                        aria-label={`${worker.expiredCount} certificación${worker.expiredCount > 1 ? 'es' : ''} vencida${worker.expiredCount > 1 ? 's' : ''}`}
+                        style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.4, fontSize: '10px', fontWeight: 500, color: '#e5484d', backgroundColor: 'rgba(229,72,77,0.08)', border: '1px solid rgba(229,72,77,0.2)', borderRadius: '9999px', padding: '2px 7px' }}
+                      >
                         {worker.expiredCount}v
                       </span>
                     )}
                     {worker.expiringCount > 0 && (
-                      <span style={{ fontSize: '10px', fontWeight: 500, color: '#b25000', backgroundColor: 'rgba(178,80,0,0.08)', border: '1px solid rgba(178,80,0,0.2)', borderRadius: '9999px', padding: '1px 6px' }}>
+                      <span
+                        title={`${worker.expiringCount} próxima${worker.expiringCount > 1 ? 's' : ''} a vencer`}
+                        aria-label={`${worker.expiringCount} certificación${worker.expiringCount > 1 ? 'es' : ''} próxima${worker.expiringCount > 1 ? 's' : ''} a vencer`}
+                        style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.4, fontSize: '10px', fontWeight: 500, color: '#b25000', backgroundColor: 'rgba(178,80,0,0.08)', border: '1px solid rgba(178,80,0,0.2)', borderRadius: '9999px', padding: '2px 7px' }}
+                      >
                         {worker.expiringCount}p
                       </span>
                     )}
@@ -505,14 +508,10 @@ Generado automáticamente por CertifyX
           <PanelHeader
             title="Exportar Reportes"
             subtitle="Descargá los datos en el formato que necesités"
-            action={
-              <span style={{ fontSize: '11px', color: '#666666', backgroundColor: '#f5f5f5', padding: '3px 10px', borderRadius: '9999px', border: '1px solid #ebebeb' }}>
-                {workers.length} trabajadores
-              </span>
-            }
+            action={<PanelBadge>{workers.length} trabajadores</PanelBadge>}
           />
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1, justifyContent: 'space-between' }}>
             {[
               {
                 icon: Download,
@@ -561,11 +560,11 @@ Generado automáticamente por CertifyX
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {item.label}
-                    {item.pro && <span style={{ fontSize: '10px', padding: '1px 6px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '9999px', color: '#666666' }}>PRO</span>}
+                    {item.pro && <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.4, fontSize: '10px', fontWeight: 500, padding: '2px 7px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '9999px', color: '#666666' }}>PRO</span>}
                   </p>
                   <p style={{ fontSize: '11px', color: '#a8a8a8', margin: '2px 0 0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.description}</p>
                 </div>
-                {!item.disabled && <span style={{ color: '#a8a8a8', fontSize: '16px', flexShrink: 0 }}>→</span>}
+                {!item.disabled && <span style={{ color: '#a8a8a8', fontSize: '14px', flexShrink: 0, marginLeft: 'auto' }}>→</span>}
               </button>
             ))}
           </div>
