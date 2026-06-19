@@ -4,6 +4,7 @@ import type { Certification, Worker } from '../../types';
 import { Badge } from '../ui/Badge';
 import { DaysSparkline } from './DaysSparkline';
 import { formatDate } from '../../utils/dates';
+import { WorkerPeekTrigger } from '../workers/WorkerPeek';
 
 interface CertListItemProps {
   cert: Certification;
@@ -67,31 +68,33 @@ export function CertListItem({ cert, worker, index = 0, onSelectDetail }: CertLi
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
         {/* Worker info */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
-          {worker?.foto ? (
-            <img
-              src={worker.foto}
-              alt={`${worker.nombre} ${worker.apellidos}`}
-              style={{
+          <WorkerPeekTrigger workerId={cert.workerId}>
+            {worker?.foto ? (
+              <img
+                src={worker.foto}
+                alt={`${worker.nombre} ${worker.apellidos}`}
+                style={{
+                  width: '36px', height: '36px',
+                  borderRadius: '50%', objectFit: 'cover',
+                  border: '1px solid var(--border-default)',
+                  flexShrink: 0,
+                }}
+              />
+            ) : (
+              <div style={{
                 width: '36px', height: '36px',
-                borderRadius: '50%', objectFit: 'cover',
+                borderRadius: '50%',
+                backgroundColor: 'var(--surface-soft)',
                 border: '1px solid var(--border-default)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 'var(--text-body-sm)', fontWeight: 600,
+                color: 'var(--color-text-muted)',
                 flexShrink: 0,
-              }}
-            />
-          ) : (
-            <div style={{
-              width: '36px', height: '36px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--surface-soft)',
-              border: '1px solid var(--border-default)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 'var(--text-body-sm)', fontWeight: 600,
-              color: 'var(--color-text-muted)',
-              flexShrink: 0,
-            }}>
-              {initials}
-            </div>
-          )}
+              }}>
+                {initials}
+              </div>
+            )}
+          </WorkerPeekTrigger>
           <div style={{ minWidth: 0, flex: 1 }}>
             <p style={{
               fontSize: 'var(--text-body-sm)', fontWeight: 600,

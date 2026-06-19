@@ -5,6 +5,7 @@ import { Button } from '../ui/Button';
 import { StatusIndicator } from '../ui/StatusIndicator';
 import { getComplianceColor } from '../../utils/colors';
 import { Eye } from 'lucide-react';
+import { WorkerPeekTrigger } from './WorkerPeek';
 
 interface WorkerTableProps {
   workers: Worker[];
@@ -69,19 +70,21 @@ export function WorkerTable({ workers }: WorkerTableProps) {
                 >
                   <td style={{ padding: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      {worker.foto ? (
-                        <img
-                          src={worker.foto}
-                          alt={`${worker.nombre} ${worker.apellidos}`}
-                          style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '1px solid var(--border-default)' }}
-                        />
-                      ) : (
-                        <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <span style={{ fontSize: 'var(--text-body)', fontWeight: 500, color: 'var(--color-text-muted)' }}>
-                            {initials}
-                          </span>
-                        </div>
-                      )}
+                      <WorkerPeekTrigger workerId={worker.id}>
+                        {worker.foto ? (
+                          <img
+                            src={worker.foto}
+                            alt={`${worker.nombre} ${worker.apellidos}`}
+                            style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '1px solid var(--border-default)' }}
+                          />
+                        ) : (
+                          <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <span style={{ fontSize: 'var(--text-body)', fontWeight: 500, color: 'var(--color-text-muted)' }}>
+                              {initials}
+                            </span>
+                          </div>
+                        )}
+                      </WorkerPeekTrigger>
                       <div>
                         <p style={{ fontWeight: 500, color: 'var(--color-brand)' }}>
                           {worker.nombre} {worker.apellidos}

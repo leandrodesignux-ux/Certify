@@ -35,6 +35,7 @@ import { useNavigate } from 'react-router-dom';
 import { ReportTabs } from '../components/reports/ReportTabs';
 import { InlineKPI } from '../components/reports/InlineKPI';
 import { useCountUp } from '../components/certifications/CertStatCard';
+import { WorkerPeekTrigger } from '../components/workers/WorkerPeek';
 import { mockComplianceTrend } from '../store/useCertStore';
 
 const sectionVariants = {
@@ -450,13 +451,15 @@ Generado automáticamente por CertifyX
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
               {topRiskWorkers.slice(0, 4).map((worker) => (
                 <div key={worker.id} onClick={() => navigate(`/workers/${worker.id}`)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '6px 0', cursor: 'pointer' }}>
-                  {worker.foto ? (
-                    <img src={worker.foto} alt="" style={{ width: '32px', height: '32px', borderRadius: 'var(--radius-full)', objectFit: 'cover', flexShrink: 0, border: '1px solid var(--border-default)' }} />
-                  ) : (
-                    <div style={{ width: '32px', height: '32px', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-micro)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-text-muted)', flexShrink: 0 }}>
-                      {worker.nombre[0]}{worker.apellidos[0]}
-                    </div>
-                  )}
+                  <WorkerPeekTrigger workerId={worker.id}>
+                    {worker.foto ? (
+                      <img src={worker.foto} alt="" style={{ width: '32px', height: '32px', borderRadius: 'var(--radius-full)', objectFit: 'cover', flexShrink: 0, border: '1px solid var(--border-default)' }} />
+                    ) : (
+                      <div style={{ width: '32px', height: '32px', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-micro)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-text-muted)', flexShrink: 0 }}>
+                        {worker.nombre[0]}{worker.apellidos[0]}
+                      </div>
+                    )}
+                  </WorkerPeekTrigger>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 'var(--weight-medium)', color: 'var(--color-brand)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{worker.nombre} {worker.apellidos}</p>
                     <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', margin: 0 }}>{worker.area}</p>

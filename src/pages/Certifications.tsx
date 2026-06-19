@@ -30,6 +30,7 @@ import { CertStatCard } from '../components/certifications/CertStatCard';
 import { DaysSparkline } from '../components/certifications/DaysSparkline';
 import { CertEmptyState } from '../components/certifications/CertEmptyState';
 import { CertListItem } from '../components/certifications/CertListItem';
+import { WorkerPeekTrigger } from '../components/workers/WorkerPeek';
 import { Suspense, lazy } from 'react';
 
 const CertDetailDrawer = lazy(() => import('../components/certifications/CertDetailDrawer'));
@@ -1051,36 +1052,38 @@ export function Certifications() {
                         {/* Trabajador */}
                         <td style={{ padding: '12px 20px' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            {worker?.foto ? (
-                              <img
-                                src={worker.foto}
-                                alt={`${worker.nombre} ${worker.apellidos}`}
-                                style={{
-                                  width: '36px',
-                                  height: '36px',
-                                  borderRadius: '50%',
-                                  objectFit: 'cover',
-                                  border: '1px solid var(--border-default)',
-                                }}
-                              />
-                            ) : (
-                              <div
-                                style={{
-                                  width: '36px',
-                                  height: '36px',
-                                  borderRadius: '50%',
-                                  backgroundColor: 'var(--surface-soft)',
-                                  border: '1px solid var(--border-default)',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}
-                              >
-                                <span style={{ fontSize: 'var(--text-body-sm)', fontWeight: 600, color: 'var(--color-text-muted)' }}>
-                                  {initials}
-                                </span>
-                              </div>
-                            )}
+                            <WorkerPeekTrigger workerId={cert.workerId}>
+                              {worker?.foto ? (
+                                <img
+                                  src={worker.foto}
+                                  alt={`${worker.nombre} ${worker.apellidos}`}
+                                  style={{
+                                    width: '36px',
+                                    height: '36px',
+                                    borderRadius: '50%',
+                                    objectFit: 'cover',
+                                    border: '1px solid var(--border-default)',
+                                  }}
+                                />
+                              ) : (
+                                <div
+                                  style={{
+                                    width: '36px',
+                                    height: '36px',
+                                    borderRadius: '50%',
+                                    backgroundColor: 'var(--surface-soft)',
+                                    border: '1px solid var(--border-default)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                  }}
+                                >
+                                  <span style={{ fontSize: 'var(--text-body-sm)', fontWeight: 600, color: 'var(--color-text-muted)' }}>
+                                    {initials}
+                                  </span>
+                                </div>
+                              )}
+                            </WorkerPeekTrigger>
                             <div>
                               <span
                                 style={{
