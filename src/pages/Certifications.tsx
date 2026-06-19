@@ -96,6 +96,7 @@ export function Certifications() {
   }, [search, areaFilter, tipoFilter, activeTab]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCert, setSelectedCert] = useState<string | null>(null);
+  const [recentlyClosed, setRecentlyClosed] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchFocused, setSearchFocused] = useState(false);
@@ -123,6 +124,27 @@ export function Certifications() {
   // Calculate selected certification data
   const selectedCertData = certifications.find(c => c.id === selectedCert);
   const selectedWorker = workers.find(w => w.id === selectedCertData?.workerId);
+
+  // Highlight + scroll to row/card after closing the detail drawer
+  const handleDrawerClose = useCallback(() => {
+    const closedId = selectedCert;
+    setSelectedCert(null);
+    if (closedId) {
+      setRecentlyClosed(closedId);
+      setTimeout(() => {
+        setRecentlyClosed((prev) => (prev === closedId ? null : prev));
+      }, 1500);
+    }
+  }, [selectedCert]);
+
+  useEffect(() => {
+    if (recentlyClosed) {
+      const el = document.querySelector(`[data-cert-id="${recentlyClosed}"]`);
+      if (el) {
+        el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
+    }
+  }, [recentlyClosed]);
 
   // Filter by tab
   const filteredByTab = useMemo(() => {
@@ -1030,10 +1052,23 @@ export function Certifications() {
                     <>
                       <motion.tr
                         key={cert.id}
+                        data-cert-id={cert.id}
                         initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        animate={
+                          recentlyClosed === cert.id
+                            ? {
+                                opacity: 1,
+                                y: 0,
+                                backgroundColor: ['transparent', 'var(--color-primary-soft)', 'transparent'],
+                              }
+                            : { opacity: 1, y: 0 }
+                        }
                         exit={{ opacity: 0, y: -20 }}
-                        transition={{ delay: index * 0.02, duration: 0.3 }}
+                        transition={
+                          recentlyClosed === cert.id
+                            ? { backgroundColor: { duration: 1.5, times: [0, 0.3, 1], ease: 'easeOut' } }
+                            : { delay: index * 0.02, duration: 0.3 }
+                        }
                         className="group cursor-pointer"
                         style={{
                           backgroundColor: 'transparent',
@@ -1233,6 +1268,7 @@ export function Certifications() {
                   worker={worker}
                   index={index}
                   onSelectDetail={setSelectedCert}
+                  recentlyClosed={recentlyClosed}
                 />
               );
             })}
@@ -1584,7 +1620,7 @@ export function Certifications() {
             cert={selectedCertData || null}
             worker={selectedWorker}
             isOpen={selectedCert !== null}
-            onClose={() => setSelectedCert(null)}
+            onClose={handleDrawerClose}
           />
         </Suspense>
       </AnimatePresence>

@@ -207,7 +207,7 @@ body {
     var(--surface-soft) 100%
   );
   background-size: 200% 100%;
-  animation: shimmer 2.5s infinite;
+  animation: shimmer 1.8s ease-in-out infinite;
 }
 
 .animate-float { animation: float 3s ease-in-out infinite; }
@@ -423,4 +423,14 @@ textarea:focus-visible {
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

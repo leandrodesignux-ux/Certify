@@ -11,6 +11,7 @@ interface CertListItemProps {
   worker?: Worker;
   index?: number;
   onSelectDetail: (certId: string) => void;
+  recentlyClosed?: string | null;
 }
 
 const statusBorderColor: Record<string, string> = {
@@ -20,18 +21,33 @@ const statusBorderColor: Record<string, string> = {
   pendiente:      '#a6bbd1',
 };
 
-export function CertListItem({ cert, worker, index = 0, onSelectDetail }: CertListItemProps) {
+export function CertListItem({ cert, worker, index = 0, onSelectDetail, recentlyClosed }: CertListItemProps) {
   const initials = worker
     ? `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase()
     : '?';
   const borderColor = statusBorderColor[cert.estado] ?? 'var(--border-default)';
 
+  const isHighlighted = recentlyClosed === cert.id;
+
   return (
     <motion.article
+      data-cert-id={cert.id}
       initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={
+        isHighlighted
+          ? {
+              opacity: 1,
+              y: 0,
+              backgroundColor: ['var(--surface-card)', 'var(--color-primary-soft)', 'var(--surface-card)'],
+            }
+          : { opacity: 1, y: 0 }
+      }
       exit={{ opacity: 0, y: -10 }}
-      transition={{ delay: Math.min(index * 0.025, 0.3), duration: 0.25 }}
+      transition={
+        isHighlighted
+          ? { backgroundColor: { duration: 1.5, times: [0, 0.3, 1], ease: 'easeOut' } }
+          : { delay: Math.min(index * 0.025, 0.3), duration: 0.25 }
+      }
       role="button"
       tabIndex={0}
       onClick={() => onSelectDetail(cert.id)}
