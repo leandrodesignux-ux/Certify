@@ -96,11 +96,11 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.3 }}
-      style={{ backgroundColor: '#ffffff', borderRadius: '6px', maxWidth: '56rem', width: '100%', margin: '0 auto', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid #ebebeb', maxHeight: '85vh' }}
-      className="max-w-4xl w-full mx-auto overflow-hidden"
+      style={{ backgroundColor: '#ffffff', borderRadius: '6px', maxWidth: '56rem', width: '100%', margin: '0 auto', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid #ebebeb', display: 'flex', flexDirection: 'column', height: '100%' }}
+      className="max-w-4xl w-full mx-auto"
     >
       {/* Header with Close Button */}
-      <div className="relative p-6 border-b" style={{ borderColor: '#ebebeb' }}>
+      <div className="relative p-6 border-b" style={{ borderColor: '#ebebeb', flexShrink: 0 }}>
         {/* Close Button - Top Right */}
         {onClose && (
           <button
@@ -143,8 +143,8 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
 
       {/* Scrollable Content */}
       <div 
-        className="overflow-y-auto p-6"
-        style={{ maxHeight: 'calc(85vh - 180px)' }}
+        className="p-6"
+        style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden' }}
       >
         {/* Sequential Course Flow */}
         <div className="max-w-2xl mx-auto">
