@@ -49,6 +49,17 @@ export function PageTabs({ tabs, activeId, onChange, ariaLabel }: PageTabsProps)
             tabIndex={isActive ? 0 : -1}
             disabled={isDisabled}
             onClick={() => !isDisabled && onChange(tab.id)}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const enabledTabs = tabs.filter((t) => !t.disabled);
+                const currentIdx = enabledTabs.findIndex((t) => t.id === activeId);
+                const nextIdx = e.key === 'ArrowRight'
+                  ? (currentIdx + 1) % enabledTabs.length
+                  : (currentIdx - 1 + enabledTabs.length) % enabledTabs.length;
+                onChange(enabledTabs[nextIdx].id);
+              }
+            }}
             style={{
               display: 'flex',
               alignItems: 'center',
