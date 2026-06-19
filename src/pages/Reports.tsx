@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
   FileText,
@@ -216,19 +216,17 @@ Generado automáticamente por CertifyX
             <h1 style={{ fontSize: 'clamp(24px,4vw,30px)', fontWeight: 600, color: '#171717', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
               Reportes y Análisis
             </h1>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '6px', flexWrap: 'wrap', rowGap: '4px' }}>
-              <span style={{ fontSize: '13px', color: '#666666' }}>
-                Período:{' '}
-                <span style={{ color: '#171717', fontWeight: 500 }}>
-                  {new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}
-                </span>
-              </span>
-              <span style={{ color: '#d4d4d4', fontSize: '13px' }}>·</span>
-              <span style={{ fontSize: '13px', color: '#a8a8a8' }}>{workers.length} trabajadores</span>
-              <span style={{ color: '#d4d4d4', fontSize: '13px' }}>·</span>
-              <span style={{ fontSize: '13px', color: '#a8a8a8' }}>{certifications.length} certificaciones</span>
-              <span style={{ color: '#d4d4d4', fontSize: '13px' }}>·</span>
-              <span style={{ fontSize: '13px', color: '#a8a8a8' }}>{new Set(workers.map(w => w.area)).size} áreas</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px', flexWrap: 'wrap', rowGap: '2px' }}>
+              {[
+                <span key="periodo" style={{ fontSize: '13px', color: '#666666' }}>Período: <span style={{ color: '#171717', fontWeight: 500 }}>{new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}</span></span>,
+                <span key="workers" style={{ fontSize: '13px', color: '#a8a8a8' }}>{workers.length} trabajadores</span>,
+                <span key="certs" style={{ fontSize: '13px', color: '#a8a8a8' }}>{certifications.length} certificaciones</span>,
+                <span key="areas" style={{ fontSize: '13px', color: '#a8a8a8' }}>{new Set(workers.map(w => w.area)).size} áreas</span>,
+              ].reduce<React.ReactNode[]>((acc, item, i) => [
+                ...acc,
+                ...(i > 0 ? [<span key={`sep-${i}`} style={{ color: '#d4d4d4', fontSize: '13px', userSelect: 'none' }} aria-hidden>·</span>] : []),
+                item,
+              ], [])}
             </div>
           </div>
           {/* Derecha: acciones */}
@@ -312,7 +310,7 @@ Generado automáticamente por CertifyX
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
         {/* Compliance por Área - Bar Chart */}
         <motion.div className="flex flex-col" custom={0.5} variants={sectionVariants} initial="hidden" animate="visible">
-          <Card variant="glass" padding="lg" hover={false} style={{ flex: 1, minHeight: '320px' }}>
+          <Card variant="default" padding="lg" hover={false} style={{ flex: 1, minHeight: '380px', display: 'flex', flexDirection: 'column' }}>
             <PanelHeader
               title="Cumplimiento por Área"
               subtitle="Promedio de compliance por área operativa"
@@ -322,38 +320,40 @@ Generado automáticamente por CertifyX
                 </span>
               }
             />
-            <ResponsiveContainer width="100%" height={280}>
-              <BarChart data={complianceByArea} layout="vertical" margin={{ left: 90, right: 44, top: 4, bottom: 4 }}>
-                <XAxis type="number" domain={[0, 100]} hide />
-                <YAxis
-                  type="category"
-                  dataKey="area"
-                  tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
-                  width={90}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(23,23,23,0.04)' }} />
-                <Bar dataKey={() => 100} radius={[0, 4, 4, 0]} barSize={16} fill="#f0f0f0" isAnimationActive={false} />
-                <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={16}>
-                  {complianceByArea.map((entry, index) => (
-                    <Cell key={`bar-${index}`} fill={entry.fill} />
-                  ))}
-                  <LabelList
-                    dataKey="score"
-                    position="right"
-                    style={{ fill: '#666666', fontSize: '11px', fontFamily: 'var(--font-body)' }}
-                    formatter={(v) => `${v}%`}
+            <div style={{ flex: 1, minHeight: 0 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={complianceByArea} layout="vertical" margin={{ left: 100, right: 48, top: 4, bottom: 4 }}>
+                  <XAxis type="number" domain={[0, 100]} hide />
+                  <YAxis
+                    type="category"
+                    dataKey="area"
+                    tick={{ fill: '#4d4d4d', fontSize: 12, fontFamily: 'var(--font-body)' }}
+                    width={100}
+                    axisLine={false}
+                    tickLine={false}
                   />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+                  <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(23,23,23,0.04)' }} />
+                  <Bar dataKey={() => 100} radius={[0, 4, 4, 0]} barSize={16} fill="#f0f0f0" isAnimationActive={false} />
+                  <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={16}>
+                    {complianceByArea.map((entry, index) => (
+                      <Cell key={`bar-${index}`} fill={entry.fill} />
+                    ))}
+                    <LabelList
+                      dataKey="score"
+                      position="right"
+                      style={{ fill: '#666666', fontSize: '12px', fontFamily: 'var(--font-body)' }}
+                      formatter={(v: unknown) => `${v as number}%`}
+                    />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </Card>
         </motion.div>
 
         {/* Estado de Certificaciones - Donut Chart */}
         <motion.div className="flex flex-col" custom={0.6} variants={sectionVariants} initial="hidden" animate="visible">
-          <Card variant="glass" padding="lg" hover={false} style={{ flex: 1, minHeight: '380px' }}>
+          <Card variant="default" padding="lg" hover={false} style={{ flex: 1, minHeight: '380px', display: 'flex', flexDirection: 'column' }}>
             <PanelHeader
               title="Estado de Certificaciones"
               subtitle="Distribución por estado actual"
@@ -363,46 +363,47 @@ Generado automáticamente por CertifyX
                 </span>
               }
             />
-            <div className="flex flex-col sm:flex-row items-center" style={{ height: '280px', gap: '8px' }}>
-              <ResponsiveContainer width="100%" height="55%" className="sm:w-1/2 sm:h-full">
-                <PieChart>
-                  <Pie
-                    data={certStatusData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={64}
-                    outerRadius={100}
-                    paddingAngle={3}
-                    dataKey="value"
-                    strokeWidth={0}
-                  >
-                    {certStatusData.map((entry, index) => (
-                      <Cell key={`pie-${index}`} fill={entry.color} stroke="transparent" />
-                    ))}
-                    <Label
-                      content={() => (
-                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle">
-                          <tspan x="50%" dy="-8" style={{ fill: '#171717', fontSize: '22px', fontWeight: 600 }}>
-                            {certifications.length}
-                          </tspan>
-                          <tspan x="50%" dy="18" style={{ fill: '#a8a8a8', fontSize: '10px' }}>
-                            total
-                          </tspan>
-                        </text>
-                      )}
-                    />
-                  </Pie>
-                  <Tooltip content={<CustomPieTooltip />} />
-                </PieChart>
-              </ResponsiveContainer>
+            <div className="flex flex-col sm:flex-row" style={{ gap: '12px', marginTop: '8px' }}>
+              {/* Donut */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '240px', flex: '0 0 auto', width: '100%' }} className="sm:w-1/2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={certStatusData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={95}
+                      paddingAngle={2}
+                      dataKey="value"
+                      strokeWidth={0}
+                    >
+                      {certStatusData.map((entry, index) => (
+                        <Cell key={`pie-${index}`} fill={entry.color} stroke="transparent" />
+                      ))}
+                      <Label
+                        content={() => (
+                          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle">
+                            <tspan x="50%" dy="-8" style={{ fill: '#171717', fontSize: '22px', fontWeight: 600 }}>
+                              {certifications.length}
+                            </tspan>
+                            <tspan x="50%" dy="18" style={{ fill: '#a8a8a8', fontSize: '10px' }}>
+                              total
+                            </tspan>
+                          </text>
+                        )}
+                      />
+                    </Pie>
+                    <Tooltip content={<CustomPieTooltip />} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
               {/* Leyenda */}
-              <div className="sm:flex-1" style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '8px', width: '100%' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
                 {certStatusData.map((item) => (
-                  <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ fontSize: '11px', color: '#666666', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</p>
-                    </div>
+                    <p style={{ fontSize: '11px', color: '#666666', margin: 0, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</p>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', flexShrink: 0 }}>
                       <span style={{ fontSize: '13px', fontWeight: 600, color: '#171717' }}>{item.percentage}%</span>
                       <span style={{ fontSize: '11px', color: '#a8a8a8' }}>({item.value})</span>
@@ -421,7 +422,7 @@ Generado automáticamente por CertifyX
 
       {/* SECTION 4: Top Trabajadores en Riesgo */}
       <motion.div role="region" aria-label="Trabajadores en riesgo" className="flex flex-col" custom={0.5} variants={sectionVariants} initial="hidden" animate="visible">
-        <Card variant="glass" padding="lg" hover={false} style={{ flex: 1 }}>
+        <Card variant="default" padding="lg" hover={false} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <PanelHeader
             title="Trabajadores en Riesgo"
             subtitle="Menor índice de cumplimiento"
@@ -436,7 +437,7 @@ Generado automáticamente por CertifyX
           />
 
           {/* Lista compacta top-5 */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', flex: 1 }}>
             {topRiskWorkers.slice(0, 5).map((worker, index) => (
               <motion.div
                 key={worker.id}
@@ -446,8 +447,9 @@ Generado automáticamente por CertifyX
                 onClick={() => navigate(`/workers/${worker.id}`)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: '10px',
-                  padding: '8px 6px', borderRadius: '6px', cursor: 'pointer',
+                  padding: '10px 6px', borderRadius: '6px', cursor: 'pointer',
                   transition: 'background-color 0.12s',
+                  borderBottom: index < Math.min(topRiskWorkers.length, 5) - 1 ? '1px solid #f5f5f5' : 'none',
                 }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fafafa'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
@@ -499,7 +501,7 @@ Generado automáticamente por CertifyX
 
       {/* SECTION 5: Exportar Reportes */}
       <motion.div role="region" aria-label="Exportar reportes" className="flex flex-col" custom={0.6} variants={sectionVariants} initial="hidden" animate="visible">
-        <Card variant="glass" padding="lg" hover={false} style={{ flex: 1 }}>
+        <Card variant="default" padding="lg" hover={false} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <PanelHeader
             title="Exportar Reportes"
             subtitle="Descargá los datos en el formato que necesités"
@@ -510,7 +512,7 @@ Generado automáticamente por CertifyX
             }
           />
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1, justifyContent: 'space-between' }}>
             {[
               {
                 icon: Download,
