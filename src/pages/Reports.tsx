@@ -30,6 +30,7 @@ import {
 import { Card } from '../components/ui/Card';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { useCertStore } from '../store/useCertStore';
+import { toast } from '../store/useToastStore';
 import { useNavigate } from 'react-router-dom';
 import { ReportTabs } from '../components/reports/ReportTabs';
 import { InlineKPI } from '../components/reports/InlineKPI';
@@ -143,35 +144,47 @@ export function Reports() {
 
   // SECTION 5: Export Functions
   const exportSummaryCSV = () => {
-    const headers = ['ID', 'Nombre', 'Apellidos', 'Area', 'Compliance Score', 'Certs Vigentes', 'Certs Vencidas', 'Certs Proximas'];
-    const rows = workers.map(w => {
-      const vigentes = w.certifications.filter(c => c.estado === 'vigente').length;
-      const vencidas = w.certifications.filter(c => c.estado === 'vencido').length;
-      const proximas = w.certifications.filter(c => c.estado === 'proximo_vencer').length;
-      return [
-        w.id,
-        w.nombre,
-        w.apellidos,
-        w.area,
-        w.complianceScore,
-        vigentes,
-        vencidas,
-        proximas,
-      ];
-    });
+    try {
+      const headers = ['ID', 'Nombre', 'Apellidos', 'Area', 'Compliance Score', 'Certs Vigentes', 'Certs Vencidas', 'Certs Proximas'];
+      const rows = workers.map(w => {
+        const vigentes = w.certifications.filter(c => c.estado === 'vigente').length;
+        const vencidas = w.certifications.filter(c => c.estado === 'vencido').length;
+        const proximas = w.certifications.filter(c => c.estado === 'proximo_vencer').length;
+        return [
+          w.id,
+          w.nombre,
+          w.apellidos,
+          w.area,
+          w.complianceScore,
+          vigentes,
+          vencidas,
+          proximas,
+        ];
+      });
 
-    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `reporte_resumen_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `reporte_resumen_${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success(
+        'Reporte exportado',
+        `${workers.length} trabajadores exportados en CSV.`
+      );
+    } catch (err) {
+      toast.error(
+        'No pudimos exportar',
+        'Reintentá en unos segundos.'
+      );
+    }
   };
 
   const exportSENCE = () => {
-    const content = `REPORTE SENCE - SISTEMA CERTIFYX
+    try {
+      const content = `REPORTE SENCE - SISTEMA CERTIFYX
 ================================
 Fecha: ${new Date().toLocaleDateString('es-CL')}
 Empresa: Corpa Andina Minera S.A.
@@ -189,13 +202,23 @@ TRABAJADORES EN RIESGO: ${kpis.workersAtRisk}
 
 Generado automáticamente por CertifyX
 `;
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `reporte_sence_${new Date().toISOString().split('T')[0]}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `reporte_sence_${new Date().toISOString().split('T')[0]}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success(
+        'Reporte SENCE generado',
+        'Archivo .txt descargado.'
+      );
+    } catch (err) {
+      toast.error(
+        'No pudimos generar el reporte',
+        'Reintentá en unos segundos.'
+      );
+    }
   };
 
   const getComplianceLabel = (score: number) => {

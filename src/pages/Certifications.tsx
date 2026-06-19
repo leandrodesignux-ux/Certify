@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useCertStore } from '../store/useCertStore';
 import { useWorkerStore } from '../store/useWorkerStore';
+import { toast } from '../store/useToastStore';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { formatDate } from '../utils/dates';
@@ -259,12 +260,21 @@ export function Certifications() {
       a.download = `certificaciones_${activeTab}_${new Date().toISOString().split('T')[0]}.csv`;
       a.click();
       URL.revokeObjectURL(url);
+      toast.success(
+        'Reporte exportado',
+        `${filtered.length} certificaciones descargadas en CSV.`
+      );
       // Small delay to show loading state
       await new Promise(resolve => setTimeout(resolve, 500));
+    } catch (err) {
+      toast.error(
+        'No pudimos exportar',
+        'Reintentá en unos segundos.'
+      );
     } finally {
       setExporting(false);
     }
-  }, [sorted, workers, activeTab]);
+  }, [sorted, workers, activeTab, filtered.length]);
 
   const handleSort = useCallback((field: SortField) => {
     if (sortField === field) {
