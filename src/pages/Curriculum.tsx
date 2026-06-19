@@ -677,7 +677,7 @@ export function Curriculum() {
             onClick={() => setSelectedMesh(null)}
           >
             {/* Backdrop */}
-            <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(2px)' }} />
+            <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.3)' }} />
 
             {/* Modal Content */}
             <motion.div
@@ -687,7 +687,7 @@ export function Curriculum() {
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
               className="relative z-10 w-full max-w-4xl"
-              style={{ maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', borderRadius: '6px' }}
+              style={{ maxHeight: '88vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', borderRadius: '6px' }}
             >
               <MeshGrid
                 mesh={selectedMesh}

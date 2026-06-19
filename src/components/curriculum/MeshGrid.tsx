@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Users, X, ArrowDown, CheckCircle, Clock, Lock, Play, BookOpen } from 'lucide-react';
 import type { Mesh, Course } from '../../types';
@@ -20,37 +21,42 @@ const statusConfig = {
 function SequentialCourseCard({ course, index }: { course: Course; index: number }) {
   const status = statusConfig[course.estado];
   const StatusIcon = status.icon;
+  const isCompleted = course.estado === 'completado';
+
+  const stepBg = isCompleted ? 'rgba(41,122,58,0.1)' : '#f0f0f0';
+  const stepColor = isCompleted ? '#297a3a' : '#4d4d4d';
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
+      initial={{ opacity: 0, x: -16 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.3 }}
-      className="relative"
+      transition={{ delay: index * 0.07, duration: 0.28 }}
     >
-      <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px' }} className="hover:border-[#d4d4d4] transition-colors">
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center gap-3">
-            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#f0f0f0', border: '1px solid #ebebeb', color: '#4d4d4d', fontSize: '12px', fontWeight: 500 }}>
+      <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '14px 16px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', marginBottom: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+            <span style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
+              backgroundColor: stepBg, color: stepColor, fontSize: '12px', fontWeight: 600,
+            }}>
               {index + 1}
             </span>
-            <h4 className="text-sm font-semibold max-w-[200px] truncate" style={{ color: '#171717' }}>
+            <h4 style={{ fontSize: '13px', fontWeight: 600, color: '#171717', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {course.nombre}
             </h4>
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-1 rounded-md" style={{ backgroundColor: status.bg, border: `1px solid ${status.border}` }}>
-            <StatusIcon className="w-3.5 h-3.5" style={{ color: status.color }} strokeWidth={1.5} />
-            <span className="text-xs font-medium" style={{ color: status.color }}>
-              {status.label}
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '3px 8px', borderRadius: '4px', backgroundColor: status.bg, border: `1px solid ${status.border}`, flexShrink: 0 }}>
+            <StatusIcon style={{ width: '12px', height: '12px', color: status.color, flexShrink: 0 }} strokeWidth={1.5} />
+            <span style={{ fontSize: '11px', fontWeight: 500, color: status.color }}>{status.label}</span>
           </div>
         </div>
-
-        <div className="flex items-center justify-between">
-          <span className="text-xs" style={{ color: '#a8a8a8' }}>{course.duracionHoras} horas</span>
-          <div className="w-32">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0 }}>{course.duracionHoras}h</span>
+          <div style={{ flex: 1 }}>
             <ProgressBar value={course.progreso} showLabel={false} />
           </div>
+          <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0 }}>{course.progreso}%</span>
         </div>
       </div>
     </motion.div>
@@ -71,6 +77,20 @@ function ArrowConnector() {
 
 export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
   const workersCount = mesh.trabajadoresAsignados.length;
+  const modalRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!isModal) return;
+    triggerRef.current = document.activeElement as HTMLElement;
+    setTimeout(() => modalRef.current?.focus(), 50);
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && onClose) onClose(); };
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      triggerRef.current?.focus();
+    };
+  }, [isModal, onClose]);
 
   if (!isModal) {
     return (
@@ -92,140 +112,105 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      ref={modalRef}
+      role="dialog"
+      aria-label={`Malla curricular: ${mesh.nombre}`}
+      aria-modal="true"
+      tabIndex={-1}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
-      transition={{ duration: 0.3 }}
-      style={{ backgroundColor: '#ffffff', borderRadius: '6px', maxWidth: '56rem', width: '100%', margin: '0 auto', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid #ebebeb', display: 'flex', flexDirection: 'column', height: '100%' }}
-      className="max-w-4xl w-full mx-auto"
+      exit={{ opacity: 0, y: 8 }}
+      transition={{ duration: 0.25 }}
+      style={{ outline: 'none', backgroundColor: '#ffffff', borderRadius: '6px', width: '100%', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid #ebebeb', display: 'flex', flexDirection: 'column', height: '100%' }}
     >
-      {/* Header with Close Button */}
-      <div className="relative p-6 border-b" style={{ borderColor: '#ebebeb', flexShrink: 0 }}>
-        {/* Close Button - Top Right */}
+      {/* ── HEADER fijo ── */}
+      <div style={{ padding: '24px', paddingRight: '56px', borderBottom: '1px solid #ebebeb', flexShrink: 0, position: 'relative' }}>
         {onClose && (
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-md transition-colors z-20"
-            style={{ color: '#a8a8a8', backgroundColor: 'transparent' }}
+            style={{ position: 'absolute', top: '16px', right: '16px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '6px', border: 'none', backgroundColor: 'transparent', color: '#a8a8a8', cursor: 'pointer', transition: 'background-color 0.15s' }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
-            title="Cerrar"
+            aria-label="Cerrar"
           >
-            <X className="w-5 h-5" />
+            <X style={{ width: '18px', height: '18px' }} strokeWidth={1.5} />
           </button>
         )}
-
-        <div className="pr-12">
-          <h2 className="text-2xl font-semibold mb-2" style={{ color: '#171717', letterSpacing: '-0.02em' }}>{mesh.nombre}</h2>
-          <p style={{ color: '#666666', fontSize: '14px', marginBottom: '16px' }}>{mesh.descripcion}</p>
-
-          {/* Stats Row */}
-          <div className="flex items-center gap-6 flex-wrap">
-            {/* Completion Rate */}
-            <div className="flex items-center gap-3">
-              <span style={{ color: '#666666', fontSize: '14px' }}>Progreso Global</span>
-              <div className="w-32">
-                <ProgressBar value={mesh.completionRate} showLabel={false} />
-              </div>
-              <span className="text-lg font-semibold" style={{ color: '#171717' }}>
-                {mesh.completionRate}%
-              </span>
+        <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#171717', letterSpacing: '-0.02em', margin: '0 0 4px' }}>{mesh.nombre}</h2>
+        <p style={{ color: '#666666', fontSize: '13px', margin: '0 0 14px' }}>{mesh.descripcion}</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ fontSize: '12px', color: '#666666' }}>Progreso global</span>
+            <div style={{ width: '80px' }}>
+              <ProgressBar value={mesh.completionRate} showLabel={false} />
             </div>
-
-            {/* Courses Count */}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-md" style={{ backgroundColor: '#f5f5f5', border: '1px solid #ebebeb' }}>
-              <span className="text-sm" style={{ color: '#171717' }}>{mesh.cursos.length}</span>
-              <span style={{ color: '#a8a8a8', fontSize: '12px' }}>cursos</span>
-            </div>
+            <span style={{ fontSize: '14px', fontWeight: 600, color: '#171717' }}>{mesh.completionRate}%</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 10px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '4px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 500, color: '#171717' }}>{mesh.cursos.length}</span>
+            <span style={{ fontSize: '12px', color: '#a8a8a8' }}>cursos</span>
           </div>
         </div>
       </div>
 
-      {/* Scrollable Content */}
-      <div 
-        className="p-6"
-        style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden' }}
-      >
-        {/* Sequential Course Flow */}
-        <div className="max-w-2xl mx-auto">
-          <h3 style={{ color: '#a8a8a8', fontSize: '11px', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '16px' }}>
-            Ruta de Aprendizaje
-          </h3>
+      {/* ── CUERPO scrolleable ── */}
+      <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '24px' }}>
+        <p style={{ fontSize: '11px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 12px' }}>Ruta de Aprendizaje</p>
 
-          {mesh.cursos.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center justify-center py-12 text-center"
-            >
-              <div
-                style={{
-                  width: '64px',
-                  height: '64px',
-                  borderRadius: '50%',
-                  backgroundColor: '#f5f5f5',
-                  border: '1px solid #ebebeb',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '16px',
-                }}
-              >
-                <BookOpen style={{ width: '28px', height: '28px', color: '#a8a8a8' }} strokeWidth={1.5} />
+        {mesh.cursos.length === 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', textAlign: 'center' }}>
+            <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
+              <BookOpen style={{ width: '24px', height: '24px', color: '#a8a8a8' }} strokeWidth={1.5} />
+            </div>
+            <p style={{ fontSize: '14px', fontWeight: 500, color: '#171717', margin: '0 0 4px' }}>Sin cursos asignados</p>
+            <p style={{ fontSize: '12px', color: '#666666', margin: 0 }}>Los cursos se agregarán próximamente</p>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            {mesh.cursos.map((course, index) => (
+              <div key={course.id}>
+                <SequentialCourseCard course={course} index={index} />
+                {index < mesh.cursos.length - 1 && <ArrowConnector />}
               </div>
-              <p className="font-medium mb-2" style={{ color: '#171717' }}>Esta malla no tiene cursos asignados</p>
-              <p className="text-sm" style={{ color: '#666666' }}>Los cursos se agregarán próximamente</p>
-            </motion.div>
-          ) : (
-            <div className="space-y-0">
-              {mesh.cursos.map((course, index) => (
-                <div key={course.id}>
-                  <SequentialCourseCard course={course} index={index} />
-                  {index < mesh.cursos.length - 1 && <ArrowConnector />}
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── FOOTER fijo: Trabajadores Asignados ── */}
+      <div style={{ flexShrink: 0, borderTop: '1px solid #ebebeb', padding: '16px 24px' }}>
+        <p style={{ fontSize: '11px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Users style={{ width: '13px', height: '13px' }} strokeWidth={1.5} />
+          Trabajadores Asignados
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
+            <div style={{ display: 'flex' }}>
+              {Array.from({ length: Math.min(workersCount, 5) }).map((_, i) => (
+                <div
+                  key={i}
+                  style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 600, backgroundColor: '#f0f0f0', border: '2px solid #ffffff', color: '#4d4d4d', marginLeft: i > 0 ? '-6px' : '0' }}
+                >
+                  {String.fromCharCode(65 + i)}
                 </div>
               ))}
+              {workersCount > 5 && (
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', backgroundColor: '#e8e8e8', border: '2px solid #ffffff', color: '#a8a8a8', marginLeft: '-6px' }}>
+                  +{workersCount - 5}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-
-        {/* Trabajadores Asignados Section */}
-        <div className="mt-8 pt-6 border-t" style={{ borderColor: '#ebebeb' }}>
-          <h3 className="text-sm font-medium uppercase mb-4 flex items-center gap-2" style={{ color: '#a8a8a8', letterSpacing: '0.06em', fontSize: '11px' }}>
-            <Users className="w-4 h-4" strokeWidth={1.5} />
-            Trabajadores Asignados
-          </h3>
-          
-          <div className="flex items-center gap-4">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', backgroundColor: '#fafafa', border: '1px solid #ebebeb', borderRadius: '6px' }}>
-              <div className="flex -space-x-2">
-                {Array.from({ length: Math.min(workersCount, 4) }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium"
-                    style={{ backgroundColor: '#f0f0f0', border: '2px solid #ffffff', color: '#4d4d4d' }}
-                  >
-                    {String.fromCharCode(65 + i)}
-                  </div>
-                ))}
-                {workersCount > 4 && (
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs" style={{ backgroundColor: '#e8e8e8', border: '2px solid #ffffff', color: '#a8a8a8' }}>
-                    +{workersCount - 4}
-                  </div>
-                )}
-              </div>
-              <span className="text-sm ml-2" style={{ color: '#171717' }}>
-                {workersCount} trabajador{workersCount !== 1 ? 'es' : ''} asignado{workersCount !== 1 ? 's' : ''}
-              </span>
-            </div>
-            
-            <button
-              style={{ padding: '8px 16px', fontSize: '13px', fontWeight: 500, color: '#4d4d4d', backgroundColor: '#f5f5f5', borderRadius: '6px', border: '1px solid #ebebeb', cursor: 'pointer', transition: 'background 0.15s' }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ebebeb'; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
-            >
-              Ver todos
-            </button>
+            <span style={{ fontSize: '13px', color: '#171717' }}>
+              {workersCount} trabajador{workersCount !== 1 ? 'es' : ''} asignado{workersCount !== 1 ? 's' : ''}
+            </span>
           </div>
+          <button
+            style={{ height: '32px', padding: '0 14px', fontSize: '12px', fontWeight: 500, color: '#4d4d4d', backgroundColor: '#f5f5f5', borderRadius: '6px', border: '1px solid #ebebeb', cursor: 'pointer', transition: 'background-color 0.15s', flexShrink: 0 }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ebebeb'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+          >
+            Ver todos
+          </button>
         </div>
       </div>
     </motion.div>

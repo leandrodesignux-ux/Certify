@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Award, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +14,26 @@ interface CertDetailDrawerProps {
 
 export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDrawerProps) {
   const navigate = useNavigate();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  // Escape to close
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [isOpen, onClose]);
+
+  // Focus management
+  useEffect(() => {
+    if (isOpen) {
+      triggerRef.current = document.activeElement as HTMLElement;
+      setTimeout(() => panelRef.current?.focus(), 50);
+    } else {
+      triggerRef.current?.focus();
+    }
+  }, [isOpen]);
 
   if (!cert) return null;
 
@@ -58,15 +79,17 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
 
           {/* Panel */}
           <motion.div
+            ref={panelRef}
             role="dialog"
             aria-label="Detalle de certificación"
             aria-modal="true"
+            tabIndex={-1}
             initial={{ x: 420 }}
             animate={{ x: 0 }}
             exit={{ x: 420 }}
             transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
             className="fixed right-0 top-0 bottom-0 z-50"
-            style={{
+            style={{ outline: 'none',
               width: 'min(420px, 100vw)',
               backgroundColor: '#ffffff',
               borderLeft: '1px solid #ebebeb',
