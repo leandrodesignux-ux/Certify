@@ -19,15 +19,15 @@ const CustomTooltip = ({ active, payload }: {
     return (
       <div style={{
         backgroundColor: '#ffffff',
-        border: '1px solid #ebebeb',
+        border: '1px solid #d4e0ed',
         borderRadius: '6px',
-        color: '#171717',
+        color: '#0a0a0a',
         fontSize: '12px',
         padding: '12px',
-        boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
+        boxShadow: 'rgba(71,103,136,0.06) 0px 4px 12px 0px',
       }}>
-        <p style={{ fontWeight: 500, marginBottom: '4px', color: '#4d4d4d' }}>{data.label}</p>
-        <p style={{ color: '#171717', fontFamily: 'var(--font-mono)', fontSize: '14px' }}>{data.value}%</p>
+        <p style={{ fontWeight: 500, marginBottom: '4px', color: '#476788' }}>{data.label}</p>
+        <p style={{ color: '#0b3558', fontFamily: 'var(--font-mono)', fontSize: '14px' }}>{data.value}%</p>
       </div>
     );
   }
@@ -47,21 +47,21 @@ export function ComplianceBarChart() {
         <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 0 }} style={{ backgroundColor: 'transparent' }}>
           <XAxis
             dataKey="label"
-            tick={{ fill: '#666666', fontSize: 10, fontFamily: 'var(--font-body)' }}
-            axisLine={{ stroke: '#ebebeb' }}
+            tick={{ fill: '#476788', fontSize: 10, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#d4e0ed' }}
             tickLine={false}
             interval={0}
           />
           <YAxis
-            tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
-            axisLine={{ stroke: '#ebebeb' }}
+            tick={{ fill: '#476788', fontSize: 11, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#d4e0ed' }}
             tickLine={false}
             domain={[0, 100]}
             tickFormatter={(value) => `${value}%`}
           />
           <Tooltip
             content={<CustomTooltip />}
-            cursor={{ fill: 'rgba(23,23,23,0.04)' }}
+            cursor={{ fill: 'rgba(71,103,136,0.04)' }}
           />
           <Bar
             dataKey="value"
@@ -73,7 +73,7 @@ export function ComplianceBarChart() {
             <LabelList
               dataKey="value"
               position="top"
-              fill="#666666"
+              fill="#476788"
               fontSize={11}
               fontFamily="var(--font-mono)"
             />

@@ -22,11 +22,11 @@ const sectionVariants = {
 // Category config
 const CATEGORY_CONFIG: Record<string, { color: string; bg: string; icon: typeof Layers }> = {
   'Seguridad':    { color: '#297a3a', bg: 'rgba(41,122,58,0.06)',   icon: Layers },
-  'Operaciones':  { color: '#4d4d4d', bg: 'rgba(23,23,23,0.05)',    icon: Layers },
+  'Operaciones':  { color: '#476788', bg: 'rgba(23,23,23,0.05)',    icon: Layers },
   'Inducción':    { color: '#b25000', bg: 'rgba(178,80,0,0.06)',    icon: Layers },
   'Liderazgo':    { color: '#b25000', bg: 'rgba(178,80,0,0.06)',    icon: Layers },
   'Emergencias':  { color: '#e5484d', bg: 'rgba(229,72,77,0.06)',   icon: Layers },
-  'Capacitación': { color: '#4d4d4d', bg: 'rgba(23,23,23,0.04)',    icon: Layers },
+  'Capacitación': { color: '#476788', bg: 'rgba(23,23,23,0.04)',    icon: Layers },
 };
 
 // Derive category from mesh name
@@ -82,9 +82,9 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
       animate="visible"
       className="transition-all duration-200"
       style={{
-        backgroundColor: '#ffffff',
-        borderRadius: '6px',
-        border: `1px solid ${hovered ? '#d4d4d4' : '#ebebeb'}`,
+        backgroundColor: 'var(--surface-card)',
+        borderRadius: 'var(--radius-sm)',
+        border: `1px solid ${hovered ? 'var(--border-strong)' : 'var(--border-default)'}`,
         overflow: 'hidden',
         cursor: 'pointer',
         boxShadow: hovered ? '0 4px 16px rgba(0,0,0,0.06)' : '0 1px 4px rgba(0,0,0,0.04)',
@@ -129,7 +129,7 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
         <div style={{ position: 'relative', width: ringSize, height: ringSize }}>
           <svg width={ringSize} height={ringSize} style={{ transform: 'rotate(-90deg)' }}>
             <circle cx={ringSize / 2} cy={ringSize / 2} r={r}
-              fill="none" stroke="#ebebeb" strokeWidth={strokeW} />
+              fill="none" stroke="#d4e0ed" strokeWidth={strokeW} />
             <motion.circle
               cx={ringSize / 2} cy={ringSize / 2} r={r}
               fill="none" stroke={completionColor} strokeWidth={strokeW} strokeLinecap="round"
@@ -181,7 +181,7 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
             padding: '3px 8px',
           }}>
             <Star style={{ width: '10px', height: '10px', color: '#b25000', fill: '#b25000' }} />
-            <span style={{ fontSize: '11px', fontWeight: 600, color: '#b25000', fontFamily: 'var(--font-mono)' }}>
+            <span style={{ fontSize: 'var(--text-micro)', fontWeight: 600, color: '#b25000', fontFamily: 'var(--font-mono)' }}>
               {mock.rating}
             </span>
           </div>
@@ -199,7 +199,7 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
 
         {/* Description */}
         <p style={{
-          fontSize: '12px', color: '#666666',
+          fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)',
           lineHeight: 1.5, marginBottom: '10px',
           display: '-webkit-box',
           WebkitLineClamp: 2,
@@ -214,16 +214,16 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {/* Start date */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <Calendar style={{ width: '12px', height: '12px', color: '#a8a8a8' }} strokeWidth={1.5} />
-              <span style={{ fontSize: '11px', color: '#a8a8a8' }}>Inicio: {mock.startDate}</span>
+              <Calendar style={{ width: '12px', height: '12px', color: 'var(--color-text-faint)' }} strokeWidth={1.5} />
+              <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)' }}>Inicio: {mock.startDate}</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <Users style={{ width: '12px', height: '12px', color: '#a8a8a8' }} strokeWidth={1.5} />
-              <span style={{ fontSize: '11px', color: '#a8a8a8' }}>{workersCount}</span>
+              <Users style={{ width: '12px', height: '12px', color: 'var(--color-text-faint)' }} strokeWidth={1.5} />
+              <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)' }}>{workersCount}</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <BookOpen style={{ width: '12px', height: '12px', color: '#a8a8a8' }} strokeWidth={1.5} />
-              <span style={{ fontSize: '11px', color: '#a8a8a8' }}>{coursesCount} cursos</span>
+              <BookOpen style={{ width: '12px', height: '12px', color: 'var(--color-text-faint)' }} strokeWidth={1.5} />
+              <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)' }}>{coursesCount} cursos</span>
             </div>
           </div>
 
@@ -317,9 +317,9 @@ function SidePanel() {
     <div style={{
       width: '320px',
       flexShrink: 0,
-      backgroundColor: '#ffffff',
-      border: '1px solid #ebebeb',
-      borderRadius: '6px',
+      backgroundColor: 'var(--surface-card)',
+      border: '1px solid var(--border-default)',
+      borderRadius: 'var(--radius-sm)',
       display: 'flex',
       flexDirection: 'column',
       gap: '0',
@@ -335,7 +335,7 @@ function SidePanel() {
           <button
             type="button"
             onClick={prevMonth}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#a8a8a8', padding: '4px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-faint)', padding: '4px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}
             onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-brand)')}
             onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-faint)')}
           >
@@ -347,7 +347,7 @@ function SidePanel() {
           <button
             type="button"
             onClick={nextMonth}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#a8a8a8', padding: '4px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-faint)', padding: '4px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}
             onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-brand)')}
             onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-faint)')}
           >
@@ -359,7 +359,7 @@ function SidePanel() {
         <div style={{ width: '100%', overflowX: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: '6px' }}>
             {DAY_LABELS.map(d => (
-              <div key={d} style={{ textAlign: 'center', fontSize: '10px', fontWeight: 500, color: '#a8a8a8', padding: '4px 0' }}>{d}</div>
+              <div key={d} style={{ textAlign: 'center', fontSize: 'var(--text-micro)', fontWeight: 500, color: 'var(--color-text-faint)', padding: '4px 0' }}>{d}</div>
             ))}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px' }}>
@@ -375,7 +375,7 @@ function SidePanel() {
                   fontWeight: isToday(day) ? 600 : 400,
                   color: day === null ? 'transparent'
                     : isToday(day) ? '#ffffff'
-                    : '#666666',
+                    : 'var(--color-text-muted)',
                   backgroundColor: isToday(day) ? 'var(--color-brand)' : 'transparent',
                   borderRadius: '50%',
                   minWidth: 0,
@@ -390,11 +390,11 @@ function SidePanel() {
       </div>
 
       {/* Divider */}
-      <div style={{ height: '1px', backgroundColor: '#ebebeb', margin: '0 20px' }} />
+      <div style={{ height: '1px', backgroundColor: 'var(--border-default)', margin: '0 20px' }} />
 
       {/* ── Próximas Actividades ── */}
       <div style={{ padding: '16px 20px 20px', flex: 1, overflowY: 'auto' }}>
-        <p style={{ fontSize: '11px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>
+        <p style={{ fontSize: 'var(--text-micro)', fontWeight: 500, color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>
           Próximas Actividades
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -406,13 +406,13 @@ function SidePanel() {
                 alignItems: 'center',
                 gap: '12px',
                 padding: '10px 12px',
-                backgroundColor: '#fafafa',
-                border: '1px solid #ebebeb',
-                borderRadius: '6px',
+                backgroundColor: 'var(--surface-canvas)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-sm)',
                 transition: 'border-color 0.15s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = '#d4d4d4')}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = '#ebebeb')}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--border-strong)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border-default)')}
             >
               {/* Day number */}
               <div style={{ width: '32px', flexShrink: 0, textAlign: 'center' }}>
@@ -420,7 +420,7 @@ function SidePanel() {
                   fontSize: '20px',
                   fontWeight: 600,
                   lineHeight: 1,
-                  color: '#a8a8a8',
+                  color: 'var(--color-text-faint)',
                 }}>
                   {SCHEDULE_DAYS[i]}
                 </span>
@@ -430,12 +430,12 @@ function SidePanel() {
                 <p style={{ fontSize: 'var(--text-caption)', fontWeight: 500, color: 'var(--color-brand)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {item.nombre}
                 </p>
-                <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>
+                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', marginTop: '2px' }}>
                   {item.completados} de {item.total} capítulos
                 </p>
               </div>
               {/* Time */}
-              <span style={{ fontSize: '10px', color: '#a8a8a8', flexShrink: 0, fontFamily: 'var(--font-mono)' }}>
+              <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', flexShrink: 0, fontFamily: 'var(--font-mono)' }}>
                 {SCHEDULE_TIMES[i]}
               </span>
             </div>
@@ -517,7 +517,7 @@ export function Curriculum() {
         <div className="flex items-center gap-3">
           {/* Search input — relocated to header right */}
           <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#a8a8a8' }} strokeWidth={1.5} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--color-text-faint)' }} strokeWidth={1.5} />
             <input
               type="text"
               placeholder="Buscar mallas..."
@@ -543,7 +543,7 @@ export function Curriculum() {
                 type="button"
                 onClick={() => setSearchQuery('')}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 transition-colors"
-                style={{ color: '#a8a8a8' }}
+                style={{ color: 'var(--color-text-faint)' }}
               >
                 <X className="w-4 h-4" />
               </button>
@@ -567,7 +567,7 @@ export function Curriculum() {
           display: 'flex',
           alignItems: 'center',
           gap: '0',
-          borderBottom: '1px solid #ebebeb',
+          borderBottom: '1px solid var(--border-default)',
         }}
       >
         {TABS.map((tab) => {
@@ -628,9 +628,9 @@ export function Curriculum() {
           { label: 'Total recursos', value: stats.totalCourses, icon: BookOpen },
           { label: 'Completadas', value: Math.round(mockMeshes.filter(m => m.completionRate === 100).length), icon: GraduationCap },
         ].map(stat => (
-          <div key={stat.label} style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '6px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <stat.icon style={{ width: '18px', height: '18px', color: '#4d4d4d' }} strokeWidth={1.5} />
+          <div key={stat.label} style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '36px', height: '36px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <stat.icon style={{ width: '18px', height: '18px', color: 'var(--color-text-muted)' }} strokeWidth={1.5} />
             </div>
             <div style={{ minWidth: 0 }}>
               <p style={{ fontSize: 'clamp(18px, 4vw, 24px)', fontWeight: 600, color: 'var(--color-brand)', lineHeight: 1, margin: 0 }}>{stat.value}</p>
@@ -645,8 +645,8 @@ export function Curriculum() {
       <div className="grid grid-cols-1 gap-4">
         {filteredMeshes.length === 0 ? (
           <div className="col-span-full text-center py-16">
-            <p className="text-lg" style={{ color: '#666666' }}>No se encontraron mallas</p>
-            <p className="text-sm mt-2" style={{ color: '#a8a8a8' }}>Intenta con otra búsqueda</p>
+            <p className="text-lg" style={{ color: 'var(--color-text-muted)' }}>No se encontraron mallas</p>
+            <p className="text-sm mt-2" style={{ color: 'var(--color-text-faint)' }}>Intenta con otra búsqueda</p>
           </div>
         ) : (
           filteredMeshes.map((mesh, index) => (

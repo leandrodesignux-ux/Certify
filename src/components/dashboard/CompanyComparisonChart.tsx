@@ -17,19 +17,19 @@ const CustomTooltip = ({ active, payload, label }: {
     return (
       <div style={{
         backgroundColor: '#ffffff',
-        border: '1px solid #ebebeb',
+        border: '1px solid #d4e0ed',
         borderRadius: '6px',
-        color: '#171717',
+        color: '#0a0a0a',
         fontSize: '12px',
         padding: '12px',
-        boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
+        boxShadow: 'rgba(71,103,136,0.06) 0px 4px 12px 0px',
       }}>
-        <p style={{ fontWeight: 500, marginBottom: '8px', color: '#4d4d4d' }}>{label}</p>
+        <p style={{ fontWeight: 500, marginBottom: '8px', color: '#476788' }}>{label}</p>
         {payload.map((entry, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: entry.color }} />
-            <span style={{ color: '#666666' }}>{entry.name}:</span>
-            <span style={{ color: '#171717', fontFamily: 'var(--font-mono)' }}>{entry.value}%</span>
+            <span style={{ color: '#476788' }}>{entry.name}:</span>
+            <span style={{ color: '#0b3558', fontFamily: 'var(--font-mono)' }}>{entry.value}%</span>
           </div>
         ))}
       </div>
@@ -54,18 +54,18 @@ export function CompanyComparisonChart() {
         <LineChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }} style={{ backgroundColor: 'transparent' }}>
           <CartesianGrid
             strokeDasharray="3 3"
-            stroke="#ebebeb"
+            stroke="#d4e0ed"
             vertical={false}
           />
           <XAxis
             dataKey="month"
-            tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
-            axisLine={{ stroke: '#ebebeb' }}
+            tick={{ fill: '#476788', fontSize: 11, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#d4e0ed' }}
             tickLine={false}
           />
           <YAxis
-            tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
-            axisLine={{ stroke: '#ebebeb' }}
+            tick={{ fill: '#476788', fontSize: 11, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#d4e0ed' }}
             tickLine={false}
             domain={[60, 100]}
             tickFormatter={(value) => `${value}%`}
@@ -75,28 +75,28 @@ export function CompanyComparisonChart() {
             type="monotone"
             dataKey="corpa"
             name="Corpa Andina"
-            stroke="#171717"
-            strokeWidth={1.5}
-            dot={{ fill: '#171717', r: 3, strokeWidth: 0 }}
-            activeDot={{ r: 5, fill: '#171717', stroke: '#ffffff', strokeWidth: 2 }}
+            stroke="#006bff"
+            strokeWidth={2}
+            dot={{ fill: '#006bff', r: 3, strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: '#006bff', stroke: '#ffffff', strokeWidth: 2 }}
           />
           <Line
             type="monotone"
             dataKey="vial"
             name="Vial Norte"
-            stroke="#4d4d4d"
+            stroke="#a6bbd1"
             strokeWidth={1.5}
-            dot={{ fill: '#4d4d4d', r: 3, strokeWidth: 0 }}
-            activeDot={{ r: 5, fill: '#4d4d4d', stroke: '#ffffff', strokeWidth: 2 }}
+            dot={{ fill: '#a6bbd1', r: 3, strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: '#a6bbd1', stroke: '#ffffff', strokeWidth: 2 }}
           />
           <Line
             type="monotone"
             dataKey="agro"
             name="Agroindustrial"
-            stroke="#a8a8a8"
+            stroke="#d4e0ed"
             strokeWidth={1.5}
-            dot={{ fill: '#a8a8a8', r: 3, strokeWidth: 0 }}
-            activeDot={{ r: 5, fill: '#a8a8a8', stroke: '#ffffff', strokeWidth: 2 }}
+            dot={{ fill: '#d4e0ed', r: 3, strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: '#d4e0ed', stroke: '#ffffff', strokeWidth: 2 }}
           />
         </LineChart>
       </ResponsiveContainer>

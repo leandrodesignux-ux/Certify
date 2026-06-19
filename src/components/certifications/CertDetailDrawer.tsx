@@ -91,9 +91,9 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
             className="fixed right-0 top-0 bottom-0 z-50"
             style={{ outline: 'none',
               width: 'min(420px, 100vw)',
-              backgroundColor: '#ffffff',
-              borderLeft: '1px solid #ebebeb',
-              boxShadow: '-4px 0 16px rgba(0,0,0,0.06)',
+              backgroundColor: 'var(--surface-card)',
+              borderLeft: '1px solid var(--border-default)',
+              boxShadow: '-4px 0 16px rgba(71,103,136,0.08)',
               display: 'flex',
               flexDirection: 'column',
               height: '100vh',
@@ -102,14 +102,14 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
             {/* Header */}
             <div 
               className="relative border-b"
-              style={{ borderColor: '#ebebeb', flexShrink: 0, padding: '20px 20px 20px 20px', paddingRight: '56px' }}
+              style={{ borderColor: 'var(--border-default)', flexShrink: 0, padding: '20px 20px 20px 20px', paddingRight: '56px' }}
             >
               <button
                 onClick={onClose}
                 className="absolute top-5 right-5 p-1.5 rounded-md transition-colors"
                 aria-label="Cerrar detalle"
-                style={{ color: '#a8a8a8' }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+                style={{ color: 'var(--color-text-faint)' }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
                 onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
               >
                 <X className="w-5 h-5" strokeWidth={1.5} />
@@ -118,7 +118,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
               <div className="flex items-start gap-4 mb-4">
                 <div 
                   className="p-2.5"
-                  style={{ backgroundColor: '#f5f5f5', borderRadius: '6px' }}
+                  style={{ backgroundColor: 'var(--surface-soft)', borderRadius: 'var(--radius-sm)' }}
                 >
                   <Award 
                     className="w-6 h-6" 
@@ -132,8 +132,8 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                     className="text-xl font-semibold mb-2"
                     style={{ 
                       fontFamily: 'var(--font-display)',
-                      color: '#171717',
-                      letterSpacing: '-0.02em',
+                      color: 'var(--color-brand)',
+                      letterSpacing: 'var(--tracking-tight)',
                     }}
                   >
                     {cert.nombre}
@@ -148,7 +148,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
 
             {/* Worker Section */}
             <div 
-              style={{ padding: '20px', borderBottom: '1px solid #ebebeb' }}
+              style={{ padding: '20px', borderBottom: '1px solid var(--border-default)' }}
             >
               <div className="flex items-center gap-3">
                 {worker?.foto ? (
@@ -156,15 +156,15 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                     src={worker.foto}
                     alt={`${worker.nombre} ${worker.apellidos}`}
                     className="w-12 h-12 rounded-full object-cover"
-                    style={{ border: '1px solid #ebebeb' }}
+                    style={{ border: '1px solid var(--border-default)' }}
                   />
                 ) : (
                   <div 
                     className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-medium"
                     style={{ 
-                      backgroundColor: '#f0f0f0',
-                      border: '1px solid #ebebeb',
-                      color: '#4d4d4d'
+                      backgroundColor: 'var(--surface-soft)',
+                      border: '1px solid var(--border-default)',
+                      color: 'var(--color-text-muted)'
                     }}
                   >
                     {worker ? getInitials(worker.nombre, worker.apellidos) : '?'}
@@ -172,19 +172,19 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                 )}
                 
                 <div className="flex-1">
-                  <p className="text-base font-semibold" style={{ color: '#171717' }}>
+                  <p className="text-base font-semibold" style={{ color: 'var(--color-brand)' }}>
                     {worker ? `${worker.nombre} ${worker.apellidos}` : 'Trabajador no encontrado'}
                   </p>
-                  <p className="text-sm" style={{ color: '#666666' }}>{worker?.cargo || 'Sin cargo'}</p>
+                  <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>{worker?.cargo || 'Sin cargo'}</p>
                 </div>
 
                 {worker?.area && (
                   <div
                     className="px-3 py-1.5 rounded text-xs font-medium"
                     style={{
-                      backgroundColor: '#f5f5f5',
-                      color: '#4d4d4d',
-                      border: '1px solid #ebebeb',
+                      backgroundColor: 'var(--surface-soft)',
+                      color: 'var(--color-text-muted)',
+                      border: '1px solid var(--border-default)',
                     }}
                   >
                     {worker.area}
@@ -195,14 +195,14 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
 
             {/* Dates Section */}
             <div 
-              style={{ padding: '20px', borderBottom: '1px solid #ebebeb' }}
+              style={{ padding: '20px', borderBottom: '1px solid var(--border-default)' }}
             >
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>
+                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: 'var(--color-text-faint)', letterSpacing: '0.04em' }}>
                     Fecha Obtención
                   </p>
-                  <p className="text-sm" style={{ color: '#171717' }}>
+                  <p className="text-sm" style={{ color: 'var(--color-brand)' }}>
                     {new Date(cert.fechaObtension).toLocaleDateString('es-ES', {
                       day: '2-digit',
                       month: 'short',
@@ -212,7 +212,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                 </div>
                 
                 <div>
-                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>
+                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: 'var(--color-text-faint)', letterSpacing: '0.04em' }}>
                     Fecha Vencimiento
                   </p>
                   <p 
@@ -231,7 +231,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
               {/* Progress Bar */}
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <p className="text-xs" style={{ color: '#a8a8a8' }}>Vida de la certificación</p>
+                  <p className="text-xs" style={{ color: 'var(--color-text-faint)' }}>Vida de la certificación</p>
                   <p 
                     className="text-xs font-medium"
                     style={{ color: statusColor }}
@@ -244,7 +244,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                 </div>
                 <div 
                   className="h-2 rounded-full overflow-hidden"
-                  style={{ backgroundColor: '#ebebeb' }}
+                  style={{ backgroundColor: 'var(--border-default)' }}
                 >
                   <motion.div
                     initial={{ width: 0 }}
@@ -263,26 +263,26 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
             >
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>
+                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: 'var(--color-text-faint)', letterSpacing: '0.04em' }}>
                     Emisor
                   </p>
-                  <p className="text-sm" style={{ color: '#171717' }}>{cert.emisor}</p>
+                  <p className="text-sm" style={{ color: 'var(--color-brand)' }}>{cert.emisor}</p>
                 </div>
                 
                 <div>
-                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>
+                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: 'var(--color-text-faint)', letterSpacing: '0.04em' }}>
                     Tipo
                   </p>
                   <Badge status={cert.tipo} />
                 </div>
                 
                 <div>
-                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>
+                  <p className="text-xs uppercase tracking-wider mb-1" style={{ color: 'var(--color-text-faint)', letterSpacing: '0.04em' }}>
                     ID Interno
                   </p>
                   <p 
                     className="text-xs font-mono"
-                    style={{ color: '#a8a8a8' }}
+                    style={{ color: 'var(--color-text-faint)' }}
                   >
                     {cert.id}
                   </p>
@@ -294,7 +294,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
 
             {/* Footer */}
             <div 
-              style={{ padding: '16px 20px', borderTop: '1px solid #ebebeb', flexShrink: 0 }}
+              style={{ padding: '16px 20px', borderTop: '1px solid var(--border-default)', flexShrink: 0 }}
             >
               <div className="flex gap-3">
                 <button
@@ -302,11 +302,11 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                   className="flex-1 px-4 py-2.5 text-sm font-medium rounded-md border transition-colors"
                   style={{
                     backgroundColor: 'transparent',
-                    borderColor: '#ebebeb',
-                    color: '#4d4d4d',
+                    borderColor: 'var(--border-default)',
+                    color: 'var(--color-text-muted)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#f5f5f5';
+                    e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = 'transparent';
@@ -322,15 +322,15 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
                   }}
                   className="flex-1 px-4 py-2.5 text-sm font-medium rounded-md transition-colors"
                   style={{
-                    backgroundColor: '#171717',
+                    backgroundColor: 'var(--color-primary)',
                     color: '#ffffff',
-                    border: '1px solid #171717',
+                    border: '1px solid var(--color-primary)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#2e2e2e';
+                    e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#171717';
+                    e.currentTarget.style.backgroundColor = 'var(--color-primary)';
                   }}
                 >
                   Ir al trabajador

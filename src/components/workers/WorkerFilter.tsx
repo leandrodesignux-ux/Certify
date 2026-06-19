@@ -25,8 +25,8 @@ export function WorkerFilter({}: WorkerFilterProps) {
 
   return (
     <div style={{
-      backgroundColor: '#ffffff',
-      border: '1px solid #ebebeb',
+      backgroundColor: 'var(--surface-card)',
+      border: '1px solid var(--border-default)',
       borderRadius: 'var(--radius-sm)',
       padding: '10px 16px',
       display: 'flex',
@@ -42,13 +42,13 @@ export function WorkerFilter({}: WorkerFilterProps) {
         }
         style={{
           height: '32px',
-          backgroundColor: '#ffffff',
-          border: '1px solid #ebebeb',
+          backgroundColor: 'var(--surface-card)',
+          border: '1px solid var(--border-default)',
           borderRadius: '9999px',
           padding: '0 14px',
-          fontSize: '13px',
+          fontSize: 'var(--text-body-sm)',
           fontWeight: 500,
-          color: '#171717',
+          color: 'var(--color-brand)',
           cursor: 'pointer',
           outline: 'none',
           minWidth: '120px',
@@ -82,13 +82,13 @@ export function WorkerFilter({}: WorkerFilterProps) {
         }}
         style={{
           height: '32px',
-          backgroundColor: '#ffffff',
-          border: '1px solid #ebebeb',
+          backgroundColor: 'var(--surface-card)',
+          border: '1px solid var(--border-default)',
           borderRadius: '9999px',
           padding: '0 14px',
-          fontSize: '13px',
+          fontSize: 'var(--text-body-sm)',
           fontWeight: 500,
-          color: '#171717',
+          color: 'var(--color-brand)',
           cursor: 'pointer',
           outline: 'none',
           minWidth: '150px',

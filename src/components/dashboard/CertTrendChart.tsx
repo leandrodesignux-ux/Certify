@@ -18,19 +18,19 @@ const CustomTooltip = ({ active, payload, label }: {
     return (
       <div style={{
         backgroundColor: '#ffffff',
-        border: '1px solid #ebebeb',
+        border: '1px solid #d4e0ed',
         borderRadius: '6px',
-        color: '#171717',
+        color: '#0a0a0a',
         fontSize: '12px',
         padding: '12px',
-        boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
+        boxShadow: 'rgba(71,103,136,0.06) 0px 4px 12px 0px',
       }}>
-        <p style={{ fontWeight: 500, marginBottom: '8px', color: '#4d4d4d' }}>{label}</p>
+        <p style={{ fontWeight: 500, marginBottom: '8px', color: '#476788' }}>{label}</p>
         {payload.map((entry, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: entry.color }} />
-            <span style={{ color: '#666666' }}>{entry.name}:</span>
-            <span style={{ color: '#171717', fontFamily: 'var(--font-mono)' }}>{entry.value}</span>
+            <span style={{ color: '#476788' }}>{entry.name}:</span>
+            <span style={{ color: '#0b3558', fontFamily: 'var(--font-mono)' }}>{entry.value}</span>
           </div>
         ))}
       </div>
@@ -62,23 +62,23 @@ export function CertTrendChart() {
           </defs>
           <CartesianGrid
             strokeDasharray="3 3"
-            stroke="#ebebeb"
+            stroke="#d4e0ed"
             vertical={false}
           />
           <XAxis
             dataKey="month"
-            tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
-            axisLine={{ stroke: '#ebebeb' }}
+            tick={{ fill: '#476788', fontSize: 11, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#d4e0ed' }}
             tickLine={false}
           />
           <YAxis
-            tick={{ fill: '#666666', fontSize: 11, fontFamily: 'var(--font-body)' }}
-            axisLine={{ stroke: '#ebebeb' }}
+            tick={{ fill: '#476788', fontSize: 11, fontFamily: 'var(--font-body)' }}
+            axisLine={{ stroke: '#d4e0ed' }}
             tickLine={false}
           />
           <Tooltip
             content={<CustomTooltip />}
-            cursor={{ stroke: '#d4d4d4', strokeWidth: 1 }}
+            cursor={{ stroke: '#a6bbd1', strokeWidth: 1 }}
           />
           <Area
             type="monotone"

@@ -12,7 +12,7 @@ interface MeshGridProps {
 
 const statusConfig = {
   completado:  { icon: CheckCircle, color: '#297a3a', bg: 'rgba(41,122,58,0.08)',    border: 'rgba(41,122,58,0.2)',   label: 'Completado' },
-  en_progreso: { icon: Play,        color: '#171717', bg: 'rgba(23,23,23,0.06)',     border: '#d4d4d4',               label: 'En progreso' },
+  en_progreso: { icon: Play,        color: '#476788', bg: 'rgba(23,23,23,0.06)',     border: '#d4e0ed',               label: 'En progreso' },
   pendiente:   { icon: Clock,       color: '#a8a8a8', bg: 'rgba(168,168,168,0.08)',  border: 'rgba(168,168,168,0.3)', label: 'Pendiente' },
   bloqueado:   { icon: Lock,        color: '#a8a8a8', bg: 'rgba(168,168,168,0.06)',  border: 'rgba(168,168,168,0.2)', label: 'Bloqueado' },
 };
@@ -23,8 +23,8 @@ function SequentialCourseCard({ course, index }: { course: Course; index: number
   const StatusIcon = status.icon;
   const isCompleted = course.estado === 'completado';
 
-  const stepBg = isCompleted ? 'rgba(41,122,58,0.1)' : '#f0f0f0';
-  const stepColor = isCompleted ? '#297a3a' : '#4d4d4d';
+  const stepBg = isCompleted ? 'rgba(41,122,58,0.1)' : 'var(--surface-soft)';
+  const stepColor = isCompleted ? '#297a3a' : '#476788';
 
   return (
     <motion.div
@@ -32,7 +32,7 @@ function SequentialCourseCard({ course, index }: { course: Course; index: number
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.07, duration: 0.28 }}
     >
-      <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '14px 16px' }}>
+      <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '14px 16px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', marginBottom: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
             <span style={{
@@ -42,7 +42,7 @@ function SequentialCourseCard({ course, index }: { course: Course; index: number
             }}>
               {index + 1}
             </span>
-            <h4 style={{ fontSize: '13px', fontWeight: 600, color: '#171717', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <h4 style={{ fontSize: 'var(--text-body-sm)', fontWeight: 600, color: 'var(--color-brand)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {course.nombre}
             </h4>
           </div>
@@ -52,11 +52,11 @@ function SequentialCourseCard({ course, index }: { course: Course; index: number
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0 }}>{course.duracionHoras}h</span>
+          <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', flexShrink: 0 }}>{course.duracionHoras}h</span>
           <div style={{ flex: 1 }}>
             <ProgressBar value={course.progreso} showLabel={false} />
           </div>
-          <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0 }}>{course.progreso}%</span>
+          <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', flexShrink: 0 }}>{course.progreso}%</span>
         </div>
       </div>
     </motion.div>
@@ -68,8 +68,8 @@ function ArrowConnector() {
   return (
     <div className="flex justify-center py-2">
       <div className="flex flex-col items-center gap-1">
-        <div style={{ width: '1px', height: '16px', borderLeft: '1px dashed #d4d4d4' }} />
-        <ArrowDown className="w-4 h-4" style={{ color: '#d4d4d4' }} strokeWidth={1.5} />
+        <div style={{ width: '1px', height: '16px', borderLeft: '1px dashed var(--border-strong)' }} />
+        <ArrowDown className="w-4 h-4" style={{ color: 'var(--border-strong)' }} strokeWidth={1.5} />
       </div>
     </div>
   );
@@ -95,8 +95,8 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
   if (!isModal) {
     return (
       <div className="space-y-4">
-        <h2 className="text-2xl font-semibold" style={{ color: '#171717', letterSpacing: '-0.02em' }}>{mesh.nombre}</h2>
-        <p className="text-sm" style={{ color: '#666666' }}>{mesh.descripcion}</p>
+        <h2 className="text-2xl font-semibold" style={{ color: 'var(--color-brand)', letterSpacing: '-0.02em' }}>{mesh.nombre}</h2>
+        <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>{mesh.descripcion}</p>
         
         <div className="space-y-4">
           {mesh.cursos.map((course, index) => (
@@ -121,49 +121,49 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 8 }}
       transition={{ duration: 0.25 }}
-      style={{ outline: 'none', backgroundColor: '#ffffff', borderRadius: '6px', width: '100%', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid #ebebeb', display: 'flex', flexDirection: 'column', height: '100%' }}
+      style={{ outline: 'none', backgroundColor: 'var(--surface-card)', borderRadius: 'var(--radius-sm)', width: '100%', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid var(--border-default)', display: 'flex', flexDirection: 'column', height: '100%' }}
     >
       {/* ── HEADER fijo ── */}
-      <div style={{ padding: '24px', paddingRight: '56px', borderBottom: '1px solid #ebebeb', flexShrink: 0, position: 'relative' }}>
+      <div style={{ padding: '24px', paddingRight: '56px', borderBottom: '1px solid var(--border-default)', flexShrink: 0, position: 'relative' }}>
         {onClose && (
           <button
             onClick={onClose}
-            style={{ position: 'absolute', top: '16px', right: '16px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '6px', border: 'none', backgroundColor: 'transparent', color: '#a8a8a8', cursor: 'pointer', transition: 'background-color 0.15s' }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+            style={{ position: 'absolute', top: '16px', right: '16px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 'var(--radius-sm)', border: 'none', backgroundColor: 'transparent', color: 'var(--color-text-faint)', cursor: 'pointer', transition: 'background-color 0.15s' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
             aria-label="Cerrar"
           >
             <X style={{ width: '18px', height: '18px' }} strokeWidth={1.5} />
           </button>
         )}
-        <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#171717', letterSpacing: '-0.02em', margin: '0 0 4px' }}>{mesh.nombre}</h2>
-        <p style={{ color: '#666666', fontSize: '13px', margin: '0 0 14px' }}>{mesh.descripcion}</p>
+        <h2 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--color-brand)', letterSpacing: '-0.02em', margin: '0 0 4px' }}>{mesh.nombre}</h2>
+        <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-body-sm)', margin: '0 0 14px' }}>{mesh.descripcion}</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontSize: '12px', color: '#666666' }}>Progreso global</span>
+            <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)' }}>Progreso global</span>
             <div style={{ width: '80px' }}>
               <ProgressBar value={mesh.completionRate} showLabel={false} />
             </div>
-            <span style={{ fontSize: '14px', fontWeight: 600, color: '#171717' }}>{mesh.completionRate}%</span>
+            <span style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--color-brand)' }}>{mesh.completionRate}%</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 10px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '4px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 500, color: '#171717' }}>{mesh.cursos.length}</span>
-            <span style={{ fontSize: '12px', color: '#a8a8a8' }}>cursos</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 10px', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', borderRadius: '4px' }}>
+            <span style={{ fontSize: 'var(--text-caption)', fontWeight: 500, color: 'var(--color-brand)' }}>{mesh.cursos.length}</span>
+            <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)' }}>cursos</span>
           </div>
         </div>
       </div>
 
       {/* ── CUERPO scrolleable ── */}
       <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '24px' }}>
-        <p style={{ fontSize: '11px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 12px' }}>Ruta de Aprendizaje</p>
+        <p style={{ fontSize: 'var(--text-micro)', fontWeight: 500, color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 12px' }}>Ruta de Aprendizaje</p>
 
         {mesh.cursos.length === 0 ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', textAlign: 'center' }}>
-            <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
-              <BookOpen style={{ width: '24px', height: '24px', color: '#a8a8a8' }} strokeWidth={1.5} />
+            <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
+              <BookOpen style={{ width: '24px', height: '24px', color: 'var(--color-text-faint)' }} strokeWidth={1.5} />
             </div>
-            <p style={{ fontSize: '14px', fontWeight: 500, color: '#171717', margin: '0 0 4px' }}>Sin cursos asignados</p>
-            <p style={{ fontSize: '12px', color: '#666666', margin: 0 }}>Los cursos se agregarán próximamente</p>
+            <p style={{ fontSize: 'var(--text-body)', fontWeight: 500, color: 'var(--color-brand)', margin: '0 0 4px' }}>Sin cursos asignados</p>
+            <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)', margin: 0 }}>Los cursos se agregarán próximamente</p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
@@ -178,8 +178,8 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
       </div>
 
       {/* ── FOOTER fijo: Trabajadores Asignados ── */}
-      <div style={{ flexShrink: 0, borderTop: '1px solid #ebebeb', padding: '16px 24px' }}>
-        <p style={{ fontSize: '11px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+      <div style={{ flexShrink: 0, borderTop: '1px solid var(--border-default)', padding: '16px 24px' }}>
+        <p style={{ fontSize: 'var(--text-micro)', fontWeight: 500, color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
           <Users style={{ width: '13px', height: '13px' }} strokeWidth={1.5} />
           Trabajadores Asignados
         </p>
@@ -189,25 +189,25 @@ export function MeshGrid({ mesh, onClose, isModal = false }: MeshGridProps) {
               {Array.from({ length: Math.min(workersCount, 5) }).map((_, i) => (
                 <div
                   key={i}
-                  style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 600, backgroundColor: '#f0f0f0', border: '2px solid #ffffff', color: '#4d4d4d', marginLeft: i > 0 ? '-6px' : '0' }}
+                  style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-micro)', fontWeight: 600, backgroundColor: 'var(--surface-soft)', border: '2px solid var(--surface-card)', color: '#476788', marginLeft: i > 0 ? '-6px' : '0' }}
                 >
                   {String.fromCharCode(65 + i)}
                 </div>
               ))}
               {workersCount > 5 && (
-                <div style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', backgroundColor: '#e8e8e8', border: '2px solid #ffffff', color: '#a8a8a8', marginLeft: '-6px' }}>
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-micro)', backgroundColor: 'var(--surface-soft)', border: '2px solid var(--surface-card)', color: 'var(--color-text-faint)', marginLeft: '-6px' }}>
                   +{workersCount - 5}
                 </div>
               )}
             </div>
-            <span style={{ fontSize: '13px', color: '#171717' }}>
+            <span style={{ fontSize: 'var(--text-body-sm)', color: 'var(--color-brand)' }}>
               {workersCount} trabajador{workersCount !== 1 ? 'es' : ''} asignado{workersCount !== 1 ? 's' : ''}
             </span>
           </div>
           <button
-            style={{ height: '32px', padding: '0 14px', fontSize: '12px', fontWeight: 500, color: '#4d4d4d', backgroundColor: '#f5f5f5', borderRadius: '6px', border: '1px solid #ebebeb', cursor: 'pointer', transition: 'background-color 0.15s', flexShrink: 0 }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ebebeb'; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+            style={{ height: '32px', padding: '0 14px', fontSize: 'var(--text-caption)', fontWeight: 500, color: 'var(--color-text-muted)', backgroundColor: 'var(--surface-soft)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)', cursor: 'pointer', transition: 'background-color 0.15s', flexShrink: 0 }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--border-default)'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
           >
             Ver todos
           </button>

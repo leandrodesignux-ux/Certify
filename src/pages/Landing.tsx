@@ -34,8 +34,8 @@ function Navbar() {
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        backgroundColor: scrolled ? 'rgba(255,255,255,0.92)' : '#ffffff',
-        borderBottom: '1px solid #ebebeb',
+        backgroundColor: scrolled ? 'rgba(255,255,255,0.92)' : 'var(--surface-card)',
+        borderBottom: '1px solid var(--border-default)',
         backdropFilter: scrolled ? 'blur(8px)' : 'none',
         transition: 'background-color 0.2s, backdrop-filter 0.2s',
       }}
@@ -84,7 +84,7 @@ function Navbar() {
             <a
               key={label}
               href={`#${label.toLowerCase()}`}
-              style={{ fontSize: '14px', color: '#4d4d4d', textDecoration: 'none', transition: 'color 0.15s' }}
+              style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)', textDecoration: 'none', transition: 'color 0.15s' }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-brand)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-text-secondary)'; }}
             >
@@ -126,7 +126,7 @@ function Hero() {
     <section
       style={{
         position: 'relative',
-        backgroundColor: '#fafafa',
+        backgroundColor: 'var(--surface-canvas)',
         overflow: 'hidden',
         paddingTop: '96px',
         paddingBottom: '96px',
@@ -138,7 +138,7 @@ function Hero() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(circle at 1px 1px, #d4d4d4 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 1px 1px, var(--border-strong) 1px, transparent 0)',
           backgroundSize: '28px 28px',
           opacity: 0.6,
           pointerEvents: 'none',
@@ -167,12 +167,12 @@ function Hero() {
               alignItems: 'center',
               gap: '6px',
               padding: '4px 12px',
-              backgroundColor: '#ffffff',
-              border: '1px solid #ebebeb',
+              backgroundColor: 'var(--surface-card)',
+              border: '1px solid var(--border-default)',
               borderRadius: '9999px',
-              fontSize: '12px',
+              fontSize: 'var(--text-caption)',
               fontWeight: 500,
-              color: '#4d4d4d',
+              color: 'var(--color-text-muted)',
             }}
           >
             <span
@@ -303,8 +303,8 @@ function Hero() {
             {/* Titlebar */}
             <div
               style={{
-                backgroundColor: '#fafafa',
-                borderBottom: '1px solid #ebebeb',
+                backgroundColor: 'var(--surface-canvas)',
+                borderBottom: '1px solid var(--border-default)',
                 padding: '12px 16px',
                 display: 'flex',
                 alignItems: 'center',
@@ -312,11 +312,11 @@ function Hero() {
               }}
             >
               <div style={{ display: 'flex', gap: '6px' }}>
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ebebeb' }} />
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ebebeb' }} />
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ebebeb' }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--border-default)' }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--border-default)' }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--border-default)' }} />
               </div>
-              <span style={{ fontSize: '12px', color: '#a8a8a8' }}>Dashboard CertifyX</span>
+              <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)' }}>Dashboard CertifyX</span>
               <div style={{ width: '52px' }} />
             </div>
             {/* Mock stats */}
@@ -337,13 +337,13 @@ function Hero() {
                 <div
                   key={stat.label}
                   style={{
-                    backgroundColor: '#fafafa',
-                    border: '1px solid #ebebeb',
-                    borderRadius: '6px',
+                    backgroundColor: 'var(--surface-canvas)',
+                    border: '1px solid var(--border-default)',
+                    borderRadius: 'var(--radius-sm)',
                     padding: '16px',
                   }}
                 >
-                  <p style={{ fontSize: '11px', color: '#a8a8a8', marginBottom: '8px', fontWeight: 500 }}>
+                  <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', marginBottom: '8px', fontWeight: 500 }}>
                     {stat.label}
                   </p>
                   <p
@@ -373,7 +373,7 @@ function Hero() {
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ repeat: Infinity, duration: 1.6 }}
-            style={{ color: '#a8a8a8' }}
+            style={{ color: 'var(--color-text-faint)' }}
           >
             <ChevronDown style={{ width: '20px', height: '20px' }} strokeWidth={1.5} />
           </motion.div>
@@ -411,13 +411,13 @@ function PainPoints() {
       icon: EyeOff,
       title: 'Sin visibilidad del equipo',
       desc: 'No sabes quién está capacitado ni qué falta en terreno.',
-      iconColor: '#4d4d4d',
-      iconBg: '#f5f5f5',
+      iconColor: 'var(--color-text-muted)',
+      iconBg: 'var(--surface-soft)',
     },
   ];
 
   return (
-    <section id="features" style={{ padding: '96px 0', backgroundColor: '#ffffff' }}>
+    <section id="features" style={{ padding: '96px 0', backgroundColor: 'var(--surface-card)' }}>
       <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px' }}>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -437,7 +437,7 @@ function PainPoints() {
           >
             El caos de certificaciones en terreno
           </h2>
-          <p style={{ fontSize: '15px', color: '#666666' }}>
+          <p style={{ fontSize: '15px', color: 'var(--color-text-muted)' }}>
             Problemas que resolviste ayer. Hoy, son historia.
           </p>
         </motion.div>
@@ -459,9 +459,9 @@ function PainPoints() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
                 style={{
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #ebebeb',
-                  borderRadius: '6px',
+                  backgroundColor: 'var(--surface-card)',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: 'var(--radius-sm)',
                   padding: '24px',
                   transition: 'box-shadow 0.15s',
                 }}
@@ -496,7 +496,7 @@ function PainPoints() {
                 >
                   {pain.title}
                 </h3>
-                <p style={{ fontSize: '14px', color: '#666666', lineHeight: 1.6 }}>{pain.desc}</p>
+                <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>{pain.desc}</p>
               </motion.div>
             );
           })}
@@ -527,7 +527,7 @@ function Features() {
   ];
 
   return (
-    <section style={{ padding: '96px 0', backgroundColor: '#fafafa', borderTop: '1px solid #ebebeb', borderBottom: '1px solid #ebebeb' }}>
+    <section style={{ padding: '96px 0', backgroundColor: 'var(--surface-canvas)', borderTop: '1px solid var(--border-default)', borderBottom: '1px solid var(--border-default)' }}>
       <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -547,7 +547,7 @@ function Features() {
           >
             Todo lo que necesitas
           </h2>
-          <p style={{ fontSize: '15px', color: '#666666' }}>
+          <p style={{ fontSize: '15px', color: 'var(--color-text-muted)' }}>
             Construido para equipos industriales que no tienen margen de error.
           </p>
         </motion.div>
@@ -569,9 +569,9 @@ function Features() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 style={{
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #ebebeb',
-                  borderRadius: '6px',
+                  backgroundColor: 'var(--surface-card)',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: 'var(--radius-sm)',
                   padding: '24px',
                 }}
               >
@@ -580,14 +580,14 @@ function Features() {
                     width: '40px',
                     height: '40px',
                     borderRadius: '6px',
-                    backgroundColor: '#f5f5f5',
+                    backgroundColor: 'var(--surface-soft)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginBottom: '20px',
                   }}
                 >
-                  <Icon style={{ width: '20px', height: '20px', color: '#4d4d4d' }} strokeWidth={1.5} />
+                  <Icon style={{ width: '20px', height: '20px', color: 'var(--color-text-muted)' }} strokeWidth={1.5} />
                 </div>
                 <h3
                   style={{
@@ -599,7 +599,7 @@ function Features() {
                 >
                   {feature.title}
                 </h3>
-                <p style={{ fontSize: '14px', color: '#666666', lineHeight: 1.6 }}>{feature.desc}</p>
+                <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>{feature.desc}</p>
               </motion.div>
             );
           })}
@@ -618,17 +618,17 @@ function Stats() {
   ];
 
   return (
-    <section style={{ padding: '80px 0', backgroundColor: '#ffffff' }}>
+    <section style={{ padding: '80px 0', backgroundColor: 'var(--surface-card)' }}>
       <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px' }}>
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
             gap: '1px',
-            backgroundColor: '#ebebeb',
-            borderRadius: '6px',
+            backgroundColor: 'var(--border-default)',
+            borderRadius: 'var(--radius-sm)',
             overflow: 'hidden',
-            border: '1px solid #ebebeb',
+            border: '1px solid var(--border-default)',
           }}
         >
           {stats.map((stat, index) => (
@@ -639,7 +639,7 @@ function Stats() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
               style={{
-                backgroundColor: '#ffffff',
+                backgroundColor: 'var(--surface-card)',
                 padding: '40px 32px',
                 textAlign: 'center',
               }}
@@ -656,7 +656,7 @@ function Stats() {
               >
                 {stat.value}
               </p>
-              <p style={{ fontSize: '14px', color: '#666666' }}>{stat.label}</p>
+              <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)' }}>{stat.label}</p>
             </motion.div>
           ))}
         </div>
@@ -685,7 +685,7 @@ function Testimonials() {
   ];
 
   return (
-    <section style={{ padding: '96px 0', backgroundColor: '#fafafa', borderTop: '1px solid #ebebeb' }}>
+    <section style={{ padding: '96px 0', backgroundColor: 'var(--surface-canvas)', borderTop: '1px solid var(--border-default)' }}>
       <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -721,9 +721,9 @@ function Testimonials() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               style={{
-                backgroundColor: '#ffffff',
-                border: '1px solid #ebebeb',
-                borderRadius: '6px',
+                backgroundColor: 'var(--surface-card)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-sm)',
                 padding: '24px',
               }}
             >
@@ -743,15 +743,15 @@ function Testimonials() {
                     width: '40px',
                     height: '40px',
                     borderRadius: '50%',
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ebebeb',
+                    backgroundColor: 'var(--surface-soft)',
+                    border: '1px solid var(--border-default)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
                   }}
                 >
-                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#4d4d4d' }}>
+                  <span style={{ fontSize: 'var(--text-body-sm)', fontWeight: 600, color: 'var(--color-text-muted)' }}>
                     {testimonial.initials}
                   </span>
                 </div>
@@ -759,7 +759,7 @@ function Testimonials() {
                   <p style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--color-brand)' }}>
                     {testimonial.name}
                   </p>
-                  <p style={{ fontSize: '13px', color: '#666666' }}>
+                  <p style={{ fontSize: 'var(--text-body-sm)', color: 'var(--color-text-muted)' }}>
                     {testimonial.role} · {testimonial.company}
                   </p>
                 </div>
@@ -825,9 +825,9 @@ function CTA() {
             style={{
               height: '48px',
               padding: '0 28px',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--surface-card)',
               color: 'var(--color-brand)',
-              border: '1px solid #ffffff',
+              border: '1px solid var(--surface-card)',
               borderRadius: 'var(--radius-sm)',
               fontSize: '15px',
               fontWeight: 500,
@@ -838,10 +838,10 @@ function CTA() {
               transition: 'background-color 0.15s, color 0.15s',
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5';
+              (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-soft)';
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.backgroundColor = '#ffffff';
+              (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-card)';
             }}
           >
             Empezar ahora <ArrowRight style={{ width: '16px', height: '16px' }} strokeWidth={2} />

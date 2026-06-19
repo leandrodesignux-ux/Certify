@@ -210,7 +210,7 @@ Generado automáticamente por CertifyX
   return (
     <div className="space-y-16" role="main" aria-label="Vista de reportes">
       {/* ── HEADER ── */}
-      <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible" style={{ paddingBottom: '8px', borderBottom: '1px solid #f0f0f0' }}>
+      <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible" style={{ paddingBottom: '8px', borderBottom: '1px solid var(--border-default)' }}>
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           {/* Izquierda: título + subtítulo */}
           <div>
@@ -225,7 +225,7 @@ Generado automáticamente por CertifyX
                 <span key="areas" style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-faint)' }}>{new Set(workers.map(w => w.area)).size} áreas</span>,
               ].reduce<React.ReactNode[]>((acc, item, i) => [
                 ...acc,
-                ...(i > 0 ? [<span key={`sep-${i}`} style={{ color: '#d4d4d4', fontSize: '13px', userSelect: 'none' }} aria-hidden>·</span>] : []),
+                ...(i > 0 ? [<span key={`sep-${i}`} style={{ color: 'var(--border-strong)', fontSize: 'var(--text-body-sm)', userSelect: 'none' }} aria-hidden>·</span>] : []),
                 item,
               ], [])}
             </div>
@@ -325,13 +325,13 @@ Generado automáticamente por CertifyX
                   <YAxis
                     type="category"
                     dataKey="area"
-                    tick={{ fill: '#4d4d4d', fontSize: 12, fontFamily: 'var(--font-body)' }}
+                    tick={{ fill: '#476788', fontSize: 12, fontFamily: 'var(--font-body)' }}
                     width={100}
                     axisLine={false}
                     tickLine={false}
                   />
                   <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(23,23,23,0.04)' }} />
-                  <Bar dataKey={() => 100} radius={[0, 4, 4, 0]} barSize={16} fill="#f0f0f0" isAnimationActive={false} />
+                  <Bar dataKey={() => 100} radius={[0, 4, 4, 0]} barSize={16} fill="#e7edf6" isAnimationActive={false} />
                   <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={16}>
                     {complianceByArea.map((entry, index) => (
                       <Cell key={`bar-${index}`} fill={entry.fill} />
@@ -339,7 +339,7 @@ Generado automáticamente por CertifyX
                     <LabelList
                       dataKey="score"
                       position="right"
-                      style={{ fill: '#666666', fontSize: '12px', fontFamily: 'var(--font-body)' }}
+                      style={{ fill: '#476788', fontSize: '12px', fontFamily: 'var(--font-body)' }}
                       formatter={(v: unknown) => `${v as number}%`}
                     />
                   </Bar>
@@ -382,7 +382,7 @@ Generado automáticamente por CertifyX
                             <tspan x="50%" dy="-8" style={{ fill: 'var(--color-brand)', fontSize: '20px', fontWeight: 600 }}>
                               {certifications.length}
                             </tspan>
-                            <tspan x="50%" dy="17" style={{ fill: '#a8a8a8', fontSize: '10px' }}>
+                            <tspan x="50%" dy="17" style={{ fill: '#476788', fontSize: '10px' }}>
                               total
                             </tspan>
                           </text>
@@ -398,10 +398,10 @@ Generado automáticamente por CertifyX
                 {certStatusData.map((item) => (
                   <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
-                    <p style={{ fontSize: '12px', color: '#666666', margin: 0, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</p>
+                    <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)', margin: 0, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</p>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', flexShrink: 0 }}>
                       <span style={{ fontSize: 'var(--text-body-sm)', fontWeight: 600, color: 'var(--color-brand)' }}>{item.percentage}%</span>
-                      <span style={{ fontSize: '11px', color: '#a8a8a8' }}>({item.value})</span>
+                      <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)' }}>({item.value})</span>
                     </div>
                   </div>
                 ))}
@@ -424,7 +424,7 @@ Generado automáticamente por CertifyX
             action={
               <button
                 onClick={() => navigate('/workers')}
-                style={{ fontSize: '12px', fontWeight: 500, color: '#4d4d4d', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline', textUnderlineOffset: '2px' }}
+                style={{ fontSize: 'var(--text-caption)', fontWeight: 500, color: 'var(--color-text-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline', textUnderlineOffset: '2px' }}
               >
                 Ver todos
               </button>
@@ -444,20 +444,20 @@ Generado automáticamente por CertifyX
                   display: 'flex', alignItems: 'center', gap: '10px',
                   padding: '10px 6px', borderRadius: '6px', cursor: 'pointer',
                   transition: 'background-color 0.12s',
-                  borderBottom: index < Math.min(topRiskWorkers.length, 5) - 1 ? '1px solid #f5f5f5' : 'none',
+                  borderBottom: index < Math.min(topRiskWorkers.length, 5) - 1 ? '1px solid var(--border-default)' : 'none',
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fafafa'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-canvas)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
               >
                 {/* Avatar */}
                 {worker.foto
-                  ? <img src={worker.foto} alt="" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1px solid #ebebeb' }} />
+                  ? <img src={worker.foto} alt="" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1px solid var(--border-default)' }} />
                   : (
                     <div style={{
                       width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
-                      backgroundColor: '#f0f0f0', border: '1px solid #ebebeb',
+                      backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '11px', fontWeight: 600, color: '#4d4d4d',
+                      fontSize: 'var(--text-micro)', fontWeight: 600, color: 'var(--color-text-muted)',
                     }}>
                       {worker.nombre[0]}{worker.apellidos[0]}
                     </div>
@@ -468,7 +468,7 @@ Generado automáticamente por CertifyX
                   <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {worker.nombre} {worker.apellidos}
                   </p>
-                  <p style={{ fontSize: '11px', color: '#a8a8a8', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {worker.area} · {worker.cargo}
                   </p>
                 </div>
@@ -547,24 +547,24 @@ Generado automáticamente por CertifyX
                 style={{
                   width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
                   padding: '12px 14px', textAlign: 'left',
-                  backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px',
+                  backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
                   cursor: item.disabled ? 'not-allowed' : 'pointer',
                   opacity: item.disabled ? 0.5 : 1, transition: 'all 0.15s',
                 }}
-                onMouseEnter={e => { if (!item.disabled) { e.currentTarget.style.borderColor = '#d4d4d4'; e.currentTarget.style.backgroundColor = '#fafafa'; } }}
-                onMouseLeave={e => { if (!item.disabled) { e.currentTarget.style.borderColor = '#ebebeb'; e.currentTarget.style.backgroundColor = '#ffffff'; } }}
+                onMouseEnter={e => { if (!item.disabled) { e.currentTarget.style.borderColor = 'var(--border-strong)'; e.currentTarget.style.backgroundColor = 'var(--surface-canvas)'; } }}
+                onMouseLeave={e => { if (!item.disabled) { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.backgroundColor = 'var(--surface-card)'; } }}
               >
-                <div style={{ width: '36px', height: '36px', flexShrink: 0, borderRadius: '6px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <item.icon style={{ width: '16px', height: '16px', color: '#4d4d4d' }} strokeWidth={1.5} />
+                <div style={{ width: '36px', height: '36px', flexShrink: 0, borderRadius: '6px', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <item.icon style={{ width: '16px', height: '16px', color: 'var(--color-text-muted)' }} strokeWidth={1.5} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {item.label}
-                    {item.pro && <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.4, fontSize: '10px', fontWeight: 500, padding: '2px 7px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '9999px', color: '#666666' }}>PRO</span>}
+                    {item.pro && <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.4, fontSize: 'var(--text-micro)', fontWeight: 500, padding: '2px 7px', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', borderRadius: '9999px', color: 'var(--color-text-muted)' }}>PRO</span>}
                   </p>
-                  <p style={{ fontSize: '11px', color: '#a8a8a8', margin: '2px 0 0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.description}</p>
+                  <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', margin: '2px 0 0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.description}</p>
                 </div>
-                {!item.disabled && <span style={{ color: '#a8a8a8', fontSize: '14px', flexShrink: 0, marginLeft: 'auto' }}>→</span>}
+                {!item.disabled && <span style={{ color: 'var(--color-text-faint)', fontSize: 'var(--text-body)', flexShrink: 0, marginLeft: 'auto' }}>→</span>}
               </button>
             ))}
           </div>

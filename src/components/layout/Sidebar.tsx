@@ -178,7 +178,7 @@ export function Sidebar() {
           <button
             onClick={() => setMobileSidebarOpen(false)}
             className="ml-auto p-2 transition-colors"
-            style={{ color: '#666666' }}
+            style={{ color: 'var(--color-text-muted)' }}
           >
             <X className="w-5 h-5" strokeWidth={1.5} />
           </button>

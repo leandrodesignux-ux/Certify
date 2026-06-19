@@ -57,8 +57,8 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
               {worker.foto ? (
                 <img src={worker.foto} alt={worker.nombre} className="w-full h-full object-cover object-top" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#f5f5f5' }}>
-                  <span className="text-5xl font-semibold" style={{ color: '#4d4d4d' }}>{initials}</span>
+                <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: 'var(--surface-soft)' }}>
+                  <span className="text-5xl font-semibold" style={{ color: 'var(--color-text-muted)' }}>{initials}</span>
                 </div>
               )}
               {/* Score badge */}
@@ -72,16 +72,16 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
             </div>
             {/* Info */}
             <div className="px-4 pt-3 pb-2">
-              <h3 className="font-display text-lg font-semibold leading-tight truncate" style={{ color: '#171717' }}>
+              <h3 className="font-display text-lg font-semibold leading-tight truncate" style={{ color: 'var(--color-brand)' }}>
                 {worker.nombre} {worker.apellidos}
               </h3>
-              <p className="text-xs truncate mt-0.5" style={{ color: '#666666' }}>{worker.cargo}</p>
+              <p className="text-xs truncate mt-0.5" style={{ color: 'var(--color-text-muted)' }}>{worker.cargo}</p>
               <div className="mt-3">
                 <ProgressBar value={worker.complianceScore} showLabel={false} />
               </div>
             </div>
             {/* Flip hint */}
-            <div className="absolute bottom-3 right-3 flex items-center gap-1" style={{ color: '#a8a8a8' }}>
+            <div className="absolute bottom-3 right-3 flex items-center gap-1" style={{ color: 'var(--color-text-faint)' }}>
               <RotateCcw className="w-3 h-3" strokeWidth={1.5} />
               <span className="text-[10px]">ver datos</span>
             </div>
@@ -89,24 +89,24 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
 
           {/* BACK */}
           <div
-            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)', overflowY: 'auto', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px' }}
+            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)', overflowY: 'auto', backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)' }}
             className="absolute inset-0 p-4"
           >
-            <div className="flex items-center gap-3 mb-4 pb-3" style={{ borderBottom: '1px solid #ebebeb' }}>
+            <div className="flex items-center gap-3 mb-4 pb-3" style={{ borderBottom: '1px solid var(--border-default)' }}>
               {worker.foto ? (
-                <img src={worker.foto} alt={worker.nombre} className="w-10 h-10 rounded-full object-cover" style={{ border: '1px solid #ebebeb' }} />
+                <img src={worker.foto} alt={worker.nombre} className="w-10 h-10 rounded-full object-cover" style={{ border: '1px solid var(--border-default)' }} />
               ) : (
-                <div className="w-10 h-10 rounded-full flex items-center justify-center font-medium" style={{ backgroundColor: '#f0f0f0', border: '1px solid #ebebeb', color: '#4d4d4d' }}>{initials}</div>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center font-medium" style={{ backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', color: 'var(--color-text-muted)' }}>{initials}</div>
               )}
               <div className="min-w-0">
-                <p className="text-sm font-semibold truncate" style={{ color: '#171717' }}>{worker.nombre} {worker.apellidos}</p>
-                <p className="text-[10px] font-mono" style={{ color: '#a8a8a8' }}>{worker.rut}</p>
+                <p className="text-sm font-semibold truncate" style={{ color: 'var(--color-brand)' }}>{worker.nombre} {worker.apellidos}</p>
+                <p className="text-[10px] font-mono" style={{ color: 'var(--color-text-faint)' }}>{worker.rut}</p>
               </div>
             </div>
             <div className="space-y-1 mb-4 text-xs">
-              <div className="flex justify-between"><span style={{ color: '#666666' }}>Email</span><span className="truncate max-w-[60%] text-right" style={{ color: '#171717' }}>{worker.email}</span></div>
-              <div className="flex justify-between"><span style={{ color: '#666666' }}>Empresa</span><span className="truncate max-w-[60%] text-right" style={{ color: '#171717' }}>{worker.empresa}</span></div>
-              <div className="flex justify-between"><span style={{ color: '#666666' }}>Departamento</span><span style={{ color: '#171717' }}>{worker.departamento}</span></div>
+              <div className="flex justify-between"><span style={{ color: 'var(--color-text-muted)' }}>Email</span><span className="truncate max-w-[60%] text-right" style={{ color: 'var(--color-brand)' }}>{worker.email}</span></div>
+              <div className="flex justify-between"><span style={{ color: 'var(--color-text-muted)' }}>Empresa</span><span className="truncate max-w-[60%] text-right" style={{ color: 'var(--color-brand)' }}>{worker.empresa}</span></div>
+              <div className="flex justify-between"><span style={{ color: 'var(--color-text-muted)' }}>Departamento</span><span style={{ color: 'var(--color-brand)' }}>{worker.departamento}</span></div>
             </div>
             <div className="flex gap-2 mb-4">
               {vigentes > 0 && <span className="px-2 py-0.5 rounded text-[10px] font-medium" style={{ backgroundColor: 'rgba(41,122,58,0.08)', color: '#297a3a', border: '1px solid rgba(41,122,58,0.2)' }}>{vigentes} vigentes</span>}
@@ -115,13 +115,13 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
             </div>
             {workerMeshes.length > 0 && (
               <div>
-                <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: '#a8a8a8', letterSpacing: '0.04em' }}>Mallas en curso</p>
+                <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: 'var(--color-text-faint)', letterSpacing: '0.04em' }}>Mallas en curso</p>
                 <div className="space-y-2">
                   {workerMeshes.map(mesh => (
                     <div key={mesh.id}>
                       <div className="flex justify-between text-[10px] mb-1">
-                        <span className="truncate max-w-[70%]" style={{ color: '#171717' }}>{mesh.nombre}</span>
-                        <span style={{ color: '#666666' }}>{mesh.completionRate}%</span>
+                        <span className="truncate max-w-[70%]" style={{ color: 'var(--color-brand)' }}>{mesh.nombre}</span>
+                        <span style={{ color: 'var(--color-text-muted)' }}>{mesh.completionRate}%</span>
                       </div>
                       <ProgressBar value={mesh.completionRate} showLabel={false} />
                     </div>
@@ -135,9 +135,9 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
                 marginTop: '12px',
                 width: '100%',
                 padding: '8px',
-                backgroundColor: '#171717',
-                border: '1px solid #171717',
-                borderRadius: '6px',
+                backgroundColor: 'var(--color-primary)',
+                border: '1px solid var(--color-primary)',
+                borderRadius: 'var(--radius-sm)',
                 color: '#ffffff',
                 fontSize: '12px',
                 fontWeight: 500,
@@ -151,7 +151,7 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
               <Eye className="w-3 h-3" strokeWidth={1.5} />
               Ver perfil completo
             </button>
-            <div className="absolute bottom-2 right-3 flex items-center gap-1" style={{ color: '#a8a8a8' }}>
+            <div className="absolute bottom-2 right-3 flex items-center gap-1" style={{ color: 'var(--color-text-faint)' }}>
               <RotateCcw className="w-3 h-3" strokeWidth={1.5} />
               <span className="text-[10px]">volver</span>
             </div>
@@ -163,8 +163,8 @@ function WorkerCardComponent({ worker, index = 0 }: WorkerCardProps) {
       <button
         onClick={(e) => { e.stopPropagation(); navigate(`/workers/${worker.id}`); }}
         className="w-full py-2 text-sm font-medium transition-all duration-150 flex items-center justify-center gap-2"
-        style={{ color: '#4d4d4d', border: '1px solid #ebebeb', backgroundColor: 'transparent', borderRadius: '6px' }}
-        onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+        style={{ color: 'var(--color-text-muted)', border: '1px solid var(--border-default)', backgroundColor: 'transparent', borderRadius: 'var(--radius-sm)' }}
+        onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
         onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
       >
         <Eye className="w-4 h-4" strokeWidth={1.5} />

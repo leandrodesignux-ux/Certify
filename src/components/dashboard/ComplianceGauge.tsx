@@ -10,9 +10,9 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
 
   // Calculate color based on score with gradient logic
   const getColor = () => {
-    if (clampedScore >= 80) return '#297a3a'; // Green
-    if (clampedScore >= 60) return '#b25000'; // Warning
-    return '#e5484d'; // Danger
+    if (clampedScore >= 85) return '#297a3a'; // status-success
+    if (clampedScore >= 70) return '#b25000'; // status-warning
+    return '#e5484d'; // status-danger
   };
 
   const data = [{ name: 'Compliance', value: clampedScore, fill: getColor() }];
@@ -37,7 +37,7 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
             />
             {/* Background track */}
             <RadialBar
-              background={{ fill: '#f5f5f5' }}
+              background={{ fill: '#e7edf6' }}
               dataKey="value"
               cornerRadius={6}
               fill={getColor()}
@@ -54,7 +54,7 @@ export function ComplianceGauge({ score }: ComplianceGaugeProps) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 0.4 }}
             className="font-display"
-            style={{ color: '#171717', fontWeight: 600, fontSize: '2.25rem', letterSpacing: '-0.04em' }}
+            style={{ color: '#0b3558', fontWeight: 600, fontSize: '2.25rem', letterSpacing: '-0.04em' }}
           >
             {Math.round(clampedScore)}%
           </motion.span>

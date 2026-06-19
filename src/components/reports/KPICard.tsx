@@ -37,13 +37,13 @@ export function KPICard({ title, value, subtitle, icon: Icon, color, trend = 'ne
           <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)', lineHeight: 1.3 }}>
             {title}
           </p>
-          <div style={{ width: '32px', height: '32px', flexShrink: 0, borderRadius: '6px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: '32px', height: '32px', flexShrink: 0, borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Icon style={{ width: '16px', height: '16px', color }} strokeWidth={1.5} />
           </div>
         </div>
         <p
           className="font-display"
-          style={{ fontSize: 'clamp(24px, 4vw, 32px)', color: '#171717', fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1, marginTop: '12px', marginBottom: '0' }}
+          style={{ fontSize: 'clamp(24px, 4vw, 32px)', color: 'var(--color-brand)', fontWeight: 600, letterSpacing: 'var(--tracking-tight)', lineHeight: 1, marginTop: '12px', marginBottom: '0' }}
         >
           {value}
         </p>
@@ -60,8 +60,8 @@ export function KPICard({ title, value, subtitle, icon: Icon, color, trend = 'ne
           )}
         </div>
         {typeof value === 'string' && value.endsWith('%') && (
-          <div style={{ height: '2px', backgroundColor: '#ebebeb', borderRadius: '1px', marginTop: '10px' }}>
-            <div style={{ height: '2px', width: value, backgroundColor: '#171717', borderRadius: '1px', maxWidth: '100%' }} />
+          <div style={{ height: '2px', backgroundColor: 'var(--border-default)', borderRadius: '1px', marginTop: '10px' }}>
+            <div style={{ height: '2px', width: value, backgroundColor: 'var(--color-primary)', borderRadius: '1px', maxWidth: '100%' }} />
           </div>
         )}
       </Card>

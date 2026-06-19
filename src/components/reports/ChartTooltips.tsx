@@ -1,15 +1,15 @@
 const tooltipStyle: React.CSSProperties = {
-  backgroundColor: '#ffffff',
-  border: '1px solid #ebebeb',
+  backgroundColor: 'var(--surface-card)',
+  border: '1px solid var(--border-default)',
   borderRadius: '6px',
   padding: '12px',
-  boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
+  boxShadow: 'rgba(71,103,136,0.06) 0px 4px 12px 0px',
   minWidth: '160px',
 };
 
 const labelStyle: React.CSSProperties = {
   fontSize: '12px',
-  color: '#4d4d4d',
+  color: 'var(--color-text-muted)',
   marginBottom: '4px',
   fontWeight: 500,
 };
@@ -17,7 +17,7 @@ const labelStyle: React.CSSProperties = {
 const valueStyle: React.CSSProperties = {
   fontSize: '24px',
   fontWeight: 600,
-  color: '#171717',
+  color: 'var(--color-brand)',
   fontFamily: 'var(--font-display)',
   letterSpacing: '-0.04em',
   lineHeight: 1,
@@ -25,7 +25,7 @@ const valueStyle: React.CSSProperties = {
 
 const captionStyle: React.CSSProperties = {
   fontSize: '11px',
-  color: '#666666',
+  color: 'var(--color-text-muted)',
   marginTop: '4px',
 };
 

@@ -10,7 +10,7 @@ interface CourseCardProps {
 }
 
 const categoryColors: Record<string, { accent: string }> = {
-  'Inducción':  { accent: '#4d4d4d' },
+  'Inducción':  { accent: '#476788' },
   'Seguridad':  { accent: '#297a3a' },
   'Habilidades':{ accent: '#b25000' },
   'Liderazgo':  { accent: '#297a3a' },
@@ -19,13 +19,13 @@ const categoryColors: Record<string, { accent: string }> = {
 
 const statusConfig = {
   completado:  { icon: CheckCircle, color: '#297a3a', bg: 'rgba(41,122,58,0.08)',   border: 'rgba(41,122,58,0.2)',  label: 'Completado' },
-  en_progreso: { icon: Play,        color: '#171717', bg: 'rgba(23,23,23,0.06)',    border: '#d4d4d4',              label: 'En progreso' },
+  en_progreso: { icon: Play,        color: '#476788', bg: 'rgba(23,23,23,0.06)',    border: '#d4e0ed',              label: 'En progreso' },
   pendiente:   { icon: Clock,       color: '#a8a8a8', bg: 'rgba(168,168,168,0.08)', border: 'rgba(168,168,168,0.3)',label: 'Pendiente' },
   bloqueado:   { icon: Lock,        color: '#a8a8a8', bg: 'rgba(168,168,168,0.06)', border: 'rgba(168,168,168,0.2)',label: 'Bloqueado' },
 };
 
 export function CourseCard({ course, index = 0 }: CourseCardProps) {
-  const colors = categoryColors[course.categoria] || { accent: '#4d4d4d' };
+  const colors = categoryColors[course.categoria] || { accent: '#476788' };
   const status = statusConfig[course.estado];
   const StatusIcon = status.icon;
 
@@ -36,7 +36,7 @@ export function CourseCard({ course, index = 0 }: CourseCardProps) {
       transition={{ delay: index * 0.05, duration: 0.3 }}
       className="w-[200px]"
     >
-      <div className="rounded-sm overflow-hidden transition-colors duration-200" style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb' }}>
+      <div className="rounded-sm overflow-hidden transition-colors duration-200" style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)' }}>
         {/* Header with accent */}
         <div
           className="h-1.5"
@@ -52,11 +52,11 @@ export function CourseCard({ course, index = 0 }: CourseCardProps) {
             >
               {course.categoria}
             </span>
-            <span className="text-xs" style={{ color: '#a8a8a8' }}>{course.duracionHoras}h</span>
+            <span className="text-xs" style={{ color: 'var(--color-text-faint)' }}>{course.duracionHoras}h</span>
           </div>
 
           {/* Course Name */}
-          <h4 className="text-base font-semibold leading-tight min-h-[40px]" style={{ color: '#171717' }}>
+          <h4 className="text-base font-semibold leading-tight min-h-[40px]" style={{ color: 'var(--color-brand)' }}>
             {course.nombre}
           </h4>
 
@@ -79,7 +79,7 @@ export function CourseCard({ course, index = 0 }: CourseCardProps) {
 
             {/* Completion Date */}
             {course.estado === 'completado' && course.fechaCertificado && (
-              <span className="text-[10px]" style={{ color: '#a8a8a8' }}>
+              <span className="text-[10px]" style={{ color: 'var(--color-text-faint)' }}>
                 {formatDate(course.fechaCertificado)}
               </span>
             )}

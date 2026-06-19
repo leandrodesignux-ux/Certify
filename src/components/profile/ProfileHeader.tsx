@@ -30,7 +30,7 @@ function ComplianceRing({ score, color }: { score: number; color: string }) {
           cy="40"
           r={radius}
           fill="none"
-          stroke="#ebebeb"
+          stroke="#d4e0ed"
           strokeWidth="6"
         />
         {/* Progress circle */}
@@ -64,7 +64,7 @@ function ComplianceRing({ score, color }: { score: number; color: string }) {
             fontFamily: 'var(--font-mono)',
             fontSize: '16px',
             fontWeight: 600,
-            color: '#171717',
+            color: '#0b3558',
             lineHeight: 1,
           }}
         >
@@ -88,14 +88,14 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
         position: 'relative',
         overflow: 'hidden',
         borderRadius: 'var(--radius-sm)',
-        backgroundColor: '#ffffff',
-        border: '1px solid #ebebeb',
+        backgroundColor: 'var(--surface-card)',
+        border: '1px solid var(--border-default)',
       }}
     >
       {/* Engineering grid background */}
       <div style={{
         position: 'absolute', inset: 0,
-        backgroundImage: 'linear-gradient(rgba(23,23,23,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(23,23,23,0.04) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(71,103,136,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(71,103,136,0.04) 1px, transparent 1px)',
         backgroundSize: '40px 40px', pointerEvents: 'none',
       }} />
 
@@ -103,8 +103,8 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
       <div
         style={{
           height: '120px',
-          backgroundColor: '#fafafa',
-          borderBottom: '1px solid #ebebeb',
+          backgroundColor: 'var(--surface-canvas)',
+          borderBottom: '1px solid var(--border-default)',
           position: 'relative',
         }}
       >
@@ -124,8 +124,8 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
               height: '80px',
               borderRadius: '50%',
               overflow: 'hidden',
-              border: '2px solid #ebebeb',
-              backgroundColor: '#f0f0f0',
+              border: '2px solid var(--border-default)',
+              backgroundColor: 'var(--surface-soft)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -142,7 +142,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
                 style={{
                   fontSize: '24px',
                   fontWeight: 500,
-                  color: '#4d4d4d',
+                  color: 'var(--color-text-muted)',
                 }}
               >
                 {initials}
@@ -158,17 +158,17 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
         {/* INFO CENTRAL */}
         <div style={{ flex: 1, padding: '16px 24px 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {/* Badge "PERFIL DE TRABAJADOR" */}
-          <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.08em', color: '#a8a8a8', textTransform: 'uppercase' }}>
+          <p style={{ fontSize: 'var(--text-micro)', fontWeight: 500, letterSpacing: '0.08em', color: 'var(--color-text-faint)', textTransform: 'uppercase' }}>
             PERFIL DE TRABAJADOR
           </p>
           {/* Nombre */}
           <h1 style={{
-            fontSize: '28px', fontWeight: 600, color: '#171717',
-            lineHeight: 1.1, margin: 0, letterSpacing: '-0.02em',
+            fontSize: 'var(--text-h1)', fontWeight: 600, color: 'var(--color-brand)',
+            lineHeight: 1.1, margin: 0, letterSpacing: 'var(--tracking-tight)',
           }}>
             {worker.nombre} {worker.apellidos}
           </h1>
-          <p style={{ fontSize: '14px', color: '#4d4d4d', fontWeight: 500, margin: 0 }}>{worker.cargo}</p>
+          <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)', fontWeight: 500, margin: 0 }}>{worker.cargo}</p>
 
           {/* Quick Action Buttons */}
           <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
@@ -188,8 +188,8 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
               { label: 'Ingreso', value: new Date(worker.fechaIngreso).toLocaleDateString('es-CL') },
             ].map(item => (
               <div key={item.label} style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-                <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0, minWidth: '70px' }}>{item.label}</span>
-                <span style={{ fontSize: '12px', color: '#171717', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.value}</span>
+                <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', flexShrink: 0, minWidth: '70px' }}>{item.label}</span>
+                <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-brand)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.value}</span>
               </div>
             ))}
           </div>
@@ -198,8 +198,8 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
         {/* PANEL DERECHO — COMPLIANCE SCORE */}
         <div style={{
           width: '180px', flexShrink: 0,
-          backgroundColor: '#fafafa',
-          borderLeft: '1px solid #ebebeb',
+          backgroundColor: 'var(--surface-canvas)',
+          borderLeft: '1px solid var(--border-default)',
           borderRadius: '0 0 var(--radius-lg) 0',
           padding: '20px 16px',
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px',
@@ -210,11 +210,11 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
 
           {/* Rango badge */}
           <div style={{
-            backgroundColor: '#f5f5f5',
-            border: '1px solid #ebebeb',
+            backgroundColor: 'var(--surface-soft)',
+            border: '1px solid var(--border-default)',
             borderRadius: 'var(--radius-sm)', padding: '5px 12px', textAlign: 'center',
           }}>
-            <p style={{ fontSize: '9px', color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.08em' }}>RANGO</p>
+            <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>RANGO</p>
             <p style={{ fontSize: '14px', fontWeight: 600, color: compliance.color }}>
               {compliance.label.toUpperCase()}
             </p>
@@ -223,12 +223,12 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
           {/* Desglose de certificaciones */}
           <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {[
-              { label: 'Total',    value: worker.certifications.length, color: '#171717' },
+              { label: 'Total',    value: worker.certifications.length, color: '#0b3558' },
               { label: 'Vigentes', value: worker.certifications.filter(c => c.estado === 'vigente').length, color: '#297a3a' },
               { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: '#e5484d' },
             ].map(item => (
               <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '2px 0' }}>
-                <span style={{ fontSize: '11px', color: '#a8a8a8' }}>{item.label}</span>
+                <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)' }}>{item.label}</span>
                 <span style={{ fontSize: '13px', fontWeight: 600, fontFamily: 'var(--font-mono)', color: item.color }}>{item.value}</span>
               </div>
             ))}
@@ -239,7 +239,7 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
 
       {/* Bottom bar — información de mayor valor */}
       <div style={{
-        borderTop: '1px solid #ebebeb',
+        borderTop: '1px solid var(--border-default)',
         padding: '10px 24px',
         display: 'flex', alignItems: 'center', gap: '32px',
         flexWrap: 'wrap',
@@ -251,22 +251,22 @@ export function ProfileHeader({ worker }: ProfileHeaderProps) {
             .sort((a, b) => new Date(a.fechaVencimiento).getTime() - new Date(b.fechaVencimiento).getTime())[0];
           return proxima ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0 }}>Próximo vencimiento:</span>
-              <span style={{ fontSize: '12px', fontWeight: 500, color: '#b25000' }}>
+              <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', flexShrink: 0 }}>Próximo vencimiento:</span>
+              <span style={{ fontSize: 'var(--text-caption)', fontWeight: 500, color: '#b25000' }}>
                 {proxima.nombre} — {new Date(proxima.fechaVencimiento).toLocaleDateString('es-CL')}
               </span>
             </div>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '11px', color: '#a8a8a8' }}>Sin vencimientos próximos</span>
+              <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)' }}>Sin vencimientos próximos</span>
             </div>
           );
         })()}
 
         {/* Última actividad — mock por ahora */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0 }}>Última actividad:</span>
-          <span style={{ fontSize: '12px', color: '#666666' }}>hace 3 días</span>
+          <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', flexShrink: 0 }}>Última actividad:</span>
+          <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)' }}>hace 3 días</span>
         </div>
       </div>
     </motion.div>

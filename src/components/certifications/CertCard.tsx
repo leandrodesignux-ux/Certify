@@ -39,8 +39,8 @@ export function CertCard({ cert, index = 0 }: CertCardProps) {
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           {/* Info */}
           <div className="flex-1 min-w-0">
-            <h4 className="font-medium truncate" style={{ color: '#171717' }}>{cert.nombre}</h4>
-            <p className="text-sm mt-0.5" style={{ color: '#666666' }}>{cert.emisor}</p>
+            <h4 className="font-medium truncate" style={{ color: 'var(--color-brand)' }}>{cert.nombre}</h4>
+            <p className="text-sm mt-0.5" style={{ color: 'var(--color-text-muted)' }}>{cert.emisor}</p>
           </div>
 
           {/* Type Badge */}
@@ -57,13 +57,13 @@ export function CertCard({ cert, index = 0 }: CertCardProps) {
 
           {/* Dates */}
           <div className="text-sm">
-            <p style={{ color: '#666666' }}>
+            <p style={{ color: 'var(--color-text-muted)' }}>
               Obtención:{' '}
-              <span style={{ color: '#171717' }}>{formatDate(cert.fechaObtension)}</span>
+              <span style={{ color: 'var(--color-brand)' }}>{formatDate(cert.fechaObtension)}</span>
             </p>
-            <p style={{ color: '#666666' }}>
+            <p style={{ color: 'var(--color-text-muted)' }}>
               Vencimiento:{' '}
-              <span style={{ color: '#171717' }}>{formatDate(cert.fechaVencimiento)}</span>
+              <span style={{ color: 'var(--color-brand)' }}>{formatDate(cert.fechaVencimiento)}</span>
             </p>
           </div>
 
@@ -92,15 +92,15 @@ export function CertCard({ cert, index = 0 }: CertCardProps) {
                 style={{
                   width: '30px', height: '30px',
                   borderRadius: 'var(--radius-sm)',
-                  border: '1px solid #ebebeb',
-                  backgroundColor: '#f5f5f5',
-                  color: '#4d4d4d',
+                  border: '1px solid var(--border-default)',
+                  backgroundColor: 'var(--surface-soft)',
+                  color: 'var(--color-text-muted)',
                   cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   transition: 'all 0.15s',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ebebeb'; }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--border-default)'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
               >
                 <BtnIcon size={13} strokeWidth={1.5} />
               </button>

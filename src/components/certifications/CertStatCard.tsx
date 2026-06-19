@@ -45,8 +45,8 @@ export const CertStatCard = React.memo(function CertStatCard({
       transition={{ duration: 0.5 }}
       whileHover={{ y: -1, transition: { duration: 0.15 } }}
       style={{
-        backgroundColor: '#ffffff',
-        border: '1px solid #ebebeb',
+        backgroundColor: 'var(--surface-card)',
+        border: '1px solid var(--border-default)',
         borderRadius: 'var(--radius-sm)',
         padding: '16px',
         position: 'relative',
@@ -61,7 +61,7 @@ export const CertStatCard = React.memo(function CertStatCard({
           left: 0,
           right: 0,
           height: '2px',
-          backgroundColor: '#ebebeb',
+          backgroundColor: 'var(--border-default)',
           borderRadius: '2px 2px 0 0',
         }}
       />
@@ -84,7 +84,7 @@ export const CertStatCard = React.memo(function CertStatCard({
           width: '40px',
           height: '40px',
           borderRadius: '6px',
-          backgroundColor: '#f5f5f5',
+          backgroundColor: 'var(--surface-soft)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -101,7 +101,7 @@ export const CertStatCard = React.memo(function CertStatCard({
               fontFamily: 'var(--font-display)',
               fontSize: '32px',
               fontWeight: 600,
-              color: '#171717',
+              color: 'var(--color-brand)',
               lineHeight: 1,
               letterSpacing: '-0.04em',
             }}
@@ -109,14 +109,14 @@ export const CertStatCard = React.memo(function CertStatCard({
             {animatedValue}{isPercentage ? '%' : ''}
           </motion.p>
           {!isPercentage && total > 0 && (
-            <span style={{ fontSize: '11px', color: '#a8a8a8', alignSelf: 'flex-end', marginBottom: '3px' }}>
+            <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', alignSelf: 'flex-end', marginBottom: '3px' }}>
               /{total}
             </span>
           )}
         </div>
       </div>
       
-      <p style={{ fontSize: '12px', color: '#666666', marginTop: '8px' }}>{label}</p>
+      <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)', marginTop: '8px' }}>{label}</p>
     </motion.div>
   );
 });

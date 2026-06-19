@@ -145,9 +145,9 @@ function PerfilSection() {
         <div style={{ position: 'relative', flexShrink: 0 }}>
           <div style={{
             width: '64px', height: '64px', borderRadius: '50%',
-            backgroundColor: '#f0f0f0', border: '2px solid #ebebeb',
+            backgroundColor: 'var(--surface-soft)', border: '2px solid var(--border-default)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '20px', fontWeight: 600, color: '#4d4d4d',
+            fontSize: '20px', fontWeight: 600, color: 'var(--color-text-muted)',
           }}>
             {initials}
           </div>
@@ -167,13 +167,13 @@ function PerfilSection() {
         </div>
         <div>
           <p style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--color-brand)', margin: 0 }}>{form.nombre}</p>
-          <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>{form.email}</p>
-          <p style={{ fontSize: '11px', color: '#d4d4d4', margin: '4px 0 0' }}>Cambio de foto próximamente</p>
+          <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)', margin: '2px 0 0' }}>{form.email}</p>
+          <p style={{ fontSize: 'var(--text-micro)', color: 'var(--border-strong)', margin: '4px 0 0' }}>Cambio de foto próximamente</p>
         </div>
       </div>
 
       {/* Divider */}
-      <div style={{ height: '1px', backgroundColor: '#f5f5f5' }} />
+      <div style={{ height: '1px', backgroundColor: 'var(--border-default)' }} />
 
       {/* Campos */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
@@ -210,13 +210,13 @@ function PerfilSection() {
             disabled={!isDirty}
             style={{
               height: '36px', padding: '0 16px', fontSize: '13px', fontWeight: 500,
-              color: isDirty ? '#4d4d4d' : '#d4d4d4',
+              color: isDirty ? 'var(--color-text-muted)' : 'var(--color-text-faint)',
               backgroundColor: 'transparent',
-              border: `1px solid ${isDirty ? '#ebebeb' : '#f0f0f0'}`,
-              borderRadius: '6px', cursor: isDirty ? 'pointer' : 'not-allowed',
+              border: `1px solid ${isDirty ? 'var(--border-default)' : 'var(--surface-soft)'}`,
+              borderRadius: 'var(--radius-sm)', cursor: isDirty ? 'pointer' : 'not-allowed',
               transition: 'all 0.15s',
             }}
-            onMouseEnter={e => { if (isDirty) e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+            onMouseEnter={e => { if (isDirty) e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
           >
             Cancelar
@@ -320,7 +320,7 @@ function NotificacionesSection() {
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             gap: '16px', padding: '16px 0',
-            borderBottom: i < rows.length - 1 ? '1px solid #f5f5f5' : 'none',
+            borderBottom: i < rows.length - 1 ? '1px solid var(--border-default)' : 'none',
           }}
         >
           {/* Label + desc */}
@@ -328,11 +328,11 @@ function NotificacionesSection() {
             <label htmlFor={`notif-${row.key}`} style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', cursor: 'pointer', display: 'block' }}>
               {row.label}
             </label>
-            <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>{row.desc}</p>
+            <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)', margin: '2px 0 0' }}>{row.desc}</p>
             {/* Sub-select antelación solo en vencimiento */}
             {row.key === 'vencimiento' && prefs.vencimiento && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px' }}>
-                <span style={{ fontSize: '12px', color: '#666666' }}>Antelación:</span>
+                <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)' }}>Antelación:</span>
                 <div style={{ position: 'relative' }}>
                   <select
                     value={antelacion}
@@ -353,7 +353,7 @@ function NotificacionesSection() {
       ))}
 
       {/* Footer: save */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #f5f5f5' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--border-default)' }}>
         <AnimatePresence>
           {saveStatus === 'saved' && (
             <motion.div
@@ -423,7 +423,7 @@ function AparienciaSection() {
         </span>
         <div>
           <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>{label}</p>
-          <p style={{ fontSize: '11px', color: '#a8a8a8', margin: '2px 0 0' }}>{sub}</p>
+          <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', margin: '2px 0 0' }}>{sub}</p>
         </div>
       </button>
     );
@@ -440,7 +440,7 @@ function AparienciaSection() {
         </div>
       </div>
 
-      <div style={{ height: '1px', backgroundColor: '#f5f5f5' }} />
+      <div style={{ height: '1px', backgroundColor: 'var(--border-default)' }} />
 
       {/* Idioma */}
       <div>
@@ -451,19 +451,19 @@ function AparienciaSection() {
         </div>
       </div>
 
-      <div style={{ height: '1px', backgroundColor: '#f5f5f5' }} />
+      <div style={{ height: '1px', backgroundColor: 'var(--border-default)' }} />
 
       {/* Tema — deshabilitado */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', opacity: 0.5 }}>
         <div>
           <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>Tema oscuro</p>
-          <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Disponible próximamente — la app es light-only por ahora.</p>
+          <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)', margin: '2px 0 0' }}>Disponible próximamente — la app es light-only por ahora.</p>
         </div>
         <Switch checked={false} onChange={() => {}} id="tema-oscuro" />
       </div>
 
       {/* Footer */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '20px', borderTop: '1px solid #f5f5f5' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '20px', borderTop: '1px solid var(--border-default)' }}>
         <AnimatePresence>
           {saveStatus === 'saved' && (
             <motion.div initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
@@ -513,10 +513,10 @@ function DatosSection() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
       {/* Exportar */}
-      <div style={{ padding: '16px 0', borderBottom: '1px solid #f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
+      <div style={{ padding: '16px 0', borderBottom: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
         <div>
           <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>Exportar todos los datos</p>
-          <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Descargá un archivo CSV con trabajadores, certificaciones y mallas.</p>
+          <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)', margin: '2px 0 0' }}>Descargá un archivo CSV con trabajadores, certificaciones y mallas.</p>
           {exportStatus === 'done' && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '6px' }}>
               <CheckCircle style={{ width: '12px', height: '12px', color: '#297a3a' }} strokeWidth={2} />
@@ -534,13 +534,13 @@ function DatosSection() {
       </div>
 
       {/* Importar */}
-      <div style={{ padding: '16px 0', borderBottom: '1px solid #f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', opacity: 0.5 }}>
+      <div style={{ padding: '16px 0', borderBottom: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', opacity: 0.5 }}>
         <div>
           <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>Importar datos</p>
-          <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Importá datos desde un archivo CSV. Próximamente disponible.</p>
+          <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)', margin: '2px 0 0' }}>Importá datos desde un archivo CSV. Próximamente disponible.</p>
         </div>
         <button disabled
-          style={{ height: '34px', padding: '0 14px', fontSize: '12px', fontWeight: 500, flexShrink: 0, color: '#a8a8a8', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '6px', cursor: 'not-allowed' }}
+          style={{ height: '34px', padding: '0 14px', fontSize: 'var(--text-caption)', fontWeight: 500, flexShrink: 0, color: 'var(--color-text-faint)', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', cursor: 'not-allowed' }}
         >
           Próximamente
         </button>
@@ -552,7 +552,7 @@ function DatosSection() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginTop: '12px' }}>
           <div>
             <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>Restablecer datos de demo</p>
-            <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Restaura los datos mock originales. Esta acción no se puede deshacer.</p>
+            <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)', margin: '2px 0 0' }}>Restaura los datos mock originales. Esta acción no se puede deshacer.</p>
             {resetStatus === 'done' && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '6px' }}>
                 <CheckCircle style={{ width: '12px', height: '12px', color: '#297a3a' }} strokeWidth={2} />
@@ -582,16 +582,16 @@ function DatosSection() {
             <motion.div
               initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }} transition={{ duration: 0.18 }}
               onClick={e => e.stopPropagation()}
-              style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '400px', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}
+              style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '400px', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}
             >
-              <div style={{ padding: '20px 20px 16px', flexShrink: 0, borderBottom: '1px solid #f5f5f5' }}>
+              <div style={{ padding: '20px 20px 16px', flexShrink: 0, borderBottom: '1px solid var(--border-default)' }}>
                 <p style={{ fontSize: '15px', fontWeight: 600, color: 'var(--color-brand)', margin: 0 }}>¿Restablecer datos de demo?</p>
-                <p style={{ fontSize: '13px', color: '#666666', marginTop: '6px', marginBottom: 0 }}>Esta acción restaurará todos los datos mock. Los cambios actuales se perderán.</p>
+                <p style={{ fontSize: 'var(--text-body-sm)', color: 'var(--color-text-muted)', marginTop: '6px', marginBottom: 0 }}>Esta acción restaurará todos los datos mock. Los cambios actuales se perderán.</p>
               </div>
               <div style={{ padding: '16px 20px', display: 'flex', gap: '8px', justifyContent: 'flex-end', flexShrink: 0 }}>
                 <button onClick={() => setShowConfirm(false)}
-                  style={{ height: '34px', padding: '0 14px', fontSize: '13px', fontWeight: 500, color: '#4d4d4d', backgroundColor: 'transparent', border: '1px solid #ebebeb', borderRadius: '6px', cursor: 'pointer', transition: 'background-color 0.15s' }}
-                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+                  style={{ height: '34px', padding: '0 14px', fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-text-muted)', backgroundColor: 'transparent', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', transition: 'background-color 0.15s' }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
                   onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
                 >
                   Cancelar
@@ -668,16 +668,16 @@ function SeguridadSection() {
         </div>
       </div>
 
-      <div style={{ height: '1px', backgroundColor: '#f5f5f5' }} />
+      <div style={{ height: '1px', backgroundColor: 'var(--border-default)' }} />
 
       {/* Sesiones activas */}
       <div>
         <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', marginBottom: '12px', margin: '0 0 12px' }}>Sesiones activas</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
           {sessions.map((s, i) => (
-            <div key={s.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', padding: '12px 0', borderBottom: i < sessions.length - 1 ? '1px solid #f5f5f5' : 'none' }}>
+            <div key={s.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', padding: '12px 0', borderBottom: i < sessions.length - 1 ? '1px solid var(--border-default)' : 'none' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '34px', height: '34px', borderRadius: '6px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <div style={{ width: '34px', height: '34px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <Shield style={{ width: '14px', height: '14px', color: s.current ? '#297a3a' : '#a8a8a8' }} strokeWidth={1.5} />
                 </div>
                 <div>
@@ -685,7 +685,7 @@ function SeguridadSection() {
                     <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>{s.device}</p>
                     {s.current && <span style={{ fontSize: '10px', fontWeight: 500, color: '#297a3a', backgroundColor: 'rgba(41,122,58,0.08)', border: '1px solid rgba(41,122,58,0.2)', borderRadius: '9999px', padding: '1px 7px' }}>Esta sesión</span>}
                   </div>
-                  <p style={{ fontSize: '11px', color: '#a8a8a8', margin: '2px 0 0' }}>{s.location} · {s.last}</p>
+                  <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', margin: '2px 0 0' }}>{s.location} · {s.last}</p>
                 </div>
               </div>
               {!s.current && (
@@ -717,7 +717,7 @@ export function Settings() {
 
       {/* Header */}
       <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible"
-        style={{ paddingBottom: '20px', borderBottom: '1px solid #f0f0f0' }}>
+        style={{ paddingBottom: '20px', borderBottom: '1px solid var(--border-default)' }}>
         <h1 style={{ fontSize: 'var(--text-h1)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1.1, margin: 0 }}>
           Configuración
         </h1>
@@ -735,7 +735,7 @@ export function Settings() {
             display: 'flex',
             flexDirection: 'row',
             gap: '0',
-            borderBottom: '1px solid #ebebeb',
+            borderBottom: '1px solid var(--border-default)',
             overflowX: 'auto',
             overflowY: 'hidden',
             WebkitOverflowScrolling: 'touch',

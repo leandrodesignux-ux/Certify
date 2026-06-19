@@ -82,12 +82,12 @@ function WorkersComponent() {
             display: 'flex',
             gap: '12px',
             alignItems: 'center',
-            border: '1px solid #ebebeb',
-            backgroundColor: '#ffffff',
+            border: '1px solid var(--border-default)',
+            backgroundColor: 'var(--surface-card)',
             transition: 'all 0.15s',
           }}
-          onMouseEnter={e => e.currentTarget.style.borderColor = '#d4d4d4'}
-          onMouseLeave={e => e.currentTarget.style.borderColor = '#ebebeb'}
+          onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--border-strong)'}
+          onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border-default)'}
         >
           <div className="hidden sm:flex" style={{ 
             alignItems: 'center', 
@@ -95,10 +95,10 @@ function WorkersComponent() {
             width: '36px', 
             height: '36px', 
             borderRadius: '6px', 
-            backgroundColor: '#f0f0f0',
+            backgroundColor: 'var(--surface-soft)',
             flexShrink: 0
           }}>
-            <Users2 style={{ width: '20px', height: '20px', color: '#4d4d4d' }} strokeWidth={1.5} />
+            <Users2 style={{ width: '20px', height: '20px', color: 'var(--color-text-muted)' }} strokeWidth={1.5} />
           </div>
           <div style={{ minWidth: 0, flex: 1 }}>
             <p style={{ 
@@ -131,7 +131,7 @@ function WorkersComponent() {
             gap: '12px',
             alignItems: 'center',
             border: filters.complianceMin === 80 ? '1px solid rgba(41,122,58,0.4)' : '1px solid rgba(41,122,58,0.15)',
-            backgroundColor: filters.complianceMin === 80 ? 'rgba(41,122,58,0.04)' : '#ffffff',
+            backgroundColor: filters.complianceMin === 80 ? 'rgba(41,122,58,0.04)' : 'var(--surface-card)',
             transition: 'all 0.15s',
           }}
           onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(41,122,58,0.4)'}
@@ -179,7 +179,7 @@ function WorkersComponent() {
             gap: '12px',
             alignItems: 'center',
             border: filters.complianceMax === 79 ? '1px solid rgba(229,72,77,0.4)' : '1px solid rgba(229,72,77,0.15)',
-            backgroundColor: filters.complianceMax === 79 ? 'rgba(229,72,77,0.04)' : '#ffffff',
+            backgroundColor: filters.complianceMax === 79 ? 'rgba(229,72,77,0.04)' : 'var(--surface-card)',
             transition: 'all 0.15s',
           }}
           onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(229,72,77,0.4)'}
@@ -226,7 +226,7 @@ function WorkersComponent() {
       >
         {/* Búsqueda */}
         <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-          <Search style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: '#a8a8a8' }} strokeWidth={1.5} />
+          <Search style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: 'var(--color-text-faint)' }} strokeWidth={1.5} />
           <input
             type="text"
             placeholder="Buscar trabajador, RUT, cargo..."
@@ -363,7 +363,7 @@ function WorkersComponent() {
               border: '1px solid rgba(229,72,77,0.2)',
               borderRadius: '9999px',
               color: '#e5484d',
-              fontSize: '12px',
+              fontSize: 'var(--text-caption)',
               fontWeight: 500,
               cursor: 'pointer',
             }}
@@ -431,7 +431,7 @@ function WorkersComponent() {
                     position: 'absolute',
                     inset: '-15px',
                     borderRadius: '50%',
-                    border: '1px dashed #d4d4d4',
+                    border: '1px dashed var(--border-strong)',
                   }}
                 />
                 <div
@@ -442,15 +442,15 @@ function WorkersComponent() {
                     transform: 'translate(-50%, -50%)',
                     width: '64px',
                     height: '64px',
-                    backgroundColor: '#f5f5f5',
-                    border: '1px solid #ebebeb',
+                    backgroundColor: 'var(--surface-soft)',
+                    border: '1px solid var(--border-default)',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <Users style={{ width: '32px', height: '32px', color: '#a8a8a8' }} strokeWidth={1.5} />
+                  <Users style={{ width: '32px', height: '32px', color: 'var(--color-text-faint)' }} strokeWidth={1.5} />
                 </div>
               </div>
               <h3 style={{ fontSize: 'var(--text-card-title)', fontWeight: 'var(--weight-semibold)' as React.CSSProperties['fontWeight'], color: 'var(--color-brand)', marginBottom: '8px', letterSpacing: 'var(--tracking-snug)' }}>

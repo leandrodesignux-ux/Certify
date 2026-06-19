@@ -42,9 +42,9 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
       style={{ 
         textAlign: 'center', 
         padding: '48px 20px',
-        background: '#fafafa',
+        background: 'var(--surface-canvas)',
         borderRadius: 'var(--radius-sm)',
-        border: '1px dashed #d4d4d4',
+        border: '1px dashed var(--border-strong)',
         margin: '20px'
       }}
     >
@@ -57,7 +57,7 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
             position: 'absolute',
             inset: '-10px',
             borderRadius: '50%',
-            border: '1px dashed #d4d4d4',
+            border: '1px dashed var(--border-strong)',
           }}
         />
         <motion.div
@@ -67,15 +67,15 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
             position: 'absolute',
             inset: '-25px',
             borderRadius: '50%',
-            border: '1px dashed #e8e8e8',
+            border: '1px dashed var(--border-default)',
           }}
         />
-        <Award style={{ width: '48px', height: '48px', color: '#a8a8a8', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} strokeWidth={1.5} />
+        <Award style={{ width: '48px', height: '48px', color: 'var(--color-text-faint)', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} strokeWidth={1.5} />
       </div>
-      <p style={{ fontSize: '20px', fontWeight: 600, color: '#171717', marginBottom: '8px', letterSpacing: '-0.02em' }}>
+      <p style={{ fontSize: 'var(--text-h2)', fontWeight: 600, color: 'var(--color-brand)', marginBottom: '8px', letterSpacing: 'var(--tracking-tight)' }}>
         {title}
       </p>
-      <p style={{ fontSize: '14px', color: '#666666', marginBottom: '20px' }}>
+      <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)', marginBottom: '20px' }}>
         {subtitle}
       </p>
 
@@ -86,20 +86,20 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
             onClick={onClearSearch}
             style={{
               padding: '8px 16px',
-              backgroundColor: '#f5f5f5',
-              border: '1px solid #ebebeb',
-              borderRadius: '6px',
-              color: '#4d4d4d',
-              fontSize: '13px',
+              backgroundColor: 'var(--surface-soft)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-sm)',
+              color: 'var(--color-text-muted)',
+              fontSize: 'var(--text-body-sm)',
               fontWeight: 500,
               cursor: 'pointer',
               transition: 'all 0.15s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#ebebeb';
+              e.currentTarget.style.backgroundColor = 'var(--border-default)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#f5f5f5';
+              e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
             }}
           >
             Limpiar búsqueda
@@ -110,20 +110,20 @@ export function CertEmptyState({ search, activeTab, onClearSearch, onSwitchToAll
             onClick={onSwitchToAll}
             style={{
               padding: '8px 16px',
-              backgroundColor: '#171717',
-              border: '1px solid #171717',
-              borderRadius: '6px',
+              backgroundColor: 'var(--color-primary)',
+              border: '1px solid var(--color-primary)',
+              borderRadius: 'var(--radius-sm)',
               color: '#ffffff',
-              fontSize: '13px',
+              fontSize: 'var(--text-body-sm)',
               fontWeight: 500,
               cursor: 'pointer',
               transition: 'all 0.15s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#2e2e2e';
+              e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#171717';
+              e.currentTarget.style.backgroundColor = 'var(--color-primary)';
             }}
           >
             Ver todas las certificaciones

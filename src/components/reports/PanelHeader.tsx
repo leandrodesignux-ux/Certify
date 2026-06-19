@@ -20,14 +20,14 @@ export function PanelHeader({ title, subtitle, action, spacing = 16 }: PanelHead
         <h3 style={{
           fontSize: '16px',
           fontWeight: 600,
-          color: '#171717',
+          color: 'var(--color-brand)',
           letterSpacing: '-0.01em',
           margin: 0,
         }}>
           {title}
         </h3>
         {subtitle && (
-          <p style={{ fontSize: '12px', color: '#a8a8a8', marginTop: '4px', marginBottom: 0 }}>
+          <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)', marginTop: '4px', marginBottom: 0 }}>
             {subtitle}
           </p>
         )}

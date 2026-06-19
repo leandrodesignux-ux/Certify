@@ -10,18 +10,18 @@ const CustomTooltip = ({ active, payload }: {
     return (
       <div style={{
         backgroundColor: '#ffffff',
-        border: '1px solid #ebebeb',
+        border: '1px solid #d4e0ed',
         borderRadius: '6px',
-        color: '#171717',
+        color: '#0a0a0a',
         fontSize: '12px',
         padding: '12px',
-        boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
+        boxShadow: 'rgba(71,103,136,0.06) 0px 4px 12px 0px',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div style={{ width: '8px', height: '8px', borderRadius: '9999px', backgroundColor: data.payload.color }} />
-          <span style={{ color: '#666666' }}>{data.name}</span>
+          <span style={{ color: '#476788' }}>{data.name}</span>
         </div>
-        <p style={{ color: '#171717', fontFamily: 'var(--font-mono)', fontSize: '14px', marginTop: '4px' }}>{data.value}</p>
+        <p style={{ color: '#0b3558', fontFamily: 'var(--font-mono)', fontSize: '14px', marginTop: '4px' }}>{data.value}</p>
       </div>
     );
   }
@@ -67,8 +67,8 @@ export function StatusDonutChart() {
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-3xl" style={{ color: '#171717', fontWeight: 600, letterSpacing: '-0.04em' }}>{total}</span>
-          <span className="text-xs" style={{ color: '#666666' }}>Certificaciones</span>
+          <span className="font-display text-3xl" style={{ color: '#0b3558', fontWeight: 600, letterSpacing: '-0.04em' }}>{total}</span>
+          <span className="text-xs" style={{ color: '#476788' }}>Certificaciones</span>
         </div>
       </div>
 

@@ -18,7 +18,7 @@ export function DaysSparkline({
       <div style={{ 
         width: `${barWidth}px`, 
         height: `${barHeight}px`, 
-        backgroundColor: '#ebebeb', 
+        backgroundColor: 'var(--border-default)', 
         borderRadius: `${barHeight / 2}px`,
         overflow: 'hidden'
       }}>

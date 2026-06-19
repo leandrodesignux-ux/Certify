@@ -11,7 +11,7 @@ const statusConfig = {
   vigente:       { icon: CheckCircle, color: '#297a3a', bg: '#f0f7f1' },
   proximo_vencer:{ icon: Clock,       color: '#b25000', bg: '#fdf3ed' },
   vencido:       { icon: AlertCircle, color: '#e5484d', bg: '#fdf2f2' },
-  pendiente:     { icon: Award,       color: '#a8a8a8', bg: '#f5f5f5' },
+  pendiente:     { icon: Award,       color: '#a6bbd1', bg: '#e7edf6' },
 };
 
 export function CertTimeline({ certs }: CertTimelineProps) {
@@ -26,7 +26,7 @@ export function CertTimeline({ certs }: CertTimelineProps) {
         {/* Track Line */}
         <div
           className="absolute top-6 left-0 right-0 h-px"
-          style={{ backgroundColor: '#ebebeb' }}
+          style={{ backgroundColor: 'var(--border-default)' }}
         />
 
         {/* Points */}
@@ -53,10 +53,10 @@ export function CertTimeline({ certs }: CertTimelineProps) {
 
                 {/* Label */}
                 <div className="mt-3 text-center">
-                  <p className="text-xs font-medium truncate max-w-[100px]" style={{ color: '#171717' }}>
+                  <p className="text-xs font-medium truncate max-w-[100px]" style={{ color: 'var(--color-brand)' }}>
                     {cert.nombre.length > 20 ? cert.nombre.slice(0, 18) + '...' : cert.nombre}
                   </p>
-                  <p className="text-xs mt-0.5" style={{ color: '#666666' }}>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-muted)' }}>
                     {formatDate(cert.fechaObtension)}
                   </p>
                   <div

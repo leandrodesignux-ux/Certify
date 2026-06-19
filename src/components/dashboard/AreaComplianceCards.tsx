@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { mockChartData } from '../../data/mockData';
 
-const AREA_COLOR = '#171717';
+const AREA_COLOR = '#006bff';
 
 // Generate mock trend data for each area
 const getMockTrend = (index: number): { direction: 'up' | 'down'; value: number } => {
@@ -41,8 +41,8 @@ export function AreaComplianceCards() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.4 }}
             style={{
-              backgroundColor: '#ffffff',
-              border: '1px solid #ebebeb',
+              backgroundColor: 'var(--surface-card)',
+              border: '1px solid var(--border-default)',
               borderRadius: 'var(--radius-sm)',
               padding: '16px',
               display: 'flex',
@@ -57,7 +57,7 @@ export function AreaComplianceCards() {
             <span style={{
               position: 'absolute', top: '10px', right: '10px',
               fontSize: '10px', fontWeight: 500,
-              color: '#a8a8a8', fontFamily: 'var(--font-mono)',
+              color: 'var(--color-text-faint)', fontFamily: 'var(--font-mono)',
             }}>#{area.rank}</span>
 
             {/* Mini donut with animated fill */}
@@ -79,7 +79,7 @@ export function AreaComplianceCards() {
                     animationBegin={index * 200}
                   >
                     <Cell fill={AREA_COLOR} />
-                    <Cell fill="#f5f5f5" />
+                    <Cell fill="#e7edf6" />
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
@@ -88,13 +88,13 @@ export function AreaComplianceCards() {
                 position: 'absolute', inset: 0,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <span style={{ fontSize: '11px', fontWeight: 600, color: '#171717', fontFamily: 'var(--font-mono)' }}>
+                <span style={{ fontSize: 'var(--text-micro)', fontWeight: 600, color: '#006bff', fontFamily: 'var(--font-mono)' }}>
                   {area.value}%
                 </span>
               </div>
             </div>
 
-            <p style={{ fontSize: '11px', fontWeight: 500, color: '#171717', textAlign: 'center', lineHeight: 1.2 }}>
+            <p style={{ fontSize: 'var(--text-micro)', fontWeight: 500, color: 'var(--color-brand)', textAlign: 'center', lineHeight: 1.2 }}>
               {area.label}
             </p>
 

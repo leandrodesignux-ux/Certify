@@ -30,7 +30,7 @@ const mockHistoryActivities = [
   { id: 'h1', tipo: 'certificacion', titulo: 'Certificación renovada', descripcion: 'Certificación de Altura aprobada', fecha: '2024-05-15T10:30:00', color: '#297a3a' },
   { id: 'h2', tipo: 'malla', titulo: 'Malla completada', descripcion: 'Malla de Seguridad Industrial 100% completada', fecha: '2024-05-10T14:20:00', color: '#297a3a' },
   { id: 'h3', tipo: 'alerta', titulo: 'Alerta de vencimiento', descripcion: 'Próximo vencimiento: Equipos Pesados', fecha: '2024-05-08T09:15:00', color: '#b25000' },
-  { id: 'h4', tipo: 'curso', titulo: 'Curso iniciado', descripcion: 'Inició curso de Liderazgo en Terreno', fecha: '2024-05-05T11:00:00', color: '#4d4d4d' },
+  { id: 'h4', tipo: 'curso', titulo: 'Curso iniciado', descripcion: 'Inició curso de Liderazgo en Terreno', fecha: '2024-05-05T11:00:00', color: '#476788' },
   { id: 'h5', tipo: 'certificacion', titulo: 'Nueva certificación', descripcion: 'Certificación de Primeros Auxilios obtenida', fecha: '2024-05-01T16:45:00', color: '#297a3a' },
 ];
 
@@ -68,7 +68,7 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
       const hasValid = certsInMonth.some((c) => c.estado === 'vigente');
 
       return {
-        color: hasExpired ? '#e5484d' : hasExpiring ? '#b25000' : hasValid ? '#297a3a' : '#ebebeb',
+        color: hasExpired ? '#e5484d' : hasExpiring ? '#b25000' : hasValid ? '#297a3a' : 'var(--border-default)',
         count: certsInMonth.length,
         certNames: certsInMonth.map(c => c.nombre),
       };
@@ -80,7 +80,7 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
   return (
     <Card variant="glass" style={{ padding: '16px', marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-        <Clock style={{ width: '16px', height: '16px', color: '#a8a8a8' }} strokeWidth={1.5} />
+        <Clock style={{ width: '16px', height: '16px', color: 'var(--color-text-faint)' }} strokeWidth={1.5} />
         <span style={{ fontSize: 'var(--text-body-sm)', fontWeight: 600, color: 'var(--color-brand)' }}>
           Timeline de Vencimientos {new Date().getFullYear()}
         </span>
@@ -122,9 +122,9 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
                   bottom: 'calc(100% + 6px)',
                   left: '50%',
                   transform: 'translateX(-50%)',
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #ebebeb',
-                  borderRadius: '6px',
+                  backgroundColor: 'var(--surface-card)',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: 'var(--radius-sm)',
                   padding: '6px 10px',
                   fontSize: 'var(--text-micro)',
                   color: 'var(--color-brand)',
@@ -179,13 +179,13 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', overflow: 'hidden' }}>
+        <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           
           {/* Banner — fafafa con engineering grid */}
-          <div style={{ height: '64px', backgroundColor: '#fafafa', backgroundImage: 'linear-gradient(rgba(23,23,23,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(23,23,23,0.04) 1px, transparent 1px)', backgroundSize: '40px 40px', position: 'relative', borderBottom: '1px solid #ebebeb' }}>
-            <button style={{ position: 'absolute', top: '10px', right: '12px', padding: '4px 10px', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', color: '#666666', fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
-              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f5f5f5'}
-              onMouseLeave={e => e.currentTarget.style.backgroundColor = '#ffffff'}
+          <div style={{ height: '64px', backgroundColor: 'var(--surface-canvas)', backgroundImage: 'linear-gradient(rgba(23,23,23,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(23,23,23,0.04) 1px, transparent 1px)', backgroundSize: '40px 40px', position: 'relative', borderBottom: '1px solid var(--border-default)' }}>
+            <button style={{ position: 'absolute', top: '10px', right: '12px', padding: '4px 10px', backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', color: 'var(--color-text-muted)', fontSize: 'var(--text-caption)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
+              onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--surface-soft)'}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'var(--surface-card)'}
             >
               ✎ Editar
             </button>
@@ -194,10 +194,10 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
           {/* Avatar superpuesto al banner */}
           <div style={{ padding: '0 20px 20px', position: 'relative' }}>
             <div style={{ marginTop: '-32px', marginBottom: '12px', position: 'relative', display: 'inline-block' }}>
-              <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #ebebeb', backgroundColor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', border: '2px solid var(--border-default)', backgroundColor: 'var(--surface-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {worker.foto
                   ? <img src={worker.foto} alt={`${worker.nombre}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  : <span style={{ fontSize: '22px', fontWeight: 600, color: '#4d4d4d' }}>{initials}</span>
+                  : <span style={{ fontSize: '22px', fontWeight: 600, color: 'var(--color-text-muted)' }}>{initials}</span>
                 }
               </div>
             </div>
@@ -223,8 +223,8 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px' }}>
-          <p style={{ fontSize: '10px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Métricas</p>
+        <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '16px' }}>
+          <p style={{ fontSize: 'var(--text-micro)', fontWeight: 500, color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Métricas</p>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
             {[
@@ -233,11 +233,11 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
               { label: 'Vigentes', value: worker.certifications.filter(c => c.estado === 'vigente').length, color: '#297a3a' },
               { label: 'Vencidas', value: worker.certifications.filter(c => c.estado === 'vencido').length, color: worker.certifications.filter(c => c.estado === 'vencido').length > 0 ? '#e5484d' : '#a8a8a8' },
             ].map(metric => (
-              <div key={metric.label} style={{ backgroundColor: '#fafafa', borderRadius: '6px', padding: '10px 12px', border: '1px solid #ebebeb' }}>
+              <div key={metric.label} style={{ backgroundColor: 'var(--surface-canvas)', borderRadius: 'var(--radius-sm)', padding: '10px 12px', border: '1px solid var(--border-default)' }}>
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: '22px', fontWeight: 600, color: metric.color, lineHeight: 1, marginBottom: '2px' }}>
                   {metric.value}
                 </p>
-                <p style={{ fontSize: '10px', color: '#a8a8a8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{metric.label}</p>
+                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{metric.label}</p>
               </div>
             ))}
           </div>
@@ -250,8 +250,8 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.16, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px' }}>
-          <p style={{ fontSize: '10px', fontWeight: 500, color: '#a8a8a8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Información</p>
+        <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '16px' }}>
+          <p style={{ fontSize: 'var(--text-micro)', fontWeight: 500, color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Información</p>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
             {[
@@ -262,8 +262,8 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
               { label: 'Empresa', value: worker.empresa },
               { label: 'Ingreso', value: new Date(worker.fechaIngreso).toLocaleDateString('es-CL') },
             ].map((item, i, arr) => (
-              <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: i < arr.length - 1 ? '1px solid #ebebeb' : 'none', gap: '8px' }}>
-                <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0 }}>{item.label}</span>
+              <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: i < arr.length - 1 ? '1px solid var(--border-default)' : 'none', gap: '8px' }}>
+                <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', flexShrink: 0 }}>{item.label}</span>
                 <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-brand)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'right', maxWidth: '160px' }}>{item.value}</span>
               </div>
             ))}
@@ -372,7 +372,7 @@ export function WorkerDetail() {
         {/* Right Column - Tabs + Dynamic Content */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Tabs navigation */}
-          <div style={{ display: 'flex', backgroundColor: '#f5f5f5', borderRadius: '6px', padding: '3px', gap: '2px', border: '1px solid #ebebeb', overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
+          <div style={{ display: 'flex', backgroundColor: 'var(--surface-soft)', borderRadius: 'var(--radius-sm)', padding: '3px', gap: '2px', border: '1px solid var(--border-default)', overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -449,10 +449,10 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
           { label: 'Por Vencer', value: proximas, total, color: '#b25000', pct: total > 0 ? Math.round((proximas/total)*100) : 0 },
           { label: 'Vencidas', value: vencidas, total, color: '#e5484d', pct: total > 0 ? Math.round((vencidas/total)*100) : 0 },
         ].map(stat => (
-          <div key={stat.label} style={{ backgroundColor: '#ffffff', border: `1px solid ${stat.color}20`, borderRadius: '6px', padding: '16px', position: 'relative', overflow: 'hidden' }}>
+          <div key={stat.label} style={{ backgroundColor: 'var(--surface-card)', border: `1px solid ${stat.color}20`, borderRadius: 'var(--radius-sm)', padding: '16px', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '2px', backgroundColor: stat.color, opacity: 0.25 }} />
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(22px, 5vw, 32px)', fontWeight: 600, color: stat.color, lineHeight: 1, marginBottom: '2px' }}>{stat.value}</p>
-            <p style={{ fontSize: '11px', color: '#a8a8a8' }}>{stat.label}</p>
+            <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)' }}>{stat.label}</p>
             <p style={{ fontSize: '10px', color: stat.color, marginTop: '6px', fontFamily: 'var(--font-mono)' }}>{stat.pct}% del total</p>
           </div>
         ))}
@@ -462,13 +462,13 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         
         {/* Overall Score */}
-        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '20px' }}>
-          <p style={{ fontSize: '12px', fontWeight: 500, color: '#a8a8a8', marginBottom: '16px' }}>Score Global</p>
+        <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '20px' }}>
+          <p style={{ fontSize: 'var(--text-caption)', fontWeight: 500, color: 'var(--color-text-faint)', marginBottom: '16px' }}>Score Global</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             {/* SVG ring */}
             <div style={{ position: 'relative', width: '80px', height: '80px', flexShrink: 0 }}>
               <svg width="80" height="80" style={{ transform: 'rotate(-90deg)' }}>
-                <circle cx="40" cy="40" r="34" fill="none" stroke="#ebebeb" strokeWidth="7" />
+                <circle cx="40" cy="40" r="34" fill="none" stroke="#d4e0ed" strokeWidth="7" />
                 <motion.circle cx="40" cy="40" r="34" fill="none" stroke={complianceColor} strokeWidth="7" strokeLinecap="round"
                   strokeDasharray={2 * Math.PI * 34}
                   initial={{ strokeDashoffset: 2 * Math.PI * 34 }}
@@ -481,11 +481,11 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
               </div>
             </div>
             <div>
-              {compliance >= 80 && <p style={{ fontSize: '12px', color: '#297a3a', fontWeight: 500, marginBottom: '4px' }}>Cumplimiento OK</p>}
-              {compliance < 80 && compliance >= 60 && <p style={{ fontSize: '12px', color: '#b25000', fontWeight: 500, marginBottom: '4px' }}>Requiere atención</p>}
-              {compliance < 60 && <p style={{ fontSize: '12px', color: '#e5484d', fontWeight: 500, marginBottom: '4px' }}>Acción urgente</p>}
-              <p style={{ fontSize: '11px', color: '#a8a8a8' }}>{total} certificaciones en total</p>
-              <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>{pendientes} pendientes</p>
+              {compliance >= 80 && <p style={{ fontSize: 'var(--text-caption)', color: '#297a3a', fontWeight: 500, marginBottom: '4px' }}>Cumplimiento OK</p>}
+              {compliance < 80 && compliance >= 60 && <p style={{ fontSize: 'var(--text-caption)', color: '#b25000', fontWeight: 500, marginBottom: '4px' }}>Requiere atención</p>}
+              {compliance < 60 && <p style={{ fontSize: 'var(--text-caption)', color: '#e5484d', fontWeight: 500, marginBottom: '4px' }}>Acción urgente</p>}
+              <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)' }}>{total} certificaciones en total</p>
+              <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', marginTop: '2px' }}>{pendientes} pendientes</p>
             </div>
           </div>
         </div>
@@ -496,13 +496,13 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
 
       {/* Lista de certificaciones */}
       {worker.certifications.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '40px 20px', color: '#a8a8a8' }}>
+        <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--color-text-faint)' }}>
           <p style={{ fontSize: '14px' }}>No hay certificaciones registradas</p>
         </div>
       ) : (
-        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px' }}>
+        <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '16px' }}>
           <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', marginBottom: '12px' }}>
-            Certificaciones <span style={{ color: '#a8a8a8', fontWeight: 400, fontSize: '12px' }}>({total})</span>
+            Certificaciones <span style={{ color: 'var(--color-text-faint)', fontWeight: 400, fontSize: 'var(--text-caption)' }}>({total})</span>
           </p>
           <div 
             className="certs-scroll" 
@@ -553,17 +553,17 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
           { label: 'Completadas', value: workerMeshes.filter(m => m.completionRate === 100).length, color: '#297a3a' },
           { label: 'En progreso', value: workerMeshes.filter(m => m.completionRate > 0 && m.completionRate < 100).length, color: '#b25000' },
         ].map(s => (
-          <div key={s.label} style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '14px 16px' }}>
+          <div key={s.label} style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '14px 16px' }}>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '24px', fontWeight: 600, color: s.color, lineHeight: 1 }}>{s.value}</p>
-            <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>{s.label}</p>
+            <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', marginTop: '2px' }}>{s.label}</p>
           </div>
         ))}
       </div>
 
       {/* Lista de mallas — una por fila con stats internas */}
       {workerMeshes.length === 0 ? (
-        <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '32px', textAlign: 'center' }}>
-          <p style={{ color: '#a8a8a8', fontSize: '14px' }}>No hay mallas asignadas</p>
+        <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '32px', textAlign: 'center' }}>
+          <p style={{ color: 'var(--color-text-faint)', fontSize: 'var(--text-body)' }}>No hay mallas asignadas</p>
         </div>
       ) : (
         workerMeshes.map((mesh, index) => {
@@ -575,13 +575,13 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.08, duration: 0.4 }}
-              style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderLeft: `3px solid ${completionColor}`, borderRadius: '6px', padding: '16px 20px' }}
+              style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderLeft: `3px solid ${completionColor}`, borderRadius: 'var(--radius-sm)', padding: '16px 20px' }}
             >
               {/* Nombre + porcentaje */}
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
                 <div>
                   <p style={{ fontSize: 'var(--text-body)', fontWeight: 500, color: 'var(--color-brand)', marginBottom: '2px' }}>{mesh.nombre}</p>
-                  <p style={{ fontSize: '11px', color: '#666666' }}>{mesh.cursos.length} cursos · {cursosCompletados} completados</p>
+                  <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)' }}>{mesh.cursos.length} cursos · {cursosCompletados} completados</p>
                 </div>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '20px', fontWeight: 600, color: completionColor, lineHeight: 1 }}>
                   {mesh.completionRate}%
@@ -589,7 +589,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
               </div>
 
               {/* Barra de progreso */}
-              <div style={{ height: '4px', backgroundColor: '#f0f0f0', borderRadius: '3px', overflow: 'hidden', marginBottom: '12px' }}>
+              <div style={{ height: '4px', backgroundColor: 'var(--surface-soft)', borderRadius: '3px', overflow: 'hidden', marginBottom: '12px' }}>
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${mesh.completionRate}%` }}
@@ -603,11 +603,11 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
                 {[
                   { label: 'Completados', value: cursosCompletados, color: '#297a3a' },
                   { label: 'En curso', value: Math.max(0, mesh.cursos.length - cursosCompletados - 1), color: '#b25000' },
-                  { label: 'Pendientes', value: Math.max(0, mesh.cursos.length - cursosCompletados), color: '#a8a8a8' },
+                  { label: 'Pendientes', value: Math.max(0, mesh.cursos.length - cursosCompletados), color: '#a6bbd1' },
                 ].map(s => (
                   <div key={s.label} style={{ textAlign: 'center' }}>
                     <p style={{ fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 600, color: s.color, lineHeight: 1 }}>{s.value}</p>
-                    <p style={{ fontSize: '10px', color: '#a8a8a8', marginTop: '1px' }}>{s.label}</p>
+                    <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', marginTop: '1px' }}>{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -625,18 +625,18 @@ function HistorialTab() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
       {/* Header */}
-      <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h3 style={{ fontSize: 'var(--text-card-title)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', letterSpacing: 'var(--tracking-snug)' }}>Historial de Actividad</h3>
           <p style={{ fontSize: 'var(--text-body-sm)', color: 'var(--color-text-muted)', marginTop: '2px' }}>{mockHistoryActivities.length} eventos registrados</p>
         </div>
-        <span style={{ fontSize: '11px', color: '#666666', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '9999px', padding: '4px 12px' }}>
+        <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', borderRadius: '9999px', padding: '4px 12px' }}>
           Últimos 30 días
         </span>
       </div>
 
       {/* Lista de eventos */}
-      <div style={{ backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', padding: '8px 0', overflow: 'hidden' }}>
+      <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '8px 0', overflow: 'hidden' }}>
         {mockHistoryActivities.map((activity, index) => {
           const icons = { certificacion: CheckCircle, malla: BookOpen, alerta: AlertTriangle, curso: Award };
           const Icon = icons[activity.tipo as keyof typeof icons] || Clock;
@@ -647,8 +647,8 @@ function HistorialTab() {
               initial={{ opacity: 0, x: -12 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.07, duration: 0.35 }}
-              style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 20px', borderBottom: isLast ? 'none' : '1px solid #f5f5f5', transition: 'background 0.12s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fafafa'; }}
+              style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 20px', borderBottom: isLast ? 'none' : '1px solid var(--border-default)', transition: 'background 0.12s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-canvas)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
             >
               {/* Ícono */}
@@ -658,10 +658,10 @@ function HistorialTab() {
               {/* Texto */}
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', marginBottom: '1px' }}>{activity.titulo}</p>
-                <p style={{ fontSize: '12px', color: '#666666', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activity.descripcion}</p>
+                <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activity.descripcion}</p>
               </div>
               {/* Tiempo */}
-              <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0, fontFamily: 'var(--font-mono)' }}>
+              <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', flexShrink: 0, fontFamily: 'var(--font-mono)' }}>
                 {getRelativeTime(activity.fecha)}
               </span>
             </motion.div>
