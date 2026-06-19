@@ -47,6 +47,7 @@ export function ReportTabs({ tabs, activeId, onChange }: ReportTabsProps) {
               boxShadow: isActive ? 'var(--shadow-sm)' : 'none',
               cursor: isDisabled ? 'not-allowed' : 'pointer',
               opacity: isDisabled ? 0.5 : 1,
+              pointerEvents: isDisabled ? 'none' : 'auto',
               transition: 'all var(--transition-fast)',
               whiteSpace: 'nowrap',
             }}

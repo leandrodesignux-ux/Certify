@@ -1,5 +1,42 @@
 # Changelog
 
+## [Unreleased] — Reports Page Refactor (Prato-style)
+
+### Summary
+Full visual refactor of `src/pages/Reports.tsx` following the Prato TMS design pattern: navy/azure palette, single saturated-blue rule, semantic status colors scoped to charts and status indicators only.
+
+### New Components
+- **`ReportTabs`** (`src/components/reports/ReportTabs.tsx`) — horizontal tabs with dot indicator, `aria-selected`, `pointer-events: none` on disabled, hover/active inline styles.
+- **`InlineKPI`** (`src/components/reports/InlineKPI.tsx`) — vertical KPI with 36px icon circle, tabular number value, trend label with directional color prefix.
+- **`SegmentedBar` + `SegmentedBarLegend`** (`src/components/reports/SegmentedBar.tsx`) — animated proportional horizontal bar (Framer Motion stagger) with color/status mapping and horizontal/vertical legend.
+
+### New Data
+- **`mockComplianceTrend`** exported from `src/store/useCertStore.ts` — 4-week compliance trend array (73/75/76/78), aligned with calculated `avgCompliance`.
+
+### Page Structure (Reports.tsx)
+- **Header hero**: 56px blue icon circle (BarChart3) + time-based greeting + descriptive subtitle + 2 CTAs ("Exportar CSV" secondary, "Generar reporte" primary blue with Sparkles icon).
+- **ReportTabs**: 4 tabs — "Reporte General" active, 3 disabled with `opacity: 0.5` and `pointer-events: none`. Switching to disabled tabs shows `ComingSoonState` placeholder.
+- **Row 1 (asymmetric)**: "Resumen de Cumplimiento" (3 InlineKPIs) + "Tendencia de Cumplimiento" (32px hero number + AreaChart with `trendColor` derived from avgCompliance).
+- **Row 2 (3-card grid)**: "Distribución de Trabajadores" (SegmentedBar tricolor + top-4 risk list with outline pills) + "Cumplimiento por Área" (single-hue #006bff bars, worst-first sort) + "Estado de Certificaciones" (CheckCircle hero + donut with center %).
+- **KebabMenu**: dropdown with 3 items, `useRef`+`useEffect` click-outside handler, `aria-expanded`.
+
+### Deprecated / Removed
+- `KPICard.tsx` — replaced by `InlineKPI` in new layout. File deleted.
+- `PanelBadge.tsx` — no longer used in new card headers. File deleted.
+- `PanelHeader.tsx` — replaced by inline `<h3>` + `KebabMenu`. File deleted.
+- `src/components/reports/index.ts` — barrel updated (removed `KPICard` export).
+- Card "Exportar Reportes" — removed from page body; its actions now live in the header hero CTAs.
+
+### Color Rules Applied
+- Single saturated blue (`#006bff` / `var(--color-primary)`) per visual zone.
+- Status colors (`#297a3a`, `#b25000`, `#e5484d`) scoped to: trend chart, segmented bar, status pills, donut segments.
+- All headings in `var(--color-brand)` (navy), never saturated blue.
+
+### Build
+- `tsc + vite` — 0 errors, 3627 modules, ~913ms.
+
+---
+
 ## [Unreleased] — Design Token Color Refactor
 
 ### Summary

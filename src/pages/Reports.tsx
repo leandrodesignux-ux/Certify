@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Download,
@@ -317,7 +317,7 @@ Generado automáticamente por CertifyX
                   </h3>
                   <KebabMenu />
                 </div>
-                <div style={{ display: 'flex', gap: 'var(--space-lg)', alignItems: 'flex-start', height: '100%' }}>
+                <div className="flex flex-col md:flex-row" style={{ gap: 'var(--space-lg)', alignItems: 'flex-start', height: '100%' }}>
                   {/* KPI hero */}
                   <div style={{ flexShrink: 0, minWidth: '140px' }}>
                     <div style={{ fontSize: '32px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', fontFamily: 'var(--font-display)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1, fontFeatureSettings: '"tnum"' }}>
@@ -374,7 +374,7 @@ Generado automáticamente por CertifyX
 
       {/* FILA 2: 3-card grid */}
       <motion.div custom={0.3} variants={sectionVariants} initial="hidden" animate="visible">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
           {/* CARD A: Distribución de Trabajadores */}
           <Card variant="default" padding="lg" hover={false}>
@@ -537,27 +537,81 @@ Generado automáticamente por CertifyX
 }
 
 function KebabMenu() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onClickOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
+  }, []);
+
+  const items = [
+    { label: 'Exportar datos',      onClick: () => console.log('export') },
+    { label: 'Ver detalle',         onClick: () => console.log('detail') },
+    { label: 'Configurar alertas',  onClick: () => console.log('alerts') },
+  ];
+
   return (
-    <button
-      aria-label="Más opciones"
-      style={{
-        padding: '4px', backgroundColor: 'transparent',
-        border: 'none', borderRadius: 'var(--radius-sm)',
-        color: 'var(--color-text-faint)',
-        cursor: 'pointer', transition: 'all var(--transition-fast)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-soft)';
-        (e.currentTarget as HTMLElement).style.color = 'var(--color-text-muted)';
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
-        (e.currentTarget as HTMLElement).style.color = 'var(--color-text-faint)';
-      }}
-    >
-      <MoreHorizontal style={{ width: '18px', height: '18px' }} strokeWidth={1.5} />
-    </button>
+    <div ref={ref} style={{ position: 'relative' }}>
+      <button
+        aria-label="Más opciones"
+        aria-expanded={open}
+        onClick={() => setOpen(v => !v)}
+        style={{
+          padding: '4px', backgroundColor: 'transparent',
+          border: 'none', borderRadius: 'var(--radius-sm)',
+          color: 'var(--color-text-faint)',
+          cursor: 'pointer', transition: 'all var(--transition-fast)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-soft)';
+          (e.currentTarget as HTMLElement).style.color = 'var(--color-text-muted)';
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
+          (e.currentTarget as HTMLElement).style.color = 'var(--color-text-faint)';
+        }}
+      >
+        <MoreHorizontal style={{ width: '18px', height: '18px' }} strokeWidth={1.5} />
+      </button>
+
+      {open && (
+        <div style={{
+          position: 'absolute', top: 'calc(100% + 4px)', right: 0,
+          minWidth: '180px',
+          backgroundColor: 'var(--surface-card)',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-sm)',
+          boxShadow: 'var(--shadow-md)',
+          zIndex: 50,
+          overflow: 'hidden',
+        }}>
+          {items.map(item => (
+            <button
+              key={item.label}
+              onClick={() => { item.onClick(); setOpen(false); }}
+              style={{
+                width: '100%', textAlign: 'left',
+                padding: '8px 12px',
+                fontSize: 'var(--text-body-sm)',
+                color: 'var(--color-text)',
+                backgroundColor: 'transparent',
+                border: 'none', cursor: 'pointer',
+                transition: 'background-color var(--transition-fast)',
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-soft)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
