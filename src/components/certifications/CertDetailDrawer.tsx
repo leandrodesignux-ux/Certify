@@ -71,16 +71,19 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
               backgroundColor: '#ffffff',
               borderLeft: '1px solid #ebebeb',
               boxShadow: '-4px 0 16px rgba(0,0,0,0.06)',
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100vh',
             }}
           >
             {/* Header */}
             <div 
-              className="relative p-6 border-b"
-              style={{ borderColor: '#ebebeb' }}
+              className="relative border-b"
+              style={{ borderColor: '#ebebeb', flexShrink: 0, padding: '20px 20px 20px 20px', paddingRight: '56px' }}
             >
               <button
                 onClick={onClose}
-                className="absolute top-6 right-6 p-1.5 rounded-md transition-colors"
+                className="absolute top-5 right-5 p-1.5 rounded-md transition-colors"
                 aria-label="Cerrar detalle"
                 style={{ color: '#a8a8a8' }}
                 onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
@@ -117,10 +120,12 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
               </div>
             </div>
 
+            {/* Scrollable body */}
+            <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>
+
             {/* Worker Section */}
             <div 
-              className="p-5 border-b"
-              style={{ borderColor: '#ebebeb' }}
+              style={{ padding: '20px', borderBottom: '1px solid #ebebeb' }}
             >
               <div className="flex items-center gap-3">
                 {worker?.foto ? (
@@ -167,8 +172,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
 
             {/* Dates Section */}
             <div 
-              className="p-5 border-b"
-              style={{ borderColor: '#ebebeb' }}
+              style={{ padding: '20px', borderBottom: '1px solid #ebebeb' }}
             >
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
@@ -232,8 +236,7 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
 
             {/* Emisor and Type Section */}
             <div 
-              className="p-5 border-b"
-              style={{ borderColor: '#ebebeb' }}
+              style={{ padding: '20px' }}
             >
               <div className="space-y-4">
                 <div>
@@ -264,10 +267,11 @@ export function CertDetailDrawer({ cert, worker, isOpen, onClose }: CertDetailDr
               </div>
             </div>
 
+            </div>{/* end scrollable body */}
+
             {/* Footer */}
             <div 
-              className="p-4 border-t mt-auto"
-              style={{ borderColor: '#ebebeb' }}
+              style={{ padding: '16px 20px', borderTop: '1px solid #ebebeb', flexShrink: 0 }}
             >
               <div className="flex gap-3">
                 <button
