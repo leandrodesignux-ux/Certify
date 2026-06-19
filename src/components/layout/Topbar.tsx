@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Search, Bell, ChevronRight, Menu, Clock, AlertTriangle, CheckCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useUIStore } from '../../store/useUIStore';
 import { useCertStore } from '../../store/useCertStore';
 import { useCommandPalette } from '../../store/useCommandPalette';
+import { useRelativeTime } from '../../hooks/useRelativeTime';
 import { mockAlerts } from '../../data/mockData';
 
 interface TopbarProps {
@@ -11,19 +12,9 @@ interface TopbarProps {
   breadcrumbs?: { label: string; route?: string }[];
 }
 
-// Format relative time
-function getRelativeTime(dateString: string): string {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-  if (diffHours < 1) return 'Hace minutos';
-  if (diffHours === 1) return 'Hace 1 hora';
-  if (diffHours < 24) return `Hace ${diffHours} horas`;
-  if (diffDays === 1) return 'Ayer';
-  return `Hace ${diffDays} días`;
+function RelativeTimeText({ dateString }: { dateString: string }) {
+  const text = useRelativeTime(dateString);
+  return <>{text}</>;
 }
 
 // Get alert icon based on type
@@ -41,6 +32,7 @@ function getAlertIcon(tipo: string) {
 export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
   const { sidebarCollapsed, toggleMobileSidebar } = useUIStore();
   const { certifications } = useCertStore();
+  const reduceMotion = useReducedMotion();
   const [searchFocused, setSearchFocused] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const notificationsRef = useRef<HTMLDivElement>(null);
@@ -218,7 +210,10 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
           >
             <Bell className="w-5 h-5" />
             {hasExpiredCerts && (
-              <span
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 25 }}
                 style={{
                   position: 'absolute',
                   top: '6px',
@@ -229,7 +224,29 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                   borderRadius: '50%',
                   border: '2px solid var(--surface-card)',
                 }}
-              />
+              >
+                {!reduceMotion && (
+                  <motion.span
+                    animate={{
+                      scale: [1, 2.2, 2.2],
+                      opacity: [0.6, 0, 0],
+                    }}
+                    transition={{
+                      duration: 1.8,
+                      repeat: Infinity,
+                      repeatDelay: 1.5,
+                      ease: 'easeOut',
+                    }}
+                    style={{
+                      position: 'absolute',
+                      inset: -2,
+                      borderRadius: '50%',
+                      backgroundColor: 'var(--status-danger)',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                )}
+              </motion.span>
             )}
           </button>
 
@@ -305,7 +322,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                           {alert.message}
                         </p>
                         <p className="text-xs mt-1" style={{ color: 'var(--color-text-faint)' }}>
-                          {getRelativeTime(alert.createdAt)}
+                          <RelativeTimeText dateString={alert.createdAt} />
                         </p>
                       </div>
                     </div>
