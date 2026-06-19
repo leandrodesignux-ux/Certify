@@ -20,7 +20,7 @@ export function AppLayout({ pageTitle, breadcrumbs }: AppLayoutProps) {
   }, []);
 
   return (
-    <div className="flex min-h-screen" style={{ backgroundColor: '#fafafa' }}>
+    <div className="flex min-h-screen" style={{ backgroundColor: 'var(--color-obsidian)' }}>
       <Sidebar />
       <div
         style={{
