@@ -12,8 +12,8 @@ export function Skeleton({ width = '100%', height = '16px', className = '', roun
       style={{
         width,
         height,
-        backgroundColor: '#f5f5f5',
-        borderRadius: rounded ? '9999px' : '4px',
+        backgroundColor: 'var(--surface-soft)',
+        borderRadius: rounded ? 'var(--radius-full)' : 'var(--radius-sm)',
       }}
     />
   );

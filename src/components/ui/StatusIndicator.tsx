@@ -6,10 +6,10 @@ interface StatusIndicatorProps {
 }
 
 const statusStyles: Record<string, { bg: string }> = {
-  vigente:       { bg: '#297a3a' },
-  proximo_vencer:{ bg: '#b25000' },
-  vencido:       { bg: '#e5484d' },
-  pendiente:     { bg: '#4d4d4d' },
+  vigente:       { bg: 'var(--status-success)' },
+  proximo_vencer:{ bg: 'var(--status-warning)' },
+  vencido:       { bg: 'var(--status-danger)' },
+  pendiente:     { bg: 'var(--status-neutral-text)' },
 };
 
 export function StatusIndicator({ status, pulse = true }: StatusIndicatorProps) {

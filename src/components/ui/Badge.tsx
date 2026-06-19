@@ -22,11 +22,12 @@ export function Badge({ status, label, size = 'sm', dot }: BadgeProps) {
       display: 'inline-flex',
       alignItems: 'center',
       padding: size === 'sm' ? '3px 10px' : '5px 14px',
-      fontSize: size === 'sm' ? '11px' : '12px',
-      fontWeight: 500,
+      fontSize: 'var(--text-micro)',
+      fontWeight: 'var(--weight-semibold)' as React.CSSProperties['fontWeight'],
       border: '1px solid',
       borderRadius: 'var(--radius-full)',
       gap: showDot ? '6px' : '0',
+      letterSpacing: '0.01em',
     };
 
     // STATUS BADGES - with background and dot
@@ -34,75 +35,70 @@ export function Badge({ status, label, size = 'sm', dot }: BadgeProps) {
       case 'vigente':
         return {
           ...base,
-          backgroundColor: 'rgba(41,122,58,0.08)',
-          color: '#297a3a',
-          borderColor: 'rgba(41,122,58,0.2)',
+          backgroundColor: 'var(--status-success-bg)',
+          color: 'var(--status-success)',
+          borderColor: 'var(--status-success-border)',
         };
       case 'proximo_vencer':
         return {
           ...base,
-          backgroundColor: 'rgba(178,80,0,0.08)',
-          color: '#b25000',
-          borderColor: 'rgba(178,80,0,0.2)',
+          backgroundColor: 'var(--status-warning-bg)',
+          color: 'var(--status-warning)',
+          borderColor: 'var(--status-warning-border)',
         };
       case 'vencido':
         return {
           ...base,
-          backgroundColor: 'rgba(229,72,77,0.08)',
-          color: '#e5484d',
-          borderColor: 'rgba(229,72,77,0.2)',
+          backgroundColor: 'var(--status-danger-bg)',
+          color: 'var(--status-danger)',
+          borderColor: 'var(--status-danger-border)',
         };
       case 'pendiente':
         return {
           ...base,
-          backgroundColor: 'rgba(23,23,23,0.05)',
-          color: '#4d4d4d',
-          borderColor: '#ebebeb',
+          backgroundColor: 'var(--status-neutral-bg)',
+          color: 'var(--status-neutral-text)',
+          borderColor: 'var(--status-neutral-border)',
         };
       // TYPE BADGES - outline only, no background
       case 'obligatoria':
         return {
           ...base,
           backgroundColor: 'transparent',
-          color: '#e5484d',
-          borderColor: '#ebebeb',
+          color: 'var(--status-danger)',
+          borderColor: 'var(--border-default)',
         };
       case 'complementaria':
         return {
           ...base,
           backgroundColor: 'transparent',
-          color: '#4d4d4d',
-          borderColor: '#ebebeb',
+          color: 'var(--color-text-muted)',
+          borderColor: 'var(--border-default)',
         };
       case 'legal':
         return {
           ...base,
           backgroundColor: 'transparent',
-          color: '#4d4d4d',
-          borderColor: '#ebebeb',
+          color: 'var(--color-text-muted)',
+          borderColor: 'var(--border-default)',
         };
       default:
         return {
           ...base,
-          backgroundColor: 'rgba(23,23,23,0.05)',
-          color: '#4d4d4d',
-          borderColor: '#ebebeb',
+          backgroundColor: 'var(--status-neutral-bg)',
+          color: 'var(--status-neutral-text)',
+          borderColor: 'var(--status-neutral-border)',
         };
     }
   };
 
   const getDotColor = (status: string): string => {
     switch (status) {
-      case 'vigente':
-        return '#297a3a';
-      case 'proximo_vencer':
-        return '#b25000';
-      case 'vencido':
-        return '#e5484d';
-      case 'pendiente':
-        return '#4d4d4d';
-      default:
-        return '#4d4d4d';
+      case 'vigente':        return 'var(--status-success)';
+      case 'proximo_vencer': return 'var(--status-warning)';
+      case 'vencido':        return 'var(--status-danger)';
+      case 'pendiente':      return 'var(--status-neutral-text)';
+      default:               return 'var(--status-neutral-text)';
     }
   };
 

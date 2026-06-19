@@ -24,19 +24,20 @@ export function Card({
   onMouseLeave,
   style,
 }: CardProps) {
-  const [_isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const paddingMap: Record<'sm' | 'md' | 'lg', string> = {
-    sm: '16px',
-    md: '20px',
-    lg: '24px',
+    sm: 'var(--space-md)',
+    md: 'var(--space-lg)',
+    lg: 'var(--space-xl)',
   };
 
   const baseStyles: React.CSSProperties = {
-    backgroundColor: '#ffffff',
-    border: '1px solid #ebebeb',
-    borderRadius: 'var(--radius-sm)',
-    boxShadow: 'rgba(0,0,0,0.06) 0px 1px 2px 0px, rgba(0,0,0,0.08) 0px 1px 3px 0px, rgba(0,0,0,0.04) 0px 0px 0px 1px',
+    backgroundColor: 'var(--surface-card)',
+    border: `1px solid ${hover && isHovered ? 'var(--border-strong)' : 'var(--border-default)'}`,
+    borderRadius: 'var(--radius-md)',
+    boxShadow: hover && isHovered ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+    transition: 'border-color var(--transition-fast), box-shadow var(--transition-fast)',
   };
 
   return (
@@ -51,11 +52,7 @@ export function Card({
         position: 'relative',
         overflow: 'hidden',
       }}
-      className={`transition-all duration-200 ${
-        hover
-          ? 'hover:border-[#d4d4d4] hover:shadow-[rgba(0,0,0,0.08)_0_0_0_1px,rgba(0,0,0,0.04)_0_2px_2px_0]'
-          : ''
-      } ${className}`}
+      className={className}
     >
       {children}
     </div>
