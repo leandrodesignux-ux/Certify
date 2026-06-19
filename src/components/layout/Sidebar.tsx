@@ -53,7 +53,7 @@ function NotificationBadge({ count, color }: { count: number; color: string }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        border: '2px solid #ffffff',
+        border: '2px solid var(--surface-card)',
       }}
     >
       {count > 9 ? '9+' : count}
@@ -68,17 +68,17 @@ function NavTooltip({ label, visible }: { label: string; visible: boolean }) {
       style={{
         position: 'absolute',
         left: '56px',
-        backgroundColor: '#ffffff',
-        color: '#171717',
+        backgroundColor: 'var(--surface-elevated)',
+        color: 'var(--color-brand)',
         padding: '6px 12px',
         borderRadius: 'var(--radius-sm)',
-        fontSize: '12px',
-        fontWeight: 500,
+        fontSize: 'var(--text-body-sm)',
+        fontWeight: 'var(--weight-medium)' as React.CSSProperties['fontWeight'],
         whiteSpace: 'nowrap',
-        border: '1px solid #ebebeb',
+        border: '1px solid var(--border-default)',
         zIndex: 100,
         pointerEvents: visible ? 'auto' : 'none',
-        boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px',
+        boxShadow: 'var(--shadow-md)',
         opacity: visible ? 1 : 0,
         transition: 'opacity 0.12s',
       }}
@@ -92,7 +92,7 @@ function NavTooltip({ label, visible }: { label: string; visible: boolean }) {
           transform: 'translateY(-50%)',
           borderWidth: '5px 5px 5px 0',
           borderStyle: 'solid',
-          borderColor: 'transparent #ebebeb transparent transparent',
+          borderColor: 'transparent var(--border-default) transparent transparent',
         }}
       />
     </span>
@@ -117,8 +117,8 @@ export function Sidebar() {
   };
 
   const badgeColors = {
-    certifications: '#e5484d',
-    reports: '#b25000',
+    certifications: 'var(--status-danger)',
+    reports: 'var(--status-warning)',
   };
 
   // Auto-collapse on tablet (<1024px)
@@ -155,16 +155,16 @@ export function Sidebar() {
   const SidebarContent = ({ isMobile = false }: { isMobile?: boolean }) => (
     <>
       {/* Logo */}
-      <div className="h-16 flex items-center px-4" style={{ borderBottom: '1px solid #ebebeb' }}>
-        <Zap className="w-7 h-7 flex-shrink-0" style={{ color: '#171717', strokeWidth: 1.5 }} />
+      <div className="h-16 flex items-center px-4" style={{ borderBottom: '1px solid var(--border-default)' }}>
+        <Zap className="w-7 h-7 flex-shrink-0" style={{ color: 'var(--color-brand)', strokeWidth: 2 }} />
         <span
           style={{
             marginLeft: '12px',
-            fontSize: '18px',
-            fontWeight: 600,
-            color: '#171717',
+            fontSize: 'var(--text-h2)',
+            fontWeight: 'var(--weight-semibold)' as React.CSSProperties['fontWeight'],
+            color: 'var(--color-brand)',
             fontFamily: 'var(--font-display)',
-            letterSpacing: '-0.03em',
+            letterSpacing: 'var(--tracking-tight)',
             opacity: sidebarCollapsed ? 0 : 1,
             width: sidebarCollapsed ? 0 : 'auto',
             overflow: 'hidden',
@@ -190,7 +190,9 @@ export function Sidebar() {
         <button
           onClick={toggleSidebar}
           className="w-6 h-6 flex items-center justify-center transition-all duration-150"
-          style={{ background: '#ffffff', border: '1px solid #ebebeb', borderRadius: 'var(--radius-sm)', color: '#4d4d4d', position: 'absolute', right: '-12px', top: '80px', zIndex: 60 }}
+          style={{ background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', color: 'var(--color-text-muted)', position: 'absolute', right: '-12px', top: '80px', zIndex: 60 }}
+          onMouseEnter={e => { e.currentTarget.style.color = 'var(--color-brand)'; e.currentTarget.style.borderColor = 'var(--border-strong)'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'var(--color-text-muted)'; e.currentTarget.style.borderColor = 'var(--border-default)'; }}
         >
           {sidebarCollapsed ? (
             <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
@@ -226,18 +228,23 @@ export function Sidebar() {
                     padding: '12px 16px',
                     minHeight: '48px',
                     borderRadius: 'var(--radius-sm)',
-                    transition: 'all 0.15s ease',
+                    transition: 'all var(--transition-fast)',
                     backgroundColor: isActive
-                      ? '#f0f0f0'
+                      ? 'var(--color-primary-soft)'
                       : isHovered
-                        ? '#f5f5f5'
+                        ? 'var(--surface-soft)'
                         : 'transparent',
-                    color: isActive ? '#171717' : isHovered ? '#171717' : '#4d4d4d',
-                    borderLeft: isActive
-                      ? '2px solid #171717'
+                    color: isActive
+                      ? 'var(--color-primary)'
                       : isHovered
-                        ? '2px solid #d4d4d4'
-                        : '2px solid transparent',
+                        ? 'var(--color-brand)'
+                        : 'var(--color-text-muted)',
+                    borderLeft: isActive
+                      ? '2px solid var(--color-primary)'
+                      : '2px solid transparent',
+                    fontWeight: isActive
+                      ? 'var(--weight-semibold)' as React.CSSProperties['fontWeight']
+                      : 'var(--weight-medium)' as React.CSSProperties['fontWeight'],
                     position: 'relative',
                   }}
                 >
@@ -257,8 +264,7 @@ export function Sidebar() {
                   <span
                     style={{
                       marginLeft: '12px',
-                      fontSize: '14px',
-                      fontWeight: 500,
+                      fontSize: 'var(--text-body)',
                       whiteSpace: 'nowrap',
                       opacity: sidebarCollapsed ? 0 : 1,
                       width: sidebarCollapsed ? 0 : 'auto',
@@ -292,16 +298,16 @@ export function Sidebar() {
               justifyContent: 'space-between',
             }}
           >
-            <span style={{ fontSize: '11px', color: '#a8a8a8' }}>Colapsar sidebar</span>
+            <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)' }}>Colapsar sidebar</span>
             <kbd
               style={{
                 padding: '2px 6px',
-                backgroundColor: '#fafafa',
-                borderRadius: '4px',
+                backgroundColor: 'var(--surface-soft)',
+                borderRadius: 'var(--radius-sm)',
                 fontSize: '10px',
-                color: '#666666',
+                color: 'var(--color-text-muted)',
                 fontFamily: 'var(--font-mono)',
-                border: '1px solid #ebebeb',
+                border: '1px solid var(--border-default)',
               }}
             >
               ⌘B
@@ -311,14 +317,14 @@ export function Sidebar() {
       </nav>
 
       {/* User Section */}
-      <div style={{ padding: '12px', borderTop: '1px solid #ebebeb' }}>
+      <div style={{ padding: '12px', borderTop: '1px solid var(--border-default)' }}>
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             padding: '10px 12px',
             borderRadius: 'var(--radius-sm)',
-            backgroundColor: '#fafafa',
+            backgroundColor: 'var(--surface-soft)',
             justifyContent: sidebarCollapsed && !isMobile ? 'center' : 'flex-start',
           }}
         >
@@ -327,15 +333,15 @@ export function Sidebar() {
               width: '32px',
               height: '32px',
               borderRadius: 'var(--radius-sm)',
-              background: '#f0f0f0',
-              border: '1px solid #ebebeb',
+              background: 'var(--surface-soft)',
+              border: '1px solid var(--border-default)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               flexShrink: 0,
             }}
           >
-            <User style={{ width: '16px', height: '16px', color: '#4d4d4d' }} strokeWidth={1.5} />
+            <User style={{ width: '16px', height: '16px', color: 'var(--color-text-muted)' }} strokeWidth={1.5} />
           </div>
           <div
             style={{
@@ -346,19 +352,19 @@ export function Sidebar() {
               transition: 'opacity 0.15s, width 0.15s',
             }}
           >
-            <p style={{ fontSize: '14px', fontWeight: 500, color: '#171717' }}>Administrador</p>
-            <p style={{ fontSize: '12px', color: '#666666' }}>Admin</p>
+            <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 'var(--weight-semibold)' as React.CSSProperties['fontWeight'], color: 'var(--color-brand)' }}>Administrador</p>
+            <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)' }}>Admin</p>
           </div>
           {!sidebarCollapsed && (
             <button
               style={{
                 marginLeft: 'auto',
                 padding: '10px',
-                color: isHoverLogout ? '#e5484d' : '#a8a8a8',
+                color: isHoverLogout ? 'var(--status-danger)' : 'var(--color-text-faint)',
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                transition: 'color 0.15s',
+                transition: 'color var(--transition-fast)',
               }}
               onMouseEnter={() => setIsHoverLogout(true)}
               onMouseLeave={() => setIsHoverLogout(false)}
@@ -379,7 +385,7 @@ export function Sidebar() {
         animate={{ width: sidebarCollapsed ? 64 : 240 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="hidden md:flex h-screen flex-col fixed left-0 top-0 z-50"
-        style={{ backgroundColor: '#fafafa', borderRight: '1px solid #ebebeb' }}
+        style={{ backgroundColor: 'var(--surface-card)', borderRight: '1px solid var(--border-default)' }}
       >
         <SidebarContent />
       </motion.aside>
@@ -409,7 +415,7 @@ export function Sidebar() {
               exit={{ x: '-100%' }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="md:hidden fixed left-0 top-0 h-screen w-[280px] flex flex-col z-[60]"
-              style={{ backgroundColor: '#fafafa', borderRight: '1px solid #ebebeb' }}
+              style={{ backgroundColor: 'var(--surface-card)', borderRight: '1px solid var(--border-default)' }}
             >
               <SidebarContent isMobile />
             </motion.aside>

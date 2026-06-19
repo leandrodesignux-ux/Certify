@@ -29,11 +29,11 @@ function getRelativeTime(dateString: string): string {
 function getAlertIcon(tipo: string) {
   switch (tipo) {
     case 'vencimiento':
-      return <AlertTriangle className="w-4 h-4" style={{ color: '#b25000' }} strokeWidth={1.5} />;
+      return <AlertTriangle className="w-4 h-4" style={{ color: 'var(--status-warning)' }} strokeWidth={1.5} />;
     case 'progreso':
-      return <CheckCircle className="w-4 h-4" style={{ color: '#297a3a' }} strokeWidth={1.5} />;
+      return <CheckCircle className="w-4 h-4" style={{ color: 'var(--status-success)' }} strokeWidth={1.5} />;
     default:
-      return <Clock className="w-4 h-4" style={{ color: '#666666' }} strokeWidth={1.5} />;
+      return <Clock className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} strokeWidth={1.5} />;
   }
 }
 
@@ -90,8 +90,8 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
         left: isMobile ? '0px' : (sidebarCollapsed ? '64px' : '240px'),
         height: '64px',
         zIndex: 40,
-        backgroundColor: '#fafafa',
-        borderBottom: '1px solid #ebebeb',
+        backgroundColor: 'var(--surface-card)',
+        borderBottom: '1px solid var(--border-default)',
         boxShadow: 'none',
         display: 'flex',
         alignItems: 'center',
@@ -106,29 +106,29 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
         <button
           onClick={toggleMobileSidebar}
           className="md:hidden p-2 transition-colors rounded-md"
-          style={{ color: '#4d4d4d' }}
+          style={{ color: 'var(--color-text-muted)' }}
         >
           <Menu className="w-5 h-5" />
         </button>
 
         <div className="flex flex-col" style={{ minWidth: 0, overflow: 'hidden' }}>
           {breadcrumbs.length > 0 && (
-            <nav className="flex items-center text-xs mb-0.5" style={{ color: '#a8a8a8' }}>
+            <nav className="flex items-center text-xs mb-0.5" style={{ color: 'var(--color-text-faint)' }}>
               {breadcrumbs.map((crumb, index) => (
                 <span key={index} className="flex items-center">
                   {index > 0 && <ChevronRight className="w-3 h-3 mx-1.5" strokeWidth={1.5} />}
                   {crumb.route ? (
-                    <button className="transition-colors duration-150" style={{ color: '#666666' }}>
+                    <button className="transition-colors duration-150" style={{ color: 'var(--color-text-muted)' }}>
                       {crumb.label}
                     </button>
                   ) : (
-                    <span style={{ color: '#4d4d4d' }}>{crumb.label}</span>
+                    <span style={{ color: 'var(--color-text-muted)' }}>{crumb.label}</span>
                   )}
                 </span>
               ))}
             </nav>
           )}
-          <h1 className="font-display text-lg font-semibold truncate" style={{ color: '#171717', letterSpacing: '-0.03em' }}>
+          <h1 className="font-display text-lg font-semibold truncate" style={{ color: 'var(--color-brand)', letterSpacing: 'var(--tracking-tight)', fontFamily: 'var(--font-display)' }}>
             {pageTitle}
           </h1>
         </div>
@@ -154,16 +154,16 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
             style={{
               width: '100%',
               height: '40px',
-              backgroundColor: '#ffffff',
-              border: searchFocused ? '1px solid #171717' : '1px solid #ebebeb',
+              backgroundColor: 'var(--surface-card)',
+              border: searchFocused ? '1px solid var(--color-primary)' : '1px solid var(--border-default)',
               borderRadius: 'var(--radius-sm)',
               paddingLeft: '40px',
               paddingRight: searchFocused ? '16px' : '60px',
-              fontSize: '14px',
-              color: '#171717',
+              fontSize: 'var(--text-body-sm)',
+              color: 'var(--color-brand)',
               outline: 'none',
-              transition: 'all 0.2s ease',
-              boxShadow: 'none',
+              transition: 'all var(--transition-fast)',
+              boxShadow: searchFocused ? 'var(--shadow-focus)' : 'none',
             }}
           />
           {/* Keyboard shortcut hint */}
@@ -175,12 +175,12 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                 top: '50%',
                 transform: 'translateY(-50%)',
                 padding: '2px 6px',
-                backgroundColor: '#fafafa',
-                borderRadius: '4px',
+                backgroundColor: 'var(--surface-soft)',
+                borderRadius: 'var(--radius-sm)',
                 fontSize: '10px',
-                color: '#666666',
+                color: 'var(--color-text-muted)',
                 fontFamily: 'var(--font-mono)',
-                border: '1px solid #ebebeb',
+                border: '1px solid var(--border-default)',
               }}
             >
               ⌘K
@@ -198,7 +198,7 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
             aria-expanded={notificationsOpen}
             onClick={() => setNotificationsOpen(!notificationsOpen)}
             className="relative p-2 transition-colors duration-150 rounded-md"
-            style={{ color: '#4d4d4d' }}
+            style={{ color: 'var(--color-text-muted)' }}
           >
             <Bell className="w-5 h-5" />
             {hasExpiredCerts && (
@@ -209,9 +209,9 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                   right: '6px',
                   width: '8px',
                   height: '8px',
-                  backgroundColor: '#e5484d',
+                  backgroundColor: 'var(--status-danger)',
                   borderRadius: '50%',
-                  border: '2px solid #fafafa',
+                  border: '2px solid var(--surface-card)',
                 }}
               />
             )}
@@ -230,10 +230,10 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                   top: 'calc(100% + 8px)',
                   right: isMobile ? '-8px' : '0',
                   width: isMobile ? 'calc(100vw - 32px)' : '320px',
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #ebebeb',
-                  borderRadius: 'var(--radius-sm)',
-                  boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 4px 8px 0px',
+                  backgroundColor: 'var(--surface-elevated)',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: 'var(--radius-md)',
+                  boxShadow: 'var(--shadow-md)',
                   zIndex: 50,
                   overflow: 'hidden',
                 }}
@@ -242,17 +242,17 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                 <div
                   style={{
                     padding: '12px 16px',
-                    borderBottom: '1px solid #ebebeb',
+                    borderBottom: '1px solid var(--border-default)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}
                 >
-                  <span className="font-medium text-sm" style={{ color: '#171717' }}>Notificaciones</span>
+                  <span className="font-medium text-sm" style={{ color: 'var(--color-brand)' }}>Notificaciones</span>
                   <button
                     onClick={() => setNotificationsOpen(false)}
                     className="text-xs hover:underline"
-                    style={{ color: '#4d4d4d' }}
+                    style={{ color: 'var(--color-primary)' }}
                   >
                     Ver todas
                   </button>
@@ -265,14 +265,14 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                       key={alert.id}
                       style={{
                         padding: '12px 16px',
-                        borderBottom: '1px solid #ebebeb',
+                        borderBottom: '1px solid var(--border-default)',
                         display: 'flex',
                         gap: '12px',
                         cursor: 'pointer',
-                        transition: 'background-color 0.15s',
+                        transition: 'background-color var(--transition-fast)',
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#f5f5f5';
+                        e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = 'transparent';
@@ -282,13 +282,13 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                         {getAlertIcon(alert.tipo)}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <p className="text-sm font-medium truncate" style={{ color: '#171717' }}>
+                        <p className="text-sm font-medium truncate" style={{ color: 'var(--color-brand)' }}>
                           {alert.workerName}
                         </p>
-                        <p className="text-xs mt-0.5 line-clamp-2" style={{ color: '#666666' }}>
+                        <p className="text-xs mt-0.5 line-clamp-2" style={{ color: 'var(--color-text-muted)' }}>
                           {alert.message}
                         </p>
-                        <p className="text-xs mt-1" style={{ color: '#a8a8a8' }}>
+                        <p className="text-xs mt-1" style={{ color: 'var(--color-text-faint)' }}>
                           {getRelativeTime(alert.createdAt)}
                         </p>
                       </div>
@@ -300,11 +300,11 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                 <div
                   style={{
                     padding: '10px 16px',
-                    borderTop: '1px solid #ebebeb',
-                    backgroundColor: '#fafafa',
+                    borderTop: '1px solid var(--border-default)',
+                    backgroundColor: 'var(--surface-soft)',
                   }}
                 >
-                  <p className="text-xs text-center" style={{ color: '#666666' }}>
+                  <p className="text-xs text-center" style={{ color: 'var(--color-text-muted)' }}>
                     {hasExpiredCerts
                       ? `${certifications.filter(c => c.estado === 'vencido').length} certificaciones vencidas`
                       : 'Sin alertas pendientes'}
@@ -317,12 +317,12 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
 
         {/* Avatar */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 flex items-center justify-center" style={{ borderRadius: 'var(--radius-sm)', background: '#f0f0f0', border: '1px solid #ebebeb' }}>
-            <span className="text-sm font-medium" style={{ color: '#171717' }}>AD</span>
+          <div className="w-9 h-9 flex items-center justify-center" style={{ borderRadius: 'var(--radius-sm)', background: 'var(--surface-soft)', border: '1px solid var(--border-default)' }}>
+            <span className="text-sm font-medium" style={{ color: 'var(--color-brand)' }}>AD</span>
           </div>
           <div className="hidden md:block">
-            <p className="text-sm font-medium" style={{ color: '#171717' }}>Admin</p>
-            <p className="text-xs" style={{ color: '#666666' }}>admin@certifyx.cl</p>
+            <p className="text-sm font-medium" style={{ color: 'var(--color-brand)' }}>Admin</p>
+            <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>admin@certifyx.cl</p>
           </div>
         </div>
       </div>
