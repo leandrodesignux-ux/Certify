@@ -190,7 +190,7 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
         {/* Title */}
         <h3 style={{
           fontSize: '15px', fontWeight: 600,
-          color: '#171717', lineHeight: 1.3, letterSpacing: '-0.01em',
+          color: 'var(--color-brand)', lineHeight: 1.3, letterSpacing: 'var(--tracking-snug)',
           marginBottom: '5px',
           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>
@@ -234,7 +234,7 @@ function MeshCard({ mesh, onClick, index }: MeshCardProps) {
             className="transition-colors duration-200"
             style={{
               padding: '6px 14px',
-              backgroundColor: hovered ? '#2e2e2e' : '#171717',
+              backgroundColor: hovered ? 'var(--color-primary-hover)' : 'var(--color-primary)',
               border: 'none',
               borderRadius: '9999px',
               color: '#ffffff',
@@ -336,20 +336,20 @@ function SidePanel() {
             type="button"
             onClick={prevMonth}
             style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#a8a8a8', padding: '4px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#171717')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#a8a8a8')}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-brand)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-faint)')}
           >
             <ChevronLeft style={{ width: '16px', height: '16px' }} strokeWidth={1.5} />
           </button>
-          <span style={{ fontSize: '13px', fontWeight: 600, color: '#171717' }}>
+          <span style={{ fontSize: 'var(--text-body-sm)', fontWeight: 600, color: 'var(--color-brand)' }}>
             {MONTH_NAMES[viewMonth]} {viewYear}
           </span>
           <button
             type="button"
             onClick={nextMonth}
             style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#a8a8a8', padding: '4px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#171717')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#a8a8a8')}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-brand)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-faint)')}
           >
             <ChevronRight style={{ width: '16px', height: '16px' }} />
           </button>
@@ -376,7 +376,7 @@ function SidePanel() {
                   color: day === null ? 'transparent'
                     : isToday(day) ? '#ffffff'
                     : '#666666',
-                  backgroundColor: isToday(day) ? '#171717' : 'transparent',
+                  backgroundColor: isToday(day) ? 'var(--color-brand)' : 'transparent',
                   borderRadius: '50%',
                   minWidth: 0,
                   cursor: day ? 'default' : 'default',
@@ -427,7 +427,7 @@ function SidePanel() {
               </div>
               {/* Content */}
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: '12px', fontWeight: 500, color: '#171717', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <p style={{ fontSize: 'var(--text-caption)', fontWeight: 500, color: 'var(--color-brand)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {item.nombre}
                 </p>
                 <p style={{ fontSize: '11px', color: '#a8a8a8', marginTop: '2px' }}>
@@ -507,10 +507,10 @@ export function Curriculum() {
         style={{ marginBottom: '24px' }}
       >
         <div style={{ minWidth: 0, overflow: 'hidden' }}>
-          <h1 className="text-3xl font-semibold tracking-tight truncate" style={{ color: '#171717', letterSpacing: '-0.02em' }}>
+          <h1 className="text-3xl font-semibold tracking-tight truncate" style={{ color: 'var(--color-brand)', letterSpacing: 'var(--tracking-tight)', fontSize: 'var(--text-h1)' }}>
             Mallas Curriculares
           </h1>
-          <p className="text-sm mt-1" style={{ color: '#666666' }}>
+          <p className="text-sm mt-1" style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-body)' }}>
             {mockMeshes.length} mallas de capacitación activas
           </p>
         </div>
@@ -526,17 +526,17 @@ export function Curriculum() {
               style={{
                 height: '38px',
                 width: '224px',
-                backgroundColor: '#ffffff',
-                border: '1px solid #ebebeb',
-                borderRadius: '6px',
+                backgroundColor: 'var(--surface-card)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-sm)',
                 paddingLeft: '40px',
                 paddingRight: '32px',
-                fontSize: '13px',
-                color: '#171717',
+                fontSize: 'var(--text-body)',
+                color: 'var(--color-text)',
                 outline: 'none'
               }}
-              onFocus={e => e.currentTarget.style.borderColor = '#d4d4d4'}
-              onBlur={e => e.currentTarget.style.borderColor = '#ebebeb'}
+              onFocus={e => { e.currentTarget.style.borderColor = 'var(--color-primary)'; e.currentTarget.style.boxShadow = 'var(--shadow-focus)'; }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.boxShadow = 'none'; }}
             />
             {searchQuery && (
               <button
@@ -584,26 +584,26 @@ export function Curriculum() {
                 padding: '10px 18px',
                 fontSize: '14px',
                 fontWeight: isActive ? 600 : 400,
-                color: isActive ? '#171717' : '#666666',
+                color: isActive ? 'var(--color-primary)' : 'var(--color-text-muted)',
                 background: 'none',
                 border: 'none',
-                borderBottom: isActive ? '2px solid #171717' : '2px solid transparent',
+                borderBottom: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
                 marginBottom: '-1px',
                 cursor: 'pointer',
                 transition: 'color 0.15s, border-color 0.15s',
               }}
               onMouseEnter={(e) => {
-                if (!isActive) e.currentTarget.style.color = '#171717';
+                if (!isActive) e.currentTarget.style.color = 'var(--color-brand)';
               }}
               onMouseLeave={(e) => {
-                if (!isActive) e.currentTarget.style.color = '#666666';
+                if (!isActive) e.currentTarget.style.color = 'var(--color-text-muted)';
               }}
             >
               {tab.dot && (
                 <span style={{
                   width: '7px', height: '7px',
                   borderRadius: '50%',
-                  backgroundColor: isActive ? '#171717' : '#d4d4d4',
+                  backgroundColor: isActive ? 'var(--color-primary)' : 'var(--border-default)',
                   flexShrink: 0,
                   display: 'inline-block',
                   transition: 'background-color 0.15s',
@@ -633,8 +633,8 @@ export function Curriculum() {
               <stat.icon style={{ width: '18px', height: '18px', color: '#4d4d4d' }} strokeWidth={1.5} />
             </div>
             <div style={{ minWidth: 0 }}>
-              <p style={{ fontSize: 'clamp(18px, 4vw, 24px)', fontWeight: 600, color: '#171717', lineHeight: 1, margin: 0 }}>{stat.value}</p>
-              <p style={{ fontSize: 'clamp(10px, 2.5vw, 11px)', color: '#666666', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: '2px 0 0 0' }}>{stat.label}</p>
+              <p style={{ fontSize: 'clamp(18px, 4vw, 24px)', fontWeight: 600, color: 'var(--color-brand)', lineHeight: 1, margin: 0 }}>{stat.value}</p>
+              <p style={{ fontSize: 'clamp(10px, 2.5vw, 11px)', color: 'var(--color-text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: '2px 0 0 0' }}>{stat.label}</p>
             </div>
           </div>
         ))}

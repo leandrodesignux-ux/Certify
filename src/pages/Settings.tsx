@@ -41,22 +41,22 @@ const NAV_ITEMS: NavItem[] = [
 const inputStyle: React.CSSProperties = {
   width: '100%',
   height: '38px',
-  backgroundColor: '#ffffff',
-  border: '1px solid #ebebeb',
-  borderRadius: '6px',
+  backgroundColor: 'var(--surface-card)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
   padding: '0 12px',
-  fontSize: '13px',
-  color: '#171717',
+  fontSize: 'var(--text-body)',
+  color: 'var(--color-text)',
   outline: 'none',
   boxSizing: 'border-box',
-  transition: 'border-color 0.15s',
+  transition: 'border-color 0.15s, box-shadow 0.15s',
 };
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
-  fontSize: '12px',
+  fontSize: 'var(--text-caption)',
   fontWeight: 500,
-  color: '#666666',
+  color: 'var(--color-text-muted)',
   marginBottom: '6px',
 };
 
@@ -77,7 +77,8 @@ function FormField({
         placeholder={placeholder}
         style={{
           ...inputStyle,
-          borderColor: error ? '#e5484d' : focused ? '#171717' : '#ebebeb',
+          borderColor: error ? 'var(--status-danger)' : focused ? 'var(--color-primary)' : 'var(--border-default)',
+        boxShadow: focused && !error ? 'var(--shadow-focus)' : 'none',
         }}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
@@ -155,7 +156,7 @@ function PerfilSection() {
             style={{
               position: 'absolute', bottom: 0, right: 0,
               width: '22px', height: '22px', borderRadius: '50%',
-              backgroundColor: '#171717', border: '2px solid #ffffff',
+              backgroundColor: 'var(--color-primary)', border: '2px solid #ffffff',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: 'not-allowed', opacity: 0.7,
             }}
@@ -165,7 +166,7 @@ function PerfilSection() {
           </label>
         </div>
         <div>
-          <p style={{ fontSize: '14px', fontWeight: 600, color: '#171717', margin: 0 }}>{form.nombre}</p>
+          <p style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--color-brand)', margin: 0 }}>{form.nombre}</p>
           <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>{form.email}</p>
           <p style={{ fontSize: '11px', color: '#d4d4d4', margin: '4px 0 0' }}>Cambio de foto próximamente</p>
         </div>
@@ -226,13 +227,13 @@ function PerfilSection() {
             style={{
               height: '36px', padding: '0 16px', fontSize: '13px', fontWeight: 500,
               color: '#ffffff',
-              backgroundColor: isDirty ? '#171717' : '#d4d4d4',
-              border: 'none', borderRadius: '6px',
+              backgroundColor: isDirty ? 'var(--color-primary)' : 'var(--border-default)',
+              border: 'none', borderRadius: 'var(--radius-sm)',
               cursor: isDirty ? 'pointer' : 'not-allowed',
               transition: 'background-color 0.15s',
             }}
-            onMouseEnter={e => { if (isDirty) e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
-            onMouseLeave={e => { if (isDirty) e.currentTarget.style.backgroundColor = '#171717'; }}
+            onMouseEnter={e => { if (isDirty) e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)'; }}
+            onMouseLeave={e => { if (isDirty) e.currentTarget.style.backgroundColor = 'var(--color-primary)'; }}
           >
             Guardar cambios
           </button>
@@ -254,7 +255,7 @@ function Switch({ checked, onChange, id }: { checked: boolean; onChange: (v: boo
       style={{
         width: '36px', height: '20px', flexShrink: 0,
         borderRadius: '10px', border: 'none', padding: '2px',
-        backgroundColor: checked ? '#171717' : '#d4d4d4',
+        backgroundColor: checked ? 'var(--color-primary)' : 'var(--border-default)',
         cursor: 'pointer', position: 'relative',
         transition: 'background-color 0.2s',
         display: 'flex', alignItems: 'center',
@@ -303,8 +304,8 @@ function NotificacionesSection() {
 
   const selectStyle: React.CSSProperties = {
     height: '30px', padding: '0 28px 0 10px', fontSize: '12px',
-    color: '#171717', backgroundColor: '#ffffff',
-    border: '1px solid #ebebeb', borderRadius: '6px',
+    color: 'var(--color-text)', backgroundColor: 'var(--surface-card)',
+    border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
     outline: 'none', cursor: 'pointer',
     appearance: 'none', WebkitAppearance: 'none',
     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23a8a8a8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
@@ -324,7 +325,7 @@ function NotificacionesSection() {
         >
           {/* Label + desc */}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <label htmlFor={`notif-${row.key}`} style={{ fontSize: '13px', fontWeight: 500, color: '#171717', cursor: 'pointer', display: 'block' }}>
+            <label htmlFor={`notif-${row.key}`} style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', cursor: 'pointer', display: 'block' }}>
               {row.label}
             </label>
             <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>{row.desc}</p>
@@ -370,12 +371,12 @@ function NotificacionesSection() {
           onClick={handleSave}
           style={{
             height: '36px', padding: '0 16px', fontSize: '13px', fontWeight: 500,
-            color: '#ffffff', backgroundColor: '#171717',
-            border: 'none', borderRadius: '6px', cursor: 'pointer',
+            color: '#ffffff', backgroundColor: 'var(--color-primary)',
+            border: 'none', borderRadius: 'var(--radius-sm)', cursor: 'pointer',
             transition: 'background-color 0.15s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#171717'; }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary)'; }}
         >
           Guardar preferencias
         </button>
@@ -405,23 +406,23 @@ function AparienciaSection() {
         onClick={onClick}
         style={{
           flex: 1, padding: '14px 16px', borderRadius: '6px', textAlign: 'left',
-          border: `1px solid ${active ? '#171717' : '#ebebeb'}`,
-          backgroundColor: active ? '#fafafa' : '#ffffff',
+          border: `1px solid ${active ? 'var(--color-primary)' : 'var(--border-default)'}`,
+          backgroundColor: active ? 'var(--surface-soft)' : 'var(--surface-card)',
           cursor: 'pointer', transition: 'border-color 0.15s, background-color 0.15s',
           display: 'flex', alignItems: 'flex-start', gap: '10px',
         }}
       >
         <span style={{
           width: '16px', height: '16px', borderRadius: '50%', flexShrink: 0, marginTop: '1px',
-          border: `2px solid ${active ? '#171717' : '#d4d4d4'}`,
-          backgroundColor: active ? '#171717' : 'transparent',
+          border: `2px solid ${active ? 'var(--color-primary)' : 'var(--border-default)'}`,
+          backgroundColor: active ? 'var(--color-primary)' : 'transparent',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           transition: 'all 0.15s',
         }}>
           {active && <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#ffffff', display: 'block' }} />}
         </span>
         <div>
-          <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>{label}</p>
+          <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>{label}</p>
           <p style={{ fontSize: '11px', color: '#a8a8a8', margin: '2px 0 0' }}>{sub}</p>
         </div>
       </button>
@@ -432,7 +433,7 @@ function AparienciaSection() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
       {/* Densidad */}
       <div>
-        <p style={{ ...labelStyle, marginBottom: '10px', fontSize: '13px', color: '#171717', fontWeight: 500 }}>Densidad de tablas</p>
+        <p style={{ ...labelStyle, marginBottom: '10px', fontSize: 'var(--text-body-sm)', color: 'var(--color-brand)', fontWeight: 500 }}>Densidad de tablas</p>
         <div style={{ display: 'flex', gap: '10px' }}>
           {radioCard('Cómoda', 'Más espacio entre filas', 'comoda', densidad, () => setDensidad('comoda'))}
           {radioCard('Compacta', 'Más filas visibles', 'compacta', densidad, () => setDensidad('compacta'))}
@@ -443,7 +444,7 @@ function AparienciaSection() {
 
       {/* Idioma */}
       <div>
-        <p style={{ ...labelStyle, marginBottom: '10px', fontSize: '13px', color: '#171717', fontWeight: 500 }}>Idioma de la interfaz</p>
+        <p style={{ ...labelStyle, marginBottom: '10px', fontSize: 'var(--text-body-sm)', color: 'var(--color-brand)', fontWeight: 500 }}>Idioma de la interfaz</p>
         <div style={{ display: 'flex', gap: '10px' }}>
           {radioCard('Español', 'Idioma predeterminado', 'es', idioma, () => setIdioma('es'))}
           {radioCard('English', 'English interface', 'en', idioma, () => setIdioma('en'))}
@@ -455,7 +456,7 @@ function AparienciaSection() {
       {/* Tema — deshabilitado */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', opacity: 0.5 }}>
         <div>
-          <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>Tema oscuro</p>
+          <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>Tema oscuro</p>
           <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Disponible próximamente — la app es light-only por ahora.</p>
         </div>
         <Switch checked={false} onChange={() => {}} id="tema-oscuro" />
@@ -474,9 +475,9 @@ function AparienciaSection() {
           {saveStatus === 'idle' && <div />}
         </AnimatePresence>
         <button onClick={handleSave}
-          style={{ height: '36px', padding: '0 16px', fontSize: '13px', fontWeight: 500, color: '#ffffff', backgroundColor: '#171717', border: 'none', borderRadius: '6px', cursor: 'pointer', transition: 'background-color 0.15s' }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#171717'; }}
+          style={{ height: '36px', padding: '0 16px', fontSize: 'var(--text-body-sm)', fontWeight: 500, color: '#ffffff', backgroundColor: 'var(--color-primary)', border: 'none', borderRadius: 'var(--radius-sm)', cursor: 'pointer', transition: 'background-color 0.15s' }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary)'; }}
         >
           Guardar apariencia
         </button>
@@ -514,7 +515,7 @@ function DatosSection() {
       {/* Exportar */}
       <div style={{ padding: '16px 0', borderBottom: '1px solid #f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
         <div>
-          <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>Exportar todos los datos</p>
+          <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>Exportar todos los datos</p>
           <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Descargá un archivo CSV con trabajadores, certificaciones y mallas.</p>
           {exportStatus === 'done' && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '6px' }}>
@@ -524,9 +525,9 @@ function DatosSection() {
           )}
         </div>
         <button onClick={handleExport}
-          style={{ height: '34px', padding: '0 14px', fontSize: '12px', fontWeight: 500, flexShrink: 0, color: '#171717', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', cursor: 'pointer', transition: 'all 0.15s' }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
+          style={{ height: '34px', padding: '0 14px', fontSize: 'var(--text-caption)', fontWeight: 500, flexShrink: 0, color: 'var(--color-text)', backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', transition: 'all 0.15s' }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--surface-card)'; }}
         >
           Exportar CSV
         </button>
@@ -535,7 +536,7 @@ function DatosSection() {
       {/* Importar */}
       <div style={{ padding: '16px 0', borderBottom: '1px solid #f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', opacity: 0.5 }}>
         <div>
-          <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>Importar datos</p>
+          <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>Importar datos</p>
           <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Importá datos desde un archivo CSV. Próximamente disponible.</p>
         </div>
         <button disabled
@@ -550,7 +551,7 @@ function DatosSection() {
         <p style={{ fontSize: '13px', fontWeight: 600, color: '#e5484d', margin: '0 0 4px' }}>Zona de peligro</p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginTop: '12px' }}>
           <div>
-            <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>Restablecer datos de demo</p>
+            <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>Restablecer datos de demo</p>
             <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Restaura los datos mock originales. Esta acción no se puede deshacer.</p>
             {resetStatus === 'done' && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '6px' }}>
@@ -584,7 +585,7 @@ function DatosSection() {
               style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '400px', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}
             >
               <div style={{ padding: '20px 20px 16px', flexShrink: 0, borderBottom: '1px solid #f5f5f5' }}>
-                <p style={{ fontSize: '15px', fontWeight: 600, color: '#171717', margin: 0 }}>¿Restablecer datos de demo?</p>
+                <p style={{ fontSize: '15px', fontWeight: 600, color: 'var(--color-brand)', margin: 0 }}>¿Restablecer datos de demo?</p>
                 <p style={{ fontSize: '13px', color: '#666666', marginTop: '6px', marginBottom: 0 }}>Esta acción restaurará todos los datos mock. Los cambios actuales se perderán.</p>
               </div>
               <div style={{ padding: '16px 20px', display: 'flex', gap: '8px', justifyContent: 'flex-end', flexShrink: 0 }}>
@@ -641,7 +642,7 @@ function SeguridadSection() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       {/* Cambio de contraseña */}
       <div>
-        <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', marginBottom: '16px', margin: '0 0 16px' }}>Cambiar contraseña</p>
+        <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', marginBottom: '16px', margin: '0 0 16px' }}>Cambiar contraseña</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '360px' }}>
           <FormField label="Contraseña actual" value={pwd.actual} onChange={setPwdField('actual')} type="password" placeholder="••••••••" />
           <FormField label="Nueva contraseña" value={pwd.nueva} onChange={setPwdField('nueva')} type="password" error={errors.nueva} placeholder="Mínimo 8 caracteres" />
@@ -649,9 +650,9 @@ function SeguridadSection() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '20px' }}>
           <button onClick={handleSavePwd} disabled={!canSave}
-            style={{ height: '36px', padding: '0 16px', fontSize: '13px', fontWeight: 500, color: '#ffffff', backgroundColor: canSave ? '#171717' : '#d4d4d4', border: 'none', borderRadius: '6px', cursor: canSave ? 'pointer' : 'not-allowed', transition: 'background-color 0.15s' }}
-            onMouseEnter={e => { if (canSave) e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
-            onMouseLeave={e => { if (canSave) e.currentTarget.style.backgroundColor = '#171717'; }}
+            style={{ height: '36px', padding: '0 16px', fontSize: 'var(--text-body-sm)', fontWeight: 500, color: '#ffffff', backgroundColor: canSave ? 'var(--color-primary)' : 'var(--border-default)', border: 'none', borderRadius: 'var(--radius-sm)', cursor: canSave ? 'pointer' : 'not-allowed', transition: 'background-color 0.15s' }}
+            onMouseEnter={e => { if (canSave) e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)'; }}
+            onMouseLeave={e => { if (canSave) e.currentTarget.style.backgroundColor = 'var(--color-primary)'; }}
           >
             Actualizar contraseña
           </button>
@@ -671,7 +672,7 @@ function SeguridadSection() {
 
       {/* Sesiones activas */}
       <div>
-        <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', marginBottom: '12px', margin: '0 0 12px' }}>Sesiones activas</p>
+        <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', marginBottom: '12px', margin: '0 0 12px' }}>Sesiones activas</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
           {sessions.map((s, i) => (
             <div key={s.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', padding: '12px 0', borderBottom: i < sessions.length - 1 ? '1px solid #f5f5f5' : 'none' }}>
@@ -681,7 +682,7 @@ function SeguridadSection() {
                 </div>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>{s.device}</p>
+                    <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0 }}>{s.device}</p>
                     {s.current && <span style={{ fontSize: '10px', fontWeight: 500, color: '#297a3a', backgroundColor: 'rgba(41,122,58,0.08)', border: '1px solid rgba(41,122,58,0.2)', borderRadius: '9999px', padding: '1px 7px' }}>Esta sesión</span>}
                   </div>
                   <p style={{ fontSize: '11px', color: '#a8a8a8', margin: '2px 0 0' }}>{s.location} · {s.last}</p>
@@ -717,10 +718,10 @@ export function Settings() {
       {/* Header */}
       <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible"
         style={{ paddingBottom: '20px', borderBottom: '1px solid #f0f0f0' }}>
-        <h1 style={{ fontSize: 'clamp(22px,4vw,28px)', fontWeight: 600, color: '#171717', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
+        <h1 style={{ fontSize: 'var(--text-h1)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1.1, margin: 0 }}>
           Configuración
         </h1>
-        <p style={{ fontSize: '13px', color: '#666666', margin: '6px 0 0' }}>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)', margin: '6px 0 0' }}>
           Gestiona preferencias y opciones del sistema
         </p>
       </motion.div>
@@ -757,17 +758,17 @@ export function Settings() {
                   display: 'flex', alignItems: 'center', gap: '7px',
                   padding: '10px 14px',
                   fontSize: '14px', fontWeight: 500, whiteSpace: 'nowrap',
-                  color: isActive ? '#171717' : '#666666',
+                  color: isActive ? 'var(--color-primary)' : 'var(--color-text-muted)',
                   backgroundColor: 'transparent',
                   border: 'none',
-                  borderBottom: isActive ? '2px solid #171717' : '2px solid transparent',
+                  borderBottom: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
                   marginBottom: '-1px',
                   cursor: 'pointer',
                   transition: 'color 0.15s',
                   flexShrink: 0,
                 }}
-                onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = '#171717'; }}
-                onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = '#666666'; }}
+                onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = 'var(--color-brand)'; }}
+                onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = 'var(--color-text-muted)'; }}
               >
                 <Icon style={{ width: '16px', height: '16px', flexShrink: 0 }} strokeWidth={1.5} />
                 {item.label}
@@ -797,7 +798,7 @@ export function Settings() {
                     <active.icon style={{ width: '16px', height: '16px', color: '#4d4d4d' }} strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h2 style={{ fontSize: '16px', fontWeight: 600, color: '#171717', letterSpacing: '-0.01em', margin: 0 }}>
+                    <h2 style={{ fontSize: 'var(--text-h2)', fontWeight: 600, color: 'var(--color-brand)', letterSpacing: 'var(--tracking-snug)', margin: 0 }}>
                       {active.label}
                     </h2>
                     <p style={{ fontSize: '12px', color: '#a8a8a8', marginTop: '2px', marginBottom: 0 }}>

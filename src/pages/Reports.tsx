@@ -214,15 +214,15 @@ Generado automáticamente por CertifyX
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           {/* Izquierda: título + subtítulo */}
           <div>
-            <h1 style={{ fontSize: 'clamp(24px,4vw,30px)', fontWeight: 600, color: '#171717', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
+            <h1 style={{ fontSize: 'var(--text-h1)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1.1, margin: 0 }}>
               Reportes y Análisis
             </h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px', flexWrap: 'wrap', rowGap: '2px' }}>
               {[
-                <span key="periodo" style={{ fontSize: '13px', color: '#666666' }}>Período: <span style={{ color: '#171717', fontWeight: 500 }}>{new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}</span></span>,
-                <span key="workers" style={{ fontSize: '13px', color: '#a8a8a8' }}>{workers.length} trabajadores</span>,
-                <span key="certs" style={{ fontSize: '13px', color: '#a8a8a8' }}>{certifications.length} certificaciones</span>,
-                <span key="areas" style={{ fontSize: '13px', color: '#a8a8a8' }}>{new Set(workers.map(w => w.area)).size} áreas</span>,
+                <span key="periodo" style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)' }}>Período: <span style={{ color: 'var(--color-brand)', fontWeight: 'var(--weight-medium)' }}>{new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}</span></span>,
+                <span key="workers" style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-faint)' }}>{workers.length} trabajadores</span>,
+                <span key="certs" style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-faint)' }}>{certifications.length} certificaciones</span>,
+                <span key="areas" style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-faint)' }}>{new Set(workers.map(w => w.area)).size} áreas</span>,
               ].reduce<React.ReactNode[]>((acc, item, i) => [
                 ...acc,
                 ...(i > 0 ? [<span key={`sep-${i}`} style={{ color: '#d4d4d4', fontSize: '13px', userSelect: 'none' }} aria-hidden>·</span>] : []),
@@ -235,9 +235,9 @@ Generado automáticamente por CertifyX
             <button
               onClick={exportSummaryCSV}
               aria-label="Exportar resumen como CSV"
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', minHeight: '36px', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', color: '#171717', fontSize: '13px', fontWeight: 500, cursor: 'pointer', transition: 'background-color 0.15s', whiteSpace: 'nowrap' }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', minHeight: '36px', backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', color: 'var(--color-text)', fontSize: 'var(--text-body)', fontWeight: 500, cursor: 'pointer', transition: 'background-color 0.15s', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--surface-card)'; }}
             >
               <Download className="w-3.5 h-3.5" strokeWidth={1.5} />
               CSV
@@ -245,9 +245,9 @@ Generado automáticamente por CertifyX
             <button
               onClick={exportSENCE}
               aria-label="Exportar reporte SENCE"
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', minHeight: '36px', backgroundColor: '#171717', border: '1px solid #171717', borderRadius: '6px', color: '#ffffff', fontSize: '13px', fontWeight: 500, cursor: 'pointer', transition: 'background-color 0.15s', whiteSpace: 'nowrap' }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#171717'; }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', minHeight: '36px', backgroundColor: 'var(--color-primary)', border: '1px solid var(--color-primary)', borderRadius: 'var(--radius-sm)', color: '#ffffff', fontSize: 'var(--text-body)', fontWeight: 500, cursor: 'pointer', transition: 'background-color 0.15s', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)'; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary)'; }}
             >
               <FileText className="w-3.5 h-3.5" strokeWidth={1.5} />
               SENCE
@@ -379,7 +379,7 @@ Generado automáticamente por CertifyX
                       <Label
                         content={() => (
                           <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle">
-                            <tspan x="50%" dy="-8" style={{ fill: '#171717', fontSize: '20px', fontWeight: 600 }}>
+                            <tspan x="50%" dy="-8" style={{ fill: 'var(--color-brand)', fontSize: '20px', fontWeight: 600 }}>
                               {certifications.length}
                             </tspan>
                             <tspan x="50%" dy="17" style={{ fill: '#a8a8a8', fontSize: '10px' }}>
@@ -400,7 +400,7 @@ Generado automáticamente por CertifyX
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
                     <p style={{ fontSize: '12px', color: '#666666', margin: 0, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</p>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', flexShrink: 0 }}>
-                      <span style={{ fontSize: '13px', fontWeight: 600, color: '#171717' }}>{item.percentage}%</span>
+                      <span style={{ fontSize: 'var(--text-body-sm)', fontWeight: 600, color: 'var(--color-brand)' }}>{item.percentage}%</span>
                       <span style={{ fontSize: '11px', color: '#a8a8a8' }}>({item.value})</span>
                     </div>
                   </div>
@@ -465,7 +465,7 @@ Generado automáticamente por CertifyX
                 }
                 {/* Nombre + cargo */}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {worker.nombre} {worker.apellidos}
                   </p>
                   <p style={{ fontSize: '11px', color: '#a8a8a8', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -558,7 +558,7 @@ Generado automáticamente por CertifyX
                   <item.icon style={{ width: '16px', height: '16px', color: '#4d4d4d' }} strokeWidth={1.5} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {item.label}
                     {item.pro && <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.4, fontSize: '10px', fontWeight: 500, padding: '2px 7px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '9999px', color: '#666666' }}>PRO</span>}
                   </p>

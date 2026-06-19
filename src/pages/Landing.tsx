@@ -71,7 +71,7 @@ function Navbar() {
               fontSize: '17px',
               fontWeight: 600,
               letterSpacing: '-0.02em',
-              color: '#171717',
+              color: 'var(--color-brand)',
             }}
           >
             CertifyX
@@ -85,8 +85,8 @@ function Navbar() {
               key={label}
               href={`#${label.toLowerCase()}`}
               style={{ fontSize: '14px', color: '#4d4d4d', textDecoration: 'none', transition: 'color 0.15s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#171717'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#4d4d4d'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-brand)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-text-secondary)'; }}
             >
               {label}
             </a>
@@ -99,17 +99,17 @@ function Navbar() {
           style={{
             height: '36px',
             padding: '0 16px',
-            backgroundColor: '#171717',
+            backgroundColor: 'var(--color-primary)',
             color: '#ffffff',
-            border: '1px solid #171717',
-            borderRadius: '6px',
-            fontSize: '14px',
+            border: '1px solid var(--color-primary)',
+            borderRadius: 'var(--radius-sm)',
+            fontSize: 'var(--text-body)',
             fontWeight: 500,
             cursor: 'pointer',
             transition: 'background-color 0.15s',
           }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#2e2e2e'; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#171717'; }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-primary-hover)'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-primary)'; }}
         >
           Ingresar
         </button>
@@ -196,7 +196,7 @@ function Hero() {
           style={{
             fontSize: 'clamp(40px, 6vw, 72px)',
             fontWeight: 500,
-            color: '#171717',
+            color: 'var(--color-brand)',
             lineHeight: 1.1,
             letterSpacing: '-0.06em',
             marginBottom: '24px',
@@ -215,7 +215,7 @@ function Hero() {
           transition={{ duration: 0.5, delay: 0.2 }}
           style={{
             fontSize: '16px',
-            color: '#4d4d4d',
+            color: 'var(--color-text-secondary)',
             maxWidth: '560px',
             marginLeft: 'auto',
             marginRight: 'auto',
@@ -240,10 +240,10 @@ function Hero() {
             style={{
               height: '44px',
               padding: '0 24px',
-              backgroundColor: '#171717',
+              backgroundColor: 'var(--color-primary)',
               color: '#ffffff',
-              border: '1px solid #171717',
-              borderRadius: '6px',
+              border: '1px solid var(--color-primary)',
+              borderRadius: 'var(--radius-sm)',
               fontSize: '15px',
               fontWeight: 500,
               cursor: 'pointer',
@@ -252,8 +252,8 @@ function Hero() {
               gap: '8px',
               transition: 'background-color 0.15s',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#2e2e2e'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#171717'; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-primary-hover)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-primary)'; }}
           >
             Ver Dashboard <ArrowRight style={{ width: '16px', height: '16px' }} strokeWidth={2} />
           </button>
@@ -262,22 +262,22 @@ function Hero() {
             style={{
               height: '44px',
               padding: '0 24px',
-              backgroundColor: '#ffffff',
-              color: '#171717',
-              border: '1px solid #d4d4d4',
-              borderRadius: '6px',
+              backgroundColor: 'var(--surface-card)',
+              color: 'var(--color-text)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-sm)',
               fontSize: '15px',
               fontWeight: 500,
               cursor: 'pointer',
               transition: 'border-color 0.15s, background-color 0.15s',
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.borderColor = '#a8a8a8';
-              (e.currentTarget as HTMLElement).style.backgroundColor = '#fafafa';
+              (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-strong)';
+              (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-soft)';
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.borderColor = '#d4d4d4';
-              (e.currentTarget as HTMLElement).style.backgroundColor = '#ffffff';
+              (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-default)';
+              (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-card)';
             }}
           >
             Ver Demo
@@ -329,10 +329,10 @@ function Hero() {
               }}
             >
               {[
-                { label: 'Trabajadores', value: '20', color: '#171717' },
+                { label: 'Trabajadores', value: '20', color: 'var(--color-brand)' },
                 { label: 'Vigentes', value: '45', color: '#297a3a' },
                 { label: 'Por vencer', value: '12', color: '#b25000' },
-                { label: 'Compliance', value: '78%', color: '#171717' },
+                { label: 'Compliance', value: '78%', color: 'var(--color-brand)' },
               ].map((stat) => (
                 <div
                   key={stat.label}
@@ -430,7 +430,7 @@ function PainPoints() {
             style={{
               fontSize: 'clamp(28px, 4vw, 40px)',
               fontWeight: 500,
-              color: '#171717',
+              color: 'var(--color-brand)',
               letterSpacing: '-0.04em',
               marginBottom: '12px',
             }}
@@ -490,7 +490,7 @@ function PainPoints() {
                   style={{
                     fontSize: '15px',
                     fontWeight: 600,
-                    color: '#171717',
+                    color: 'var(--color-brand)',
                     marginBottom: '8px',
                   }}
                 >
@@ -540,7 +540,7 @@ function Features() {
             style={{
               fontSize: 'clamp(28px, 4vw, 40px)',
               fontWeight: 500,
-              color: '#171717',
+              color: 'var(--color-brand)',
               letterSpacing: '-0.04em',
               marginBottom: '12px',
             }}
@@ -593,7 +593,7 @@ function Features() {
                   style={{
                     fontSize: '15px',
                     fontWeight: 600,
-                    color: '#171717',
+                    color: 'var(--color-brand)',
                     marginBottom: '8px',
                   }}
                 >
@@ -648,7 +648,7 @@ function Stats() {
                 style={{
                   fontSize: 'clamp(40px, 5vw, 56px)',
                   fontWeight: 500,
-                  color: '#171717',
+                  color: 'var(--color-brand)',
                   letterSpacing: '-0.05em',
                   lineHeight: 1,
                   marginBottom: '8px',
@@ -698,7 +698,7 @@ function Testimonials() {
             style={{
               fontSize: 'clamp(28px, 4vw, 40px)',
               fontWeight: 500,
-              color: '#171717',
+              color: 'var(--color-brand)',
               letterSpacing: '-0.04em',
             }}
           >
@@ -730,7 +730,7 @@ function Testimonials() {
               <p
                 style={{
                   fontSize: '15px',
-                  color: '#171717',
+                  color: 'var(--color-text)',
                   lineHeight: 1.7,
                   marginBottom: '24px',
                 }}
@@ -756,7 +756,7 @@ function Testimonials() {
                   </span>
                 </div>
                 <div>
-                  <p style={{ fontSize: '14px', fontWeight: 600, color: '#171717' }}>
+                  <p style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--color-brand)' }}>
                     {testimonial.name}
                   </p>
                   <p style={{ fontSize: '13px', color: '#666666' }}>
@@ -781,7 +781,7 @@ function CTA() {
       id="pricing"
       style={{
         padding: '96px 0',
-        backgroundColor: '#171717',
+        backgroundColor: 'var(--color-brand)',
       }}
     >
       <div
@@ -826,9 +826,9 @@ function CTA() {
               height: '48px',
               padding: '0 28px',
               backgroundColor: '#ffffff',
-              color: '#171717',
+              color: 'var(--color-brand)',
               border: '1px solid #ffffff',
-              borderRadius: '6px',
+              borderRadius: 'var(--radius-sm)',
               fontSize: '15px',
               fontWeight: 500,
               cursor: 'pointer',
@@ -888,7 +888,7 @@ function Footer() {
           >
             <Zap style={{ width: '12px', height: '12px', color: '#ffffff' }} strokeWidth={2.5} />
           </span>
-          <span style={{ fontSize: '15px', fontWeight: 600, letterSpacing: '-0.02em', color: '#171717' }}>
+          <span style={{ fontSize: '15px', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--color-brand)' }}>
             CertifyX
           </span>
         </div>

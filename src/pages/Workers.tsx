@@ -49,10 +49,10 @@ function WorkersComponent() {
         style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}
       >
         <div style={{ flex: 1 }}>
-          <h1 className="text-3xl font-semibold tracking-tight" style={{ color: '#171717', letterSpacing: '-0.02em' }}>
+          <h1 className="text-3xl font-semibold tracking-tight" style={{ color: 'var(--color-brand)', letterSpacing: 'var(--tracking-tight)', fontSize: 'var(--text-h1)' }}>
             Trabajadores
           </h1>
-          <p style={{ color: '#666666', fontSize: '13px', marginTop: '4px' }}>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-body)', marginTop: '4px' }}>
             {totalWorkers} trabajadores registrados · Corpa Andina Minera S.A.
           </p>
         </div>
@@ -105,12 +105,12 @@ function WorkersComponent() {
               fontSize: '26px', 
               lineHeight: 1, 
               fontWeight: 600, 
-              color: '#171717',
+              color: 'var(--color-brand)',
               margin: 0
             }}>{totalWorkers}</p>
             <p style={{ 
-              fontSize: '11px', 
-              color: '#666666',
+              fontSize: 'var(--text-caption)', 
+              color: 'var(--color-text-muted)',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -153,12 +153,12 @@ function WorkersComponent() {
               fontSize: '26px', 
               lineHeight: 1, 
               fontWeight: 600, 
-              color: '#171717',
+              color: 'var(--color-brand)',
               margin: 0
             }}>{complianceOkCount}</p>
             <p style={{ 
-              fontSize: '11px', 
-              color: '#666666',
+              fontSize: 'var(--text-caption)', 
+              color: 'var(--color-text-muted)',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -201,12 +201,12 @@ function WorkersComponent() {
               fontSize: '26px', 
               lineHeight: 1, 
               fontWeight: 600, 
-              color: '#171717',
+              color: 'var(--color-brand)',
               margin: 0
             }}>{requireActionCount}</p>
             <p style={{ 
-              fontSize: '11px', 
-              color: '#666666',
+              fontSize: 'var(--text-caption)', 
+              color: 'var(--color-text-muted)',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -235,21 +235,21 @@ function WorkersComponent() {
             style={{
               width: '100%',
               height: '40px',
-              backgroundColor: '#ffffff',
-              border: '1px solid #ebebeb',
-              borderRadius: '6px',
+              backgroundColor: 'var(--surface-card)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-sm)',
               padding: '0 16px 0 42px',
-              fontSize: '13px',
-              color: '#171717',
+              fontSize: 'var(--text-body)',
+              color: 'var(--color-text)',
               outline: 'none',
             }}
-            onFocus={e => e.currentTarget.style.borderColor = '#d4d4d4'}
-            onBlur={e => e.currentTarget.style.borderColor = '#ebebeb'}
+            onFocus={e => { e.currentTarget.style.borderColor = 'var(--color-primary)'; e.currentTarget.style.boxShadow = 'var(--shadow-focus)'; }}
+            onBlur={e => { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.boxShadow = 'none'; }}
           />
         </div>
 
         {/* Toggle Grid / Tabla — Siempre visible */}
-        <div style={{ display: 'flex', gap: '2px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '6px', padding: '3px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', gap: '2px', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '3px', flexShrink: 0 }}>
           {(['grid', 'table'] as const).map(mode => (
             <button
               key={mode}
@@ -257,9 +257,9 @@ function WorkersComponent() {
               style={{
                 minWidth: '36px', height: '36px',
                 borderRadius: '4px',
-                border: viewMode === mode ? '1px solid #ebebeb' : '1px solid transparent',
-                backgroundColor: viewMode === mode ? '#ffffff' : 'transparent',
-                color: viewMode === mode ? '#171717' : '#a8a8a8',
+                border: viewMode === mode ? '1px solid var(--border-default)' : '1px solid transparent',
+                backgroundColor: viewMode === mode ? 'var(--surface-card)' : 'transparent',
+                color: viewMode === mode ? 'var(--color-brand)' : 'var(--color-text-faint)',
                 cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'all 0.15s',
@@ -276,11 +276,11 @@ function WorkersComponent() {
           style={{
             padding: '0 14px',
             height: '40px',
-            backgroundColor: showFilters ? '#f5f5f5' : '#ffffff',
-            border: `1px solid ${showFilters ? '#d4d4d4' : '#ebebeb'}`,
-            borderRadius: '6px',
-            color: showFilters ? '#171717' : '#666666',
-            fontSize: '13px',
+            backgroundColor: showFilters ? 'var(--surface-soft)' : 'var(--surface-card)',
+            border: `1px solid ${showFilters ? 'var(--border-strong)' : 'var(--border-default)'}`,
+            borderRadius: 'var(--radius-sm)',
+            color: showFilters ? 'var(--color-brand)' : 'var(--color-text-muted)',
+            fontSize: 'var(--text-body)',
             fontWeight: 500,
             cursor: 'pointer',
             display: 'flex',
@@ -303,17 +303,17 @@ function WorkersComponent() {
           exit={{ opacity: 0, height: 0 }}
           style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}
         >
-          <span style={{ fontSize: '11px', color: '#a8a8a8', flexShrink: 0 }}>Filtros activos:</span>
+          <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)', flexShrink: 0 }}>Filtros activos:</span>
           {filters.search && (
             <span
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '5px',
                 padding: '3px 10px',
                 minHeight: '28px',
-                backgroundColor: '#f5f5f5',
-                border: '1px solid #ebebeb',
+                backgroundColor: 'var(--color-primary-soft)',
+                border: '1px solid var(--color-primary-border)',
                 borderRadius: '9999px',
-                fontSize: '12px', color: '#4d4d4d',
+                fontSize: 'var(--text-caption)', color: 'var(--color-primary)',
                 cursor: 'pointer',
               }}
               onClick={() => setFilters({ search: '' })}
@@ -327,10 +327,10 @@ function WorkersComponent() {
                 display: 'inline-flex', alignItems: 'center', gap: '5px',
                 padding: '3px 10px',
                 minHeight: '28px',
-                backgroundColor: '#f5f5f5',
-                border: '1px solid #ebebeb',
+                backgroundColor: 'var(--color-primary-soft)',
+                border: '1px solid var(--color-primary-border)',
                 borderRadius: '9999px',
-                fontSize: '12px', color: '#4d4d4d',
+                fontSize: 'var(--text-caption)', color: 'var(--color-primary)',
                 cursor: 'pointer',
               }}
               onClick={() => setFilters({ area: '' })}
@@ -344,10 +344,10 @@ function WorkersComponent() {
                 display: 'inline-flex', alignItems: 'center', gap: '5px',
                 padding: '3px 10px',
                 minHeight: '28px',
-                backgroundColor: '#f5f5f5',
-                border: '1px solid #ebebeb',
+                backgroundColor: 'var(--color-primary-soft)',
+                border: '1px solid var(--color-primary-border)',
                 borderRadius: '9999px',
-                fontSize: '12px', color: '#4d4d4d',
+                fontSize: 'var(--text-caption)', color: 'var(--color-primary)',
                 cursor: 'pointer',
               }}
               onClick={() => setFilters({ complianceMin: 0 })}
@@ -388,7 +388,7 @@ function WorkersComponent() {
       {/* Visual Separator */}
       <div style={{ 
         height: '1px', 
-        backgroundColor: '#ebebeb',
+        backgroundColor: 'var(--border-default)',
         margin: '8px 0' 
       }} />
 
@@ -401,10 +401,10 @@ function WorkersComponent() {
         className="flex items-center justify-between"
         style={{ marginBottom: '20px' }}
       >
-        <p className="text-sm" style={{ color: '#666666' }}>
+        <p className="text-sm" style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-body)' }}>
           Mostrando{' '}
-          <span style={{ color: '#171717', fontWeight: 500 }}>{displayWorkers.length}</span> de{' '}
-          <span style={{ color: '#171717', fontWeight: 500 }}>{totalWorkers}</span> trabajadores
+          <span style={{ color: 'var(--color-brand)', fontWeight: 'var(--weight-medium)' as React.CSSProperties['fontWeight'] }}>{displayWorkers.length}</span> de{' '}
+          <span style={{ color: 'var(--color-brand)', fontWeight: 'var(--weight-medium)' as React.CSSProperties['fontWeight'] }}>{totalWorkers}</span> trabajadores
         </p>
       </motion.div>
 
@@ -453,10 +453,10 @@ function WorkersComponent() {
                   <Users style={{ width: '32px', height: '32px', color: '#a8a8a8' }} strokeWidth={1.5} />
                 </div>
               </div>
-              <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#171717', marginBottom: '8px', letterSpacing: '-0.01em' }}>
+              <h3 style={{ fontSize: 'var(--text-card-title)', fontWeight: 'var(--weight-semibold)' as React.CSSProperties['fontWeight'], color: 'var(--color-brand)', marginBottom: '8px', letterSpacing: 'var(--tracking-snug)' }}>
                 Sin trabajadores
               </h3>
-              <p style={{ fontSize: '14px', color: '#666666', marginBottom: '24px', maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
+              <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)', marginBottom: '24px', maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
                 No se encontraron trabajadores con los filtros aplicados. Intenta ajustar tu búsqueda o limpiar los filtros.
               </p>
               <Button variant="ghost" size="md" onClick={() => window.location.reload()}>
@@ -484,7 +484,7 @@ function WorkersComponent() {
           animate="visible"
           className="flex justify-center pt-4"
         >
-          <p className="text-sm" style={{ color: '#a8a8a8' }}>
+          <p className="text-sm" style={{ color: 'var(--color-text-faint)', fontSize: 'var(--text-body)' }}>
             Mostrando todos los resultados filtrados
           </p>
         </motion.div>

@@ -277,9 +277,9 @@ export function Certifications() {
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <ChevronsUpDown className="w-4 h-4 opacity-30" />;
     return sortOrder === 'asc' ? (
-      <ChevronUp className="w-4 h-4" style={{ color: '#171717' }} />
+      <ChevronUp className="w-4 h-4" style={{ color: 'var(--color-brand)' }} />
     ) : (
-      <ChevronDown className="w-4 h-4" style={{ color: '#171717' }} />
+      <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-brand)' }} />
     );
   };
 
@@ -299,14 +299,15 @@ export function Certifications() {
             <h1 
               className="font-semibold"
               style={{
-                fontSize: 'clamp(22px, 3vw, 30px)',
-                letterSpacing: '-0.02em',
-                color: '#171717',
+                fontSize: 'var(--text-h1)',
+                letterSpacing: 'var(--tracking-tight)',
+                color: 'var(--color-brand)',
+                fontWeight: 'var(--weight-semibold)',
               }}
             >
               Certificaciones
             </h1>
-            <p style={{ fontSize: '13px', color: '#666666', marginTop: '4px' }}>
+            <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)', marginTop: '4px' }}>
               {(() => {
                 const hasFilters = activeTab !== 'todas' || search || areaFilter || tipoFilter;
                 if (hasFilters) {
@@ -409,7 +410,7 @@ export function Certifications() {
           display: 'flex',
           gap: '0',
           marginBottom: '20px',
-          borderBottom: '1px solid #ebebeb',
+          borderBottom: '1px solid var(--border-default)',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
         }}
@@ -433,8 +434,8 @@ export function Certifications() {
                 marginBottom: '-1px',
                 backgroundColor: 'transparent',
                 border: 'none',
-                borderBottom: isActive ? '2px solid #171717' : '2px solid transparent',
-                color: isActive ? '#171717' : '#4d4d4d',
+                borderBottom: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
+                color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
                 fontWeight: isActive ? 600 : 400,
                 fontSize: '14px',
                 transition: 'color 0.15s, border-color 0.15s',
@@ -444,8 +445,8 @@ export function Certifications() {
                 gap: '8px',
                 cursor: 'pointer',
               }}
-              onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#171717'; }}
-              onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#4d4d4d'; }}
+              onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--color-brand)'; }}
+              onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--color-text-secondary)'; }}
             >
               <span>{tab.label}</span>
               <span
@@ -454,8 +455,8 @@ export function Certifications() {
                   borderRadius: '9999px',
                   fontSize: '11px',
                   fontWeight: 500,
-                  backgroundColor: isActive ? '#f0f0f0' : 'rgba(23,23,23,0.06)',
-                  color: isActive ? '#171717' : '#a8a8a8',
+                  backgroundColor: isActive ? 'var(--color-primary-soft)' : 'var(--surface-soft)',
+                  color: isActive ? 'var(--color-primary)' : 'var(--color-text-faint)',
                   flexShrink: 0,
                   fontFamily: 'var(--font-mono)',
                 }}
@@ -477,9 +478,9 @@ export function Certifications() {
         transition={{ delay: 0.25, duration: 0.4 }}
         style={{
           padding: '16px',
-          backgroundColor: '#ffffff',
-          borderRadius: '8px',
-          border: '1px solid #ebebeb',
+          backgroundColor: 'var(--surface-card)',
+          borderRadius: 'var(--radius-sm)',
+          border: '1px solid var(--border-default)',
         }}
       >
         {/* ROW 1 - Search + Controls */}
@@ -488,7 +489,7 @@ export function Certifications() {
           <div className="relative w-full md:flex-1">
             <Search 
               className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" 
-              style={{ color: searchFocused ? '#171717' : '#a8a8a8' }} 
+              style={{ color: searchFocused ? 'var(--color-brand)' : 'var(--color-text-faint)' }} 
               strokeWidth={1.5}
             />
             <input
@@ -503,15 +504,16 @@ export function Certifications() {
               style={{
                 width: '100%',
                 height: '44px',
-                backgroundColor: '#fafafa',
-                border: `1px solid ${searchFocused ? '#171717' : '#ebebeb'}`,
-                borderRadius: '6px',
+                backgroundColor: 'var(--surface-soft)',
+                border: `1px solid ${searchFocused ? 'var(--color-primary)' : 'var(--border-default)'}`,
+                boxShadow: searchFocused ? 'var(--shadow-focus)' : 'none',
+                borderRadius: 'var(--radius-sm)',
                 paddingLeft: '52px',
                 paddingRight: search ? '48px' : '16px',
-                fontSize: '14px',
-                color: '#171717',
+                fontSize: 'var(--text-body)',
+                color: 'var(--color-text)',
                 outline: 'none',
-                transition: 'border-color 0.2s',
+                transition: 'border-color 0.2s, box-shadow 0.2s',
               }}
             />
             {search && (
@@ -519,8 +521,8 @@ export function Certifications() {
                 onClick={() => { setSearchInput(''); setSearch(''); }}
                 className="absolute right-4 top-1/2 -translate-y-1/2 transition-colors"
                 style={{ color: '#a8a8a8' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#171717'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#a8a8a8'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-brand)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-text-faint)'; }}
                 aria-label="Limpiar búsqueda"
               >
                 <X className="w-5 h-5" />
@@ -538,7 +540,7 @@ export function Certifications() {
               backgroundColor: activeFilters > 0 ? 'rgba(229,72,77,0.06)' : '#ffffff',
               border: activeFilters > 0 ? '1px solid rgba(229,72,77,0.3)' : '1px solid #ebebeb',
               borderRadius: '6px',
-              color: activeFilters > 0 ? '#e5484d' : '#171717',
+              color: activeFilters > 0 ? 'var(--status-danger)' : 'var(--color-text)',
               fontSize: '14px',
               fontWeight: 500,
               cursor: 'pointer',
@@ -664,8 +666,8 @@ export function Certifications() {
                         border: '1px solid', 
                         cursor: 'pointer', 
                         transition: 'all 0.15s ease', 
-                        borderColor: isActive ? '#171717' : '#ebebeb', 
-                        backgroundColor: isActive ? '#171717' : '#ffffff', 
+                        borderColor: isActive ? 'var(--color-primary)' : 'var(--border-default)', 
+                        backgroundColor: isActive ? 'var(--color-primary)' : 'var(--surface-card)', 
                         color: isActive ? '#ffffff' : '#4d4d4d',
                       }}
                       onMouseEnter={(e) => {
@@ -726,7 +728,7 @@ export function Certifications() {
                         return {
                           borderColor: '#d4d4d4',
                           backgroundColor: '#f5f5f5',
-                          color: '#171717'
+                          color: 'var(--color-brand)'
                         };
                       default:
                         return {
@@ -837,8 +839,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('worker')}
                   aria-sort={sortField === 'worker' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-brand)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center gap-1">
                     Trabajador
@@ -863,8 +865,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('cert')}
                   aria-sort={sortField === 'cert' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-brand)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center gap-1">
                     Certificación
@@ -889,8 +891,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('tipo')}
                   aria-sort={sortField === 'tipo' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-brand)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center gap-1">
                     Tipo
@@ -915,8 +917,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('fechaVen')}
                   aria-sort={sortField === 'fechaVen' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-brand)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center gap-1">
                     Vencimiento
@@ -941,8 +943,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('estado')}
                   aria-sort={sortField === 'estado' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-brand)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center justify-center gap-1">
                     Estado
@@ -968,8 +970,8 @@ export function Certifications() {
                   }}
                   onClick={() => handleSort('fechaObt')}
                   aria-sort={sortField === 'fechaObt' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#171717'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666666'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-brand)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
                 >
                   <div className="flex items-center gap-1">
                     Fecha Obtención
@@ -1068,7 +1070,7 @@ export function Certifications() {
                                 style={{
                                   fontSize: '14px',
                                   fontWeight: 600,
-                                  color: '#171717',
+                                  color: 'var(--color-brand)',
                                   display: 'block',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
@@ -1102,7 +1104,7 @@ export function Certifications() {
                         {/* Certificación */}
                         <td style={{ padding: '12px 20px' }}>
                           <div style={{ width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            <p style={{ fontSize: '14px', fontWeight: 500, color: '#171717', lineHeight: 1.3, margin: 0 }}>
+                            <p style={{ fontSize: 'var(--text-body)', fontWeight: 500, color: 'var(--color-brand)', lineHeight: 1.3, margin: 0 }}>
                               {cert.nombre}
                             </p>
                             <p style={{ fontSize: '12px', color: '#666666', marginTop: '3px', margin: 0 }}>
@@ -1160,7 +1162,7 @@ export function Certifications() {
                             onMouseEnter={(e) => {
                               e.currentTarget.style.backgroundColor = '#f5f5f5';
                               const icon = e.currentTarget.querySelector('svg');
-                              if (icon) icon.style.color = '#171717';
+                              if (icon) icon.style.color = 'var(--color-brand)';
                             }}
                             onMouseLeave={(e) => {
                               e.currentTarget.style.backgroundColor = 'transparent';
@@ -1219,8 +1221,8 @@ export function Certifications() {
                     border: '1px solid',
                     cursor: 'pointer',
                     transition: 'all 0.15s',
-                    borderColor: itemsPerPage === count ? '#171717' : '#ebebeb',
-                    backgroundColor: itemsPerPage === count ? '#171717' : '#ffffff',
+                    borderColor: itemsPerPage === count ? 'var(--color-primary)' : 'var(--border-default)',
+                    backgroundColor: itemsPerPage === count ? 'var(--color-primary)' : 'var(--surface-card)',
                     color: itemsPerPage === count ? '#ffffff' : '#666666',
                   }}
                   onMouseEnter={(e) => {
@@ -1377,8 +1379,8 @@ export function Certifications() {
                         width: '32px',
                         height: '32px',
                         borderRadius: '6px',
-                        border: `1px solid ${isActive ? '#171717' : '#ebebeb'}`,
-                        backgroundColor: isActive ? '#171717' : '#ffffff',
+                        border: `1px solid ${isActive ? 'var(--color-primary)' : 'var(--border-default)'}`,
+                        backgroundColor: isActive ? 'var(--color-primary)' : 'var(--surface-card)',
                         color: isActive ? '#ffffff' : '#4d4d4d',
                         fontSize: '13px',
                         fontWeight: isActive ? 600 : 400,
@@ -1394,7 +1396,7 @@ export function Certifications() {
                         }
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = isActive ? '#171717' : '#ffffff';
+                        e.currentTarget.style.backgroundColor = isActive ? 'var(--color-primary)' : 'var(--surface-card)';
                       }}
                     >
                       {i}
