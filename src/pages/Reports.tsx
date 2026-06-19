@@ -8,6 +8,8 @@ import {
   Award,
   AlertTriangle,
   Clock,
+  Sparkles,
+  BarChart3,
 } from 'lucide-react';
 import {
   BarChart,
@@ -228,48 +230,46 @@ Generado automáticamente por CertifyX
 
   return (
     <div className="space-y-16" role="main" aria-label="Vista de reportes">
-      {/* ── HEADER ── */}
-      <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible" style={{ paddingBottom: '8px', borderBottom: '1px solid var(--border-default)' }}>
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-          {/* Izquierda: título + subtítulo */}
-          <div>
-            <h1 style={{ fontSize: 'var(--text-h1)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1.1, margin: 0 }}>
-              Reportes y Análisis
-            </h1>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px', flexWrap: 'wrap', rowGap: '2px' }}>
-              {[
-                <span key="periodo" style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)' }}>Período: <span style={{ color: 'var(--color-brand)', fontWeight: 'var(--weight-medium)' }}>{new Date().toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}</span></span>,
-                <span key="workers" style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-faint)' }}>{workers.length} trabajadores</span>,
-                <span key="certs" style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-faint)' }}>{certifications.length} certificaciones</span>,
-                <span key="areas" style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-faint)' }}>{new Set(workers.map(w => w.area)).size} áreas</span>,
-              ].reduce<React.ReactNode[]>((acc, item, i) => [
-                ...acc,
-                ...(i > 0 ? [<span key={`sep-${i}`} style={{ color: 'var(--border-strong)', fontSize: 'var(--text-body-sm)', userSelect: 'none' }} aria-hidden>·</span>] : []),
-                item,
-              ], [])}
+      {/* ── HEADER HERO ── */}
+      <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible" style={{ marginBottom: 'var(--space-lg)' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          {/* Izquierda: icono + saludo */}
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '14px' }}>
+            {/* Icono circular */}
+            <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 8px 24px -8px rgba(0,107,255,0.30)' }}>
+              <BarChart3 style={{ width: '28px', height: '28px', color: '#ffffff' }} strokeWidth={1.75} />
+            </div>
+            {/* Texto */}
+            <div>
+              <h1 style={{ fontSize: 'var(--text-h1)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1.1, margin: 0 }}>
+                {(() => { const h = new Date().getHours(); if (h < 12) return 'Buenos días'; if (h < 19) return 'Buenas tardes'; return 'Buenas noches'; })()}, Admin
+              </h1>
+              <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-muted)', marginTop: '4px', marginBottom: 0 }}>
+                Analizá el cumplimiento de tu equipo y exportá los reportes que necesités.
+              </p>
             </div>
           </div>
-          {/* Derecha: acciones */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+          {/* Derecha: CTAs */}
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', flexShrink: 0 }}>
             <button
               onClick={exportSummaryCSV}
               aria-label="Exportar resumen como CSV"
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', minHeight: '36px', backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', color: 'var(--color-text)', fontSize: 'var(--text-body)', fontWeight: 500, cursor: 'pointer', transition: 'background-color 0.15s', whiteSpace: 'nowrap' }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--surface-card)'; }}
+              style={{ height: '40px', padding: '0 16px', backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', color: 'var(--color-text)', fontSize: 'var(--text-body-sm)', fontWeight: 'var(--weight-medium)', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all var(--transition-fast)', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; e.currentTarget.style.borderColor = 'var(--border-strong)'; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--surface-card)'; e.currentTarget.style.borderColor = 'var(--border-default)'; }}
             >
-              <Download className="w-3.5 h-3.5" strokeWidth={1.5} />
-              CSV
+              <Download style={{ width: '16px', height: '16px' }} strokeWidth={1.5} />
+              Exportar CSV
             </button>
             <button
               onClick={exportSENCE}
-              aria-label="Exportar reporte SENCE"
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', minHeight: '36px', backgroundColor: 'var(--color-primary)', border: '1px solid var(--color-primary)', borderRadius: 'var(--radius-sm)', color: '#ffffff', fontSize: 'var(--text-body)', fontWeight: 500, cursor: 'pointer', transition: 'background-color 0.15s', whiteSpace: 'nowrap' }}
+              aria-label="Generar reporte SENCE"
+              style={{ height: '40px', padding: '0 18px', backgroundColor: 'var(--color-primary)', border: '1px solid var(--color-primary)', borderRadius: 'var(--radius-sm)', color: '#ffffff', fontSize: 'var(--text-body-sm)', fontWeight: 'var(--weight-semibold)', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all var(--transition-fast)', whiteSpace: 'nowrap', boxShadow: 'var(--shadow-sm)' }}
               onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)'; }}
               onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary)'; }}
             >
-              <FileText className="w-3.5 h-3.5" strokeWidth={1.5} />
-              SENCE
+              <Sparkles style={{ width: '16px', height: '16px', color: '#ffffff' }} strokeWidth={1.5} />
+              Generar reporte
             </button>
           </div>
         </div>
