@@ -58,3 +58,10 @@ export const useCertStore = create<CertStore>((set, get) => ({
     return get().certifications.filter((cert) => cert.workerId === workerId);
   },
 }));
+
+export const mockComplianceTrend = [
+  { week: 'Semana 1', value: 73, label: '04 Nov' },
+  { week: 'Semana 2', value: 75, label: '11 Nov' },
+  { week: 'Semana 3', value: 76, label: '18 Nov' },
+  { week: 'Semana 4', value: 78, label: '25 Nov' },
+];

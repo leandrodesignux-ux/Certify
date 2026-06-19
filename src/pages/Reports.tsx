@@ -30,6 +30,10 @@ import { KPICard } from '../components/reports/KPICard';
 import { CustomBarTooltip, CustomPieTooltip } from '../components/reports/ChartTooltips';
 import { PanelHeader } from '../components/reports/PanelHeader';
 import { PanelBadge } from '../components/reports/PanelBadge';
+import { ReportTabs } from '../components/reports/ReportTabs';
+import { InlineKPI } from '../components/reports/InlineKPI';
+import { SegmentedBar, SegmentedBarLegend } from '../components/reports/SegmentedBar';
+import { mockComplianceTrend } from '../store/useCertStore';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -207,6 +211,21 @@ Generado automáticamente por CertifyX
     return 'Crítico';
   };
 
+  const [activeReportTab, setActiveReportTab] = React.useState('resumen');
+
+  const reportTabs = [
+    { id: 'resumen', label: 'Resumen' },
+    { id: 'trabajadores', label: 'Trabajadores' },
+    { id: 'areas', label: 'Áreas' },
+    { id: 'historial', label: 'Historial', disabled: true },
+  ];
+
+  const complianceSegments = [
+    { label: 'Vigentes', value: certifications.filter(c => c.estado === 'vigente').length, color: '#297a3a', status: 'success' as const },
+    { label: 'Próx. vencer', value: certifications.filter(c => c.estado === 'proximo_vencer').length, color: '#b25000', status: 'warning' as const },
+    { label: 'Vencidas', value: certifications.filter(c => c.estado === 'vencido').length, color: '#e5484d', status: 'danger' as const },
+  ];
+
   return (
     <div className="space-y-16" role="main" aria-label="Vista de reportes">
       {/* ── HEADER ── */}
@@ -254,6 +273,36 @@ Generado automáticamente por CertifyX
             </button>
           </div>
         </div>
+      </motion.div>
+
+      {/* ── INSPECCIÓN VISUAL: Nuevos componentes ── */}
+      <motion.div custom={0.05} variants={sectionVariants} initial="hidden" animate="visible">
+        <Card style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <PanelHeader title="Preview: nuevos componentes" subtitle="Inspección visual — se removerá en la siguiente iteración" />
+
+          {/* ReportTabs */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>ReportTabs</span>
+            <ReportTabs tabs={reportTabs} activeId={activeReportTab} onChange={setActiveReportTab} />
+          </div>
+
+          {/* InlineKPI row */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>InlineKPI</span>
+            <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
+              <InlineKPI icon={TrendingUp} label="Compliance Global" value={kpis.avgCompliance} suffix="%" trendLabel={`+${mockComplianceTrend[3].value - mockComplianceTrend[0].value}% vs sem. 1`} trendDirection="up" />
+              <InlineKPI icon={Award} label="Certs. Activas" value={kpis.activeCerts} trendDirection="neutral" trendLabel="sin cambio" />
+              <InlineKPI icon={AlertTriangle} label="Trabajadores en riesgo" value={kpis.workersAtRisk} trendDirection="down" trendLabel="2 nuevos esta semana" />
+            </div>
+          </div>
+
+          {/* SegmentedBar */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>SegmentedBar</span>
+            <SegmentedBar segments={complianceSegments} height={10} />
+            <SegmentedBarLegend segments={complianceSegments} orientation="horizontal" />
+          </div>
+        </Card>
       </motion.div>
 
       {/* SECTION 1: KPIs */}
