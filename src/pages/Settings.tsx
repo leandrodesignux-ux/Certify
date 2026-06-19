@@ -242,6 +242,468 @@ function PerfilSection() {
   );
 }
 
+// ─── Toggle Switch ────────────────────────────────────────────────────────────
+
+function Switch({ checked, onChange, id }: { checked: boolean; onChange: (v: boolean) => void; id: string }) {
+  return (
+    <button
+      role="switch"
+      aria-checked={checked}
+      id={id}
+      onClick={() => onChange(!checked)}
+      style={{
+        width: '36px', height: '20px', flexShrink: 0,
+        borderRadius: '10px', border: 'none', padding: '2px',
+        backgroundColor: checked ? '#171717' : '#d4d4d4',
+        cursor: 'pointer', position: 'relative',
+        transition: 'background-color 0.2s',
+        display: 'flex', alignItems: 'center',
+      }}
+    >
+      <span style={{
+        width: '16px', height: '16px', borderRadius: '50%',
+        backgroundColor: '#ffffff',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+        transform: checked ? 'translateX(16px)' : 'translateX(0)',
+        transition: 'transform 0.2s cubic-bezier(0.16,1,0.3,1)',
+        display: 'block',
+      }} />
+    </button>
+  );
+}
+
+// ─── Notificaciones Section ────────────────────────────────────────────────────
+
+function NotificacionesSection() {
+  const [prefs, setPrefs] = useState({
+    vencimiento: true,
+    resumenSemanal: false,
+    trabajadoresRiesgo: true,
+    nuevasCerts: false,
+  });
+  const [antelacion, setAntelacion] = useState<'7' | '15' | '30'>('15');
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved'>('idle');
+
+  const toggle = (key: keyof typeof prefs) => {
+    setPrefs(prev => ({ ...prev, [key]: !prev[key] }));
+    setSaveStatus('idle');
+  };
+
+  const handleSave = () => {
+    setSaveStatus('saved');
+    setTimeout(() => setSaveStatus('idle'), 3000);
+  };
+
+  const rows: { key: keyof typeof prefs; label: string; desc: string }[] = [
+    { key: 'vencimiento',        label: 'Alertas de vencimiento',          desc: 'Notificaciones cuando certificaciones están próximas a vencer.' },
+    { key: 'resumenSemanal',     label: 'Resumen semanal por email',        desc: 'Recibí un resumen cada lunes con el estado general.' },
+    { key: 'trabajadoresRiesgo', label: 'Trabajadores en riesgo',           desc: 'Alerta cuando un trabajador cae bajo el umbral de cumplimiento.' },
+    { key: 'nuevasCerts',        label: 'Nuevas certificaciones agregadas', desc: 'Notificación al agregar una certificación al sistema.' },
+  ];
+
+  const selectStyle: React.CSSProperties = {
+    height: '30px', padding: '0 28px 0 10px', fontSize: '12px',
+    color: '#171717', backgroundColor: '#ffffff',
+    border: '1px solid #ebebeb', borderRadius: '6px',
+    outline: 'none', cursor: 'pointer',
+    appearance: 'none', WebkitAppearance: 'none',
+    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23a8a8a8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
+    backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center',
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+      {rows.map((row, i) => (
+        <div
+          key={row.key}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            gap: '16px', padding: '16px 0',
+            borderBottom: i < rows.length - 1 ? '1px solid #f5f5f5' : 'none',
+          }}
+        >
+          {/* Label + desc */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <label htmlFor={`notif-${row.key}`} style={{ fontSize: '13px', fontWeight: 500, color: '#171717', cursor: 'pointer', display: 'block' }}>
+              {row.label}
+            </label>
+            <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>{row.desc}</p>
+            {/* Sub-select antelación solo en vencimiento */}
+            {row.key === 'vencimiento' && prefs.vencimiento && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px' }}>
+                <span style={{ fontSize: '12px', color: '#666666' }}>Antelación:</span>
+                <div style={{ position: 'relative' }}>
+                  <select
+                    value={antelacion}
+                    onChange={e => setAntelacion(e.target.value as '7' | '15' | '30')}
+                    style={selectStyle}
+                  >
+                    <option value="7">7 días</option>
+                    <option value="15">15 días</option>
+                    <option value="30">30 días</option>
+                  </select>
+                </div>
+              </div>
+            )}
+          </div>
+          {/* Switch */}
+          <Switch checked={prefs[row.key]} onChange={() => toggle(row.key)} id={`notif-${row.key}`} />
+        </div>
+      ))}
+
+      {/* Footer: save */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #f5f5f5' }}>
+        <AnimatePresence>
+          {saveStatus === 'saved' && (
+            <motion.div
+              initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+            >
+              <CheckCircle style={{ width: '14px', height: '14px', color: '#297a3a' }} strokeWidth={2} />
+              <span style={{ fontSize: '13px', color: '#297a3a', fontWeight: 500 }}>Preferencias guardadas</span>
+            </motion.div>
+          )}
+          {saveStatus === 'idle' && <div />}
+        </AnimatePresence>
+        <button
+          onClick={handleSave}
+          style={{
+            height: '36px', padding: '0 16px', fontSize: '13px', fontWeight: 500,
+            color: '#ffffff', backgroundColor: '#171717',
+            border: 'none', borderRadius: '6px', cursor: 'pointer',
+            transition: 'background-color 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#171717'; }}
+        >
+          Guardar preferencias
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Apariencia Section ───────────────────────────────────────────────────────
+
+function AparienciaSection() {
+  const [densidad, setDensidad] = useState<'comoda' | 'compacta'>('comoda');
+  const [idioma, setIdioma] = useState<'es' | 'en'>('es');
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved'>('idle');
+
+  const handleSave = () => {
+    setSaveStatus('saved');
+    setTimeout(() => setSaveStatus('idle'), 3000);
+  };
+
+  const radioCard = (
+    label: string, sub: string, value: string, current: string, onClick: () => void
+  ) => {
+    const active = value === current;
+    return (
+      <button
+        onClick={onClick}
+        style={{
+          flex: 1, padding: '14px 16px', borderRadius: '6px', textAlign: 'left',
+          border: `1px solid ${active ? '#171717' : '#ebebeb'}`,
+          backgroundColor: active ? '#fafafa' : '#ffffff',
+          cursor: 'pointer', transition: 'border-color 0.15s, background-color 0.15s',
+          display: 'flex', alignItems: 'flex-start', gap: '10px',
+        }}
+      >
+        <span style={{
+          width: '16px', height: '16px', borderRadius: '50%', flexShrink: 0, marginTop: '1px',
+          border: `2px solid ${active ? '#171717' : '#d4d4d4'}`,
+          backgroundColor: active ? '#171717' : 'transparent',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          transition: 'all 0.15s',
+        }}>
+          {active && <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#ffffff', display: 'block' }} />}
+        </span>
+        <div>
+          <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>{label}</p>
+          <p style={{ fontSize: '11px', color: '#a8a8a8', margin: '2px 0 0' }}>{sub}</p>
+        </div>
+      </button>
+    );
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+      {/* Densidad */}
+      <div>
+        <p style={{ ...labelStyle, marginBottom: '10px', fontSize: '13px', color: '#171717', fontWeight: 500 }}>Densidad de tablas</p>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          {radioCard('Cómoda', 'Más espacio entre filas', 'comoda', densidad, () => setDensidad('comoda'))}
+          {radioCard('Compacta', 'Más filas visibles', 'compacta', densidad, () => setDensidad('compacta'))}
+        </div>
+      </div>
+
+      <div style={{ height: '1px', backgroundColor: '#f5f5f5' }} />
+
+      {/* Idioma */}
+      <div>
+        <p style={{ ...labelStyle, marginBottom: '10px', fontSize: '13px', color: '#171717', fontWeight: 500 }}>Idioma de la interfaz</p>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          {radioCard('Español', 'Idioma predeterminado', 'es', idioma, () => setIdioma('es'))}
+          {radioCard('English', 'English interface', 'en', idioma, () => setIdioma('en'))}
+        </div>
+      </div>
+
+      <div style={{ height: '1px', backgroundColor: '#f5f5f5' }} />
+
+      {/* Tema — deshabilitado */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', opacity: 0.5 }}>
+        <div>
+          <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>Tema oscuro</p>
+          <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Disponible próximamente — la app es light-only por ahora.</p>
+        </div>
+        <Switch checked={false} onChange={() => {}} id="tema-oscuro" />
+      </div>
+
+      {/* Footer */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '20px', borderTop: '1px solid #f5f5f5' }}>
+        <AnimatePresence>
+          {saveStatus === 'saved' && (
+            <motion.div initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <CheckCircle style={{ width: '14px', height: '14px', color: '#297a3a' }} strokeWidth={2} />
+              <span style={{ fontSize: '13px', color: '#297a3a', fontWeight: 500 }}>Preferencias guardadas</span>
+            </motion.div>
+          )}
+          {saveStatus === 'idle' && <div />}
+        </AnimatePresence>
+        <button onClick={handleSave}
+          style={{ height: '36px', padding: '0 16px', fontSize: '13px', fontWeight: 500, color: '#ffffff', backgroundColor: '#171717', border: 'none', borderRadius: '6px', cursor: 'pointer', transition: 'background-color 0.15s' }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#171717'; }}
+        >
+          Guardar apariencia
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Datos Section ─────────────────────────────────────────────────────────────
+
+const MOCK_SESSIONS = [
+  { id: '1', device: 'Chrome · macOS', location: 'Santiago, CL', last: 'Ahora mismo', current: true },
+  { id: '2', device: 'Safari · iPhone', location: 'Santiago, CL', last: 'Hace 2 horas', current: false },
+  { id: '3', device: 'Firefox · Windows', location: 'Valparaíso, CL', last: 'Ayer 18:32', current: false },
+];
+
+function DatosSection() {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [resetStatus, setResetStatus] = useState<'idle' | 'done'>('idle');
+  const [exportStatus, setExportStatus] = useState<'idle' | 'done'>('idle');
+
+  const handleExport = () => {
+    setExportStatus('done');
+    setTimeout(() => setExportStatus('idle'), 3000);
+  };
+
+  const handleReset = () => {
+    setShowConfirm(false);
+    setResetStatus('done');
+    setTimeout(() => setResetStatus('idle'), 4000);
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+      {/* Exportar */}
+      <div style={{ padding: '16px 0', borderBottom: '1px solid #f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
+        <div>
+          <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>Exportar todos los datos</p>
+          <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Descargá un archivo CSV con trabajadores, certificaciones y mallas.</p>
+          {exportStatus === 'done' && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '6px' }}>
+              <CheckCircle style={{ width: '12px', height: '12px', color: '#297a3a' }} strokeWidth={2} />
+              <span style={{ fontSize: '11px', color: '#297a3a' }}>Exportación iniciada</span>
+            </div>
+          )}
+        </div>
+        <button onClick={handleExport}
+          style={{ height: '34px', padding: '0 14px', fontSize: '12px', fontWeight: 500, flexShrink: 0, color: '#171717', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', cursor: 'pointer', transition: 'all 0.15s' }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
+        >
+          Exportar CSV
+        </button>
+      </div>
+
+      {/* Importar */}
+      <div style={{ padding: '16px 0', borderBottom: '1px solid #f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', opacity: 0.5 }}>
+        <div>
+          <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>Importar datos</p>
+          <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Importá datos desde un archivo CSV. Próximamente disponible.</p>
+        </div>
+        <button disabled
+          style={{ height: '34px', padding: '0 14px', fontSize: '12px', fontWeight: 500, flexShrink: 0, color: '#a8a8a8', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', borderRadius: '6px', cursor: 'not-allowed' }}
+        >
+          Próximamente
+        </button>
+      </div>
+
+      {/* Zona de peligro */}
+      <div style={{ marginTop: '24px', padding: '20px', border: '1px solid rgba(229,72,77,0.2)', borderRadius: '6px', backgroundColor: 'rgba(229,72,77,0.02)' }}>
+        <p style={{ fontSize: '13px', fontWeight: 600, color: '#e5484d', margin: '0 0 4px' }}>Zona de peligro</p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginTop: '12px' }}>
+          <div>
+            <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>Restablecer datos de demo</p>
+            <p style={{ fontSize: '12px', color: '#a8a8a8', margin: '2px 0 0' }}>Restaura los datos mock originales. Esta acción no se puede deshacer.</p>
+            {resetStatus === 'done' && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '6px' }}>
+                <CheckCircle style={{ width: '12px', height: '12px', color: '#297a3a' }} strokeWidth={2} />
+                <span style={{ fontSize: '11px', color: '#297a3a' }}>Datos restablecidos correctamente</span>
+              </div>
+            )}
+          </div>
+          <button onClick={() => setShowConfirm(true)}
+            style={{ height: '34px', padding: '0 14px', fontSize: '12px', fontWeight: 500, flexShrink: 0, color: '#e5484d', backgroundColor: 'transparent', border: '1px solid #e5484d', borderRadius: '6px', cursor: 'pointer', transition: 'all 0.15s' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(229,72,77,0.06)'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
+          >
+            Restablecer
+          </button>
+        </div>
+      </div>
+
+      {/* Modal confirmación reset */}
+      <AnimatePresence>
+        {showConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}
+            style={{ position: 'fixed', inset: 0, zIndex: 60, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}
+            onClick={() => setShowConfirm(false)}
+          >
+            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(2px)' }} />
+            <motion.div
+              initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }} transition={{ duration: 0.18 }}
+              onClick={e => e.stopPropagation()}
+              style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '400px', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#ffffff', border: '1px solid #ebebeb', borderRadius: '6px', boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}
+            >
+              <div style={{ padding: '20px 20px 16px', flexShrink: 0, borderBottom: '1px solid #f5f5f5' }}>
+                <p style={{ fontSize: '15px', fontWeight: 600, color: '#171717', margin: 0 }}>¿Restablecer datos de demo?</p>
+                <p style={{ fontSize: '13px', color: '#666666', marginTop: '6px', marginBottom: 0 }}>Esta acción restaurará todos los datos mock. Los cambios actuales se perderán.</p>
+              </div>
+              <div style={{ padding: '16px 20px', display: 'flex', gap: '8px', justifyContent: 'flex-end', flexShrink: 0 }}>
+                <button onClick={() => setShowConfirm(false)}
+                  style={{ height: '34px', padding: '0 14px', fontSize: '13px', fontWeight: 500, color: '#4d4d4d', backgroundColor: 'transparent', border: '1px solid #ebebeb', borderRadius: '6px', cursor: 'pointer', transition: 'background-color 0.15s' }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f5f5'; }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
+                >
+                  Cancelar
+                </button>
+                <button onClick={handleReset}
+                  style={{ height: '34px', padding: '0 14px', fontSize: '13px', fontWeight: 500, color: '#ffffff', backgroundColor: '#e5484d', border: 'none', borderRadius: '6px', cursor: 'pointer', transition: 'background-color 0.15s' }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#c73d41'; }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#e5484d'; }}
+                >
+                  Sí, restablecer
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ─── Seguridad Section ────────────────────────────────────────────────────────
+
+function SeguridadSection() {
+  const [pwd, setPwd] = useState({ actual: '', nueva: '', confirmar: '' });
+  const [errors, setErrors] = useState({ nueva: '', confirmar: '' });
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved'>('idle');
+  const [sessions, setSessions] = useState(MOCK_SESSIONS);
+
+  const setPwdField = (field: keyof typeof pwd) => (v: string) => {
+    setPwd(prev => ({ ...prev, [field]: v }));
+    setErrors({ nueva: '', confirmar: '' });
+    if (saveStatus === 'saved') setSaveStatus('idle');
+  };
+
+  const handleSavePwd = () => {
+    const errs = { nueva: '', confirmar: '' };
+    if (pwd.nueva.length < 8) errs.nueva = 'Mínimo 8 caracteres.';
+    if (pwd.nueva !== pwd.confirmar) errs.confirmar = 'Las contraseñas no coinciden.';
+    if (errs.nueva || errs.confirmar) { setErrors(errs); return; }
+    setPwd({ actual: '', nueva: '', confirmar: '' });
+    setSaveStatus('saved');
+    setTimeout(() => setSaveStatus('idle'), 3000);
+  };
+
+  const canSave = pwd.actual.length > 0 && pwd.nueva.length > 0 && pwd.confirmar.length > 0;
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      {/* Cambio de contraseña */}
+      <div>
+        <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', marginBottom: '16px', margin: '0 0 16px' }}>Cambiar contraseña</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '360px' }}>
+          <FormField label="Contraseña actual" value={pwd.actual} onChange={setPwdField('actual')} type="password" placeholder="••••••••" />
+          <FormField label="Nueva contraseña" value={pwd.nueva} onChange={setPwdField('nueva')} type="password" error={errors.nueva} placeholder="Mínimo 8 caracteres" />
+          <FormField label="Confirmar contraseña" value={pwd.confirmar} onChange={setPwdField('confirmar')} type="password" error={errors.confirmar} placeholder="Repetí la nueva contraseña" />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '20px' }}>
+          <button onClick={handleSavePwd} disabled={!canSave}
+            style={{ height: '36px', padding: '0 16px', fontSize: '13px', fontWeight: 500, color: '#ffffff', backgroundColor: canSave ? '#171717' : '#d4d4d4', border: 'none', borderRadius: '6px', cursor: canSave ? 'pointer' : 'not-allowed', transition: 'background-color 0.15s' }}
+            onMouseEnter={e => { if (canSave) e.currentTarget.style.backgroundColor = '#2e2e2e'; }}
+            onMouseLeave={e => { if (canSave) e.currentTarget.style.backgroundColor = '#171717'; }}
+          >
+            Actualizar contraseña
+          </button>
+          <AnimatePresence>
+            {saveStatus === 'saved' && (
+              <motion.div initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
+                style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <CheckCircle style={{ width: '13px', height: '13px', color: '#297a3a' }} strokeWidth={2} />
+                <span style={{ fontSize: '12px', color: '#297a3a', fontWeight: 500 }}>Contraseña actualizada</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+
+      <div style={{ height: '1px', backgroundColor: '#f5f5f5' }} />
+
+      {/* Sesiones activas */}
+      <div>
+        <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', marginBottom: '12px', margin: '0 0 12px' }}>Sesiones activas</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+          {sessions.map((s, i) => (
+            <div key={s.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', padding: '12px 0', borderBottom: i < sessions.length - 1 ? '1px solid #f5f5f5' : 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ width: '34px', height: '34px', borderRadius: '6px', backgroundColor: '#f5f5f5', border: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Shield style={{ width: '14px', height: '14px', color: s.current ? '#297a3a' : '#a8a8a8' }} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <p style={{ fontSize: '13px', fontWeight: 500, color: '#171717', margin: 0 }}>{s.device}</p>
+                    {s.current && <span style={{ fontSize: '10px', fontWeight: 500, color: '#297a3a', backgroundColor: 'rgba(41,122,58,0.08)', border: '1px solid rgba(41,122,58,0.2)', borderRadius: '9999px', padding: '1px 7px' }}>Esta sesión</span>}
+                  </div>
+                  <p style={{ fontSize: '11px', color: '#a8a8a8', margin: '2px 0 0' }}>{s.location} · {s.last}</p>
+                </div>
+              </div>
+              {!s.current && (
+                <button onClick={() => setSessions(prev => prev.filter(x => x.id !== s.id))}
+                  style={{ height: '30px', padding: '0 12px', fontSize: '12px', fontWeight: 500, color: '#e5484d', backgroundColor: 'transparent', border: '1px solid rgba(229,72,77,0.3)', borderRadius: '6px', cursor: 'pointer', flexShrink: 0, transition: 'all 0.15s' }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(229,72,77,0.06)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
+                >
+                  Cerrar sesión
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Settings ─────────────────────────────────────────────────────────────────
 
 export function Settings() {
@@ -356,12 +818,14 @@ export function Settings() {
                 {/* Cuerpo de sección */}
                 {activeSection === 'perfil' ? (
                   <PerfilSection />
+                ) : activeSection === 'notificaciones' ? (
+                  <NotificacionesSection />
+                ) : activeSection === 'apariencia' ? (
+                  <AparienciaSection />
+                ) : activeSection === 'datos' ? (
+                  <DatosSection />
                 ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px', gap: '10px', textAlign: 'center' }}>
-                    <active.icon style={{ width: '32px', height: '32px', color: '#d4d4d4' }} strokeWidth={1} />
-                    <p style={{ fontSize: '13px', color: '#a8a8a8', margin: 0 }}>{active.description}</p>
-                    <p style={{ fontSize: '12px', color: '#d4d4d4', margin: 0 }}>Contenido disponible próximamente</p>
-                  </div>
+                  <SeguridadSection />
                 )}
               </Card>
             </motion.div>
