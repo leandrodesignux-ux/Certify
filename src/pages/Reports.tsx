@@ -208,7 +208,7 @@ Generado automáticamente por CertifyX
   };
 
   return (
-    <div className="space-y-12" role="main" aria-label="Vista de reportes">
+    <div className="space-y-16" role="main" aria-label="Vista de reportes">
       {/* ── HEADER ── */}
       <motion.div custom={0} variants={sectionVariants} initial="hidden" animate="visible" style={{ paddingBottom: '8px', borderBottom: '1px solid #f0f0f0' }}>
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
@@ -259,7 +259,7 @@ Generado automáticamente por CertifyX
       {/* SECTION 1: KPIs */}
       <motion.div custom={0.1} variants={sectionVariants} initial="hidden" animate="visible">
         <div
-          className="grid gap-5 grid-cols-2 lg:grid-cols-4"
+          className="grid gap-6 grid-cols-2 lg:grid-cols-4"
           role="region"
           aria-label="Indicadores clave de cumplimiento"
         >
@@ -308,7 +308,7 @@ Generado automáticamente por CertifyX
 
       {/* FILA B: Charts */}
       <motion.div role="region" aria-label="Gráficos de cumplimiento y certificaciones" custom={0.3} variants={sectionVariants} initial="hidden" animate="visible">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
         {/* Compliance por Área - Bar Chart */}
         <motion.div className="flex flex-col" custom={0.5} variants={sectionVariants} initial="hidden" animate="visible">
           <Card variant="default" padding="lg" hover={false} style={{ flex: 1, minHeight: '380px', display: 'flex', flexDirection: 'column' }}>
@@ -413,7 +413,7 @@ Generado automáticamente por CertifyX
       </motion.div>
 
       {/* FILA C: Riesgo + Export lado a lado */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
 
       {/* SECTION 4: Top Trabajadores en Riesgo */}
       <motion.div role="region" aria-label="Trabajadores en riesgo" className="flex flex-col" custom={0.5} variants={sectionVariants} initial="hidden" animate="visible">
