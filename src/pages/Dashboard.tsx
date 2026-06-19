@@ -95,7 +95,7 @@ export function Dashboard() {
               subtitle="Total Trabajadores"
               trend={{ direction: 'up', value: '+3 este mes' }}
               icon={Users}
-              color="electric"
+              role="primary"
               delay={0}
             />
             <StatsCard
@@ -103,7 +103,7 @@ export function Dashboard() {
               subtitle="Certificaciones Vigentes"
               trend={{ direction: 'up', value: '87% del total' }}
               icon={Award}
-              color="success"
+              role="neutral"
               delay={0.1}
             />
             <StatsCard
@@ -111,7 +111,7 @@ export function Dashboard() {
               subtitle="Próximas a Vencer"
               trend={{ direction: 'up', value: '+5 esta semana' }}
               icon={AlertTriangle}
-              color="warning"
+              role="warning"
               delay={0.2}
             />
             <StatsCard
@@ -119,7 +119,7 @@ export function Dashboard() {
               subtitle="Compliance General"
               trend={{ direction: 'down', value: '-2% vs mes ant.' }}
               icon={BookOpen}
-              color="volt"
+              role="primary"
               delay={0.3}
             />
           </>
