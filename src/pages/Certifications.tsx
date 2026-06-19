@@ -414,6 +414,10 @@ export function Certifications() {
           borderBottom: '1px solid var(--border-default)',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
+          position: 'relative',
+          paddingRight: '24px',
+          maskImage: 'linear-gradient(to right, black 0%, black calc(100% - 24px), transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, black 0%, black calc(100% - 24px), transparent 100%)',
         }}
       >
         {tabs.map((tab) => {
@@ -566,7 +570,7 @@ export function Certifications() {
         </div>
 
         {/* Results Count - Below Input */}
-        <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)', marginTop: '6px', marginLeft: '4px' }}>
+        <p className="hidden sm:block" style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-faint)', marginTop: '6px', marginLeft: '4px' }}>
           {filtered.length} certificaciones encontradas
         </p>
 
@@ -802,7 +806,7 @@ export function Certifications() {
         className="hidden lg:block"
         style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
       >
-        <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--border-strong) transparent' }}>
+        <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--border-strong) transparent', maskImage: 'linear-gradient(to right, black 0%, black calc(100% - 16px), transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, black 0%, black calc(100% - 16px), transparent 100%)' }}>
           <table className="w-full" role="grid">
             {/* Column widths definition */}
             <colgroup>
@@ -1242,51 +1246,56 @@ export function Certifications() {
           border: '1px solid var(--border-default)',
           borderRadius: 'var(--radius-sm)',
         }}>
-          {/* Left side - Items per page segmented control */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }} title="Registros por página">
-            {[10, 25, 50].map(count => (
-              <button
-                key={count}
-                onClick={() => {
-                  setItemsPerPage(count);
-                  setCurrentPage(1);
-                }}
-                style={{
-                  width: '40px',
-                  height: '32px',
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  borderRadius: '6px',
-                  border: '1px solid',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s',
-                  borderColor: itemsPerPage === count ? 'var(--color-primary)' : 'var(--border-default)',
-                  backgroundColor: itemsPerPage === count ? 'var(--color-primary)' : 'var(--surface-card)',
-                  color: itemsPerPage === count ? '#ffffff' : 'var(--color-text-muted)',
-                }}
-                onMouseEnter={(e) => {
-                  if (itemsPerPage !== count) {
-                    e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (itemsPerPage !== count) {
-                    e.currentTarget.style.backgroundColor = 'var(--surface-card)';
-                  }
-                }}
-              >
-                {count}
-              </button>
-            ))}
+          {/* Left side - Items per page + mobile compact counter */}
+          <div className="flex items-center justify-between sm:justify-start gap-3 sm:gap-2" title="Registros por página">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              {[10, 25, 50].map(count => (
+                <button
+                  key={count}
+                  onClick={() => {
+                    setItemsPerPage(count);
+                    setCurrentPage(1);
+                  }}
+                  style={{
+                    width: '40px',
+                    height: '32px',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    borderRadius: '6px',
+                    border: '1px solid',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                    borderColor: itemsPerPage === count ? 'var(--color-primary)' : 'var(--border-default)',
+                    backgroundColor: itemsPerPage === count ? 'var(--color-primary)' : 'var(--surface-card)',
+                    color: itemsPerPage === count ? '#ffffff' : 'var(--color-text-muted)',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (itemsPerPage !== count) {
+                      e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (itemsPerPage !== count) {
+                      e.currentTarget.style.backgroundColor = 'var(--surface-card)';
+                    }
+                  }}
+                >
+                  {count}
+                </button>
+              ))}
+            </div>
+            <span className="sm:hidden" style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)' }}>
+              {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, sorted.length)} de {sorted.length}
+            </span>
           </div>
 
           {/* Center - Showing info */}
-          <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)' }}>
+          <span className="hidden sm:block" style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)' }}>
             Mostrando {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, sorted.length)} de {sorted.length} certificaciones
           </span>
 
           {/* Right side - Navigation controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <div className="flex items-center justify-end gap-1 flex-wrap">
             {/* First page button */}
             <button
               onClick={() => { setCurrentPage(1); scrollToTop(); }}
