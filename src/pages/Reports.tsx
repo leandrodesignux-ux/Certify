@@ -1,15 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  FileText,
   Download,
-  Image as ImageIcon,
   TrendingUp,
   Award,
-  AlertTriangle,
   Clock,
   Sparkles,
   BarChart3,
+  MoreHorizontal,
 } from 'lucide-react';
 import {
   BarChart,
@@ -23,18 +21,19 @@ import {
   Cell,
   LabelList,
   Label,
+  AreaChart,
+  Area,
+  CartesianGrid,
 } from 'recharts';
 import { Card } from '../components/ui/Card';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { useCertStore } from '../store/useCertStore';
 import { useNavigate } from 'react-router-dom';
-import { KPICard } from '../components/reports/KPICard';
 import { CustomBarTooltip, CustomPieTooltip } from '../components/reports/ChartTooltips';
 import { PanelHeader } from '../components/reports/PanelHeader';
 import { PanelBadge } from '../components/reports/PanelBadge';
 import { ReportTabs } from '../components/reports/ReportTabs';
 import { InlineKPI } from '../components/reports/InlineKPI';
-import { SegmentedBar, SegmentedBarLegend } from '../components/reports/SegmentedBar';
 import { mockComplianceTrend } from '../store/useCertStore';
 
 const sectionVariants = {
@@ -201,12 +200,6 @@ Generado automáticamente por CertifyX
     URL.revokeObjectURL(url);
   };
 
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return '#297a3a';
-    if (score >= 60) return '#b25000';
-    return '#e5484d';
-  };
-
   const getComplianceLabel = (score: number) => {
     if (score >= 80) return 'Óptimo';
     if (score >= 60) return 'Regular';
@@ -220,21 +213,6 @@ Generado automáticamente por CertifyX
     { id: 'compliance',  label: 'Cumplimiento',   disabled: true },
     { id: 'expirations', label: 'Vencimientos',   disabled: true },
     { id: 'by-worker',   label: 'Por Trabajador', disabled: true },
-  ];
-
-  const [activeReportTab, setActiveReportTab] = React.useState('resumen');
-
-  const reportTabs = [
-    { id: 'resumen', label: 'Resumen' },
-    { id: 'trabajadores', label: 'Trabajadores' },
-    { id: 'areas', label: 'Áreas' },
-    { id: 'historial', label: 'Historial', disabled: true },
-  ];
-
-  const complianceSegments = [
-    { label: 'Vigentes', value: certifications.filter(c => c.estado === 'vigente').length, color: '#297a3a', status: 'success' as const },
-    { label: 'Próx. vencer', value: certifications.filter(c => c.estado === 'proximo_vencer').length, color: '#b25000', status: 'warning' as const },
-    { label: 'Vencidas', value: certifications.filter(c => c.estado === 'vencido').length, color: '#e5484d', status: 'danger' as const },
   ];
 
   return (
@@ -292,83 +270,107 @@ Generado automáticamente por CertifyX
       {activeTab === 'general' ? (
         <>
 
-      {/* ── INSPECCIÓN VISUAL: Nuevos componentes ── */}
-      <motion.div custom={0.05} variants={sectionVariants} initial="hidden" animate="visible">
-        <Card style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <PanelHeader title="Preview: nuevos componentes" subtitle="Inspección visual — se removerá en la siguiente iteración" />
+      {/* FILA 1: Resumen + Tendencia */}
+      <motion.div custom={0.1} variants={sectionVariants} initial="hidden" animate="visible" style={{ marginBottom: 'var(--space-lg)' }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-          {/* ReportTabs */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>ReportTabs</span>
-            <ReportTabs tabs={reportTabs} activeId={activeReportTab} onChange={setActiveReportTab} />
-          </div>
-
-          {/* InlineKPI row */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>InlineKPI</span>
-            <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
-              <InlineKPI icon={TrendingUp} label="Compliance Global" value={kpis.avgCompliance} suffix="%" trendLabel={`+${mockComplianceTrend[3].value - mockComplianceTrend[0].value}% vs sem. 1`} trendDirection="up" />
-              <InlineKPI icon={Award} label="Certs. Activas" value={kpis.activeCerts} trendDirection="neutral" trendLabel="sin cambio" />
-              <InlineKPI icon={AlertTriangle} label="Trabajadores en riesgo" value={kpis.workersAtRisk} trendDirection="down" trendLabel="2 nuevos esta semana" />
+          {/* CARD A: Resumen de Cumplimiento */}
+          <Card variant="default" padding="lg" hover={false} style={{ position: 'relative' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-lg)' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', margin: 0, letterSpacing: 'var(--tracking-snug)' }}>
+                Resumen de Cumplimiento
+              </h3>
+              <KebabMenu />
             </div>
-          </div>
+            <div className="grid grid-cols-3 gap-4">
+              <InlineKPI
+                icon={TrendingUp}
+                label="Compliance Global"
+                value={kpis.avgCompliance}
+                suffix="%"
+                trendLabel={`${getComplianceLabel(kpis.avgCompliance)} este mes`}
+                trendDirection={kpis.avgCompliance >= 80 ? 'up' : kpis.avgCompliance >= 60 ? 'neutral' : 'down'}
+              />
+              <InlineKPI
+                icon={Award}
+                label="Certs vigentes"
+                value={kpis.activeCerts}
+                trendLabel={`${Math.round((kpis.activeCerts / (certifications.length || 1)) * 100)}% del total`}
+                trendDirection="up"
+              />
+              <InlineKPI
+                icon={Clock}
+                label="Vencen en 30d"
+                value={kpis.expiringSoon}
+                trendLabel={kpis.expiringSoon > 5 ? `${kpis.expiringSoon} crítico` : 'Bajo riesgo'}
+                trendDirection={kpis.expiringSoon > 5 ? 'down' : 'neutral'}
+              />
+            </div>
+          </Card>
 
-          {/* SegmentedBar */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>SegmentedBar</span>
-            <SegmentedBar segments={complianceSegments} height={10} />
-            <SegmentedBarLegend segments={complianceSegments} orientation="horizontal" />
-          </div>
-        </Card>
-      </motion.div>
+          {/* CARD B: Tendencia de Cumplimiento */}
+          {(() => {
+            const trendColor = kpis.avgCompliance >= 80 ? '#297a3a' : kpis.avgCompliance >= 60 ? '#b25000' : '#e5484d';
+            return (
+              <Card variant="default" padding="lg" hover={false} style={{ position: 'relative', minHeight: '240px' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 'var(--space-md)' }}>
+                  <h3 style={{ fontSize: '16px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', margin: 0, letterSpacing: 'var(--tracking-snug)' }}>
+                    Tendencia de Cumplimiento
+                  </h3>
+                  <KebabMenu />
+                </div>
+                <div style={{ display: 'flex', gap: 'var(--space-lg)', alignItems: 'flex-start', height: '100%' }}>
+                  {/* KPI hero */}
+                  <div style={{ flexShrink: 0, minWidth: '140px' }}>
+                    <div style={{ fontSize: '32px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', fontFamily: 'var(--font-display)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1, fontFeatureSettings: '"tnum"' }}>
+                      {kpis.avgCompliance}%
+                    </div>
+                    <div style={{ fontSize: 'var(--text-micro)', color: 'var(--status-success)', fontWeight: 'var(--weight-medium)', marginTop: '6px' }}>
+                      ↑ +{Math.max(0, kpis.avgCompliance - mockComplianceTrend[0].value)}% últimos 30 días
+                    </div>
+                    <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)', marginTop: 'var(--space-md)', maxWidth: '160px', lineHeight: 1.4 }}>
+                      Mantené el compliance del equipo por encima del 85%.
+                    </p>
+                  </div>
+                  {/* Area chart */}
+                  <div style={{ flex: 1, height: '160px', minHeight: '160px' }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={mockComplianceTrend} margin={{ top: 20, right: 16, left: 0, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="trendGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor={trendColor} stopOpacity={0.18} />
+                            <stop offset="100%" stopColor={trendColor} stopOpacity={0.02} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid stroke="var(--border-default)" strokeDasharray="2 4" vertical={false} />
+                        <XAxis
+                          dataKey="week"
+                          tick={{ fill: '#476788', fontSize: 11, fontFamily: 'var(--font-body)' }}
+                          axisLine={false}
+                          tickLine={false}
+                        />
+                        <YAxis hide domain={[Math.min(...mockComplianceTrend.map(d => d.value)) - 8, 100]} />
+                        <Tooltip
+                          contentStyle={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--text-caption)', color: 'var(--color-brand)' }}
+                          formatter={(v) => [`${v ?? ''}%`, 'Compliance']}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="value"
+                          stroke={trendColor}
+                          strokeWidth={2}
+                          fill="url(#trendGradient)"
+                          dot={{ r: 0 }}
+                          activeDot={{ r: 5, fill: trendColor, stroke: '#ffffff', strokeWidth: 2 }}
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </Card>
+            );
+          })()}
 
-      {/* SECTION 1: KPIs */}
-      <motion.div custom={0.1} variants={sectionVariants} initial="hidden" animate="visible">
-        <div
-          className="grid gap-6 grid-cols-2 lg:grid-cols-4"
-          role="region"
-          aria-label="Indicadores clave de cumplimiento"
-        >
-          <KPICard
-            title="Índice de Cumplimiento Global"
-            value={`${kpis.avgCompliance}%`}
-            subtitle={`de ${workers.length} trabajadores`}
-            trendLabel={getComplianceLabel(kpis.avgCompliance)}
-            trend={kpis.avgCompliance >= 80 ? 'up' : kpis.avgCompliance >= 60 ? 'neutral' : 'down'}
-            icon={TrendingUp}
-            color={getScoreColor(kpis.avgCompliance)}
-            delay={0.1}
-          />
-          <KPICard
-            title="Certificaciones Activas"
-            value={kpis.activeCerts}
-            subtitle={`de ${certifications.length} totales`}
-            trendLabel={`${Math.round((kpis.activeCerts / (certifications.length || 1)) * 100)}% del total`}
-            trend="up"
-            icon={Award}
-            color="#297a3a"
-            delay={0.15}
-          />
-          <KPICard
-            title="Vencimientos en 30 días"
-            value={kpis.expiringSoon}
-            subtitle="Requieren atención"
-            trendLabel={kpis.expiringSoon > 5 ? 'Nivel alto' : 'Nivel normal'}
-            trend={kpis.expiringSoon > 5 ? 'down' : 'neutral'}
-            icon={Clock}
-            color="#b25000"
-            delay={0.2}
-          />
-          <KPICard
-            title="Trabajadores en Riesgo"
-            value={kpis.workersAtRisk}
-            subtitle={`de ${workers.length} totales`}
-            trendLabel={kpis.workersAtRisk > 3 ? 'Crítico' : 'Controlado'}
-            trend={kpis.workersAtRisk > 3 ? 'down' : 'neutral'}
-            icon={AlertTriangle}
-            color="#e5484d"
-            delay={0.25}
-          />
         </div>
       </motion.div>
 
@@ -568,75 +570,6 @@ Generado automáticamente por CertifyX
         </Card>
       </motion.div>
 
-      {/* SECTION 5: Exportar Reportes */}
-      <motion.div role="region" aria-label="Exportar reportes" className="flex flex-col" custom={0.6} variants={sectionVariants} initial="hidden" animate="visible">
-        <Card variant="default" padding="lg" hover={false} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <PanelHeader
-            title="Exportar Reportes"
-            subtitle="Descargá los datos en el formato que necesités"
-            action={<PanelBadge>{workers.length} trabajadores</PanelBadge>}
-          />
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1, justifyContent: 'space-between' }}>
-            {[
-              {
-                icon: Download,
-                label: 'Resumen CSV',
-                description: `${workers.length} trabajadores · ${certifications.length} certs`,
-                onClick: exportSummaryCSV,
-                disabled: false,
-                pro: false,
-              },
-              {
-                icon: FileText,
-                label: 'Reporte SENCE',
-                description: 'Formato .txt para organismos reguladores',
-                onClick: exportSENCE,
-                disabled: false,
-                pro: false,
-              },
-              {
-                icon: ImageIcon,
-                label: 'Exportar PNG',
-                description: 'Gráficos en alta resolución',
-                onClick: () => {},
-                disabled: true,
-                pro: true,
-              },
-            ].map((item) => (
-              <button
-                key={item.label}
-                onClick={item.onClick}
-                disabled={item.disabled}
-                aria-label={item.label}
-                aria-disabled={item.disabled}
-                style={{
-                  width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
-                  padding: '12px 14px', textAlign: 'left',
-                  backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
-                  cursor: item.disabled ? 'not-allowed' : 'pointer',
-                  opacity: item.disabled ? 0.5 : 1, transition: 'all 0.15s',
-                }}
-                onMouseEnter={e => { if (!item.disabled) { e.currentTarget.style.borderColor = 'var(--border-strong)'; e.currentTarget.style.backgroundColor = 'var(--surface-canvas)'; } }}
-                onMouseLeave={e => { if (!item.disabled) { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.backgroundColor = 'var(--surface-card)'; } }}
-              >
-                <div style={{ width: '36px', height: '36px', flexShrink: 0, borderRadius: '6px', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <item.icon style={{ width: '16px', height: '16px', color: 'var(--color-text-muted)' }} strokeWidth={1.5} />
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    {item.label}
-                    {item.pro && <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.4, fontSize: 'var(--text-micro)', fontWeight: 500, padding: '2px 7px', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', borderRadius: '9999px', color: 'var(--color-text-muted)' }}>PRO</span>}
-                  </p>
-                  <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', margin: '2px 0 0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.description}</p>
-                </div>
-                {!item.disabled && <span style={{ color: 'var(--color-text-faint)', fontSize: 'var(--text-body)', flexShrink: 0, marginLeft: 'auto' }}>→</span>}
-              </button>
-            ))}
-          </div>
-        </Card>
-      </motion.div>
-
       </div>{/* fin FILA C */}
 
         </>
@@ -648,6 +581,31 @@ Generado automáticamente por CertifyX
       )}
 
     </div>
+  );
+}
+
+function KebabMenu() {
+  return (
+    <button
+      aria-label="Más opciones"
+      style={{
+        padding: '4px', backgroundColor: 'transparent',
+        border: 'none', borderRadius: 'var(--radius-sm)',
+        color: 'var(--color-text-faint)',
+        cursor: 'pointer', transition: 'all var(--transition-fast)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-soft)';
+        (e.currentTarget as HTMLElement).style.color = 'var(--color-text-muted)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
+        (e.currentTarget as HTMLElement).style.color = 'var(--color-text-faint)';
+      }}
+    >
+      <MoreHorizontal style={{ width: '18px', height: '18px' }} strokeWidth={1.5} />
+    </button>
   );
 }
 
