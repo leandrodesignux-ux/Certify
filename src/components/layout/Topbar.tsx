@@ -3,6 +3,7 @@ import { Search, Bell, ChevronRight, Menu, Clock, AlertTriangle, CheckCircle } f
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUIStore } from '../../store/useUIStore';
 import { useCertStore } from '../../store/useCertStore';
+import { useCommandPalette } from '../../store/useCommandPalette';
 import { mockAlerts } from '../../data/mockData';
 
 interface TopbarProps {
@@ -68,18 +69,19 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Keyboard shortcut for search (⌘K or Ctrl+K)
+  const { show: showPalette } = useCommandPalette();
+
+  // Keyboard shortcut for Command Palette (⌘K or Ctrl+K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        const searchInput = document.getElementById('global-search');
-        searchInput?.focus();
+        showPalette();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [showPalette]);
 
   return (
     <header
@@ -169,6 +171,8 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
           {/* Keyboard shortcut hint */}
           {!searchFocused && (
             <kbd
+              onClick={showPalette}
+              title="Abrir paleta de comandos (⌘K)"
               style={{
                 position: 'absolute',
                 right: '12px',
@@ -181,6 +185,18 @@ export function Topbar({ pageTitle, breadcrumbs = [] }: TopbarProps) {
                 color: 'var(--color-text-muted)',
                 fontFamily: 'var(--font-mono)',
                 border: '1px solid var(--border-default)',
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--surface-soft-hover, var(--surface-soft))';
+                e.currentTarget.style.borderColor = 'var(--border-strong)';
+                e.currentTarget.style.color = 'var(--color-text)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+                e.currentTarget.style.borderColor = 'var(--border-default)';
+                e.currentTarget.style.color = 'var(--color-text-muted)';
               }}
             >
               ⌘K

@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './styles/globals.css'
 import App from './App'
 import { ToastContainer } from './components/ui/ToastContainer'
+import { CommandPalette } from './components/ui/CommandPalette'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,6 +21,7 @@ root.render(
     <BrowserRouter>
       <App />
       <ToastContainer />
+      <CommandPalette />
     </BrowserRouter>
   </QueryClientProvider>
 )
