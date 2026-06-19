@@ -28,6 +28,7 @@ import { CertTableSkeleton } from '../components/certifications/CertTableSkeleto
 import { CertStatCard } from '../components/certifications/CertStatCard';
 import { DaysSparkline } from '../components/certifications/DaysSparkline';
 import { CertEmptyState } from '../components/certifications/CertEmptyState';
+import { CertListItem } from '../components/certifications/CertListItem';
 import { Suspense, lazy } from 'react';
 
 const CertDetailDrawer = lazy(() => import('../components/certifications/CertDetailDrawer'));
@@ -335,7 +336,7 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
-        className="grid grid-cols-2 lg:grid-cols-5 gap-3"
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3"
         style={{ 
           marginBottom: '28px' 
         }}
@@ -798,6 +799,7 @@ export function Certifications() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
+        className="hidden lg:block"
         style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
       >
         <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--border-strong) transparent' }}>
@@ -1182,340 +1184,376 @@ export function Certifications() {
             </tbody>
           </table>
         </div>
+      </motion.div>
 
-        {/* Empty State */}
-        {sorted.length === 0 && (
-          <CertEmptyState
-            search={search}
-            activeTab={activeTab}
-            onClearSearch={() => { setSearchInput(''); setSearch(''); }}
-            onSwitchToAll={() => setActiveTab('todas')}
-          />
-        )}
-
-        {/* Pagination */}
-        {sorted.length > 0 && (
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'center', 
-            padding: '14px 20px',
-            backgroundColor: 'var(--surface-canvas)',
-            borderTop: '1px solid var(--border-default)'
-          }}>
-            {/* Left side - Items per page segmented control */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }} title="Registros por página">
-              {[10, 25, 50].map(count => (
-                <button
-                  key={count}
-                  onClick={() => {
-                    setItemsPerPage(count);
-                    setCurrentPage(1);
-                  }}
-                  style={{
-                    width: '40px',
-                    height: '32px',
-                    fontSize: '12px',
-                    fontWeight: 500,
-                    borderRadius: '6px',
-                    border: '1px solid',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s',
-                    borderColor: itemsPerPage === count ? 'var(--color-primary)' : 'var(--border-default)',
-                    backgroundColor: itemsPerPage === count ? 'var(--color-primary)' : 'var(--surface-card)',
-                    color: itemsPerPage === count ? '#ffffff' : 'var(--color-text-muted)',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (itemsPerPage !== count) {
-                      e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (itemsPerPage !== count) {
-                      e.currentTarget.style.backgroundColor = 'var(--surface-card)';
-                    }
-                  }}
-                >
-                  {count}
-                </button>
-              ))}
-            </div>
-
-            {/* Center - Showing info */}
-            <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)' }}>
-              Mostrando {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, sorted.length)} de {sorted.length} certificaciones
-            </span>
-
-            {/* Right side - Navigation controls */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              {/* First page button */}
-              <button
-                onClick={() => { setCurrentPage(1); scrollToTop(); }}
-                disabled={currentPage === 1}
-                aria-label="Primera página"
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '6px',
-                  border: '1px solid var(--border-default)',
-                  backgroundColor: 'var(--surface-card)',
-                  color: 'var(--color-text-muted)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  opacity: currentPage === 1 ? 0.35 : 1,
-                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                  transition: 'all 0.15s'
-                }}
-                onMouseEnter={(e) => {
-                  if (currentPage !== 1) {
-                    e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--surface-card)';
-                }}
-              >
-                <ChevronsLeft className="w-4 h-4" />
-              </button>
-
-              {/* Previous button */}
-              <button
-                onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
-                disabled={currentPage === 1}
-                aria-label="Página anterior"
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '6px',
-                  border: '1px solid var(--border-default)',
-                  backgroundColor: 'var(--surface-card)',
-                  color: 'var(--color-text-muted)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  opacity: currentPage === 1 ? 0.35 : 1,
-                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                  transition: 'all 0.15s'
-                }}
-                onMouseEnter={(e) => {
-                  if (currentPage !== 1) {
-                    e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--surface-card)';
-                }}
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-
-              {/* Page number pills */}
-              {(() => {
-                const pages = [];
-                const maxVisible = 5;
-                let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-                let endPage = Math.min(totalPages, startPage + maxVisible - 1);
-                
-                if (endPage - startPage + 1 < maxVisible) {
-                  startPage = Math.max(1, endPage - maxVisible + 1);
-                }
-
-                // Add first page and ellipsis if needed
-                if (startPage > 1) {
-                  pages.push(
-                    <button
-                      key={1}
-                      onClick={() => { setCurrentPage(1); scrollToTop(); }}
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '6px',
-                        border: '1px solid var(--border-default)',
-                        backgroundColor: 'var(--surface-card)',
-                        color: 'var(--color-text-muted)',
-                        fontSize: 'var(--text-body-sm)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'all 0.15s'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'var(--surface-card)';
-                      }}
-                    >
-                      1
-                    </button>
-                  );
-                  
-                  if (startPage > 2) {
-                    pages.push(
-                      <span key="start-ellipsis" style={{ 
-                        padding: '0 8px', 
-                        color: 'var(--color-text-faint)', 
-                        fontSize: 'var(--text-body-sm)' 
-                      }}>
-                        ...
-                      </span>
-                    );
-                  }
-                }
-
-                // Add visible pages
-                for (let i = startPage; i <= endPage; i++) {
-                  const isActive = i === currentPage;
-                  pages.push(
-                    <button
-                      key={i}
-                      onClick={() => { setCurrentPage(i); scrollToTop(); }}
-                      aria-label={`Página ${i}`}
-                      aria-current={isActive ? 'page' : undefined}
-                      className="hidden sm:flex"
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '6px',
-                        border: `1px solid ${isActive ? 'var(--color-primary)' : 'var(--border-default)'}`,
-                        backgroundColor: isActive ? 'var(--color-primary)' : 'var(--surface-card)',
-                        color: isActive ? '#ffffff' : 'var(--color-text-muted)',
-                        fontSize: 'var(--text-body-sm)',
-                        fontWeight: isActive ? 600 : 400,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'all 0.15s'
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isActive) {
-                          e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = isActive ? 'var(--color-primary)' : 'var(--surface-card)';
-                      }}
-                    >
-                      {i}
-                    </button>
-                  );
-                }
-
-                // Add ellipsis and last page if needed
-                if (endPage < totalPages) {
-                  if (endPage < totalPages - 1) {
-                    pages.push(
-                      <span key="end-ellipsis" style={{ 
-                        padding: '0 8px', 
-                        color: 'var(--color-text-faint)', 
-                        fontSize: 'var(--text-body-sm)' 
-                      }}>
-                        ...
-                      </span>
-                    );
-                  }
-                  
-                  pages.push(
-                    <button
-                      key={totalPages}
-                      onClick={() => { setCurrentPage(totalPages); scrollToTop(); }}
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '6px',
-                        border: '1px solid var(--border-default)',
-                        backgroundColor: 'var(--surface-card)',
-                        color: 'var(--color-text-muted)',
-                        fontSize: 'var(--text-body-sm)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'all 0.15s'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'var(--surface-card)';
-                      }}
-                    >
-                      {totalPages}
-                    </button>
-                  );
-                }
-
-                return pages;
-              })()}
-
-              {/* Next button */}
-              <button
-                onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
-                disabled={currentPage === totalPages}
-                aria-label="Página siguiente"
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '6px',
-                  border: '1px solid var(--border-default)',
-                  backgroundColor: 'var(--surface-card)',
-                  color: 'var(--color-text-muted)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  opacity: currentPage === totalPages ? 0.35 : 1,
-                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                  transition: 'all 0.15s'
-                }}
-                onMouseEnter={(e) => {
-                  if (currentPage !== totalPages) {
-                    e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--surface-card)';
-                }}
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-
-              {/* Last page button */}
-              <button
-                onClick={() => { setCurrentPage(totalPages); scrollToTop(); }}
-                disabled={currentPage === totalPages}
-                aria-label="Última página"
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '6px',
-                  border: '1px solid var(--border-default)',
-                  backgroundColor: 'var(--surface-card)',
-                  color: 'var(--color-text-muted)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  opacity: currentPage === totalPages ? 0.35 : 1,
-                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                  transition: 'all 0.15s'
-                }}
-                onMouseEnter={(e) => {
-                  if (currentPage !== totalPages) {
-                    e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--surface-card)';
-                }}
-              >
-                <ChevronsRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
+      {/* Mobile/Tablet Card List (<lg) */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.4 }}
+        className="lg:hidden"
+        style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+      >
+        {certifications.length === 0 && workers.length === 0 ? (
+          <>
+            {[0, 1, 2].map(i => (
+              <div key={i} className="animate-shimmer" style={{
+                height: '128px',
+                backgroundColor: 'var(--surface-card)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-md)',
+              }} />
+            ))}
+          </>
+        ) : (
+          <AnimatePresence mode="popLayout">
+            {paginatedCerts.map((cert, index) => {
+              const worker = workers.find((w) => w.id === cert.workerId);
+              return (
+                <CertListItem
+                  key={cert.id}
+                  cert={cert}
+                  worker={worker}
+                  index={index}
+                  onSelectDetail={setSelectedCert}
+                />
+              );
+            })}
+          </AnimatePresence>
         )}
       </motion.div>
+
+      {/* Empty State — visible en ambos modos */}
+      {sorted.length === 0 && (
+        <CertEmptyState
+          search={search}
+          activeTab={activeTab}
+          onClearSearch={() => { setSearchInput(''); setSearch(''); }}
+          onSwitchToAll={() => setActiveTab('todas')}
+        />
+      )}
+
+      {/* Pagination — visible en ambos modos */}
+      {sorted.length > 0 && (
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ 
+          padding: '14px 16px',
+          marginTop: '12px',
+          backgroundColor: 'var(--surface-card)',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-sm)',
+        }}>
+          {/* Left side - Items per page segmented control */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }} title="Registros por página">
+            {[10, 25, 50].map(count => (
+              <button
+                key={count}
+                onClick={() => {
+                  setItemsPerPage(count);
+                  setCurrentPage(1);
+                }}
+                style={{
+                  width: '40px',
+                  height: '32px',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  borderRadius: '6px',
+                  border: '1px solid',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                  borderColor: itemsPerPage === count ? 'var(--color-primary)' : 'var(--border-default)',
+                  backgroundColor: itemsPerPage === count ? 'var(--color-primary)' : 'var(--surface-card)',
+                  color: itemsPerPage === count ? '#ffffff' : 'var(--color-text-muted)',
+                }}
+                onMouseEnter={(e) => {
+                  if (itemsPerPage !== count) {
+                    e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (itemsPerPage !== count) {
+                    e.currentTarget.style.backgroundColor = 'var(--surface-card)';
+                  }
+                }}
+              >
+                {count}
+              </button>
+            ))}
+          </div>
+
+          {/* Center - Showing info */}
+          <span style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)' }}>
+            Mostrando {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, sorted.length)} de {sorted.length} certificaciones
+          </span>
+
+          {/* Right side - Navigation controls */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            {/* First page button */}
+            <button
+              onClick={() => { setCurrentPage(1); scrollToTop(); }}
+              disabled={currentPage === 1}
+              aria-label="Primera página"
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '6px',
+                border: '1px solid var(--border-default)',
+                backgroundColor: 'var(--surface-card)',
+                color: 'var(--color-text-muted)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: currentPage === 1 ? 0.35 : 1,
+                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                transition: 'all 0.15s'
+              }}
+              onMouseEnter={(e) => {
+                if (currentPage !== 1) {
+                  e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--surface-card)';
+              }}
+            >
+              <ChevronsLeft className="w-4 h-4" />
+            </button>
+
+            {/* Previous button */}
+            <button
+              onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
+              disabled={currentPage === 1}
+              aria-label="Página anterior"
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '6px',
+                border: '1px solid var(--border-default)',
+                backgroundColor: 'var(--surface-card)',
+                color: 'var(--color-text-muted)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: currentPage === 1 ? 0.35 : 1,
+                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                transition: 'all 0.15s'
+              }}
+              onMouseEnter={(e) => {
+                if (currentPage !== 1) {
+                  e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--surface-card)';
+              }}
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            {/* Page number pills */}
+            {(() => {
+              const pages = [];
+              const maxVisible = 5;
+              let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+              let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+              
+              if (endPage - startPage + 1 < maxVisible) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+              }
+
+              // Add first page and ellipsis if needed
+              if (startPage > 1) {
+                pages.push(
+                  <button
+                    key={1}
+                    onClick={() => { setCurrentPage(1); scrollToTop(); }}
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '6px',
+                      border: '1px solid var(--border-default)',
+                      backgroundColor: 'var(--surface-card)',
+                      color: 'var(--color-text-muted)',
+                      fontSize: 'var(--text-body-sm)',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.15s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--surface-card)';
+                    }}
+                  >
+                    1
+                  </button>
+                );
+                
+                if (startPage > 2) {
+                  pages.push(
+                    <span key="start-ellipsis" style={{ 
+                      padding: '0 8px', 
+                      color: 'var(--color-text-faint)', 
+                      fontSize: 'var(--text-body-sm)' 
+                    }}>
+                      ...
+                    </span>
+                  );
+                }
+              }
+
+              // Add visible pages
+              for (let i = startPage; i <= endPage; i++) {
+                const isActive = i === currentPage;
+                pages.push(
+                  <button
+                    key={i}
+                    onClick={() => { setCurrentPage(i); scrollToTop(); }}
+                    aria-label={`Página ${i}`}
+                    aria-current={isActive ? 'page' : undefined}
+                    className="hidden sm:flex"
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '6px',
+                      border: `1px solid ${isActive ? 'var(--color-primary)' : 'var(--border-default)'}`,
+                      backgroundColor: isActive ? 'var(--color-primary)' : 'var(--surface-card)',
+                      color: isActive ? '#ffffff' : 'var(--color-text-muted)',
+                      fontSize: 'var(--text-body-sm)',
+                      fontWeight: isActive ? 600 : 400,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.15s'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = isActive ? 'var(--color-primary)' : 'var(--surface-card)';
+                    }}
+                  >
+                    {i}
+                  </button>
+                );
+              }
+
+              // Add ellipsis and last page if needed
+              if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                  pages.push(
+                    <span key="end-ellipsis" style={{ 
+                      padding: '0 8px', 
+                      color: 'var(--color-text-faint)', 
+                      fontSize: 'var(--text-body-sm)' 
+                    }}>
+                      ...
+                    </span>
+                  );
+                }
+                
+                pages.push(
+                  <button
+                    key={totalPages}
+                    onClick={() => { setCurrentPage(totalPages); scrollToTop(); }}
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '6px',
+                      border: '1px solid var(--border-default)',
+                      backgroundColor: 'var(--surface-card)',
+                      color: 'var(--color-text-muted)',
+                      fontSize: 'var(--text-body-sm)',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.15s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--surface-card)';
+                    }}
+                  >
+                    {totalPages}
+                  </button>
+                );
+              }
+
+              return pages;
+            })()}
+
+            {/* Next button */}
+            <button
+              onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
+              disabled={currentPage === totalPages}
+              aria-label="Página siguiente"
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '6px',
+                border: '1px solid var(--border-default)',
+                backgroundColor: 'var(--surface-card)',
+                color: 'var(--color-text-muted)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: currentPage === totalPages ? 0.35 : 1,
+                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                transition: 'all 0.15s'
+              }}
+              onMouseEnter={(e) => {
+                if (currentPage !== totalPages) {
+                  e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--surface-card)';
+              }}
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+
+            {/* Last page button */}
+            <button
+              onClick={() => { setCurrentPage(totalPages); scrollToTop(); }}
+              disabled={currentPage === totalPages}
+              aria-label="Última página"
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '6px',
+                border: '1px solid var(--border-default)',
+                backgroundColor: 'var(--surface-card)',
+                color: 'var(--color-text-muted)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: currentPage === totalPages ? 0.35 : 1,
+                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                transition: 'all 0.15s'
+              }}
+              onMouseEnter={(e) => {
+                if (currentPage !== totalPages) {
+                  e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--surface-card)';
+              }}
+            >
+              <ChevronsRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Certification Detail Drawer */}
       <AnimatePresence>
