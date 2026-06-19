@@ -8,7 +8,10 @@ import {
   Sparkles,
   BarChart3,
   MoreHorizontal,
+  ChevronRight,
+  CheckCircle,
 } from 'lucide-react';
+import { SegmentedBar, SegmentedBarLegend } from '../components/reports/SegmentedBar';
 import {
   BarChart,
   Bar,
@@ -20,7 +23,6 @@ import {
   Pie,
   Cell,
   LabelList,
-  Label,
   AreaChart,
   Area,
   CartesianGrid,
@@ -29,9 +31,6 @@ import { Card } from '../components/ui/Card';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { useCertStore } from '../store/useCertStore';
 import { useNavigate } from 'react-router-dom';
-import { CustomBarTooltip, CustomPieTooltip } from '../components/reports/ChartTooltips';
-import { PanelHeader } from '../components/reports/PanelHeader';
-import { PanelBadge } from '../components/reports/PanelBadge';
 import { ReportTabs } from '../components/reports/ReportTabs';
 import { InlineKPI } from '../components/reports/InlineKPI';
 import { mockComplianceTrend } from '../store/useCertStore';
@@ -91,18 +90,8 @@ export function Reports() {
       const avgScore = areaWorkers.length > 0
         ? Math.round(areaWorkers.reduce((sum, w) => sum + w.complianceScore, 0) / areaWorkers.length)
         : 0;
-      
-      // Color coding
-      let color = '#e5484d';
-      if (avgScore > 80) color = '#297a3a';
-      else if (avgScore > 60) color = '#b25000';
-
-      return {
-        area,
-        score: avgScore,
-        fill: color,
-      };
-    }).sort((a, b) => b.score - a.score);
+      return { area, score: avgScore };
+    }).sort((a, b) => a.score - b.score);
   }, [workers]);
 
   // SECTION 3: Estado de Certificaciones (Donut Chart Data)
@@ -117,9 +106,18 @@ export function Reports() {
       { name: 'Vigentes', value: vigentes, color: '#297a3a', percentage: ((vigentes / total) * 100).toFixed(1) },
       { name: 'Próx. vencer', value: proximas, color: '#b25000', percentage: ((proximas / total) * 100).toFixed(1) },
       { name: 'Vencidas', value: vencidas, color: '#e5484d', percentage: ((vencidas / total) * 100).toFixed(1) },
-      { name: 'Pendientes', value: pendientes, color: '#a8a8a8', percentage: ((pendientes / total) * 100).toFixed(1) },
+      { name: 'Pendientes', value: pendientes, color: '#a6bbd1', percentage: ((pendientes / total) * 100).toFixed(1) },
     ];
   }, [certifications]);
+
+  // Distribution by compliance band
+  const distribution = useMemo(() => {
+    const total = workers.length;
+    const enRegla = workers.filter(w => w.complianceScore >= 80).length;
+    const advertencia = workers.filter(w => w.complianceScore >= 60 && w.complianceScore < 80).length;
+    const enRiesgo = workers.filter(w => w.complianceScore < 60).length;
+    return { total, enRegla, advertencia, enRiesgo };
+  }, [workers]);
 
   // SECTION 4: Top 10 Trabajadores en Riesgo
   const topRiskWorkers = useMemo(() => {
@@ -374,203 +372,157 @@ Generado automáticamente por CertifyX
         </div>
       </motion.div>
 
-      {/* FILA B: Charts */}
-      <motion.div role="region" aria-label="Gráficos de cumplimiento y certificaciones" custom={0.3} variants={sectionVariants} initial="hidden" animate="visible">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-        {/* Compliance por Área - Bar Chart */}
-        <motion.div className="flex flex-col" custom={0.5} variants={sectionVariants} initial="hidden" animate="visible">
-          <Card variant="default" padding="lg" hover={false} style={{ flex: 1, minHeight: '380px', display: 'flex', flexDirection: 'column' }}>
-            <PanelHeader
-              title="Cumplimiento por Área"
-              subtitle="Promedio de compliance por área operativa"
-              action={<PanelBadge>{complianceByArea.length} áreas</PanelBadge>}
-              spacing={20}
+      {/* FILA 2: 3-card grid */}
+      <motion.div custom={0.3} variants={sectionVariants} initial="hidden" animate="visible">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+          {/* CARD A: Distribución de Trabajadores */}
+          <Card variant="default" padding="lg" hover={false}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-md)' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', margin: 0, letterSpacing: 'var(--tracking-snug)' }}>Distribución de Trabajadores</h3>
+              <KebabMenu />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 'var(--space-sm)' }}>
+              <div>
+                <div style={{ fontSize: '28px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', fontFamily: 'var(--font-display)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1, fontFeatureSettings: '"tnum"' }}>
+                  {distribution.total}
+                </div>
+                <button onClick={() => navigate('/workers')} style={{ fontSize: 'var(--text-caption)', color: 'var(--color-primary)', background: 'none', border: 'none', padding: 0, cursor: 'pointer', marginTop: '4px', textDecoration: 'underline', textUnderlineOffset: '2px', fontWeight: 'var(--weight-medium)' }}>
+                  Total registrados
+                </button>
+              </div>
+              <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)' }}>
+                Promedio: <span style={{ color: 'var(--color-brand)', fontWeight: 'var(--weight-semibold)' }}>{kpis.avgCompliance}%</span>
+              </span>
+            </div>
+            <SegmentedBar
+              segments={[
+                { label: 'En regla',    value: distribution.enRegla,    color: '#297a3a', status: 'success' },
+                { label: 'Advertencia', value: distribution.advertencia, color: '#b25000', status: 'warning' },
+                { label: 'En riesgo',   value: distribution.enRiesgo,   color: '#e5484d', status: 'danger'  },
+              ]}
+              height={8}
             />
-            <div style={{ flex: 1, minHeight: 0 }}>
+            <div style={{ marginTop: 'var(--space-md)', marginBottom: 'var(--space-lg)' }}>
+              <SegmentedBarLegend
+                segments={[
+                  { label: 'En regla',    value: distribution.enRegla,    color: '#297a3a' },
+                  { label: 'Advertencia', value: distribution.advertencia, color: '#b25000' },
+                  { label: 'En riesgo',   value: distribution.enRiesgo,   color: '#e5484d' },
+                ]}
+                orientation="horizontal"
+              />
+            </div>
+            <div style={{ height: '1px', backgroundColor: 'var(--border-default)', margin: 'var(--space-md) 0' }} />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-sm)' }}>
+              <span style={{ fontSize: 'var(--text-micro)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Top en Riesgo</span>
+              <button onClick={() => navigate('/workers')} style={{ fontSize: 'var(--text-micro)', color: 'var(--color-primary)', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontWeight: 'var(--weight-medium)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                Ver todos <ChevronRight style={{ width: '12px', height: '12px' }} strokeWidth={2} />
+              </button>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+              {topRiskWorkers.slice(0, 4).map((worker) => (
+                <div key={worker.id} onClick={() => navigate(`/workers/${worker.id}`)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '6px 0', cursor: 'pointer' }}>
+                  {worker.foto ? (
+                    <img src={worker.foto} alt="" style={{ width: '32px', height: '32px', borderRadius: 'var(--radius-full)', objectFit: 'cover', flexShrink: 0, border: '1px solid var(--border-default)' }} />
+                  ) : (
+                    <div style={{ width: '32px', height: '32px', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-micro)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-text-muted)', flexShrink: 0 }}>
+                      {worker.nombre[0]}{worker.apellidos[0]}
+                    </div>
+                  )}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 'var(--weight-medium)', color: 'var(--color-brand)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{worker.nombre} {worker.apellidos}</p>
+                    <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', margin: 0 }}>{worker.area}</p>
+                  </div>
+                  {worker.complianceScore < 60 ? (
+                    <span style={{ fontSize: 'var(--text-micro)', fontWeight: 'var(--weight-semibold)', color: '#e5484d', backgroundColor: 'transparent', border: '1px solid rgba(229,72,77,0.35)', padding: '3px 10px', borderRadius: 'var(--radius-full)', flexShrink: 0 }}>En riesgo</span>
+                  ) : (
+                    <span style={{ fontSize: 'var(--text-micro)', fontWeight: 'var(--weight-semibold)', color: '#b25000', backgroundColor: 'transparent', border: '1px solid rgba(178,80,0,0.35)', padding: '3px 10px', borderRadius: 'var(--radius-full)', flexShrink: 0 }}>Atención</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* CARD B: Cumplimiento por Área */}
+          <Card variant="default" padding="lg" hover={false}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-md)' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', margin: 0, letterSpacing: 'var(--tracking-snug)' }}>Cumplimiento por Área</h3>
+              <KebabMenu />
+            </div>
+            <div style={{ backgroundColor: 'var(--surface-soft)', borderRadius: 'var(--radius-md)', padding: 'var(--space-md)', marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '24px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', fontFamily: 'var(--font-display)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1, fontFeatureSettings: '"tnum"' }}>{complianceByArea.length}</div>
+                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginTop: '4px', margin: 0 }}>áreas monitoreadas</p>
+              </div>
+              <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', maxWidth: '160px', margin: 0, lineHeight: 1.4 }}>Identificá áreas con menor cumplimiento para priorizar capacitaciones.</p>
+            </div>
+            <div style={{ height: `${Math.max(180, complianceByArea.length * 36)}px` }}>
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={complianceByArea} layout="vertical" margin={{ left: 100, right: 48, top: 4, bottom: 4 }}>
+                <BarChart data={complianceByArea} layout="vertical" margin={{ left: 0, right: 36, top: 0, bottom: 0 }} barCategoryGap="35%">
                   <XAxis type="number" domain={[0, 100]} hide />
-                  <YAxis
-                    type="category"
-                    dataKey="area"
-                    tick={{ fill: '#476788', fontSize: 12, fontFamily: 'var(--font-body)' }}
-                    width={100}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <Tooltip content={<CustomBarTooltip />} cursor={{ fill: 'rgba(23,23,23,0.04)' }} />
-                  <Bar dataKey={() => 100} radius={[0, 4, 4, 0]} barSize={16} fill="#e7edf6" isAnimationActive={false} />
-                  <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={16}>
-                    {complianceByArea.map((entry, index) => (
-                      <Cell key={`bar-${index}`} fill={entry.fill} />
-                    ))}
-                    <LabelList
-                      dataKey="score"
-                      position="right"
-                      style={{ fill: '#476788', fontSize: '12px', fontFamily: 'var(--font-body)' }}
-                      formatter={(v: unknown) => `${v as number}%`}
-                    />
+                  <YAxis type="category" dataKey="area" tick={{ fill: '#476788', fontSize: 11, fontFamily: 'var(--font-body)' }} width={90} axisLine={false} tickLine={false} />
+                  <Tooltip cursor={{ fill: 'rgba(0,107,255,0.04)' }} contentStyle={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--text-caption)', color: 'var(--color-brand)' }} formatter={(v) => [`${v}%`, 'Compliance']} />
+                  <Bar dataKey="score" fill="#006bff" radius={[0, 4, 4, 0]} barSize={12}>
+                    <LabelList dataKey="score" position="right" style={{ fill: 'var(--color-brand)', fontSize: '11px', fontWeight: 600, fontFamily: 'var(--font-body)' }} formatter={(v: unknown) => `${v as number}%`} />
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </div>
+            <button onClick={() => navigate('/workers')} style={{ marginTop: 'var(--space-sm)', fontSize: 'var(--text-micro)', color: 'var(--color-primary)', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontWeight: 'var(--weight-medium)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              Ver más detalle <ChevronRight style={{ width: '12px', height: '12px' }} strokeWidth={2} />
+            </button>
           </Card>
-        </motion.div>
 
-        {/* Estado de Certificaciones - Donut Chart */}
-        <motion.div className="flex flex-col" custom={0.6} variants={sectionVariants} initial="hidden" animate="visible">
-          <Card variant="default" padding="lg" hover={false} style={{ flex: 1, minHeight: '380px', display: 'flex', flexDirection: 'column' }}>
-            <PanelHeader
-              title="Estado de Certificaciones"
-              subtitle="Distribución por estado actual"
-              action={<PanelBadge>{certifications.length} total</PanelBadge>}
-              spacing={20}
-            />
-            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '16px', marginTop: '8px', alignItems: 'center' }}>
-              {/* Donut — ancho fijo 200px, crece hasta 240px */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '220px', flex: '0 0 200px', maxWidth: '240px' }}>
+          {/* CARD C: Estado de Certificaciones */}
+          <Card variant="default" padding="lg" hover={false}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-md)' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', margin: 0, letterSpacing: 'var(--tracking-snug)' }}>Estado de Certificaciones</h3>
+              <KebabMenu />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', marginBottom: 'var(--space-md)' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-full)', backgroundColor: 'rgba(41,122,58,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <CheckCircle style={{ width: '24px', height: '24px', color: '#297a3a' }} strokeWidth={2} />
+              </div>
+              <div>
+                <div style={{ fontSize: '24px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', fontFamily: 'var(--font-display)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1, fontFeatureSettings: '"tnum"' }}>{certifications.length}</div>
+                <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', marginTop: '4px', margin: 0 }}>certificaciones totales</p>
+              </div>
+            </div>
+            <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', margin: 0, marginBottom: 'var(--space-md)', lineHeight: 1.4 }}>Distribución por estado de cumplimiento vigente.</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+              <div style={{ width: '140px', height: '140px', flexShrink: 0, position: 'relative' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie
-                      data={certStatusData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={58}
-                      outerRadius={90}
-                      paddingAngle={2}
-                      dataKey="value"
-                      strokeWidth={0}
-                    >
+                    <Pie data={certStatusData} cx="50%" cy="50%" innerRadius={48} outerRadius={68} paddingAngle={3} dataKey="value" strokeWidth={0}>
                       {certStatusData.map((entry, index) => (
                         <Cell key={`pie-${index}`} fill={entry.color} stroke="transparent" />
                       ))}
-                      <Label
-                        content={() => (
-                          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle">
-                            <tspan x="50%" dy="-8" style={{ fill: 'var(--color-brand)', fontSize: '20px', fontWeight: 600 }}>
-                              {certifications.length}
-                            </tspan>
-                            <tspan x="50%" dy="17" style={{ fill: '#476788', fontSize: '10px' }}>
-                              total
-                            </tspan>
-                          </text>
-                        )}
-                      />
                     </Pie>
-                    <Tooltip content={<CustomPieTooltip />} wrapperStyle={{ zIndex: 10 }} />
+                    <Tooltip contentStyle={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--text-caption)', color: 'var(--color-brand)' }} formatter={(v, name) => [v, name]} />
                   </PieChart>
                 </ResponsiveContainer>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+                  <span style={{ fontSize: '18px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', fontFamily: 'var(--font-display)', lineHeight: 1 }}>
+                    {Math.round((kpis.activeCerts / (certifications.length || 1)) * 100)}%
+                  </span>
+                  <span style={{ fontSize: '10px', color: 'var(--color-text-muted)', marginTop: '2px' }}>vigentes</span>
+                </div>
               </div>
-              {/* Leyenda — ocupa el espacio restante, mínimo 140px */}
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px', flex: '1 1 140px', minWidth: '140px' }}>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {certStatusData.map((item) => (
                   <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, flexShrink: 0 }} />
-                    <p style={{ fontSize: 'var(--text-caption)', color: 'var(--color-text-muted)', margin: 0, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</p>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', flexShrink: 0 }}>
-                      <span style={{ fontSize: 'var(--text-body-sm)', fontWeight: 600, color: 'var(--color-brand)' }}>{item.percentage}%</span>
-                      <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)' }}>({item.value})</span>
-                    </div>
+                    <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-muted)', flex: 1 }}>{item.name}</span>
+                    <span style={{ fontSize: 'var(--text-micro)', color: 'var(--color-brand)', fontWeight: 'var(--weight-semibold)', fontFeatureSettings: '"tnum"' }}>{item.value}</span>
                   </div>
                 ))}
               </div>
             </div>
           </Card>
-        </motion.div>
-      </div>
+
+        </div>
       </motion.div>
-
-      {/* FILA C: Riesgo + Export lado a lado */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-
-      {/* SECTION 4: Top Trabajadores en Riesgo */}
-      <motion.div role="region" aria-label="Trabajadores en riesgo" className="flex flex-col" custom={0.5} variants={sectionVariants} initial="hidden" animate="visible">
-        <Card variant="default" padding="lg" hover={false} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <PanelHeader
-            title="Trabajadores en Riesgo"
-            subtitle="Menor índice de cumplimiento"
-            action={
-              <button
-                onClick={() => navigate('/workers')}
-                style={{ fontSize: 'var(--text-caption)', fontWeight: 500, color: 'var(--color-text-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline', textUnderlineOffset: '2px' }}
-              >
-                Ver todos
-              </button>
-            }
-          />
-
-          {/* Lista compacta top-5 */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0', flex: 1, marginTop: '4px' }}>
-            {topRiskWorkers.slice(0, 5).map((worker, index) => (
-              <motion.div
-                key={worker.id}
-                initial={{ opacity: 0, x: -6 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.04, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                onClick={() => navigate(`/workers/${worker.id}`)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '10px',
-                  padding: '10px 6px', borderRadius: '6px', cursor: 'pointer',
-                  transition: 'background-color 0.12s',
-                  borderBottom: index < Math.min(topRiskWorkers.length, 5) - 1 ? '1px solid var(--border-default)' : 'none',
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-canvas)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
-              >
-                {/* Avatar */}
-                {worker.foto
-                  ? <img src={worker.foto} alt="" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1px solid var(--border-default)' }} />
-                  : (
-                    <div style={{
-                      width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
-                      backgroundColor: 'var(--surface-soft)', border: '1px solid var(--border-default)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 'var(--text-micro)', fontWeight: 600, color: 'var(--color-text-muted)',
-                    }}>
-                      {worker.nombre[0]}{worker.apellidos[0]}
-                    </div>
-                  )
-                }
-                {/* Nombre + cargo */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 'var(--text-body-sm)', fontWeight: 500, color: 'var(--color-brand)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {worker.nombre} {worker.apellidos}
-                  </p>
-                  <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {worker.area} · {worker.cargo}
-                  </p>
-                </div>
-                {/* Score + indicadores */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', flexShrink: 0, gap: '4px' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 600, color: worker.scoreColor, lineHeight: 1 }}>{worker.complianceScore}%</span>
-                  <div style={{ display: 'flex', gap: '4px' }}>
-                    {worker.expiredCount > 0 && (
-                      <span
-                        title={`${worker.expiredCount} vencida${worker.expiredCount > 1 ? 's' : ''}`}
-                        aria-label={`${worker.expiredCount} certificación${worker.expiredCount > 1 ? 'es' : ''} vencida${worker.expiredCount > 1 ? 's' : ''}`}
-                        style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.4, fontSize: '10px', fontWeight: 500, color: '#e5484d', backgroundColor: 'rgba(229,72,77,0.08)', border: '1px solid rgba(229,72,77,0.2)', borderRadius: '9999px', padding: '2px 7px' }}
-                      >
-                        {worker.expiredCount}v
-                      </span>
-                    )}
-                    {worker.expiringCount > 0 && (
-                      <span
-                        title={`${worker.expiringCount} próxima${worker.expiringCount > 1 ? 's' : ''} a vencer`}
-                        aria-label={`${worker.expiringCount} certificación${worker.expiringCount > 1 ? 'es' : ''} próxima${worker.expiringCount > 1 ? 's' : ''} a vencer`}
-                        style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.4, fontSize: '10px', fontWeight: 500, color: '#b25000', backgroundColor: 'rgba(178,80,0,0.08)', border: '1px solid rgba(178,80,0,0.2)', borderRadius: '9999px', padding: '2px 7px' }}
-                      >
-                        {worker.expiringCount}p
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </Card>
-      </motion.div>
-
-      </div>{/* fin FILA C */}
 
         </>
       ) : (
