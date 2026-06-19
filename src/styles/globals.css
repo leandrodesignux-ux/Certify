@@ -1,81 +1,73 @@
 @import "tailwindcss";
 
 @theme {
-  /* === BRAND CORE === */
-  --color-brand-primary: #171717;
-  --color-brand-secondary: #171717;
-  --color-brand-tertiary: #171717;
-  --color-brand-accent-warm: #4d4d4d;
-  --color-brand-accent-cool: #4d4d4d;
+  /* === BRAND === */
+  --color-primary: #006bff;
+  --color-primary-hover: #0057d6;
+  --color-primary-pressed: #004eba;
+  --color-primary-soft: rgba(0,107,255,0.08);
+  --color-primary-border: rgba(0,107,255,0.20);
 
-  /* === SURFACES === */
-  --color-obsidian: #f2f3f5;
-  --color-navy-deep: #ffffff;
-  --color-surface: #ffffff;
-  --color-surface-alt: #ffffff;
-
-  /* === SEMANTIC STATUS === */
-  --color-warning: #b25000;
-  --color-danger: #e5484d;
-  --color-success: #297a3a;
-  --color-info: #4d4d4d;
-
-  /* Reports — KPI trend indicators */
-  --kpi-trend-up:   #297a3a;
-  --kpi-trend-down: #e5484d;
-  --kpi-trend-neutral: #666666;
-
-  /* Reports — Donut chart status (alineado con tokens existentes) */
-  --chart-vigente:       #297a3a;
-  --chart-proximo:       #b25000;
-  --chart-vencido:       #e5484d;
-  --chart-pendiente:     #4d4d4d;
+  --color-brand: #0b3558;
+  --color-brand-soft: rgba(11,53,88,0.06);
 
   /* === TEXT === */
-  --color-text-primary: #171717;
-  --color-text-secondary: #4d4d4d;
-  --color-text-muted: #666666;
+  --color-text: #0a0a0a;
+  --color-text-muted: #476788;
+  --color-text-faint: #a6bbd1;
 
-  /* === TYPOGRAPHY HIERARCHY === */
-  --text-h1: 28px;
-  --text-h2: 22px;
-  --text-body: 14px;
-  --text-small: 12px;
-  --text-micro: 11px;
-  --font-weight-bold: 600;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
+  /* === SURFACES === */
+  --surface-canvas: #f8f9fb;
+  --surface-card: #ffffff;
+  --surface-soft: #e7edf6;
+  --surface-elevated: #ffffff;
 
-  /* === BRAND GLOW === */
-  --color-electric: #171717;
-  --color-volt: var(--color-green-light);
-  --color-neutral: #ebebeb;
+  /* === BORDERS === */
+  --border-default: #d4e0ed;
+  --border-strong: #a6bbd1;
+  --border-hairline: #ebebeb;
 
-  /* === TYPOGRAPHY === */
-  --font-display: 'Geist', ui-sans-serif, system-ui, sans-serif;
-  --font-body:    'Geist', ui-sans-serif, system-ui, sans-serif;
-  --font-mono:    'Geist Mono', ui-monospace, monospace;
-  --font-geist:      'Geist', ui-sans-serif, system-ui, sans-serif;
-  --font-geist-mono: 'Geist Mono', ui-monospace, monospace;
-
-  /* ===== STATUS TOKENS ===== */
-  --status-ok-bg: rgba(41,122,58,0.08);
-  --status-ok-border: rgba(41,122,58,0.20);
-  --status-ok-text: #297a3a;
-  --status-warn-bg: rgba(178,80,0,0.08);
-  --status-warn-border: rgba(178,80,0,0.20);
-  --status-warn-text: #b25000;
+  /* === STATUS === */
+  --status-success: #297a3a;
+  --status-success-bg: rgba(41,122,58,0.08);
+  --status-success-border: rgba(41,122,58,0.20);
+  --status-warning: #b25000;
+  --status-warning-bg: rgba(178,80,0,0.08);
+  --status-warning-border: rgba(178,80,0,0.20);
+  --status-danger: #e5484d;
   --status-danger-bg: rgba(229,72,77,0.08);
   --status-danger-border: rgba(229,72,77,0.20);
-  --status-danger-text: #e5484d;
+  --status-neutral-bg: rgba(11,53,88,0.05);
+  --status-neutral-text: #476788;
+  --status-neutral-border: #d4e0ed;
 
-  /* ===== BORDER RADIUS SYSTEM ===== */
-  --radius-sm: 6px;
-  --radius-md: 6px;
-  --radius-lg: 6px;
-  --radius-full: 9999px;
+  /* === TYPOGRAPHY === */
+  --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-body:    'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    'Geist Mono', ui-monospace, monospace;
 
-  /* === SPACING SYSTEM === */
+  /* Type scale */
+  --text-display:    40px;  --leading-display:    1.1;
+  --text-h1:         28px;  --leading-h1:         1.2;
+  --text-h2:         20px;  --leading-h2:         1.3;
+  --text-card-title: 14px;  --leading-card-title: 1.4;
+  --text-body:       14px;  --leading-body:       1.5;
+  --text-body-sm:    13px;  --leading-body-sm:    1.5;
+  --text-caption:    12px;  --leading-caption:    1.4;
+  --text-micro:      11px;  --leading-micro:      1.3;
+  --text-eyebrow:    11px;  --leading-eyebrow:    1.2;
+
+  --tracking-tight:  -0.02em;
+  --tracking-snug:   -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.08em;
+
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* === SPACING === */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
@@ -83,78 +75,69 @@
   --space-xl: 32px;
   --space-2xl: 48px;
 
-  /* === REPORTS LAYOUT === */
-  --reports-grid-cols: repeat(4, 1fr);
-  --reports-grid-cols-md: repeat(2, 1fr);
-  --reports-grid-cols-lg: repeat(2, 1fr);
-
-  /* Reports — tabs de tipo de reporte */
-  --report-tab-active-bg: #f0f0f0;
-  --report-tab-active-border: #d4d4d4;
-
-  /* Reports — superficies de chart */
-  --chart-grid-line: #ebebeb;
-  --chart-axis-text: #666666;
-
-  /* Reports — score badges */
-  --score-optimal-bg:    rgba(41,122,58,0.08);
-  --score-optimal-text:  #297a3a;
-  --score-regular-bg:    rgba(178,80,0,0.08);
-  --score-regular-text:  #b25000;
-  --score-critical-bg:   rgba(229,72,77,0.08);
-  --score-critical-text: #e5484d;
-
-  /* Reports — export cards */
-  --export-card-min-h: 120px;
-  --kpi-card-min-h: 148px;
-
-  /* === TAB MINIMUM WIDTH === */
-  --tab-min-width: 140px;
-
-  /* ===== SURFACES (centralizar) ===== */
-  --surface-card: #ffffff;
-  --surface-deep: #fafafa;
-  --surface-alt: #ffffff;
-  --border-brand: #ebebeb;
-  --border-brand-hover: #d4d4d4;
+  /* === RADIUS === */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
 
   /* === SHADOWS === */
-  --shadow-brand:    rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px;
-  --shadow-electric: rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px;
-  --shadow-volt:     rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px;
-  --shadow-danger:   rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px;
-  --shadow-subtle:   rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px 0px;
+  --shadow-sm: rgba(71,103,136,0.04) 0px 1px 2px 0px,
+               rgba(71,103,136,0.06) 0px 2px 4px 0px,
+               rgba(71,103,136,0.04) 0px 0px 0px 1px;
+  --shadow-md: rgba(71,103,136,0.04) 0px 4px 5px 0px,
+               rgba(71,103,136,0.03) 0px 8px 15px 0px,
+               rgba(71,103,136,0.06) 0px 15px 30px 0px;
+  --shadow-focus: 0 0 0 3px rgba(0,107,255,0.20);
 
-  /* === PURPLE SCALE === */
-  --color-purple-deep: #171717;
-  --color-purple-mid: #4d4d4d;
-  --color-purple-light: #666666;
+  /* === FOCUS RING === */
+  --focus-ring-color: #006bff;
+  --focus-ring-offset: 2px;
+  --focus-ring-width: 2px;
 
-  /* === GREEN SCALE === */
-  --color-green-dark: #297a3a;
-  --color-green-light: #297a3a;
+  /* === Z-INDEX === */
+  --z-sticky: 10;
+  --z-overlay: 40;
+  --z-drawer: 50;
+  --z-tooltip: 100;
+  --z-modal: 200;
 
   /* === TRANSITIONS === */
   --transition-fast: 0.15s ease;
   --transition-base: 0.2s ease;
   --transition-slow: 0.4s ease;
 
-  /* === Z-INDEX === */
-  --z-drawer: 50;
-  --z-overlay: 40;
-  --z-sticky: 10;
-
-  /* === VERCEL DESIGN SYSTEM TOKENS (new) === */
-  --color-graphite: #171717;
-  --color-marble-white: #fafafa;
-  --color-pearl: #ffffff;
-  --color-hairline: #ebebeb;
-  --color-felt-gray: #4d4d4d;
-  --color-smoke: #666666;
-  --color-ash: #a8a8a8;
-  --color-fog: #7d7d7d;
-  --color-ice-tint: #f0fbff;
-  --color-vercel-blue: #0070f3;
+  /* === LEGACY COMPAT (mantener para componentes aún no migrados) === */
+  --color-surface: #ffffff;
+  --color-surface-alt: #ffffff;
+  --color-text-primary: #0a0a0a;
+  --color-text-secondary: #476788;
+  --color-neutral: #ebebeb;
+  --border-brand: #d4e0ed;
+  --border-brand-hover: #a6bbd1;
+  --chart-grid-line: #d4e0ed;
+  --chart-axis-text: #476788;
+  --score-optimal-bg:    rgba(41,122,58,0.08);
+  --score-optimal-text:  #297a3a;
+  --score-regular-bg:    rgba(178,80,0,0.08);
+  --score-regular-text:  #b25000;
+  --score-critical-bg:   rgba(229,72,77,0.08);
+  --score-critical-text: #e5484d;
+  --export-card-min-h: 120px;
+  --kpi-card-min-h: 148px;
+  --tab-min-width: 140px;
+  --report-tab-active-bg: #e7edf6;
+  --report-tab-active-border: #d4e0ed;
+  --color-ash: #a6bbd1;
+  --font-geist:      'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-geist-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-weight-bold: 600;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --text-small: 12px;
+  --reports-grid-cols: repeat(4, 1fr);
+  --reports-grid-cols-md: repeat(2, 1fr);
+  --reports-grid-cols-lg: repeat(2, 1fr);
 }
 
 * {
@@ -168,9 +151,9 @@ html {
 }
 
 body {
-  background-color: var(--color-obsidian);
+  background-color: var(--surface-canvas);
   font-family: var(--font-body);
-  color: var(--color-text-primary);
+  color: var(--color-text);
   min-height: 100vh;
   letter-spacing: -0.02em;
 }
@@ -195,23 +178,6 @@ body {
   }
 }
 
-@keyframes glowPulse {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(255, 61, 87, 0.4), 0 0 16px rgba(255, 61, 87, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 12px rgba(255, 61, 87, 0.6), 0 0 24px rgba(255, 61, 87, 0.3);
-  }
-}
-
-@keyframes scanlines {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 0 4px;
-  }
-}
 
 @keyframes shimmer {
   0% { background-position: -200% 0; }
@@ -252,18 +218,9 @@ body {
   animation: fillBar 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-glow-pulse {
-  animation: none;
-}
-
-.animate-scanlines::after {
-  /* scanlines disabled in Vercel theme */
-  content: none;
-}
-
 /* Font utilities */
-.font-display { font-family: 'Geist', sans-serif; letter-spacing: -0.04em; }
-.font-mono { font-family: 'Geist Mono', monospace; }
+.font-display { font-family: var(--font-display); letter-spacing: -0.04em; }
+.font-mono { font-family: var(--font-mono); }
 
 /* Select dropdown styling */
 select option { background-color: var(--color-surface-alt); color: var(--color-text-primary); }
@@ -275,13 +232,13 @@ select option { background-color: var(--color-surface-alt); color: var(--color-t
 ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
 
 ::selection {
-  background: rgba(0, 112, 243, 0.12);
-  color: #171717;
+  background: var(--color-primary-soft);
+  color: var(--color-brand);
 }
 
 /* Gradient text utility */
 .text-gradient {
-  color: #171717;
+  color: var(--color-brand);
 }
 
 /* Glass surface upgrade */
@@ -297,9 +254,9 @@ select option { background-color: var(--color-surface-alt); color: var(--color-t
 
 /* Focus ring standard */
 .focus-ring:focus-visible {
-  outline: 2px solid #171717;
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-sm);
 }
 
 /* Fix para flip cards 3D - evita blur por stacking context */
@@ -349,17 +306,17 @@ select option { background-color: var(--color-surface-alt); color: var(--color-t
 button:focus-visible,
 a:focus-visible,
 [role="button"]:focus-visible {
-  outline: 2px solid #171717;
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-sm);
 }
 
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #171717;
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: 0;
-  border-color: #d4d4d4 !important;
+  border-color: var(--border-strong) !important;
 }
 
 /* Responsive grids en WorkerDetail */
@@ -400,9 +357,9 @@ textarea:focus-visible {
 
 /* ===== GENERIC FOCUS VISIBLE (Accessibility) ===== */
 :focus-visible {
-  outline: 2px solid #171717;
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-sm);
 }
 
 :focus:not(:focus-visible) {
