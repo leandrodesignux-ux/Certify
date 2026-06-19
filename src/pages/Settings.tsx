@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Bell, Palette, Database, Shield, CheckCircle, Camera } from 'lucide-react';
+import { User, Bell, Palette, Database, Shield, CheckCircle, Camera, type LucideIcon } from 'lucide-react';
 import { Card } from '../components/ui/Card';
+import { PageTabs, type PageTab } from '../components/ui/PageTabs';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 16 },
@@ -728,54 +729,16 @@ export function Settings() {
 
       {/* Tabs horizontales */}
       <motion.div custom={0.05} variants={sectionVariants} initial="hidden" animate="visible">
-        <div
-          role="tablist"
-          aria-label="Secciones de configuración"
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '0',
-            borderBottom: '1px solid var(--border-default)',
-            overflowX: 'auto',
-            overflowY: 'hidden',
-            WebkitOverflowScrolling: 'touch',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}
-          className="scrollbar-hidden"
-        >
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeSection === item.id;
-            return (
-              <button
-                key={item.id}
-                role="tab"
-                aria-selected={isActive}
-                aria-controls={`panel-${item.id}`}
-                onClick={() => setActiveSection(item.id)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '7px',
-                  padding: '10px 14px',
-                  fontSize: '14px', fontWeight: 500, whiteSpace: 'nowrap',
-                  color: isActive ? 'var(--color-primary)' : 'var(--color-text-muted)',
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  borderBottom: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
-                  marginBottom: '-1px',
-                  cursor: 'pointer',
-                  transition: 'color 0.15s',
-                  flexShrink: 0,
-                }}
-                onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = 'var(--color-brand)'; }}
-                onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = 'var(--color-text-muted)'; }}
-              >
-                <Icon style={{ width: '16px', height: '16px', flexShrink: 0 }} strokeWidth={1.5} />
-                {item.label}
-              </button>
-            );
-          })}
-        </div>
+        <PageTabs
+          tabs={NAV_ITEMS.map<PageTab>((item) => ({
+            id: item.id,
+            label: item.label,
+            icon: item.icon as LucideIcon,
+          }))}
+          activeId={activeSection}
+          onChange={(id) => setActiveSection(id as SectionId)}
+          ariaLabel="Secciones de configuración"
+        />
       </motion.div>
 
       {/* Panel de sección activa */}

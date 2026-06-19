@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Award, BookOpen, Clock, CheckCircle, AlertTriangle, Plus, Download, Bell } from 'lucide-react';
+import { PageTabs, type PageTab } from '../components/ui/PageTabs';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { CertCard } from '../components/certifications/CertCard';
 import { Card } from '../components/ui/Card';
@@ -372,42 +373,18 @@ export function WorkerDetail() {
         {/* Right Column - Tabs + Dynamic Content */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Tabs navigation */}
-          <div style={{ display: 'flex', backgroundColor: 'var(--surface-soft)', borderRadius: 'var(--radius-sm)', padding: '3px', gap: '2px', border: '1px solid var(--border-default)', overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              return (
-                <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: '7px',
-                    padding: '8px 16px', borderRadius: '6px', cursor: 'pointer',
-                    flexShrink: 0, minHeight: '40px', whiteSpace: 'nowrap',
-                    backgroundColor: isActive ? 'var(--color-primary-soft)' : 'transparent',
-                    color: isActive ? 'var(--color-primary)' : 'var(--color-text-muted)',
-                    fontSize: 'var(--text-body)', fontWeight: isActive ? 500 : 400,
-                    transition: 'all 0.15s',
-                    border: isActive ? '1px solid var(--color-primary-border)' : '1px solid transparent',
-                    boxShadow: isActive ? 'var(--shadow-sm)' : 'none',
-                  }}
-                  onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = 'var(--color-brand)'; }}
-                  onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = 'var(--color-text-muted)'; }}
-                >
-                  <Icon style={{ width: '14px', height: '14px', flexShrink: 0 }} />
-                  <span>{tab.label}</span>
-                  {tab.count > 0 && (
-                    <span style={{ fontSize: 'var(--text-micro)', fontWeight: 500, backgroundColor: isActive ? 'var(--color-primary-soft)' : 'var(--surface-soft)', color: isActive ? 'var(--color-primary)' : 'var(--color-text-faint)', borderRadius: '9999px', padding: '0 6px', minWidth: '18px', textAlign: 'center', fontFamily: 'var(--font-mono)' }}>
-                      {tab.count}
-                    </span>
-                  )}
-                  {tab.alertCount > 0 && (
-                    <span style={{ fontSize: '10px', fontWeight: 500, backgroundColor: 'rgba(229,72,77,0.08)', color: '#e5484d', borderRadius: '9999px', padding: '0 5px', border: '1px solid rgba(229,72,77,0.2)' }}>
-                      {tab.alertCount}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+          <PageTabs
+            tabs={tabs.map<PageTab>((tab) => ({
+              id: tab.id,
+              label: tab.label,
+              icon: tab.icon,
+              count: tab.count > 0 ? tab.count : undefined,
+              alertCount: tab.alertCount > 0 ? tab.alertCount : undefined,
+            }))}
+            activeId={activeTab}
+            onChange={(id) => setActiveTab(id as TabType)}
+            ariaLabel="Secciones del perfil del trabajador"
+          />
 
           {/* Tab Content */}
           <AnimatePresence mode="wait">

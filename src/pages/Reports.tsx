@@ -32,8 +32,8 @@ import { useWorkerStore } from '../store/useWorkerStore';
 import { useCertStore } from '../store/useCertStore';
 import { toast } from '../store/useToastStore';
 import { useNavigate } from 'react-router-dom';
-import { ReportTabs } from '../components/reports/ReportTabs';
 import { InlineKPI } from '../components/reports/InlineKPI';
+import { PageTabs, type PageTab } from '../components/ui/PageTabs';
 import { useCountUp } from '../components/certifications/CertStatCard';
 import { WorkerPeekTrigger } from '../components/workers/WorkerPeek';
 import { mockComplianceTrend } from '../store/useCertStore';
@@ -290,7 +290,16 @@ Generado automáticamente por CertifyX
 
       {/* ── REPORT TABS ── */}
       <motion.div custom={0.05} variants={sectionVariants} initial="hidden" animate="visible" style={{ marginBottom: 'var(--space-lg)' }}>
-        <ReportTabs tabs={tabs} activeId={activeTab} onChange={setActiveTab} />
+        <PageTabs
+          tabs={tabs.map<PageTab>((tab) => ({
+            id: tab.id,
+            label: tab.label,
+            disabled: tab.disabled,
+          }))}
+          activeId={activeTab}
+          onChange={setActiveTab}
+          ariaLabel="Tipos de reporte"
+        />
       </motion.div>
 
       {activeTab === 'general' ? (

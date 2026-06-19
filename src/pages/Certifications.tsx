@@ -31,6 +31,7 @@ import { DaysSparkline } from '../components/certifications/DaysSparkline';
 import { CertEmptyState } from '../components/certifications/CertEmptyState';
 import { CertListItem } from '../components/certifications/CertListItem';
 import { WorkerPeekTrigger } from '../components/workers/WorkerPeek';
+import { PageTabs, type PageTab } from '../components/ui/PageTabs';
 import { Suspense, lazy } from 'react';
 
 const CertDetailDrawer = lazy(() => import('../components/certifications/CertDetailDrawer'));
@@ -418,96 +419,28 @@ export function Certifications() {
         />
       </motion.div>
 
-      {/* Tabs with Guaranteed Min-Width Design */}
+      {/* Tabs with PageTabs */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
-        role="tablist"
-        className="overflow-x-auto [&::-webkit-scrollbar]:hidden"
-        onKeyDown={(e) => {
-          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-            e.preventDefault();
-            const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
-            let newIndex;
-            if (e.key === 'ArrowRight') {
-              newIndex = (currentIndex + 1) % tabs.length;
-            } else {
-              newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-            }
-            setActiveTab(tabs[newIndex].id);
+        style={{ marginBottom: '20px' }}
+      >
+        <PageTabs
+          tabs={tabs.map<PageTab>((tab) => ({
+            id: tab.id,
+            label: tab.label,
+            count: tabCounts[tab.countKey],
+          }))}
+          activeId={activeTab}
+          onChange={(id) => {
+            setActiveTab(id as TabType);
             setCurrentPage(1);
             scrollToTop();
-          }
-        }}
-        style={{
-          display: 'flex',
-          gap: '0',
-          marginBottom: '20px',
-          borderBottom: '1px solid var(--border-default)',
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          position: 'relative',
-          paddingRight: '24px',
-          maskImage: 'linear-gradient(to right, black 0%, black calc(100% - 24px), transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to right, black 0%, black calc(100% - 24px), transparent 100%)',
-        }}
-      >
-        {tabs.map((tab) => {
-          const isActive = activeTab === tab.id;
-          const count = tabCounts[tab.countKey];
-          return (
-            <button
-              key={tab.id}
-              role="tab"
-              aria-selected={isActive}
-              aria-controls={`panel-${tab.id}`}
-              aria-label={`Ver certificaciones ${tab.label} - ${count} certificaciones`}
-              tabIndex={isActive ? 0 : -1}
-              onClick={() => { setActiveTab(tab.id); setCurrentPage(1); scrollToTop(); }}
-              style={{
-                flexShrink: 0,
-                whiteSpace: 'nowrap',
-                padding: '10px 18px',
-                marginBottom: '-1px',
-                backgroundColor: 'transparent',
-                border: 'none',
-                borderBottom: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
-                color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
-                fontWeight: isActive ? 600 : 400,
-                fontSize: '14px',
-                transition: 'color 0.15s, border-color 0.15s',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                cursor: 'pointer',
-              }}
-              onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--color-brand)'; }}
-              onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--color-text-secondary)'; }}
-            >
-              <span>{tab.label}</span>
-              <span
-                style={{
-                  padding: '1px 7px',
-                  borderRadius: '9999px',
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  backgroundColor: isActive ? 'var(--color-primary-soft)' : 'var(--surface-soft)',
-                  color: isActive ? 'var(--color-primary)' : 'var(--color-text-faint)',
-                  flexShrink: 0,
-                  fontFamily: 'var(--font-mono)',
-                }}
-              >
-                {count}
-              </span>
-            </button>
-          );
-        })}
+          }}
+          ariaLabel="Filtrar certificaciones por estado"
+        />
       </motion.div>
-
-      {/* Visual Separator */}
-      <div style={{ height: '20px' }} />
 
       {/* Search & Filters Container */}
       <motion.div
