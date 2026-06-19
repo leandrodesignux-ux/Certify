@@ -11,7 +11,7 @@ interface Ripple {
 
 interface ButtonProps {
   children: ReactNode;
-  variant?: 'primary' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'link';
   size?: 'sm' | 'md' | 'lg';
   icon?: LucideIcon;
   onClick?: () => void;
@@ -20,6 +20,15 @@ interface ButtonProps {
   type?: 'button' | 'submit';
   className?: string;
 }
+
+const rippleColor: Record<NonNullable<ButtonProps['variant']>, string> = {
+  primary:   'rgba(255,255,255,0.25)',
+  secondary: 'rgba(0,107,255,0.10)',
+  ghost:     'rgba(0,107,255,0.10)',
+  danger:    'rgba(229,72,77,0.10)',
+  link:      'rgba(0,107,255,0.10)',
+};
+
 
 export function Button({
   children,
@@ -34,59 +43,97 @@ export function Button({
 }: ButtonProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [ripples, setRipples] = useState<Ripple[]>([]);
+  const [hovered, setHovered] = useState(false);
+
+  const isDisabled = disabled || loading;
 
   const getVariantStyles = (): React.CSSProperties => {
     const base: React.CSSProperties = {
       borderRadius: 'var(--radius-sm)',
-      transition: 'all 0.15s ease',
+      transition: 'all var(--transition-fast)',
+      fontFamily: 'var(--font-body)',
+      fontWeight: 'var(--weight-semibold)' as React.CSSProperties['fontWeight'],
       position: 'relative',
       overflow: 'hidden',
     };
+
+    if (isDisabled) {
+      if (variant === 'primary') {
+        return {
+          ...base,
+          backgroundColor: 'var(--border-default)',
+          color: '#ffffff',
+          border: '1px solid var(--border-default)',
+        };
+      }
+      return {
+        ...base,
+        backgroundColor: 'transparent',
+        color: 'var(--color-text-faint)',
+        border: variant === 'link' || variant === 'ghost' ? '1px solid transparent' : '1px solid var(--border-default)',
+      };
+    }
 
     switch (variant) {
       case 'primary':
         return {
           ...base,
-          backgroundColor: '#171717',
+          backgroundColor: hovered ? 'var(--color-primary-hover)' : 'var(--color-primary)',
           color: '#ffffff',
+          border: '1px solid var(--color-primary)',
+          boxShadow: hovered ? 'none' : 'var(--shadow-sm)',
+        };
+      case 'secondary':
+        return {
+          ...base,
+          backgroundColor: hovered ? 'var(--color-brand-soft)' : 'transparent',
+          color: 'var(--color-brand)',
+          border: '1px solid var(--color-brand)',
         };
       case 'ghost':
         return {
           ...base,
-          backgroundColor: 'transparent',
-          border: '1px solid #171717',
-          color: '#171717',
+          backgroundColor: hovered ? 'var(--surface-soft)' : 'transparent',
+          color: 'var(--color-text)',
+          border: '1px solid transparent',
         };
       case 'danger':
         return {
           ...base,
+          backgroundColor: hovered ? 'var(--status-danger-bg)' : 'transparent',
+          color: 'var(--status-danger)',
+          border: '1px solid var(--status-danger)',
+        };
+      case 'link':
+        return {
+          ...base,
           backgroundColor: 'transparent',
-          border: '1px solid #e5484d',
-          color: '#e5484d',
+          color: 'var(--color-primary)',
+          border: 'none',
+          padding: '0',
+          textDecoration: 'underline',
+          textUnderlineOffset: '3px',
         };
       default:
         return base;
     }
   };
 
-  const sizeStyles = {
-    sm: { padding: '6px 12px', fontSize: '12px', minHeight: '36px' },
-    md: { padding: '8px 16px', fontSize: '14px', minHeight: '44px' },
-    lg: { padding: '12px 24px', fontSize: '16px', minHeight: '52px' },
+  const sizeStyles: Record<NonNullable<ButtonProps['size']>, React.CSSProperties> = {
+    sm: { padding: '6px 12px',  fontSize: '13px', minHeight: '32px' },
+    md: { padding: '8px 16px',  fontSize: '14px', minHeight: '40px' },
+    lg: { padding: '12px 24px', fontSize: '16px', minHeight: '48px' },
   };
 
-  const isDisabled = disabled || loading;
-  
   const style: React.CSSProperties = {
     ...getVariantStyles(),
-    ...sizeStyles[size],
+    ...(variant === 'link' ? {} : sizeStyles[size]),
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     gap: '8px',
-    fontWeight: 500,
     cursor: isDisabled ? 'not-allowed' : 'pointer',
-    opacity: isDisabled ? 0.5 : 1,
+    border: getVariantStyles().border,
   };
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -96,20 +143,15 @@ export function Button({
     if (!button) return;
 
     const rect = button.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
     const newRipple: Ripple = {
       id: Date.now(),
-      x,
-      y,
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
     };
 
-    setRipples((prev) => [...prev, newRipple]);
-
-    // Remove ripple after animation
+    setRipples(prev => [...prev, newRipple]);
     setTimeout(() => {
-      setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
+      setRipples(prev => prev.filter(r => r.id !== newRipple.id));
     }, 600);
 
     onClick?.();
@@ -121,18 +163,19 @@ export function Button({
       type={type}
       onClick={handleClick}
       disabled={isDisabled}
-      whileHover={isDisabled ? undefined : { scale: 1.01 }}
-      whileTap={isDisabled ? undefined : { scale: 0.99 }}
+      whileTap={isDisabled ? undefined : { scale: 0.98 }}
       transition={{ duration: 0.1 }}
       style={style}
       className={`focus-ring ${className}`}
+      onMouseEnter={() => { if (!isDisabled) setHovered(true); }}
+      onMouseLeave={() => setHovered(false)}
     >
       {/* Ripple effects */}
       <AnimatePresence>
-        {ripples.map((ripple) => (
+        {ripples.map(ripple => (
           <motion.span
             key={ripple.id}
-            initial={{ scale: 0, opacity: 0.5 }}
+            initial={{ scale: 0, opacity: 0.6 }}
             animate={{ scale: 4, opacity: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -145,27 +188,26 @@ export function Button({
               marginLeft: '-4px',
               marginTop: '-4px',
               borderRadius: '50%',
-              backgroundColor: variant === 'primary' ? 'rgba(255,255,255,0.2)' : 'rgba(23,23,23,0.08)',
+              backgroundColor: rippleColor[variant],
               pointerEvents: 'none',
             }}
           />
         ))}
       </AnimatePresence>
+
       {loading && (
-        <div
-          style={{
-            width: '16px',
-            height: '16px',
-            border: '2px solid rgba(255,255,255,0.3)',
-            borderTop: '2px solid currentColor',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite',
-            position: 'relative',
-            zIndex: 1,
-          }}
-        />
+        <div style={{
+          width: '15px', height: '15px',
+          border: '2px solid rgba(255,255,255,0.3)',
+          borderTop: '2px solid currentColor',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite',
+          position: 'relative', zIndex: 1,
+        }} />
       )}
-      {!loading && Icon && <Icon style={{ width: '16px', height: '16px', position: 'relative', zIndex: 1 }} />}
+      {!loading && Icon && (
+        <Icon style={{ width: '15px', height: '15px', position: 'relative', zIndex: 1, flexShrink: 0 }} strokeWidth={1.5} />
+      )}
       <span style={{ position: 'relative', zIndex: 1 }}>{children}</span>
     </motion.button>
   );
