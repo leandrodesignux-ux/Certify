@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Award, BookOpen, Clock, CheckCircle, AlertTriangle, Plus, Download, Bell } from 'lucide-react';
+import { ArrowLeft, Award, BookOpen, Clock, CheckCircle, AlertTriangle, Plus, Download, Bell, Edit2, MoreHorizontal } from 'lucide-react';
 import { PageTabs, type PageTab } from '../components/ui/PageTabs';
 import { useWorkerStore } from '../store/useWorkerStore';
 import { CertCard } from '../components/certifications/CertCard';
@@ -165,64 +165,14 @@ function MiniComplianceTimeline({ certifications }: { certifications: WorkerType
 
 // Worker Side Panel Component (Left Column)
 function WorkerSidePanel({ worker }: { worker: WorkerType }) {
-  const initials = `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase();
-  const compliance = worker.complianceScore >= 90 ? { color: '#297a3a', label: 'Excelente' }
-    : worker.complianceScore >= 70 ? { color: '#297a3a', label: 'Bueno' }
-    : worker.complianceScore >= 50 ? { color: '#b25000', label: 'Regular' }
-    : { color: '#e5484d', label: 'Crítico' };
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }} className="lg:sticky lg:top-6">
       
-      {/* === CARD 1: Identidad === */}
+      {/* === CARD 1: Métricas === */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
-          
-          {/* Banner — fafafa con engineering grid */}
-          <div style={{ height: '64px', backgroundColor: 'var(--surface-canvas)', backgroundImage: 'linear-gradient(rgba(23,23,23,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(23,23,23,0.04) 1px, transparent 1px)', backgroundSize: '40px 40px', position: 'relative', borderBottom: '1px solid var(--border-default)' }}>
-            <button style={{ position: 'absolute', top: '10px', right: '12px', padding: '4px 10px', backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', color: 'var(--color-text-muted)', fontSize: 'var(--text-caption)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
-              onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--surface-soft)'}
-              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'var(--surface-card)'}
-            >
-              ✎ Editar
-            </button>
-          </div>
-
-          {/* Avatar superpuesto al banner */}
-          <div style={{ padding: '0 20px 20px', position: 'relative' }}>
-            <div style={{ marginTop: '-32px', marginBottom: '12px', position: 'relative', display: 'inline-block' }}>
-              <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', border: '2px solid var(--border-default)', backgroundColor: 'var(--surface-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {worker.foto
-                  ? <img src={worker.foto} alt={`${worker.nombre}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  : <span style={{ fontSize: '22px', fontWeight: 600, color: 'var(--color-text-muted)' }}>{initials}</span>
-                }
-              </div>
-            </div>
-
-            {/* Nombre + cargo */}
-            <h2 style={{ fontSize: 'var(--text-h2)', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', lineHeight: 1.2, marginBottom: '4px', letterSpacing: 'var(--tracking-snug)' }}>
-              {worker.nombre} {worker.apellidos}
-            </h2>
-            <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-text-secondary)', marginBottom: '12px' }}>{worker.cargo}</p>
-
-            {/* Badge de rango */}
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '3px 10px', backgroundColor: `${compliance.color}0d`, border: `1px solid ${compliance.color}30`, borderRadius: '9999px' }}>
-              <div style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: compliance.color }} />
-              <span style={{ fontSize: '11px', fontWeight: 500, color: compliance.color }}>{compliance.label}</span>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* === CARD 2: Métricas === */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
         <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '16px' }}>
           <p style={{ fontSize: 'var(--text-micro)', fontWeight: 500, color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Métricas</p>
@@ -245,11 +195,11 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         </div>
       </motion.div>
 
-      {/* === CARD 3: Datos personales === */}
+      {/* === CARD 2: Datos personales === */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.16, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ delay: 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
         <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '16px' }}>
           <p style={{ fontSize: 'var(--text-micro)', fontWeight: 500, color: 'var(--color-text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Información</p>
@@ -272,11 +222,11 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
         </div>
       </motion.div>
 
-      {/* === CARD 4: Acciones === */}
+      {/* === CARD 3: Acciones === */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.24, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ delay: 0.16, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {[
@@ -299,6 +249,161 @@ function WorkerSidePanel({ worker }: { worker: WorkerType }) {
       </motion.div>
 
     </div>
+  );
+}
+
+// Hero Header Component (full-width above sidebar/tabs)
+function WorkerHeroHeader({ worker }: { worker: WorkerType }) {
+  const initials = `${worker.nombre[0]}${worker.apellidos[0]}`.toUpperCase();
+  const compliance = worker.complianceScore >= 90
+    ? { color: 'var(--status-success)', label: 'Excelente' }
+    : worker.complianceScore >= 70
+      ? { color: 'var(--status-success)', label: 'Bueno' }
+      : worker.complianceScore >= 50
+        ? { color: 'var(--status-warning)', label: 'Regular' }
+        : { color: 'var(--status-danger)', label: 'Crítico' };
+
+  return (
+    <motion.div
+      custom={0.05}
+      variants={sectionVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <div style={{
+        backgroundColor: 'var(--surface-card)',
+        border: '1px solid var(--border-default)',
+        borderRadius: 'var(--radius-md)',
+        padding: '20px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '20px',
+        flexWrap: 'wrap',
+      }}>
+        {/* Avatar */}
+        <div style={{
+          width: '72px',
+          height: '72px',
+          borderRadius: '50%',
+          overflow: 'hidden',
+          backgroundColor: 'var(--surface-soft)',
+          border: '1px solid var(--border-default)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+        }}>
+          {worker.foto ? (
+            <img
+              src={worker.foto}
+              alt={`${worker.nombre} ${worker.apellidos}`}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          ) : (
+            <span style={{
+              fontSize: '26px',
+              fontWeight: 'var(--weight-semibold)',
+              color: 'var(--color-text-muted)',
+            }}>{initials}</span>
+          )}
+        </div>
+
+        {/* Nombre + cargo + estado */}
+        <div style={{ flex: 1, minWidth: '200px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '4px' }}>
+            <h1 style={{
+              fontSize: 'var(--text-h1)',
+              fontWeight: 'var(--weight-semibold)',
+              color: 'var(--color-brand)',
+              letterSpacing: 'var(--tracking-tight)',
+              lineHeight: 1.1,
+              margin: 0,
+            }}>
+              {worker.nombre} {worker.apellidos}
+            </h1>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '3px 10px',
+              backgroundColor: `${compliance.color}14`,
+              border: `1px solid ${compliance.color}40`,
+              borderRadius: 'var(--radius-full)',
+              fontSize: 'var(--text-micro)',
+              fontWeight: 'var(--weight-medium)',
+              color: compliance.color,
+            }}>
+              <span style={{
+                width: '5px',
+                height: '5px',
+                borderRadius: '50%',
+                backgroundColor: compliance.color,
+              }} />
+              {compliance.label}
+            </span>
+          </div>
+          <p style={{
+            fontSize: 'var(--text-body)',
+            color: 'var(--color-text-muted)',
+            margin: 0,
+          }}>
+            {worker.cargo} · {worker.area} · {worker.empresa}
+          </p>
+        </div>
+
+        {/* Acciones a la derecha */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+          <button
+            style={{
+              height: '40px',
+              padding: '0 14px',
+              backgroundColor: 'var(--surface-card)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-sm)',
+              color: 'var(--color-text)',
+              fontSize: 'var(--text-body-sm)',
+              fontWeight: 'var(--weight-medium)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all var(--transition-fast)',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--surface-soft)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'var(--surface-card)'; }}
+          >
+            <Edit2 style={{ width: '14px', height: '14px' }} strokeWidth={1.75} />
+            Editar
+          </button>
+          <button
+            aria-label="Más opciones"
+            style={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: 'var(--surface-card)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-sm)',
+              color: 'var(--color-text-muted)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all var(--transition-fast)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--surface-soft)';
+              e.currentTarget.style.color = 'var(--color-brand)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--surface-card)';
+              e.currentTarget.style.color = 'var(--color-text-muted)';
+            }}
+          >
+            <MoreHorizontal style={{ width: '16px', height: '16px' }} strokeWidth={1.75} />
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -351,7 +456,7 @@ export function WorkerDetail() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Back Button */}
       <motion.div
         custom={0}
@@ -365,28 +470,30 @@ export function WorkerDetail() {
         </Button>
       </motion.div>
 
+      {/* Hero Header */}
+      <WorkerHeroHeader worker={worker} />
+
+      {/* Tabs navigation */}
+      <PageTabs
+        tabs={tabs.map<PageTab>((tab) => ({
+          id: tab.id,
+          label: tab.label,
+          icon: tab.icon,
+          count: tab.count > 0 ? tab.count : undefined,
+          alertCount: tab.alertCount > 0 ? tab.alertCount : undefined,
+        }))}
+        activeId={activeTab}
+        onChange={(id) => setActiveTab(id as TabType)}
+        ariaLabel="Secciones del perfil del trabajador"
+      />
+
       {/* Two Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6" style={{ alignItems: 'start' }}>
-        {/* Left Column - Worker Side Panel (ALWAYS VISIBLE) */}
+        {/* Left Column - Worker Side Panel */}
         <WorkerSidePanel worker={worker} />
         
-        {/* Right Column - Tabs + Dynamic Content */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {/* Tabs navigation */}
-          <PageTabs
-            tabs={tabs.map<PageTab>((tab) => ({
-              id: tab.id,
-              label: tab.label,
-              icon: tab.icon,
-              count: tab.count > 0 ? tab.count : undefined,
-              alertCount: tab.alertCount > 0 ? tab.alertCount : undefined,
-            }))}
-            activeId={activeTab}
-            onChange={(id) => setActiveTab(id as TabType)}
-            ariaLabel="Secciones del perfil del trabajador"
-          />
-
-          {/* Tab Content */}
+        {/* Right Column - Dynamic Content */}
+        <div>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -484,17 +591,16 @@ function CertificacionesTab({ worker }: { worker: WorkerType }) {
           <div 
             className="certs-scroll" 
             style={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              gap: '8px',
               maxHeight: worker.certifications.length > 4 ? '420px' : 'none',
               overflowY: worker.certifications.length > 4 ? 'auto' : 'visible',
               scrollbarWidth: 'thin'
             }}
           >
-            {worker.certifications.map((cert, i) => (
-              <CertCard key={cert.id} cert={cert} index={i} />
-            ))}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
+              {worker.certifications.map((cert, i) => (
+                <CertCard key={cert.id} cert={cert} index={i} />
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -523,37 +629,33 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
         </div>
       </div>
 
-      {/* Stats rápidas */}
-      <div className="grid grid-cols-3 gap-2 sm:gap-3">
-        {[
-          { label: 'Total mallas', value: workerMeshes.length, color: 'var(--color-brand)' },
-          { label: 'Completadas', value: workerMeshes.filter(m => m.completionRate === 100).length, color: '#297a3a' },
-          { label: 'En progreso', value: workerMeshes.filter(m => m.completionRate > 0 && m.completionRate < 100).length, color: '#b25000' },
-        ].map(s => (
-          <div key={s.label} style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '14px 16px' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '24px', fontWeight: 600, color: s.color, lineHeight: 1 }}>{s.value}</p>
-            <p style={{ fontSize: 'var(--text-micro)', color: 'var(--color-text-faint)', marginTop: '2px' }}>{s.label}</p>
+      {/* Lista de mallas — grid 2 cols en xl */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
+        {workerMeshes.length === 0 ? (
+          <div style={{
+            gridColumn: '1 / -1',
+            backgroundColor: 'var(--surface-card)',
+            border: '1px solid var(--border-default)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '32px',
+            textAlign: 'center',
+          }}>
+            <p style={{ color: 'var(--color-text-faint)', fontSize: 'var(--text-body)' }}>
+              No hay mallas asignadas
+            </p>
           </div>
-        ))}
-      </div>
-
-      {/* Lista de mallas — una por fila con stats internas */}
-      {workerMeshes.length === 0 ? (
-        <div style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', padding: '32px', textAlign: 'center' }}>
-          <p style={{ color: 'var(--color-text-faint)', fontSize: 'var(--text-body)' }}>No hay mallas asignadas</p>
-        </div>
-      ) : (
-        workerMeshes.map((mesh, index) => {
-          const completionColor = mesh.completionRate >= 80 ? '#297a3a' : mesh.completionRate >= 50 ? '#b25000' : '#e5484d';
-          const cursosCompletados = Math.round((mesh.completionRate / 100) * mesh.cursos.length);
-          
-          return (
-            <motion.div key={mesh.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.08, duration: 0.4 }}
-              style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderLeft: `3px solid ${completionColor}`, borderRadius: 'var(--radius-sm)', padding: '16px 20px' }}
-            >
+        ) : (
+          workerMeshes.map((mesh, index) => {
+            const completionColor = mesh.completionRate >= 80 ? '#297a3a' : mesh.completionRate >= 50 ? '#b25000' : '#e5484d';
+            const cursosCompletados = Math.round((mesh.completionRate / 100) * mesh.cursos.length);
+            
+            return (
+              <motion.div key={mesh.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.08, duration: 0.4 }}
+                style={{ backgroundColor: 'var(--surface-card)', border: '1px solid var(--border-default)', borderLeft: `3px solid ${completionColor}`, borderRadius: 'var(--radius-sm)', padding: '16px 20px' }}
+              >
               {/* Nombre + porcentaje */}
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
                 <div>
@@ -593,6 +695,7 @@ function MallasTab({ worker, workerMeshes }: { worker: WorkerType; workerMeshes:
         })
       )}
     </div>
+  </div>
   );
 }
 
