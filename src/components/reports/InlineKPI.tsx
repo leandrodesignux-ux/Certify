@@ -1,4 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
+import { useCountUp } from '../certifications/CertStatCard';
 
 interface InlineKPIProps {
   icon: LucideIcon;
@@ -7,6 +8,7 @@ interface InlineKPIProps {
   suffix?: string;
   trendLabel?: string;
   trendDirection?: 'up' | 'down' | 'neutral';
+  animated?: boolean;
 }
 
 export function InlineKPI({
@@ -16,7 +18,13 @@ export function InlineKPI({
   suffix,
   trendLabel,
   trendDirection = 'neutral',
+  animated = true,
 }: InlineKPIProps) {
+  const numericValue = typeof value === 'number' ? value : parseFloat(value.toString().replace(/[^0-9.]/g, ''));
+  const isNumeric = typeof value === 'number' || !isNaN(numericValue);
+  const animatedValue = useCountUp(isNumeric && animated ? numericValue : 0, 1.0);
+  const displayValue = isNumeric && animated ? animatedValue : value;
+
   const trendColor =
     trendDirection === 'up'
       ? 'var(--status-success)'
@@ -80,7 +88,7 @@ export function InlineKPI({
           fontFeatureSettings: '"tnum"',
         }}
       >
-        {value}
+        {displayValue}
         {suffix && <span>{suffix}</span>}
       </span>
 

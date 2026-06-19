@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
+import { useCountUp } from '../certifications/CertStatCard';
 
 type StatsCardRole = 'primary' | 'neutral' | 'warning' | 'critical';
 
@@ -18,22 +19,6 @@ interface StatsCardProps {
   delay?: number;
 }
 
-// Custom hook for count-up animation
-function useCountUp(target: number, duration = 1200) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    const start = Date.now();
-    const timer = setInterval(() => {
-      const elapsed = Date.now() - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(target * eased));
-      if (progress >= 1) clearInterval(timer);
-    }, 16);
-    return () => clearInterval(timer);
-  }, [target, duration]);
-  return count;
-}
 
 const accentColor: Record<StatsCardRole, string> = {
   primary:  'var(--color-primary)',

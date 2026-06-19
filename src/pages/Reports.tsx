@@ -34,6 +34,7 @@ import { toast } from '../store/useToastStore';
 import { useNavigate } from 'react-router-dom';
 import { ReportTabs } from '../components/reports/ReportTabs';
 import { InlineKPI } from '../components/reports/InlineKPI';
+import { useCountUp } from '../components/certifications/CertStatCard';
 import { mockComplianceTrend } from '../store/useCertStore';
 
 const sectionVariants = {
@@ -82,6 +83,9 @@ export function Reports() {
       workersAtRisk,
     };
   }, [workers, certifications]);
+
+  // Animated compliance hero value
+  const animatedCompliance = useCountUp(kpis.avgCompliance, 1.0);
 
   // SECTION 2: Compliance por Área (Bar Chart Data)
   const complianceByArea = useMemo(() => {
@@ -344,7 +348,7 @@ Generado automáticamente por CertifyX
                   {/* KPI hero */}
                   <div style={{ flexShrink: 0, minWidth: '140px' }}>
                     <div style={{ fontSize: '32px', fontWeight: 'var(--weight-semibold)', color: 'var(--color-brand)', fontFamily: 'var(--font-display)', letterSpacing: 'var(--tracking-tight)', lineHeight: 1, fontFeatureSettings: '"tnum"' }}>
-                      {kpis.avgCompliance}%
+                      {animatedCompliance}%
                     </div>
                     <div style={{ fontSize: 'var(--text-micro)', color: 'var(--status-success)', fontWeight: 'var(--weight-medium)', marginTop: '6px' }}>
                       ↑ +{Math.max(0, kpis.avgCompliance - mockComplianceTrend[0].value)}% últimos 30 días

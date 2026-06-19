@@ -1,21 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
-// Animated counter hook
+// Animated counter hook — tweens from previous value on updates, 0 on mount
 export function useCountUp(end: number, duration: number = 1.5) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(end);
+  const previousRef = useRef(end);
+  const mountedRef = useRef(false);
+  const reduceMotion = useReducedMotion();
+
   useEffect(() => {
-    let startTime: number;
+    if (reduceMotion) {
+      setCount(end);
+      previousRef.current = end;
+      mountedRef.current = true;
+      return;
+    }
+
+    const from = mountedRef.current ? previousRef.current : 0;
+    const to = end;
+
+    if (from === to) {
+      setCount(to);
+      return;
+    }
+
+    let startTime: number | null = null;
+    let frameId: number;
+    const delta = to - from;
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
     const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
-      setCount(Math.floor(progress * end));
+      if (startTime === null) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / (duration * 1000), 1);
+      const eased = easeOutCubic(progress);
+      setCount(Math.round(from + delta * eased));
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        frameId = requestAnimationFrame(animate);
+      } else {
+        previousRef.current = to;
       }
     };
-    requestAnimationFrame(animate);
-  }, [end, duration]);
+
+    frameId = requestAnimationFrame(animate);
+    mountedRef.current = true;
+    return () => cancelAnimationFrame(frameId);
+  }, [end, duration, reduceMotion]);
+
   return count;
 }
 
