@@ -9,6 +9,7 @@ import {
   BookOpen,
   BarChart2,
   Settings,
+  LayoutGrid,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -31,6 +32,7 @@ const navItems: NavItem[] = [
   { icon: Award, label: 'Certificaciones', route: '/certifications', badge: 'certifications' },
   { icon: BookOpen, label: 'Mallas', route: '/curriculum' },
   { icon: BarChart2, label: 'Reportes', route: '/reports', badge: 'reports' },
+  { icon: LayoutGrid, label: 'Cómo lo construí', route: '/como-lo-construi' },
   { icon: Settings, label: 'Configuración', route: '/settings' },
 ];
 

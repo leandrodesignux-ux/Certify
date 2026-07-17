@@ -12,6 +12,7 @@ const Certifications = lazy(() => import('./pages/Certifications'));
 const Curriculum = lazy(() => import('./pages/Curriculum'));
 const Reports = lazy(() => import('./pages/Reports'));
 const Settings = lazy(() => import('./pages/Settings'));
+const BuildProcess = lazy(() => import('./pages/BuildProcess'));
 
 // Loading fallback
 function PageLoader() {
@@ -113,6 +114,17 @@ function App() {
           }
         >
           <Route index element={<Settings />} />
+        </Route>
+        <Route
+          path="/como-lo-construi"
+          element={
+            <AppLayout
+              pageTitle="Cómo lo construí"
+              breadcrumbs={[{ label: 'Inicio', route: '/' }, { label: 'Cómo lo construí' }]}
+            />
+          }
+        >
+          <Route index element={<BuildProcess />} />
         </Route>
 
           {/* Catch-all redirect */}
