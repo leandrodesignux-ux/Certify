@@ -330,6 +330,13 @@ textarea:focus-visible {
   }
 }
 
+/* Responsive grid para sección Cómo lo construí */
+@media (max-width: 900px) {
+  .build-author-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* WorkerDetail responsive layout variables */
 :root {
   --worker-detail-cols: 280px 1fr;
